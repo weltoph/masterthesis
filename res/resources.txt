@@ -10,7 +10,6 @@ Freedom, Weakness, and Determinism: From Linear-Time to Branching-Time - Kupferm
 Emptiness Of Alternating Tree Automata Using Games With Imperfect Information - Fijalkow, Pinchinant, Serre
 Probabilistic Omega-Automata - Baier, Größer, Bertrand
 --
-Probabilistic Omega-Automata 2 - Baier, Größer, Bertrand
 Acting Optimally In Partially Observable Stochastic Domains - Cassandra, Kaelbling, Littman
 Formalizing And Reasoning About Quality - Almagor, Boker, Kupferman
 Qualitative Stochastic Parity Games - Chatterjee, Jurdzinski, Henzinger
