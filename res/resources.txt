@@ -1,0 +1,19 @@
+Randomization In Automata On Infinite Trees - Carayol, Haddad, Serre
+Synthesis For Probabilistic Environments - Schewe
+Planning and acting in partially observable stochastic domains - Kaelbling, Littman, Cassandra
+Recognizing omega-regular languages with probabilistic automata - Baier, Größer
+High Quality Synthesis Against Stochastic Environments - Almagor, Kupferman
+Bounded Synthesis - Finkbeiner, Schewe
+Church's Problem Revisited - Kupferman, Vardi
+Alternating Automata on Infinite Trees - Muller, Schupp
+Freedom, Weakness, and Determinism: From Linear-Time to Branching-Time - Kupferman, Vardi
+Emptiness Of Alternating Tree Automata Using Games With Imperfect Information - Fijalkow, Pinchinant, Serre
+Probabilistic Omega-Automata - Baier, Größer, Bertrand
+--
+Probabilistic Omega-Automata 2 - Baier, Größer, Bertrand
+Acting Optimally In Partially Observable Stochastic Domains - Cassandra, Kaelbling, Littman
+Formalizing And Reasoning About Quality - Almagor, Boker, Kupferman
+Qualitative Stochastic Parity Games - Chatterjee, Jurdzinski, Henzinger
+Simulating Alternating Tree Automata By Nondeterministic Automata:
+  New results and new proofs of the theorems of Rabin, McNaughton and Safra - Muller, Schupp
+On Decision Problems for Probabilistic Büchi Automata - Baier, Bertrand, Größer
