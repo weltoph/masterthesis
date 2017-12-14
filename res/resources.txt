@@ -9,6 +9,8 @@ Alternating Automata on Infinite Trees - Muller, Schupp
 Freedom, Weakness, and Determinism: From Linear-Time to Branching-Time - Kupferman, Vardi
 Emptiness Of Alternating Tree Automata Using Games With Imperfect Information - Fijalkow, Pinchinant, Serre
 Probabilistic Omega-Automata - Baier, Größer, Bertrand
+Controller Synthesis for Probabilistic Systems - Baier, Größer, Leucker, Bollig, Ciesinski
+Automata on Infinite Trees (Draft) - Christof Löding
 --
 Acting Optimally In Partially Observable Stochastic Domains - Cassandra, Kaelbling, Littman
 Formalizing And Reasoning About Quality - Almagor, Boker, Kupferman

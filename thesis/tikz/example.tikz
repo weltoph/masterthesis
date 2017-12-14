@@ -1,0 +1,3 @@
+\begin{tikzpicture}
+  \node {This is just a node};
+\end{tikzpicture}
