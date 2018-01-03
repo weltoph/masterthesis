@@ -1,0 +1,68 @@
+\documentclass{scrartcl}
+\input{preamble.tex}
+\usepackage{enumitem}
+\newlist{checklist}{itemize}{3}
+\setlist[checklist,1]{label=$\square$}
+\setlist[checklist,2]{label={\tikz{\node[circle, draw, minimum width=8pt] {}}}}
+\setlist[checklist,3]{label=$\cdot$}
+\begin{document}
+\section{Research}
+\begin{checklist}
+\item Markov-Chains
+  \begin{checklist}
+  \item Definitions
+    \begin{checklist}
+    \item Probability Measure
+    \item Objective
+    \item Labelling
+    \end{checklist}
+  \item Decision-Problems
+    \begin{checklist}
+    \item Probability of certain state-/labelsequence (quantitatively/qualitatively)
+    \item Fulfilling Objective (almost surely/positively)
+    \end{checklist}
+  \end{checklist}
+\item Probabilistic Word Automata
+  \begin{checklist}
+  \item Definitions
+    \begin{checklist}
+    \item Acceptance Condition (almost surely/positively)
+    \item Difference to Markov-Chains
+    \end{checklist}
+  \item Decision-Problems
+    \begin{checklist}
+    \item Emptiness
+    \item Union
+    \item Intersection
+    \item Complementation
+    \end{checklist}
+  \end{checklist}
+\item Measureability Theory
+  \begin{checklist}
+  \item Lagrange Integrals
+  \item Common Theorems
+  \end{checklist}
+\end{checklist}
+\section{Work}
+\begin{checklist}
+\item Probabilistic Tree Automata
+  \begin{checklist}
+  \item Definitions
+    \begin{checklist}
+    \item Alternating Automata
+    \item Combine Markov-Chain \& Automata to Probabilistic Tree Automata
+    \end{checklist}
+  \item Decision-Problems
+    \begin{checklist}
+    \item Mixed Acception Conditions
+    \item Emptiness Problem for Alternating Automata
+    \item Union, Intersection, Complementation for Alternating Automata
+    \item Captured Logic of Alternating Automata
+    \end{checklist}
+  \item Others
+    \begin{checklist}
+    \item Quantitative Acceptance
+    \end{checklist}
+  \end{checklist}
+\end{checklist}
+\end{document}

@@ -8,5 +8,15 @@
 \usepackage{tikz}
 \usetikzlibrary{}
 
-\usepackage{blindtext}
+\usepackage{amssymb}
 
+\usepackage{titling}
+
+\usepackage{mdframed}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{localdef}{Definition}[section]
+\newenvironment{definition}[1][]
+{\begin{mdframed}[nobreak=true]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}: }}
+{\end{localdef}\end{mdframed}}

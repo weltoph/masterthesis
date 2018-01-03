@@ -10,7 +10,7 @@ TIKZDIR=tikz/
 TIKZBLUEPRINT=$(TIKZDIR)tikz-blueprint.tex
 TIKZFILES=$(patsubst %.tikz, %.pdf, $(wildcard $(TIKZDIR)*.tikz))
 
-$(PDFNAME): $(MAINFILE) $(TIKZFILES)
+$(PDFNAME): $(MAINFILE) preamble.tex $(TIKZFILES)
 	#unhide auxilliary files
 	ls -a | grep -E "$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}
 	pdflatex $<
