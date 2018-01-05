@@ -1,22 +1,55 @@
+% inputenc:
 \usepackage[utf8]{inputenc}
+
+% header/footer
 \usepackage{fancyhdr}
+
+% including graphics
 \usepackage[final]{graphicx}
 
+% annotations
 \usepackage{fixme}
 \fxsetup{inline}
 
+% tikz
 \usepackage{tikz}
 \usetikzlibrary{}
 
+% math-symbols
 \usepackage{amssymb}
+\newcommand{\tuple}[1]{\left(#1\right)}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\size}[1]{\left\vert{#1}\right\vert}
+\newcommand{\interval}[1]{\left[#1\right]}
 
+% titlepage
 \usepackage{titling}
 
+% acronyms
+\usepackage{acro}
+\DeclareAcronym{MDP}{
+  short = MDP ,
+  long  = Markov Decision Process ,
+  class = environment
+}
+\DeclareAcronym{MC}{
+  short = MC ,
+  long  = Markov Chain ,
+  class = environment
+}
+
+
+% environments
 \usepackage{mdframed}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{localdef}{Definition}[section]
 \newenvironment{definition}[1][]
-{\begin{mdframed}[nobreak=true]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}: }}
+{\begin{mdframed}[nobreak=true]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\\}
 {\end{localdef}\end{mdframed}}
+
+% bibliography
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{automata.bib}
+\addbibresource{synthesis.bib}

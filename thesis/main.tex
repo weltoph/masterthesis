@@ -21,6 +21,19 @@
 \fxfatal{Add abstract}
 \mainmatter{}
 \chapter{Environment}
-\fxfatal{Add definition of environments}
+% \fxfatal{Add definition of environments}
+\begin{definition}[Markov Decision Process]
+  A \ac{MDP} is modelled as tuple $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$
+  where $S$ is a set of states and $A$ a set of actions. Given an action $a$ the
+  corresponding transition function $\tau_{a}:S\times S\rightarrow \interval{0,1}$
+  satisfies for every $q\in S$ that $\sum_{p\in S}\tau_{a}\tuple{q,p} = 1$.
+  $s_{0}\in S$ is the initial state.
+\end{definition}
+Some example from \cite{SynProbEnv}.
+\begin{definition}[Markov Chain]
+  A \ac{MC} is a \ac{MDP} with exactly one action, i.e. $\size{A} = 1$. For \ac{MC}
+  we drop the trivial annotation of this action for the transition function.
+\end{definition}
 \backmatter{}
+\printbibliography
 \end{document}
