@@ -17,6 +17,7 @@
 
 % math-symbols
 \usepackage{amssymb}
+\usepackage{amsmath}
 \newcommand{\tuple}[1]{\left(#1\right)}
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\size}[1]{\left\vert{#1}\right\vert}
@@ -37,6 +38,15 @@
   long  = Markov Chain ,
   class = environment
 }
+\DeclareAcronym{AMDP}{
+  short = AMDP ,
+  long  = Annotated Markov Decision Process ,
+  class = environment
+}
+
+% math operators
+\DeclareMathOperator{\cyl}{cyl}
+\DeclareMathOperator{\plays}{Plays}
 
 
 % environments
@@ -46,10 +56,10 @@
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{localdef}{Definition}[section]
 \newenvironment{definition}[1][]
-{\begin{mdframed}[nobreak=true]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\\}
+{\begin{mdframed}[nobreak=true, backgroundcolor=gray!20]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\\}
 {\end{localdef}\end{mdframed}}
 
 % bibliography
 \usepackage[backend=biber,style=alphabetic]{biblatex}
-\addbibresource{automata.bib}
-\addbibresource{synthesis.bib}
+\addbibresource{bib/automata.bib}
+\addbibresource{bib/synthesis.bib}

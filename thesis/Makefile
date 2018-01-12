@@ -4,13 +4,16 @@ PDFNAME=$(MAINFILE).pdf
 LATEX=pdflatex
 LATEXFLAGS=
 
-HIDEPATTERN=(\.aux$$|\.log$$|\.lox$$)
+HIDEPATTERN=(\.(aux|log|lox|bbl|bcf|blg|run\.xml)$$)
 
 TIKZDIR=tikz/
 TIKZBLUEPRINT=$(TIKZDIR)tikz-blueprint.tex
 TIKZFILES=$(patsubst %.tikz, %.pdf, $(wildcard $(TIKZDIR)*.tikz))
 
-$(PDFNAME): $(MAINFILE).tex preamble.tex $(TIKZFILES)
+TEXDIR=tex/
+TEXFILES=$(wildcard $(TEXDIR)*.tex)
+
+$(PDFNAME): $(MAINFILE).tex $(TEXFILES) $(TIKZFILES)
 	#unhide hidden auxilliary files
 	ls -a | grep -E "\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}
 	pdflatex $<

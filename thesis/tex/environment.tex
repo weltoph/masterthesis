@@ -1,0 +1,32 @@
+\chapter{Environment}
+Classic synthesis aims to derive an agent from a specification which handles
+all possible inputs. Interpretating this setting of synthesis as a game where
+the agent tries to fulfill the specification while the environment tries to
+provide a behaviour which provokes a mistake of the agent (i.e. an execution
+which does not satisfy the specification) we consider the environment to be
+antagonistic.
+\begin{definition}[Markov Decision Process]
+  A \acl*{MDP} is modelled as tuple
+  $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ where $S$ is a set of states
+  and $A$ a set of actions. Given an action $a$ the corresponding transition
+  function $\tau_{a}:S\times S\rightarrow \interval{0,1}$ satisfies for every
+  $q\in S$ that $\sum_{p\in S}\tau_{a}\tuple{q,p} = 1$. $s_{0}\in S$ is the
+  initial state. Additionally we define a few helpful auxilliaries:
+  \begin{description}
+    \item [Cylinder] For a word of states $w\in S^{*}$ we define the
+      corresponding cylinder as the set of all infinite state-sequences
+      that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
+    \item [Plays] We consider all infinite sequences of states
+      (i.e. $S^{\omega}$) that start in $s_{0}$ a valid play. All plays
+      are gathered in $\plays = \set{
+        \alpha\in S^{\omega}\mid \alpha_{0} = s_{0}} = \cyl(s_{0})$.
+    \item [Strategy] We define $\varphi:S^{*}\rightarrow A$ as strategy for
+      a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
+      giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
+  \end{description}
+\end{definition}
+Note that a strategy $\varphi$ for an \ac{MDP} induces .
+\begin{definition}[Markov Chain]
+  A \ac{MC} is a \ac{MDP} with exactly one action, i.e. $\size{A} = 1$. For \ac{MC}
+  we drop the trivial annotation of this action for the transition function.
+\end{definition}
