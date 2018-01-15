@@ -1,5 +1,7 @@
 \chapter{Environment}
 \fxfatal{add reference to Schewe}
+\fxfatal{we need to discuss why this migth be feasable; find learning
+approaches for MDPs}
 Classic synthesis aims to derive an agent from a specification which handles
 all possible inputs. Interpretating this setting of synthesis as a game where
 the agent tries to fulfill the specification while the environment tries to
@@ -13,12 +15,15 @@ maliciously. The following definitions follow \cite{RandAutoInfTrees}:
 \begin{definition}[Markov Decision Process]
   A \acl*{MDP} is modelled as tuple
   $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ where $S$ is a set of states
-  and $A$ a set of actions. Given an action $a$ the corresponding transition
-  function $\tau_{a}:S\times S\rightarrow \interval{0,1}$ satisfies for every
-  $q\in S$ that $\sum_{p\in S}\tau_{a}\tuple{q,p} = 1$.
+  and $A$ a set of actions. Given an action $a\in A$ the corresponding
+  transition function $\tau_{a}:S\times S\rightarrow \interval{0,1}$ satisfies
+  for every $q\in S$ that $\sum_{p\in S}\tau_{a}\tuple{q,p} = 1$.
   $s_{0}$ is the initial state. Additionally we define a few helpful
   auxilliaries:
   \begin{description}
+    \item [Following States] For a state $s\in S$ we call the states in which a
+      \ac{MDP} can move from into for an action $a\in A$ $a$-following states:\\
+      $\follow_{a}(s) = \set{q\in S\mid \tau_{a}(s,q) > 0}$.
     \item [Cylinder] For a word of states $w\in S^{*}$ we define the
       corresponding cylinder as the set of all infinite state-sequences
       that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
@@ -52,9 +57,16 @@ generate. This leads to the following definition:
  where $S_{\mathcal{A}}$ is the set of states in $\mathcal{A}$ and $\lambda$
  defines the output of a state which is chosen from an alphabet $\Sigma$.
 \end{definition}
-
-% \begin{definition}[Markov Chain]
-%   A \ac{MC} is a \ac{MDP} with exactly one action, i.e. $\size{A} = 1$. For
-%   \ac{MC} we drop the trivial annotation of this action for the transition
-%   function.
-% \end{definition}
+Also, we want to shortly discuss how much insight the knowledge of the
+output-symbol conveys. Namely, we propose one approach which assumes that
+knowledge of state and produced output-symbol implies the next state of the
+environment. To this property we refer to as \emph{deterministic in labelling}
+and define it as follows:
+\begin{definition}[deterministic in labelling]
+  An \ac{AMDP} $\mathcal{A} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0},
+  \lambda}$ is called deterministic in labelling if for every state $s\in S$
+  and action $a\in A$ holds that there are no two distinct states
+  $p, q\in\follow_{a}(s)$ such that $\lambda(p) = \lambda(q)$.
+\end{definition}
+Unfortunately, this determinism is a real restriction considering the
+probabilities for the words an \ac{AMDP} may output. 
