@@ -41,12 +41,16 @@ The set of cylinders of a \ac{MDP} $\mathcal{A}$ can be extended to a
 $\sigma$-algebra $\mathcal{F}_{\mathcal{A}}$ for which a strategy
 $\varphi_{\mathcal{A}}$ induces a probability measure as follows: we fix
 \begin{equation}
-\mu(\cyl(w = w_{0}\dots w_{n})\cap\plays) = 
-\prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1})
+  \mu_{\varphi}(\cyl(w = w_{0}\dots w_{n})\cap\plays) = \begin{cases}
+    \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1}) &\text{ if }\cyl(w)\cap\plays\neq\emptyset\\
+    0 &\text{ otherwise}
+  \end{cases}
 \end{equation}
 and use Carath\'eodory's theorem to uniquely extend this measure to
-$\mathcal{F}_{\mathcal{A}}$.
+$\mathcal{F}_{\mathcal{A}}$.\fxfatal{find and understand reference for this
+theorem}
 
+\fxfatal{use different reference for annotated mdps}
 We use \acp{MDP} to \enquote{generate} input sequences with certain
 probabilities by associating with each state in an \ac{MDP} a letter to
 generate. This leads to the following definition:
@@ -57,6 +61,17 @@ generate. This leads to the following definition:
  where $S_{\mathcal{A}}$ is the set of states in $\mathcal{A}$ and $\lambda$
  defines the output of a state which is chosen from an alphabet $\Sigma$.
 \end{definition}
+Thus, we can very naturally define a probability measure $\delta$ for the words
+such a \ac{AMDP} generates under a certain \emph{strategy} $\varphi$. Namely,
+for a set of words $W\subseteq \Sigma^{\omega}$ we set
+$
+\delta_{\varphi}(W) =
+  \mu_{\varphi}(
+    \set{
+      w\in \plays_{\mathcal{A}}\mid \lambda_{\mathcal{A}}(w)\in W
+    }
+  )
+$.
 Also, we want to shortly discuss how much insight the knowledge of the
 output-symbol conveys. Namely, we propose one approach which assumes that
 knowledge of state and produced output-symbol implies the next state of the
@@ -69,4 +84,8 @@ and define it as follows:
   $p, q\in\follow_{a}(s)$ such that $\lambda(p) = \lambda(q)$.
 \end{definition}
 Unfortunately, this determinism is a real restriction considering the
-probabilities for the words an \ac{AMDP} may output. 
+probabilities for the words an \ac{AMDP} may output. This is expressed in the
+following lemma:\fxfatal{actually write and proof lemma; pretty sure that I've
+seen my example somewhere...find reference!}
+\begin{lemma}
+\end{lemma}
