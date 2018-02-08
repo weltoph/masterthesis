@@ -1,0 +1,87 @@
+\chapter{Tree Automata}
+\begin{definition}[Generator]
+  For a set of states $Q$ and a set of directions $D$ we call a probability
+  function on $Q\times D$, i.e. $G: Q\times D\rightarrow [0,1]$ with
+  $\sum\limits_{\substack{q\in Q\\ d\in D}}G(q,d) = 1$, a generator over $Q$
+  and $D$. A finite set of generators over sets $Q$ and $D$ is called a clause
+  $C = \set{G_{1},\dots,G_{n}}$.
+\end{definition}
+Adapting notions from alternating tree automata we define \emph{\ac{WDTA}} as
+follows:
+\begin{definition}[Weighted Descent Tree Automaton]
+  We define a Weighted Descent Tree Automata as tuple
+  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ where $Q$ is a finite
+  set of states, $q_{0}$ the initial state, $D$ a finite set of directions,
+  $\Sigma$ is a finite Alphabet and $T\subseteq Q^{\omega}$ is a
+  $\omega$-regular target of infinite words of elements in $Q$. The transitions
+  in $\Delta$ are given as clauses for every state and symbol:
+  $\Delta:Q\times\Sigma\rightarrow\mathcal{C}$
+  where $\mathcal{C}$ denotes the set of all clauses over $Q$ and $D$.
+\end{definition}
+The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run \fxwarning{define run as a tree of generators}
+$r:q_{0}(Q\times D)\rightarrow [0,1]$ on a tree
+$t:D^{*}\rightarrow\Sigma$ with $r(q_{0}) = 1$ and for a defined value
+of $r(q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})$ (resp. $r(q_{0})$)
+there is $G\in\Delta(q_{n}, t(d_{1}\dots d_{n}))$ (resp. $G\in\Delta(q_{0},
+t(\epsilon))$) such that
+$r(q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}}\tuple{q_{n+1}, d_{n+1}})
+= r(q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})\cdot G(q_{n+1}, d_{n+1})$
+for all $q_{n+1}\in Q$ and $d_{n+1}\in D$. Analogously to a \ac{MDP} we define
+cylinders $\cyl(w) = \set{w\alpha : \alpha\in Q^{\omega}}$ for all
+$w\in q_{0}(Q\times D)^{*}$ and naturally a run $r$ induces a
+probability measure on these cylinders with $\mu_{r}(\cyl(w)) = r(w)$. We call
+$r$ accepting if the measure of the set of those words in
+$q_{0}(Q\times D)^{\omega}$ such that the projection to the states is in $T$
+has a measure of 1. Naturally, we say that $\mathcal{A}$ accepts $t$ if such an
+accepting run exists. Furthermore we call a \ac{WDTA} \emph{deterministic} if
+there is at most one generator in each clause $\Delta(q, \sigma)$ and
+\emph{unidirectional} if in each clause
+$\set{G_{1},\dots,G_{n}} = \Delta(q, \sigma)$ for all $i$ there is at most one
+$q\in Q$ such that $G(q, d) > 0$ for all $d\in D$. Intuitively, the automaton
+explores every path with at most one state.
+\fxfatal{show measurability of accepting paths}
+
+We can now define an acceptance game $\mathcal{G}_{\mathcal{A}, t}$ for a
+\ac{WDTA} $\mathcal{A}$ and a tree $t$ as \ac{MDP} (thus, it is a solitaire
+game).
+\begin{definition}[Acceptance Game]
+  For a \ac{WDTA} $\mathcal{A}$ and a tree $t$ we define the game
+  \begin{equation}
+    \mathcal{G}_{\mathcal{A}, t} = \tuple{q_{0}(Q\times D)^{*}\cup\set{\bot},
+    q_{0}, \mathcal{C}, \tuple{\mu_{G}}_{G\in\mathcal{C}}}
+  \end{equation}
+  such that the player may choose for
+  $q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{1}}$ one
+  $G\in\Delta(q_{n}, t(d_{1}\dots d_{n}))$ (resp.
+  $G\in\Delta(q_{0}, t(\epsilon))$ in state $q_{0}$)
+  and moves with probability $G(q_{n+1}, d_{n+1})$ to
+  $q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{1}}\tuple{q_{n+1}, d_{n+1}}$.
+  Without loss of generality we assume the target $T$ to be given by a parity
+  function $\parity:Q\rightarrow \set{0,\dots, k}$ and we equip the game
+  $\mathcal{G}_{\mathcal{A}, t}$ correspondingly with the parity objective given
+  by $\parity'$ which projects to the parity of the last state, i.e.
+  $\parity'(q_0) = \parity(q_0)$ and $\parity'(q_0\alpha\tuple{q_{l}, d_{l}}) = \parity(q_{l})$.
+\end{definition}
+By exploiting that the player only needs local information to make its
+decisions we can define an emptiness game in similar fashion:
+\begin{definition}[Emptiness Game]
+  We define for a \ac{WDTA} $\mathcal{A}$ a \ac{MDP} $\mathcal{M}$ as follows:
+  \begin{equation}
+    \mathcal{M} = \tuple{Q\times\Sigma\cup\Delta(Q, D)\times D\cup\set{q_{0},\bot},
+    q_{0}, \Delta(Q, D)\cup\Sigma, \tuple{\mu_a}_{a\in\Delta(Q, D)\cup\Sigma}}
+  \end{equation}
+  such that the player may choose for $\tuple{q,\sigma}$ a generator
+  $G\in\Delta(Q, D)$ and the game moves with probability
+  $\sum\limits_{p\in Q}G(p, d)$ to $\tuple{G, d}$ where the player now fixes
+  $\sigma'\in\Sigma$ and moves to $\tuple{q', \sigma'}$ with probability
+  $\frac{G(q',\sigma')}{\sum\limits_{p\in Q}G(p, d)}$. From $q_{0}$ the choice
+  of a generator $G\in\bigcup\limits_{\sigma\in\Sigma}\Delta(q_{0}, \sigma)$
+  moves the player to $\tuple{G, d}$ with probability
+  $\sum\limits_{p\in Q}G(p, d)$.
+  Every choice of the player other than described above enforces move to $\bot$
+  with a probability of 1 (also, every choice in $\bot$ only allows
+  for a move to $\bot$ with probability 1). The objective of the game is
+  defined by $\parity'(q,d) = \parity_{\mathcal{A}}(q)$ while states of the
+  form $\tuple{G, d}$ of $q_{0}$ hold a parity which is higher than all other
+  parities and $\bot$ holds a losing parity. 
+\end{definition}

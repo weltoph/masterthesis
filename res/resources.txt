@@ -14,11 +14,22 @@ Automata on Infinite Trees (Draft) - Christof Löding
 On Decision Problems for Probabilistic Büchi Automata - Baier, Bertrand, Größer
 Simulating Alternating Tree Automata By Nondeterministic Automata:
   New results and new proofs of the theorems of Rabin, McNaughton and Safra - Muller, Schupp
---
-Formalizing And Reasoning About Quality - Almagor, Boker, Kupferman
-Acting Optimally In Partially Observable Stochastic Domains - Cassandra, Kaelbling, Littman
-Qualitative Stochastic Parity Games - Chatterjee, Jurdzinski, Henzinger
-Synthesis Of Reactive Designs - Bloem, Jobstmann, Piterman, Pnueli, Sa'ar
 Alternating Finite Automata On Omega-Words - Miyano, Hayashi
+Formalizing And Reasoning About Quality - Almagor, Boker, Kupferman
+Quantitative Stochastic Parity Games - Chatterjee, Jurdzinski, Henzinger
+Qualitative Analysis Of Partially Observable Markov Decision Processes - Chaterjee, Doyen, Henzinger
+--
+Acting Optimally In Partially Observable Stochastic Domains - Cassandra, Kaelbling, Littman
+Synthesis Of Reactive Designs - Bloem, Jobstmann, Piterman, Pnueli, Sa'ar
 Measure Properties Of Game Tree-Languages - Gogacz, Michalewski, Mio, Skyrzpczack
 On The Problem Of Computing The Probability Of Regular Sets Of Trees - Michalewski, Mio
+What Is Decideable About Partially Observable Markov Decision Processes
+  With Omega Regular Objectives - Chaterjee, Chmelik, Tracol
+Survey Of Partially Observable Markov Decision Processes - Monahan
+On The Problem Of Computing The Probability Of Regular Sets Of Trees - Michalewski, Mio
+Model Checking Omega Regular Properties Of Interval Markov Chains - Chaterjee, Sen, Henzinger
+Markov Decision Processes And Regular Events - Courcoubetis, Yannakakis
+Languages Automata And Logic - Thomas
+Controller Synthesis And Verification For Markov Decision Processes With
+  Qualitative Branching Time Objectives - Brazdil, Forejet, Kucera
+Complementation Disambiguation And Determinization Of Büchi Automata Unified - Khäler, Wilke
