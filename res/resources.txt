@@ -33,3 +33,8 @@ Languages Automata And Logic - Thomas
 Controller Synthesis And Verification For Markov Decision Processes With
   Qualitative Branching Time Objectives - Brazdil, Forejet, Kucera
 Complementation Disambiguation And Determinization Of Büchi Automata Unified - Khäler, Wilke
+Environment Assumptions for Synthesis - Chaterjee, Henzinger, Jobstmann
+Automata with Generalized Rabin Pairs for Probabilistic Model Checking and LTL
+  Synthesis - Chaterjee, Gaiser, Kretinsky
+Automatic Verification Of Probabilistic Concurrent Finite State Programs - Vardi
+Formal Methods For Real Time and Probabilistic Systems - Editor: Katoen
