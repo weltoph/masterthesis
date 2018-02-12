@@ -38,3 +38,4 @@ Automata with Generalized Rabin Pairs for Probabilistic Model Checking and LTL
   Synthesis - Chaterjee, Gaiser, Kretinsky
 Automatic Verification Of Probabilistic Concurrent Finite State Programs - Vardi
 Formal Methods For Real Time and Probabilistic Systems - Editor: Katoen
+Mathematical Metaphysics Of Randomness - Muchnik, Semenov, Uspensky
