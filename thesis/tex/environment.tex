@@ -24,7 +24,7 @@ maliciously. The following definitions follow \cite{RandAutoInfTrees}:
     \item [Following States] For a state $s\in S$ we call the states in which a
       \ac{MDP} can move from into for an action $a\in A$ $a$-following states:\\
       $\follow_{a}(s) = \set{q\in S\mid \tau_{a}(s,q) > 0}$.
-    \item [Cylinder] For a word of states $w\in S^{*}$ we define the
+    \item [Cylinder] For a finite word of states $w\in S^{*}$ we define the
       corresponding cylinder as the set of all infinite state-sequences
       that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
     \item [Plays] We consider all infinite sequences of states
@@ -49,43 +49,3 @@ $\varphi_{\mathcal{A}}$ induces a probability measure as follows: we fix
 and use Carath\'eodory's theorem to uniquely extend this measure to
 $\mathcal{F}_{\mathcal{A}}$.\fxfatal{find and understand reference for this
 theorem}
-
-\fxfatal{use different reference for annotated mdps}
-We use \acp{MDP} to \enquote{generate} input sequences with certain
-probabilities by associating with each state in an \ac{MDP} a letter to
-generate. This leads to the following definition:
-\fxwarning{there are automata which do this, maybe find one references to this}
-\begin{definition}[Annotated Markov Decision Process]
- An \acl{AMDP} is a tuple
- $\tuple{\mathcal{A}, \lambda: S_{\mathcal{A}}\rightarrow \Sigma}$
- where $S_{\mathcal{A}}$ is the set of states in $\mathcal{A}$ and $\lambda$
- defines the output of a state which is chosen from an alphabet $\Sigma$.
-\end{definition}
-Thus, we can very naturally define a probability measure $\delta$ for the words
-such a \ac{AMDP} generates under a certain \emph{strategy} $\varphi$. Namely,
-for a set of words $W\subseteq \Sigma^{\omega}$ we set
-$
-\delta_{\varphi}(W) =
-  \mu_{\varphi}(
-    \set{
-      w\in \plays_{\mathcal{A}}\mid \lambda_{\mathcal{A}}(w)\in W
-    }
-  )
-$.
-Also, we want to shortly discuss how much insight the knowledge of the
-output-symbol conveys. Namely, we propose one approach which assumes that
-knowledge of state and produced output-symbol implies the next state of the
-environment. To this property we refer to as \emph{deterministic in labelling}
-and define it as follows:
-\begin{definition}[deterministic in labelling]
-  An \ac{AMDP} $\mathcal{A} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0},
-  \lambda}$ is called deterministic in labelling if for every state $s\in S$
-  and action $a\in A$ holds that there are no two distinct states
-  $p, q\in\follow_{a}(s)$ such that $\lambda(p) = \lambda(q)$.
-\end{definition}
-Unfortunately, this determinism is a real restriction considering the
-probabilities for the words an \ac{AMDP} may output. This is expressed in the
-following lemma:\fxfatal{actually write and proof lemma; pretty sure that I've
-seen my example somewhere...find reference!}
-\begin{lemma}
-\end{lemma}
