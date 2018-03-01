@@ -18,15 +18,13 @@ TEXFILES=$(wildcard $(TEXDIR)*.tex)
 $(PDFNAME): $(MAINFILE).tex $(TEXFILES) $(TIKZFILES)
 	#unhide hidden auxilliary files
 	ls -a | grep -E "\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}
-	$(LATEX) $<
-	$(BIBTEX) $(MAINFILE)
-	$(LATEX) $<
+	- $(LATEX) $< && $(BIBTEX) $(MAINFILE) && $(LATEX) $<
 	#hide auxilliary files again
 	ls -a | grep -E "$(HIDEPATTERN)" | xargs -I {} mv {} .{}
 
 tikz/%.pdf: tikz/%.tikz $(TIKZBLUEPRINT)
 	#unhide auxilliary files
 	ls -a $(TIKZDIR) | grep -E "$*/\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' $(TIKZDIR){}
-	$(LATEX) --jobname=$* -output-directory $(TIKZDIR) '\def\inputfile{$<}\input{$(TIKZBLUEPRINT)}'
+	- $(LATEX) --jobname=$* -output-directory $(TIKZDIR) '\def\inputfile{$<}\input{$(TIKZBLUEPRINT)}'
 	#hide auxilliary files again
 	ls -a $(TIKZDIR) | grep -E "$*$(HIDEPATTERN)" | xargs -I {} mv $(TIKZDIR){} $(TIKZDIR).{}
