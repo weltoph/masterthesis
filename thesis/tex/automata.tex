@@ -1,4 +1,37 @@
-\chapter{Automata}
+\chapter{Languages and Automata}
+It is well established to rely on finite automata to recognize languages of
+infinite objects, e.g. trees or words \cite{LangAutoLog}. In this chapter we
+recall some known results for languages of infinite words and infinite trees.
+Furthermore, building upon the work in \cite{RandAutoInfTrees}, we introduce and
+examine a new class of tree automata, called \aclp*{WDTA}, and, using theses,
+present a synthesis result for \aclp*{PBA}.
+
+\section{$\omega$-regular Languages}
+Following \cite{LangAutoLog} we introduce word automata with the following
+structural definition
+\begin{definition}[Word Automaton]
+  We define a word automaton as
+  $\mathcal{A} = \tuple{Q, \Sigma, q_{0}, \Delta}$ where
+  $Q$ is a set of states, $\Sigma$ a finite alphabet, $q_{0}\in Q$ is the
+  initial state and $\Delta\subseteq Q\times\Sigma\times Q$ is the transition
+  relation. We define some associated notions as follows:
+  \begin{description}
+    \item [Run]
+      For a word $\alpha = \alpha_{0}\alpha{1}\dots\in\Sigma^{\omega}$ we call
+      a sequence $\pi = \pi_{0}\pi_{1}\dots \in Q^{\omega}$ a run of
+      $\mathcal{A}$ on $\alpha$ if $\pi_{0} = q_{0}$ and for every
+      $i\in\mathcal{N}$ holds that
+      $\tuple{\pi_{i}, \alpha_{i}, \pi_{i+1}}\in\Delta$
+    \item [Determinism]
+      We call $\mathcal{A}$ deterministic if for every pair $q\in Q$ and
+      $\sigma\in\Sigma$ the set
+      $\set{p\in Q\middle| \tuple{q,\sigma,p}\in\Delta}$ has at most one
+      element.
+  \end{description}
+\end{definition}
+
+\section{Probabilistic Büchi Automata}
+
 \section{Tree Automata}
 \begin{definition}[Generator]
   For a set of states $Q$ and a set of directions $D$ we call a probability
@@ -87,6 +120,3 @@ decisions we can define an emptiness game in similar fashion:
   form $\tuple{G, d}$ of $q_{0}$ hold a parity which is higher than all other
   parities and $\bot$ holds a losing parity. 
 \end{definition}
-\section{Probabilistic Büchi Automata}
-It is well established to rely on Büchi Automata to recognize $\omega$-regular
-languages. \fxfatal{reference for $\omega$-regular and elaborate on that}
