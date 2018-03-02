@@ -20,7 +20,7 @@ structural definition
       For a word $\alpha = \alpha_{0}\alpha{1}\dots\in\Sigma^{\omega}$ we call
       a sequence $\pi = \pi_{0}\pi_{1}\dots \in Q^{\omega}$ a run of
       $\mathcal{A}$ on $\alpha$ if $\pi_{0} = q_{0}$ and for every
-      $i\in\mathcal{N}$ holds that
+      $i\in\mathbb{N}$ holds that
       $\tuple{\pi_{i}, \alpha_{i}, \pi_{i+1}}\in\Delta$
     \item [Determinism]
       We call $\mathcal{A}$ deterministic if for every pair $q\in Q$ and
@@ -29,6 +29,56 @@ structural definition
       element.
   \end{description}
 \end{definition}
+and expand upon this structure by classifying runs on word automata as
+accepting or non-accepting by the following conditions:
+\begin{definition}[Acceptance Conditions]
+  For a word automaton $\mathcal{A} = \tuple{Q, \Sigma, q_{0}, \Delta}$ we
+  define different acceptance conditions. For this we define for a run
+  $\pi = \pi_{0}\pi_{1}\dots\in Q^{\omega}$ the operator
+  $\Inf$ as the set of states that occur infinitely in a run, i.e.
+  \begin{equation*}
+    \Inf(\pi) = \set{q\in Q\middle| \text{ there are infinitely many }
+    i\in\mathbb{N} \text{ s.t. } \pi_{i} = q}
+  \end{equation*}
+  With this notion we define the following acceptance conditions:
+  \begin{description}
+    \item [Büchi] A Büchi condition is defined by a set of final states
+      $F\subseteq Q$ and we call a run $\pi$ accepting if
+      $\Inf(\pi)\cap F\neq\emptyset$.
+    \item [Muller] Muller conditions are given as a family of state sets, i.e.
+      $\mathcal{F}\subseteq 2^{F}$. A run $\pi$ is called accepting if
+      $\Inf(\pi)\in\mathcal{F}$.
+    \item [Rabin] This acceptance condition is represented by a set of pairs\\
+      $\Omega = \set{\tuple{E_{0}, F_{0}}, \dots, \tuple{F_{n}, E_{n}}}$ and we
+      call a run $\pi$ accepting if there is an $i$ s.t.
+      $\Inf(\pi)\cap F_{i}\neq\emptyset$ but $\Inf(\pi)\cap E_{i} = \emptyset$.
+    \item [Streett] The Streett condition is dual to the Rabin condition and
+      thus also given by a set of pairs
+      $\Omega = \set{\tuple{E_{0}, F_{0}}, \dots, \tuple{F_{n}, E_{n}}}$. But
+      this time we want that the Rabin condition is not fulfilled, i.e. for a
+      run $\pi$ and all $i$ we have either $\Inf(\pi)\cap F_{i} = \emptyset$ or
+      $\Inf(\pi)\cap E_{i} \neq \emptyset$.
+    \item [Parity] This condition is defined by a function
+      $\parity:Q\rightarrow \mathbb{N}$. We call a run $\pi$ accepting if the
+      maximum of the set $\parity(\Inf(\pi))$, which describes the pointwise
+      application of $\parity$ to the set $\Inf(\pi)$, is even (note that due
+      to the finiteness of $Q$, $\Inf(\pi)$ is finite as well and thus the
+      maximum of $\parity(\Inf(\pi))$ exists).
+  \end{description}
+\end{definition}
+We categorize word automata by their acceptance condition and if they are
+deterministic. Thus, we call a word automaton $\mathcal{A}$ equipped with a
+Büchi condition a \ac{NBA} or respectively \ac{DBA} if
+$\mathcal{A}$ is deterministic. And analogously we obtain word automata for
+Muller, Rabin, Streett and Parity conditions and corresponding acronyms.
+\acuse{NMA}
+\acuse{DMA}
+\acuse{NRA}
+\acuse{DRA}
+\acuse{NSA}
+\acuse{DSA}
+\acuse{NPA}
+\acuse{DPA}
 
 \section{Probabilistic Büchi Automata}
 
