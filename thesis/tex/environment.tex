@@ -1,6 +1,6 @@
 \chapter{Environment}
 \fxfatal{add reference to Schewe}
-\fxfatal{we need to discuss why this migth be feasable; find learning
+\fxfatal{we need to discuss why this might be feasable; find learning
 approaches for MDPs}
 Classic synthesis aims to derive an agent from a specification which handles
 all possible inputs. Interpretating this setting of synthesis as a game where
@@ -12,40 +12,3 @@ rather than antagonistic but not indifferent to the actions of the agent. Thus,
 the environment interacts with the agent but is not deliberately acting
 maliciously. The following definitions follow \cite{RandAutoInfTrees}:
 
-\begin{definition}[Markov Decision Process]
-  A \acl*{MDP} is modelled as tuple
-  $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ where $S$ is a set of states
-  and $A$ a set of actions. Given an action $a\in A$ the corresponding
-  transition function $\tau_{a}:S\times S\rightarrow \interval{0,1}$ satisfies
-  for every $q\in S$ that $\sum_{p\in S}\tau_{a}\tuple{q,p} = 1$.
-  $s_{0}$ is the initial state. Additionally we define a few helpful
-  auxilliaries:
-  \begin{description}
-    \item [Following States] For a state $s\in S$ we call the states in which a
-      \ac{MDP} can move from into for an action $a\in A$ $a$-following states:\\
-      $\follow_{a}(s) = \set{q\in S\mid \tau_{a}(s,q) > 0}$.
-    \item [Cylinder] For a finite word of states $w\in S^{*}$ we define the
-      corresponding cylinder as the set of all infinite state-sequences
-      that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
-    \item [Plays] We consider all infinite sequences of states
-      (i.e. $S^{\omega}$) that start in $s_{0}$ a valid play. All plays
-      are gathered in $\plays = \set{
-        \alpha\in S^{\omega}\mid \alpha_{0} = s_{0}} = \cyl(s_{0})$.
-    \item [Strategy] We define $\varphi:S^{*}\rightarrow A$ as strategy for
-      a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
-      giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
-  \end{description}
-\end{definition}
-
-The set of cylinders of a \ac{MDP} $\mathcal{A}$ can be extended to a
-$\sigma$-algebra $\mathcal{F}_{\mathcal{A}}$ for which a strategy
-$\varphi_{\mathcal{A}}$ induces a probability measure as follows: we fix
-\begin{equation}
-  \mu_{\varphi}(\cyl(w = w_{0}\dots w_{n})\cap\plays) = \begin{cases}
-    \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1}) &\text{ if }\cyl(w)\cap\plays\neq\emptyset\\
-    0 &\text{ otherwise}
-  \end{cases}
-\end{equation}
-and use Carath\'eodory's theorem to uniquely extend this measure to
-$\mathcal{F}_{\mathcal{A}}$.\fxfatal{find and understand reference for this
-theorem}
