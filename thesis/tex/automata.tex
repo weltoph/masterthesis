@@ -86,13 +86,14 @@ expressiveness.
   \cite[Proposition 5.3, Theorem 5.4, Proposition 5.6]{LangAutoLog}
   \fxfatal{find more references}
   The class of recognizable languages coincides for \acp{NBA}, \acp{NMA},
-  \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NSA}, \acp{DSA}, \acp{NPA}, \acp{DPA}.
+  \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NSA}, \acp{DSA}, \acp{NPA} and
+  \acp{DPA}.
 \end{theorem}
 
 \section{Probabilistic Büchi Automata}
 Upon the concept of \acp{NBA} there are approaches to substitute the
 non-deterministic choices by probabilities for the choices
-\cite[e.g.]{RecOmgLangProbAuto, DecProblemsForProbAuto}. In order to properly
+(see \cite{RecOmeLangProbAuto,DecProblemsForProbAuto}). In order to properly
 define these automata we introduce the concept of \aclp*{MDP}. \aclp*{MDP} can
 be used to model a system which reacts to the actions of an agent (often called
 player) probabilisticly.\fxfatal{more references missing} More formally we use
@@ -121,16 +122,32 @@ these definitions which follow \cite{RandAutoInfTrees}:
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
   \end{description}
 \end{definition}
-The set of cylinders of a \ac{MDP} $\mathcal{A}$ can be extended to the
-smallest $\sigma$-algebra containing these cylinders
-$\mathcal{F}_{\mathcal{A}}$. For these cylinders a strategy
-$\varphi_{\mathcal{A}}$ induces a probability measure as follows: we fix
+We examine the set of cylinders of a \ac{MDP} $\mathcal{A}$ and for a given
+strategy $\varphi_{\mathcal{A}}$ we obtain an induced probability measure for
+the cylinders as follows:\fxfatal{still only a pre-measure}
 \begin{equation}
   \mu_{\varphi}(\cyl(w = w_{0}\dots w_{n})\cap\plays) = \begin{cases}
-    \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1}) &\text{ if }\cyl(w)\cap\plays\neq\emptyset\\
+    \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1})
+      &\text{ if }\cyl(w)\cap\plays\neq\emptyset\\
     0 &\text{ otherwise}
   \end{cases}
 \end{equation}
+Additionally we can observe that for two finite words $u,v\in S^{*}$ we have
+either that these words describe two independent plays, i.e. neither
+$u\sqsubseteq v$ nor $v\sqsubseteq u$ (where $\sqsubseteq$ describes the prefix
+relation), or that one is prefix of the other (w.l.o.g.) $u\sqsubseteq v$. In
+the first case we can set the probability measure for $\cyl(v)\cup\cyl(u)$ to
+the sum of both cylinders
+\begin{equation}
+  \mu_{\varphi}(\cyl(v)\cup\cyl(u)) = \mu_{\varphi}(\cyl(v)) 
+  + \mu_{\varphi}(\cyl(u))
+\end{equation}
+and in the second case we have $\cyl(v)\subseteq\cyl(u)$ hence
+$\cyl(u) = \cyl(u)\cup\cyl(v)$ and for this cylinder we have already defined
+a measure. In this fashion we obtained a pre-measure (induced by a strategy\fxfatal{show $\sigma$-additivity of pre-measure}
+$\varphi$) on the ring of cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}).
+
+
 
 \section{Tree Automata}
 \begin{definition}[Generator]
