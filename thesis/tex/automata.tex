@@ -108,8 +108,10 @@ these definitions which follow \cite{RandAutoInfTrees}:
   auxilliaries:
   \begin{description}
     \item [Following States] For a state $s\in S$ we call the states in which a
-      \ac{MDP} can move from into for an action $a\in A$ $a$-following states:\\
-      $\follow_{a}(s) = \set{q\in S\mid \tau_{a}(s,q) > 0}$.
+      \ac{MDP} can move from into for an action $a\in A$ $a$-following states:
+      \begin{equation*}
+        \follow_{a}(s) = \set{q\in S\mid \tau_{a}(s,q) > 0}
+      \end{equation*}
     \item [Cylinder] For a finite word of states $w\in S^{*}$ we define the
       corresponding cylinder as the set of all infinite state-sequences
       that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
@@ -122,9 +124,9 @@ these definitions which follow \cite{RandAutoInfTrees}:
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
   \end{description}
 \end{definition}
-We examine the set of cylinders of a \ac{MDP} $\mathcal{A}$ and for a given
-strategy $\varphi_{\mathcal{A}}$ we obtain an induced probability measure for
-the cylinders as follows:\fxfatal{still only a pre-measure}
+We examine the ring induced by the set of cylinders of a \ac{MDP} $\mathcal{A}$
+and for a given strategy $\varphi_{\mathcal{A}}$ we obtain an induced
+pre-measure for the cylinders as follows:\fxfatal{still only a pre-measure}
 \begin{equation}
   \mu_{\varphi}(\cyl(w = w_{0}\dots w_{n})\cap\plays) = \begin{cases}
     \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1})
@@ -144,10 +146,74 @@ the sum of both cylinders
 \end{equation}
 and in the second case we have $\cyl(v)\subseteq\cyl(u)$ hence
 $\cyl(u) = \cyl(u)\cup\cyl(v)$ and for this cylinder we have already defined
-a measure. In this fashion we obtained a pre-measure (induced by a strategy\fxfatal{show $\sigma$-additivity of pre-measure}
-$\varphi$) on the ring of cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}).
+a measure. In this fashion we obtained a pre-measure (induced by a strategy
+\fxfatal{show $\sigma$-additivity of pre-measure} $\varphi$) on the ring of
+cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}). This pre-measure can
+now be uniquely extended to a probability measure on the $\sigma$-algebra
+induced by the set of cylinders \cite[Theorem 5.4]{Bauer}.
 
+Given this definition of \acp{MDP} we can now examine \acp{PBA}. A \ac{PBA}
+essentially is a \ac{NBA} where the non-determinism is solved by a probability
+distribution. More formally, we define analogously to \cite{Groesser}
+\begin{definition}[Probabilistic Büchi Automata]
+  A \acl{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
+  tuple $\tuple{Q, \Sigma, \delta, s_{0}, F}$ where $Q$ is a finite state set,
+  $q_{0}\in Q$ the initial state,
+    $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$
+  a transition probability function such that for all pairs $q\in Q$ and
+  $\sigma\in\Sigma$ we have $\sum{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
+  and $F\subseteq Q$ is the set of final states.
+\end{definition}
+\acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
+are induced by a word $\alpha = \alpha_{1}\alpha{2}\dots\in\Sigma^{\omega}$
+rather than a player. For a \ac{PBA} $\mathcal{A}$ we can easily define a
+corresponding strategy $\varphi_{\alpha}:Q^{*}\rightarrow\Sigma$ for the
+equivalent \ac{MDP} $\mathcal{M}_{\mathcal{A}} =
+   \tuple{Q, \Sigma, \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, q_{0}}$
+where $\tau_{\sigma}(q,p) = \delta(q,\sigma,p)$ as
+$\varphi_{\alpha}(w) = \alpha_{\size{w}}$. This strategy yields a probability
+measure $\mu_{\alpha}$ on $Q^{\omega}$ and we can define whether $\mathcal{A}$ 
+accepts $\alpha$ by this measure; namely by the measure of the set
+$\mathcal{F}\subseteq Q^{\omega}$ of words that satisfy the Büchi condition
+given by $F_{\mathcal{A}}$. It is known that this set $\mathcal{F}$ is
+measurable and we define different acceptance conditions \cite{Groesser}:
+\begin{description}
+  \item [Positive Acceptance] $\mu_{\alpha}(\mathcal{F}) > 0$
+  \item [Almost-Sure Acceptance] $\mu_{\alpha}(\mathcal{F}) = 1$
+  \item [Threshold Acceptance] $\mu_{\alpha}(\mathcal{F}) > \lambda$ for a
+    fixed threshold $\lambda\in[0, 1)$
+\end{description}
 
+Examining an induced strategy $\varphi_{\alpha}$ of a word
+$\alpha\in\Sigma^{\omega}$ it is noteworthy that the strategy operates
+indifferently regarding the state the play is in. We use this observation to
+motivate the introductino of \acp{POMDP}. A \ac{POMDP} is a \ac{MDP}
+$\mathcal{M}$ with an associated equivalence relation $\mathcal{O}$
+\cite{RandAutoInfTrees}. The equivalence relation models a restriction of the
+player to observe the state of $\mathcal{M}$. For every
+$s\in S_{\mathcal{M}}$ we define
+$[s]_{\mathcal{O}} = \set{r\in S\mid \mathcal{O}(r,s)}$ and
+$S_{\mathcal{M}}/\mathcal{O}$ as set of all these equivalence classes. A
+strategy for a \ac{POMDP} $\tuple{\mathcal{M}, \mathcal{O}}$ is defined as
+$\varphi:S_{\mathcal{M}}/\mathcal{O}^{*}\rightarrow A_{\mathcal{M}}$.
+\begin{example}
+  Re-examining a \ac{PBA} $\mathcal{A}$ and the equivalent \ac{MDP}
+  $\mathcal{M}$ we observed that every word $\alpha$ induces a corresponding
+  strategy $\varphi_{\alpha}$. We add to $\mathcal{M}$ an equivalence relation
+  $\mathcal{O} = S_{\mathcal{M}} \times S_{\mathcal{M}}$, i.e. there is exactly
+  one equivalence class. Firstly, we observe that $\varphi_{\alpha}$ is still a
+  valid strategy for the resulting \ac{POMDP}
+  $\mathcal{P} = \tuple{\mathcal{M}, \mathcal{O}}$. Secondly, since there is
+  exactly one equivalence class every strategy for $\mathcal{P}$ observes at
+  any time only the length of the history, hence we can provide an equivalent
+  strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This in turn
+  means that every strategy in $\mathbb{P}$ induces a word in $\Sigma^{\omega}$
+  of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the measure of one
+  strategy and an associated word coincide, i.e. the language of $\mathcal{A}$
+  can be understood as strategy space for $\mathcal{P}$ and vice versa. This
+  illustrates an idea which is used to define emptiness games for certain
+  automata (e.g. \cite[Proposition 45]{RandAutoInfTrees}).
+\end{example}
 
 \section{Tree Automata}
 \begin{definition}[Generator]
