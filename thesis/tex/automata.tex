@@ -257,20 +257,41 @@ in $(Q\times D)^{\omega}$ by
     = r(\epsilon)(q_{1},d_{1})\cdot\prod\limits_{i = 1}^{n - 1}
     r(\tuple{q_{1},d_{1}}\dots\tuple{q_{i},d_{i}})(q_{i+1},d_{i+1})
 \end{equation}
-Naturally, we want to define acceptance in terms of the induced measure of a
-run on the set of paths that satisfy the target $T_{\mathcal{A}}$ when
+Naturally, we want to define acceptance of a run in terms of its induced
+measure on the set of paths that satisfy the target $T_{\mathcal{A}}$ when
 projected to the state component. Thus, we show (by adapting the proof for
 \cite[Proposition 6]{RandAutoInfTrees}) the measurability of that set.
 \begin{lemma}[Measurability]
+  The set ${\alpha = \tuple{q_{1},d_{1}}\tuple{q_{2},d_{2}}\dots\in
+  (Q\times D)^{\omega}\mid q_{0}q_{1}q_{2}\dots\in T_{\mathcal{A}}$ is
+  measurable in the $\sigma$-algebra that is induced by the ring of cylinders.
 \end{lemma}
-
-Naturally, we say that $\mathcal{A}$ accepts $t$ if such an
-accepting run exists. Furthermore we call a \ac{WDTA} \emph{deterministic} if
-there is at most one generator in each clause $\Delta(q, \sigma)$ and
-\emph{unidirectional} if in each clause
-$\set{G_{1},\dots,G_{n}} = \Delta(q, \sigma)$ for all $i$ there is at most one
-$q\in Q$ such that $G(q, d) > 0$ for all $d\in D$. Intuitively, the automaton
-explores every path with at most one state.
+\begin{proof}
+  We start by the co-Büchi condition which is the dual condition to the Büchi
+  condition.
+\end{proof}
+We say that $\mathcal{A}$ accepts $t$ if such an
+accepting run exists. Furthermore we define certain structural properties on
+\acp{WDTA}
+\begin{definition}[Structural Properties]
+  A \ac{WDTA} $\mathcal{A}$ is called
+  \begin{description}
+    \item [deterministic] if there is at most one generator in each clause, i.e.
+      for every pair $q\in Q, \sigma\in\Sigma$ holds
+      $\size{\Delta(q, \sigma)} \leq 1$.
+    \item [uni-directional] if for every clause there is at most one state send
+      to every direction, i.e. for every $G\in\mathcal{G}_{\mathcal{A}}$
+      there is at most one $q\in Q$ such that $G(q, d) > 0$ for all
+      $d\in D$. Intuitively this means that the automaton explores every path
+      with at most one state.
+    \item [uniformly distributed (u.d.)] if $\mathcal{A}$ is uni-directional
+      and for a direction $d\in D$ every clause agrees on the weight that is
+      sent down that direction. Thus, for all $d\in D$ holds that for all
+      $G_{1}, G_{2}\in\mathcal{G}_{\mathcal{A}}$ we have
+      $G_{1}(q, d) = G_{2}(p, d)$ (for the unique $p, q$ for which
+      $G_{1}(q, d) > 0$, respectively $G_{2}(p, d) > 0$).
+  \end{description}
+\end{definition}
 \fxfatal{show measurability of accepting paths}
 
 We can now define an acceptance game $\mathcal{G}_{\mathcal{A}, t}$ for a
