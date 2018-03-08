@@ -262,17 +262,69 @@ measure on the set of paths that satisfy the target $T_{\mathcal{A}}$ when
 projected to the state component. Thus, we show (by adapting the proof for
 \cite[Proposition 6]{RandAutoInfTrees}) the measurability of that set.
 \begin{lemma}[Measurability]
-  The set ${\alpha = \tuple{q_{1},d_{1}}\tuple{q_{2},d_{2}}\dots\in
-  (Q\times D)^{\omega}\mid q_{0}q_{1}q_{2}\dots\in T_{\mathcal{A}}$ is
-  measurable in the $\sigma$-algebra that is induced by the ring of cylinders.
+  The set
+  \begin{equation*}
+    \set{\alpha = \tuple{q_{1},d_{1}}\tuple{q_{2},d_{2}}\dots\in
+    (Q\times D)^{\omega}\mid q_{0}q_{1}q_{2}\dots\in T_{\mathcal{A}}}
+  \end{equation*} is measurable in the $\sigma$-algebra that is induced by the
+  ring of cylinders.
 \end{lemma}
 \begin{proof}
-  We start by the co-Büchi condition which is the dual condition to the Büchi
-  condition.
+  We start with the co-Büchi condition which is dual to the Büchi condition.
+  Specifically, a co-Büchi condition is also defined by a set of
+  states $E\subseteq Q$ which in contrast must eventually be avoided. More
+  precisely, such a set $E$ defines the accepted language as
+  $\set{\alpha_{0}\alpha_{1}\dots\in Q^{\omega}\mid\text{ there is } i
+  \text{ such that for all } j>i \text{ holds }\alpha_{j}\notin E}$.
+  By abuse of notation we write in the following
+  $\tuple{q, d}\in E$ if $q\in E$. With
+  \begin{equation*}
+    \prolong(u) = \set{v\in (Q\times D)^{*}\mid u\sqsubseteq v}
+  \end{equation*} and
+  \begin{equation*}
+    T = \set{\alpha_{0}\alpha_{1}\dots\in (Q\times D)^{\omega}\mid\text{ there
+    is } i \text{ such that for all } j>i \text{ holds }\alpha_{j}\notin E}
+  \end{equation*}
+  we claim that
+  \begin{equation} 
+    T = \bigcup\limits_{u\in (Q\times D)^{*}}(
+    \cyl(u)\setminus\bigcup\limits_{v\in\prolong(u),v\in E}\cyl(v))
+    \label{eq:measureability}
+  \end{equation}
+  which renders $T$ measurable as countable union of measurable sets.
+  For $b\in T$ we know that there is eventually no occurence of $E$
+  anymore. This induces that for every finite prefix $u\sqsubseteq b$ after the
+  last occurence of an element in $E$ holds
+  $b\notin\bigcup\limits_{v\in\prolong(u),v\in E}\cyl(v))$ and thus $b$
+  is element of the right hand side of Equation \ref{eq:measureability}. On the
+  other hand if $b\notin T$ we know that for every finite prefix
+  $u\sqsubseteq b$ there is a prolongation $u\sqsubseteq v\sqsubseteq b$ such
+  that the last element of $v$ is in $E$, hence $b$ is for every such $u$
+  removed with by the cylinder associated with $v$ since $v\in\prolong(u)$.
+  This yields that $b$ is not element of the right hand side of Equation
+  \ref{eq:measureability} which proves the proclaimed equality. Additionally,
+  we get measureability of all Büchi conditions $F\subseteq Q$ by using its
+  duality to the co-Büchi condition $Q\setminus F$ and the closure of a
+  $\sigma$-algebra under complementation.
+
+  For a parity condition we get finitely many parities as
+  $\parity(Q) = \set{d_{1},\dots,d_{n}}$. We define for an arbitrary set
+  $E\subseteq Q$ the set $\cob(E)$ which is the set of accepted paths if
+  $E$ is interpreted as co-Büchi condition and $\bue(E)$ which is the set of
+  accepted path if $E$ is interpreted as Büchi condition. We already know that
+  these sets are measureable. With these auxilliaries we can define the
+  accepted paths of a parity condition $\parity$ by
+  \begin{equation}
+    \bigcup\limits^{1\leq i\leq n}_{d_{i}\text{ even}}\tuple{\bue(\parity^{-1}(d_{i}))
+    \bigcap\bigcup\limits^{1\leq j\leq n}_{d_{j} > d_{i}, d_{j}\text{ odd}}
+    \cob(\parity^{-1}(d_{j}))}
+  \end{equation}
+  which yields measureability of the accepted paths of a parity condition.
 \end{proof}
-We say that $\mathcal{A}$ accepts $t$ if such an
-accepting run exists. Furthermore we define certain structural properties on
-\acp{WDTA}
+We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
+notion of an accepting run is (analogously to \acp{PBA}) tied to an
+\enquote{acceptable measure} such as a Positive Acceptance or an Almost-Sure
+Acceptance. Additionally, we define certain structural properties on \acp{WDTA}
 \begin{definition}[Structural Properties]
   A \ac{WDTA} $\mathcal{A}$ is called
   \begin{description}
@@ -292,7 +344,6 @@ accepting run exists. Furthermore we define certain structural properties on
       $G_{1}(q, d) > 0$, respectively $G_{2}(p, d) > 0$).
   \end{description}
 \end{definition}
-\fxfatal{show measurability of accepting paths}
 
 We can now define an acceptance game $\mathcal{G}_{\mathcal{A}, t}$ for a
 \ac{WDTA} $\mathcal{A}$ and a tree $t$ as \ac{MDP} (thus, it is a solitaire
