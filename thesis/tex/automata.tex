@@ -58,7 +58,7 @@ accepting or non-accepting by the following conditions:
       this time we want that the Rabin condition is not fulfilled, i.e. for a
       run $\pi$ and all $i$ we have either $\Inf(\pi)\cap F_{i} = \emptyset$ or
       $\Inf(\pi)\cap E_{i} \neq \emptyset$.
-    \item [Parity] \fxfatal{find fitting reference} This condition is defined
+    \item [Parity] This condition is defined
       by a function
       $\parity:Q\rightarrow \mathbb{N}$. We call a run $\pi$ accepting if the
       maximum of the set $\parity(\Inf(\pi))$, which describes the pointwise
@@ -66,7 +66,7 @@ accepting or non-accepting by the following conditions:
       to the finiteness of $Q$, $\Inf(\pi)$ is finite as well and thus the
       maximum of $\parity(\Inf(\pi))$ exists).
   \end{description}
-\end{definition}
+\end{definition}\fxfatal{find fitting reference for parity condition} 
 We categorize word automata by their acceptance condition and if they are
 deterministic. Thus, we call a word automaton $\mathcal{A}$ equipped with a
 Büchi condition a \ac{NBA} or respectively \ac{DBA} if
@@ -93,11 +93,11 @@ expressiveness.
 \section{Probabilistic Büchi Automata}
 Upon the concept of \acp{NBA} there are approaches to substitute the
 non-deterministic choices by probabilities for the choices
-(see \cite{RecOmeLangProbAuto,DecProblemsForProbAuto}). In order to properly
-define these automata we introduce the concept of \aclp*{MDP}. \aclp*{MDP} can
-be used to model a system which reacts to the actions of an agent (often called
-player) probabilisticly.\fxfatal{more references missing} More formally we use
-these definitions which follow \cite{RandAutoInfTrees}:
+(see \cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}). In order to
+properly define these automata we introduce the concept of \aclp{MDP}.
+\aclp*{MDP} can be used to model a system which reacts to the actions of an
+agent (often called player) probabilisticly.\fxfatal{more references missing}
+More formally we use these definitions which follow \cite{RandAutoInfTrees}:
 \begin{definition}[Markov Decision Process]
   A \acl*{MDP} is modelled as tuple
   $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ where $S$ is a set of states
@@ -123,6 +123,7 @@ these definitions which follow \cite{RandAutoInfTrees}:
       a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
   \end{description}
+  \label{def:mdp}
 \end{definition}
 We examine the ring induced by the set of cylinders of a \ac{MDP} $\mathcal{A}$
 and for a given strategy $\varphi_{\mathcal{A}}$ we obtain an induced
@@ -187,27 +188,27 @@ measurable and we define different acceptance conditions \cite{Groesser}:
 Examining an induced strategy $\varphi_{\alpha}$ of a word
 $\alpha\in\Sigma^{\omega}$ it is noteworthy that the strategy operates
 indifferently regarding the state the play is in. We use this observation to
-motivate the introductino of \acp{POMDP}. A \ac{POMDP} is a \ac{MDP}
-$\mathcal{M}$ with an associated equivalence relation $\mathcal{O}$
+motivate the introduction of \acp{POMDP}. A \ac{POMDP} is a \ac{MDP}
+$\mathcal{M}$ with an associated equivalence relation $\sim$
 \cite{RandAutoInfTrees}. The equivalence relation models a restriction of the
 player to observe the state of $\mathcal{M}$. For every
 $s\in S_{\mathcal{M}}$ we define
-$[s]_{\mathcal{O}} = \set{r\in S\mid \mathcal{O}(r,s)}$ and
-$S_{\mathcal{M}}/\mathcal{O}$ as set of all these equivalence classes. A
-strategy for a \ac{POMDP} $\tuple{\mathcal{M}, \mathcal{O}}$ is defined as
-$\varphi:S_{\mathcal{M}}/\mathcal{O}^{*}\rightarrow A_{\mathcal{M}}$.
+$[s]_{\sim} = \set{r\in S\mid \sim(r,s)}$ and
+$S_{\mathcal{M}}/_{\sim}$ as set of all these equivalence classes. A
+strategy for a \ac{POMDP} $\tuple{\mathcal{M}, \sim}$ is defined as
+$\varphi:(S_{\mathcal{M}}/_{\sim})^{*}\rightarrow A_{\mathcal{M}}$.
 \begin{example}
   Re-examining a \ac{PBA} $\mathcal{A}$ and the equivalent \ac{MDP}
   $\mathcal{M}$ we observed that every word $\alpha$ induces a corresponding
   strategy $\varphi_{\alpha}$. We add to $\mathcal{M}$ an equivalence relation
-  $\mathcal{O} = S_{\mathcal{M}} \times S_{\mathcal{M}}$, i.e. there is exactly
+  $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$, hence there is exactly
   one equivalence class. Firstly, we observe that $\varphi_{\alpha}$ is still a
   valid strategy for the resulting \ac{POMDP}
-  $\mathcal{P} = \tuple{\mathcal{M}, \mathcal{O}}$. Secondly, since there is
+  $\mathcal{P} = \tuple{\mathcal{M}, \sim}$. Secondly, since there is
   exactly one equivalence class every strategy for $\mathcal{P}$ observes at
   any time only the length of the history, hence we can provide an equivalent
   strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This in turn
-  means that every strategy in $\mathbb{P}$ induces a word in $\Sigma^{\omega}$
+  means that every strategy in $\mathcal{P}$ induces a word in $\Sigma^{\omega}$
   of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the measure of one
   strategy and an associated word coincide, i.e. the language of $\mathcal{A}$
   can be understood as strategy space for $\mathcal{P}$ and vice versa. This
@@ -216,6 +217,12 @@ $\varphi:S_{\mathcal{M}}/\mathcal{O}^{*}\rightarrow A_{\mathcal{M}}$.
 \end{example}
 
 \section{Tree Automata}
+\fxfatal{elaborate on classical tree automata}
+Building upon \cite{RandAutoInfTrees} we expand upon the notion of weighting
+the different paths of the run. Hereby, we incorporate the concept of
+\emph{alternation} by allowing to send different states on the same path
+through the tree with individual weight. Thus, we capture on transition in a
+probability function over states and directions of an automaton.
 \begin{definition}[Generator]
   For a set of states $Q$ and a set of directions $D$ we call a probability
   function on $Q\times D$, i.e. $G: Q\times D\rightarrow [0,1]$ with
@@ -223,34 +230,41 @@ $\varphi:S_{\mathcal{M}}/\mathcal{O}^{*}\rightarrow A_{\mathcal{M}}$.
   and $D$. A finite set of generators over sets $Q$ and $D$ is called a clause
   $C = \set{G_{1},\dots,G_{n}}$.
 \end{definition}
-Adapting notions from alternating tree automata we define \emph{\ac{WDTA}} as
-follows:
+With these transitions we adapt the common concepts of tree automata by
+allowing the automaton to build a run of \enquote{transitions}.
 \begin{definition}[Weighted Descent Tree Automaton]
-  We define a Weighted Descent Tree Automata as tuple
+  We define a \acl{WDTA} as tuple
   $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ where $Q$ is a finite
   set of states, $q_{0}$ the initial state, $D$ a finite set of directions,
   $\Sigma$ is a finite Alphabet and $T\subseteq Q^{\omega}$ is a
   $\omega$-regular target of infinite words of elements in $Q$. The transitions
   in $\Delta$ are given as clauses for every state and symbol:
-  $\Delta:Q\times\Sigma\rightarrow\mathcal{C}$
-  where $\mathcal{C}$ denotes the set of all clauses over $Q$ and $D$.
+  $\Delta:Q\times\Sigma\rightarrow\mathcal{C}^{Q}_{D}$
+  where $\mathcal{C}^{Q}_{D}$ denotes the set of all clauses over $Q$ and $D$.
+  Additionally, we define the set of all used generators as
+  $\mathcal{G}_{\mathcal{A}} = \bigcup\limits_{q\in Q,d\in D}\Delta(q,d)$.
 \end{definition}
 The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run
-\fxwarning{define run as a tree of generators}
-$r:q_{0}(Q\times D)\rightarrow [0,1]$ on a tree
-$t:D^{*}\rightarrow\Sigma$ with $r(q_{0}) = 1$ and for a defined value
-of $r(q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})$ (resp. $r(q_{0})$)
-there is $G\in\Delta(q_{n}, t(d_{1}\dots d_{n}))$ (resp. $G\in\Delta(q_{0},
-t(\epsilon))$) such that
-$r(q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}}\tuple{q_{n+1}, d_{n+1}})
-= r(q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})\cdot G(q_{n+1}, d_{n+1})$
-for all $q_{n+1}\in Q$ and $d_{n+1}\in D$. Analogously to a \ac{MDP} we define
-cylinders $\cyl(w) = \set{w\alpha : \alpha\in Q^{\omega}}$ for all
-$w\in q_{0}(Q\times D)^{*}$ and naturally a run $r$ induces a
-probability measure on these cylinders with $\mu_{r}(\cyl(w)) = r(w)$. We call
-$r$ accepting if the measure of the set of those words in
-$q_{0}(Q\times D)^{\omega}$ such that the projection to the states is in $T$
-has a measure of 1. Naturally, we say that $\mathcal{A}$ accepts $t$ if such an
+$r:(Q\times D)^{*}\rightarrow \mathcal{G}_{\mathcal{A}}$ on a tree
+$t:D^{*}\rightarrow\Sigma$ with $r(\epsilon)\in \Delta(q_0, t(\epsilon))$ and
+for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in(Q\times D)^{*}$ we
+have $r(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}})\in
+  \Delta(q_{n},t(d_{1}\dots d_{n}))$. Analogously to a strategy in Definition
+\ref{def:mdp} a run induces a probability measure on the set of cylinders
+in $(Q\times D)^{\omega}$ by
+\begin{equation}
+  \mu_{r}(\cyl(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}))
+    = r(\epsilon)(q_{1},d_{1})\cdot\prod\limits_{i = 1}^{n - 1}
+    r(\tuple{q_{1},d_{1}}\dots\tuple{q_{i},d_{i}})(q_{i+1},d_{i+1})
+\end{equation}
+Naturally, we want to define acceptance in terms of the induced measure of a
+run on the set of paths that satisfy the target $T_{\mathcal{A}}$ when
+projected to the state component. Thus, we show (by adapting the proof for
+\cite[Proposition 6]{RandAutoInfTrees}) the measurability of that set.
+\begin{lemma}[Measurability]
+\end{lemma}
+
+Naturally, we say that $\mathcal{A}$ accepts $t$ if such an
 accepting run exists. Furthermore we call a \ac{WDTA} \emph{deterministic} if
 there is at most one generator in each clause $\Delta(q, \sigma)$ and
 \emph{unidirectional} if in each clause

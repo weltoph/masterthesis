@@ -143,9 +143,14 @@
 \usepackage{mdframed}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}{Proposition}[section]
-\newtheorem{example}{Example}[section]
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
+
+\newtheorem{localexample}{Example}[section]
+\newenvironment{example}
+{\begin{mdframed}[nobreak=true, backgroundcolor=green!40]\begin{localexample}}
+{\end{localexample}\end{mdframed}}
+
 \newtheorem{localdef}{Definition}[section]
 \newenvironment{definition}[1][]
 {\begin{mdframed}[nobreak=true, backgroundcolor=gray!20]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\\}
