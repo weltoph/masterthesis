@@ -425,6 +425,31 @@ how are non-determinism and weighting related? orthogonal or dependent?}
 
 Regarding intersection we introduce a general production construction and show
 its viability by employing techniques of integrationtheory.
+\begin{definition}
+  For \acp{WDTA}
+  $\mathcal{A}_{1} = \tuple{Q_{1}, D, \Sigma, \Delta_{1}, \parity_{1}}$ and
+  $\mathcal{A}_{2} = \tuple{Q_{2}, D, \Sigma, \Delta_{2}, \parity_{2}}$ we
+  define the product automaton
+  \begin{equation*}
+    \mathcal{A}_{1}\otimes\mathcal{A}_{2} = \tuple{Q_{1}\times Q_{2}, D,
+    \Sigma, \Delta, \mathcal{F}}
+  \end{equation*}
+  where for $\Delta_{1}(p, \sigma) = \set{G^{1}_{1},\dots,G^{1}_{n}}$ and
+  $\Delta_{2}(p, \sigma) = \set{G^{2}_{1},\dots,G^{2}_{n}}$ we set
+  \begin{equation*}
+    \Delta(\tuple{q, p}, \sigma) = \set{G_{1, 1},\dots, G_{n, m}}
+  \end{equation*}
+  with
+  \begin{equation*}
+    G_{i, j}((q', p'), d) = G_{i}(q', d)\cdot G_{j}(p', d)
+  \end{equation*}
+  and $\mathcal{F}$ is chosen such that $(q_{1}, p_{1})(q_{2}, p_{2})\dots$ is
+  accepted iff $q_{1}q{2}\dots$ is accepted by $\parity_{1}$ and
+  $p_{1}p_{2}\dots$ is accepted by $\parity_{2}$ (which is possible by simply
+  choosing for $\mathcal{F}$ exactly these sets of infinite occurences that
+  satisfy the neccessary condition).
+\end{definition}
+
 
 \section{Emptiness}
 We can now define an acceptance game $\mathcal{G}_{\mathcal{A}, t}$ for a
