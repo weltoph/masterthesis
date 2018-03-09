@@ -218,7 +218,7 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{*}\rightarrow A_{\mathcal{M}}$.
 
 \section{Tree Automata}
 \fxfatal{elaborate on classical tree automata}
-Building upon \cite{RandAutoInfTrees} we expand upon the notion of weighting
+Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
 the different paths of the run. Hereby, we incorporate the concept of
 \emph{alternation} by allowing to send different states on the same path
 through the tree with individual weight. Thus, we capture on transition in a
@@ -320,6 +320,34 @@ projected to the state component. Thus, we show (by adapting the proof for
     \cob(\parity^{-1}(d_{j}))}
   \end{equation}
   which yields measureability of the accepted paths of a parity condition.
+  Analogously, for a Muller condition $\mathcal{F} = \set{F_{1},\dots,F_{n}}$
+  we can define
+  \begin{equation}
+    \bigcup\limits_{1\leq i\leq n}
+    \tuple{\bue(F_{i})\bigcap\cob(Q\setminus F_{i})}
+  \end{equation}
+  Since Streett and Rabin conditions can be expressed as Muller conditions
+  (see \cite[Proposition 5.3]{LangAutoLog}) this implies measurability for
+  these conditions as well.
+\end{proof}
+In the following we often focus on parity conditions and motivate this by the
+observation that parity conditions can be used to express all other conditions
+(suggested but not proven in \cite[page 24:9]{RandAutoInfTrees}).
+\begin{lemma}
+  For every \ac{WDTA} $\mathcal{A}$ with a Büchi, Streett, Rabin or Muller
+  acceptance condition we can construct an equivalent \ac{WDTA} $\mathcal{B}$
+  with a parity condition.
+\end{lemma}
+\begin{proof}
+  Firstly, we observe that Büchi, Streett and Rabin conditions can be expressed
+  as Muller conditions \cite[Proposition 5.3]{LangAutoLog}. Secondly, we
+  construct for a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
+  \mathcal{F} = \set{F_{1},\dots,F_{n}}}$ with a Muller condition $\mathcal{F}$
+  an equivalent \ac{WDTA} $\mathcal{B}$ with a parity condition via the use of
+  a \ac{LAR}. \fxfatal{actually prove this and find fitting reference}
+  Using a \ac{LAR} increases the state space but preserves the structure,
+  especially the weighting, of a run and thus yields the same measure of the
+  set of accepted paths.
 \end{proof}
 We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
 notion of an accepting run is (analogously to \acp{PBA}) tied to an
@@ -340,11 +368,65 @@ Acceptance. Additionally, we define certain structural properties on \acp{WDTA}
       and for a direction $d\in D$ every clause agrees on the weight that is
       sent down that direction. Thus, for all $d\in D$ holds that for all
       $G_{1}, G_{2}\in\mathcal{G}_{\mathcal{A}}$ we have
-      $G_{1}(q, d) = G_{2}(p, d)$ (for the unique $p, q$ for which
-      $G_{1}(q, d) > 0$, respectively $G_{2}(p, d) > 0$).
+      $G_{1}(q, d) = G_{2}(p, d)$ for the unique $q, p$ for which
+      $G_{1}(q, d) > 0$, respectively $G_{2}(p, d) > 0$ or
+      $G_{1}(q, d) = G_{2}(p, d) = 0$ for all $q, p$. Thus, we can fix a
+      probability distribution $B:D\rightarrow \interval{0,1}$ such that for
+      every $G\in\mathcal{G}_{\mathcal{A}}$ there is one $q\in Q$ with
+      $B(d) = G(q, d)$. We call this distribution $B$ the \emph{blueprint} of
+      $\mathcal{A}$. 
   \end{description}
 \end{definition}
+The examined tree automata in \cite{RandAutoInfTrees} are captured by
+uniformly distributed \acp{WDTA} over the directions $D = \set{0,1}$ with
+blueprint $B(0) = B(1) = \frac{1}{2}$.
 
+\subsection{Closure Properties}
+In the following we want to explore the closure properties of the introduced
+\acp{WDTA} regarding union, intersection and negation. Unsuprisingly, the
+non-determinism of the model induces closure under union for certain classes in
+a straightforward manner (as suggested by \cite{RandAutoInfTrees}). We
+generally only examine these properties for automata over the same set of
+directions and the same alphabet.
+\begin{proposition}[Union - uni-directional, unrestricted]
+  Uni-directional and unrestricted \acp{WDTA} are closed under union.
+  \label{prop:uniunrunion}
+\end{proposition}
+\begin{proof}
+  For two automata
+  $\mathcal{A}_{1} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{1}, T_{1}}$ and
+  $\mathcal{A}_{2} = \tuple{P, p_{0}, D, \Sigma, \Delta_{2}, T_{2}}$ we can
+  w.l.o.g. assume that $Q\cap P = \emptyset$. The union \ac{WDTA} guesses in
+  the very first transition which of the automata is checked for the tree:
+  \begin{equation*}
+    \tuple{Q\cup P\cup\set{z}, z, D, \Sigma,
+    \Delta_{1}\cup\Delta_{2}\cup\set{
+      \tuple{z,\sigma}\mapsto C_{\sigma}}_{\sigma\in\Sigma}, T_{1}\cup T_{2}}
+  \end{equation*}
+  where $z$ is a new state and
+  $C_{\sigma} = \Delta_{1}(q_{0},\sigma)\cup\Delta_{2}(p_{0}, \sigma)$. Thus,
+  in $z$ the decision if a generator from $\mathcal{A}_{1}$ or
+  $\mathcal{A}_{2}$ is chosen determines for which automata the run is
+  generated. It is noteworthy that every run is in bijection to a run of
+  $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ and thus induces the same measurement
+  on the set of accepted paths and that this construction preservers
+  uni-directionality.
+\end{proof}
+\begin{corollary}
+  The class of u.d. \acp{WDTA} with a fixed blueprint $B$ is closed under
+  union.
+\end{corollary}
+\begin{proof}
+  The construction for Proposition \ref{prop:uniunrunion} respects a common
+  blueprint of $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$.
+\end{proof}
+\fxwarning{what about u.d. with different blueprints? more general question:
+how are non-determinism and weighting related? orthogonal or dependent?}
+
+Regarding intersection we introduce a general production construction and show
+its viability by employing techniques of integrationtheory.
+
+\section{Emptiness}
 We can now define an acceptance game $\mathcal{G}_{\mathcal{A}, t}$ for a
 \ac{WDTA} $\mathcal{A}$ and a tree $t$ as \ac{MDP} (thus, it is a solitaire
 game).
