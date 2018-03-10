@@ -332,7 +332,7 @@ projected to the state component. Thus, we show (by adapting the proof for
 \end{proof}
 In the following we often focus on parity conditions and motivate this by the
 observation that parity conditions can be used to express all other conditions
-(suggested but not proven in \cite[page 24:9]{RandAutoInfTrees}).
+(as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees}).
 \begin{lemma}
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi, Streett, Rabin or Muller
   acceptance condition we can construct an equivalent \ac{WDTA} $\mathcal{B}$
@@ -449,7 +449,17 @@ its viability by employing techniques of integrationtheory.
   choosing for $\mathcal{F}$ exactly these sets of infinite occurences that
   satisfy the neccessary condition).
 \end{definition}
-
+Initially, we show that the induced measure of runs on
+$\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ coincides with the product measure of
+individual runs on $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$.
+\begin{lemma}[Product measure of runs]
+  For a tree $t:D^{*}\rightarrow \Sigma$ and a run $r$ of
+  $\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ on $t$ exist runs $r_{1}$ of
+  $\mathcal{A}_{1}$ on $t$ and $r_{2}$ of $\mathcal{A}_{2}$ on $t$ such that
+  $\mu_{r} = \mu_{r_{1}}\otimes\mu_{r_{2}}$.
+\end{lemma}
+\begin{proof}
+\end{proof} 
 
 \section{Emptiness}
 We can now define an acceptance game $\mathcal{G}_{\mathcal{A}, t}$ for a
