@@ -352,7 +352,50 @@ observation that parity conditions can be used to express all other conditions
 We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
 notion of an accepting run is (analogously to \acp{PBA}) tied to an
 \enquote{acceptable measure} such as a Positive Acceptance or an Almost-Sure
-Acceptance. Additionally, we define certain structural properties on \acp{WDTA}
+Acceptance. It is remarkable that these measures of the accepted sets solely
+depend on the occured states rather than the direction throughout the run-tree.
+This motivates the following definition of an auxillary measure.
+\begin{definition}[State measure]
+  On the $\sigma$-algebra that is induced by the ring of cylinders in
+  $Q^{\omega}$ a run $r$ of $\mathcal{A}$ induces a measure $\lambda$.
+  This measure $\lambda$ is defined as the unique extension of the pre-measure
+  induced by cylinders of finite words $w = w_{1}\dots w_{n}\in Q^{*}$
+  \begin{equation*}
+    \lambda_{r}(\cyl(w)) = \sum\limits_{d_{1}\dots d_{n}\in D^{n}}\mu_{r}(
+      \cyl(\tuple{w_{1}, d_{1}}\dots\tuple{w_{n},d_{n}}))
+  \end{equation*}
+\end{definition}
+The acceptance of a run can be defined in terms of state measures.
+\begin{lemma}[State measure acceptance]
+  For a run $r$ of \ac{WDTA} $\mathcal{A}$ on $t$ holds
+  \begin{equation*}
+    \lambda_{r}(T_{\mathcal{A}}) = \mu_{r}(\set{\tuple{q_{1},d_{1}}
+    \tuple{q_{2},d_{2}}\dots\in\tuple{Q\times D}^{\omega}\mid q_{1}q_{2}\dots\in T})
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  By definition holds for all elements of the generating set, i.e. the set of
+  cylinders, the equality
+  \begin{align*}
+    \lambda_{r}(\cyl(w)) &= \sum\limits_{d_{1}\dots d_{n}\in D^{n}}\mu_{r}(
+      \cyl(\tuple{w_{1}, d_{1}}\dots\tuple{w_{n},d_{n}}))\\
+      &= \mu_{r}\tuple{\bigcup\limits_{d_{1}\dots d_{n}\in D^{n}}
+      \cyl(\tuple{w_{1}, d_{1}}\dots\tuple{w_{n},d_{n}})}
+  \end{align*}
+  which induces the claim, since the measures of measurable sets are obtained
+  by the calculation rules of a measure on these generating sets.
+  \fxwarning{we maybe should elaborate here more}
+\end{proof}
+This allows to define acceptance in terms of state measures.
+\begin{corollary}
+  A run $r$ of $\mathcal{A}$ on $t$ is 
+  \begin{description}
+    \item[Positively Accepting] iff $\lambda_{r}(T_{\mathcal{A}}) > 0$
+    \item[Almost-Surely Accepting] iff $\lambda_{r}(T_{\mathcal{A}}) = 1$
+  \end{description}
+\end{corollary}
+
+Additionally, we define certain structural properties on \acp{WDTA}
 \begin{definition}[Structural Properties]
   A \ac{WDTA} $\mathcal{A}$ is called
   \begin{description}
@@ -441,7 +484,7 @@ its viability by employing techniques of integrationtheory.
   \end{equation*}
   with
   \begin{equation*}
-    G_{i, j}((q', p'), d) = G_{i}(q', d)\cdot G_{j}(p', d)
+    G_{i, j}((q', p'), d) = G_{i}^{1}(q', d)\cdot G_{j}^{2}(p', d)
   \end{equation*}
   and $\mathcal{F}$ is chosen such that $(q_{1}, p_{1})(q_{2}, p_{2})\dots$ is
   accepted iff $q_{1}q{2}\dots$ is accepted by $\parity_{1}$ and
@@ -449,16 +492,66 @@ its viability by employing techniques of integrationtheory.
   choosing for $\mathcal{F}$ exactly these sets of infinite occurences that
   satisfy the neccessary condition).
 \end{definition}
-Initially, we show that the induced measure of runs on
-$\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ coincides with the product measure of
-individual runs on $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$.
+Initially, we show that the induced state measure of runs on
+$\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ coincides with the product state
+measure of individual runs on $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$.
 \begin{lemma}[Product measure of runs]
   For a tree $t:D^{*}\rightarrow \Sigma$ and a run $r$ of
   $\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ on $t$ exist runs $r_{1}$ of
   $\mathcal{A}_{1}$ on $t$ and $r_{2}$ of $\mathcal{A}_{2}$ on $t$ such that
-  $\mu_{r} = \mu_{r_{1}}\otimes\mu_{r_{2}}$.
+  $\lambda_{r} = \lambda_{r_{1}}\otimes\lambda_{r_{2}}$ and vice versa.
 \end{lemma}
 \begin{proof}
+  Again, it suffices to focus on the generating sets of cylinders. Initially,
+  we fix the $\sigma$-algebras $\mathcal{F}_{\mathcal{A}_{1}},
+  \mathcal{F}_{\mathcal{A}_{2}}$ as those induced by the set of cylinders over
+  $Q$, $P$ respectively. By \cite[Theorem 22.1]{Bauer} is the product algebra
+  $\mathcal{F} = \mathcal{F}_{\mathcal{A}_{1}}\otimes
+  \mathcal{F}_{\mathcal{A}_{2}}$ induced by the carthesian product of all
+  generating sets of $\mathcal{F}_{\mathcal{A}_{1}}\otimes
+  \mathcal{F}_{\mathcal{A}_{2}}$, or more precisely of all $\cyl(u)$ and
+  $\cyl(w)$ for all $u\in Q^{*}$, $v\in P^{*}$. Analogously to
+  \cite[Remark 35]{RandAutoInfTrees} we balance the length of these finite
+  prefixes. Thus, we argue that the carthesian product of $\cyl(u)$ and
+  $\cyl(w)$ for all $u\in Q^{n}$, $v\in P^{n}$ (for all n) generates the same
+  $\sigma$-algebra.  For $u\in Q^{*}$ and $v\in P^{*}$ (w.l.o.g.
+  $\size{u} < \size{v}$) we take a finite set
+  $\set{u_{1},\dots,u_{m}} = \set{x\in Q^{*}\mid u\sqsubseteq v \text{ and }
+  \size{x} = \size{v}}$. It is straightforward that the set of words in the
+  carthesian product of $\cyl(u)$ and $\cyl(v)$ is the same as in $\cyl(v)$ and
+  $\cyl(u_{1}),\dots,\cyl(u_{m})$. Interleaving words $u\in Q^{*}$ and
+  $v\in P^{*}$ of the same length yields a finite prefix in the state space of
+  $\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ and thus, we obtain a bijection to
+  $\mathcal{F}$ for the induced $\sigma$-algebra of cylinders in $Q\times P$.
+
+  According to \cite[Theorem 23.2]{Bauer} it suffices to show that (by abuse of
+  notation for $\lambda_{r}$)
+  $\lambda_{r}(\cyl(u)\times\cyl(v)) = \lambda_{r_{1}}(\cyl(u))
+    \cdot\lambda_{r_{2}}(\cyl(v))$ for fitting runs $r$, $r_{1}$, $r_{2}$ to
+  obtain the desired equality since $\lambda_{r}$ is the unique product measure
+  that obeys these equalities. Let
+  $r:\tuple{\tuple{Q\times P}\times D}^{*}\rightarrow \mathcal{G}_{
+    \mathcal{A}_{1}\otimes\mathcal{A}_{2}}$ be an arbitrary run in
+  $\mathcal{A}_{1}\otimes\mathcal{A}_{2}$ and let
+  $r(\tuple{\tuple{q_{1}, p_{1}}, d_{1}}\dots\tuple{\tuple{q_{n}, p_{n}},
+    d_{n}}) = G_{i,j}$. We set $r_{1}(\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}},
+    d_{n}) = G_{i}$ and $r_{2}(\tuple{p_{1}, d_{1}}\dots\tuple{p_{n}}, d_{n})
+    = G_{j}$. This yields for a fixed pair $u\in Q^{n}$ and $v\in P^{n}$ for
+    some $n$ that
+  \begin{align}
+    \lambda_{r}&(\cyl(u)\times cyl(v)) =\\
+    &\sum\limits_{d_{1}\dots d_{n}\in D^{n}}
+    \mu_{r}(\cyl(\tuple{\tuple{u_{1}, v_{1}}, d_{1}},\dots\tuple{
+      \tuple{u_{n}, v_{n}}, d_{n}}))\\
+    =&\sum\limits_{d_{1}\dots d_{n}\in D^{n}}r(\epsilon)(\tuple{\tuple{u_{1},
+    v_{1}},d_{1}})\prod\limits_{i=1}^{n-1}r(\tuple{\tuple{u_{1}, v_{1}}, d_{1}}
+    \dots\tuple{\tuple{u_{i}, v_{i}}, d_{i}})(\tuple{\tuple{u_{i+1}, v_{i+1}}, d_{i+1}})\\
+    =&\sum\limits_{d_{1}\dots d_{n}\in D^{n}}r_{1}(\epsilon)(\tuple{u_{1}, d_{1}})
+    \cdot r_{2}(\epsilon)(\tuple{v_{1}, d_{1}})\\
+    &\prod\limits_{i=1}^{n-1}
+    r_{1}(\tuple{u_{1}, d_{1}}\dots\tuple{u_{i}, d_{i}})(\tuple{u_{i+1}, d_{i+1}})
+    \cdot r_{2}(\tuple{v_{1}, d_{1}}\dots\tuple{v_{i}, d_{i}})(\tuple{v_{i+1}, d_{i+1}})
+  \end{align}
 \end{proof} 
 
 \section{Emptiness}
