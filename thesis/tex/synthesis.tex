@@ -1,0 +1,23 @@
+\chapter{Synthesis}
+\fxfatal{explain synthesis problem}
+\section{Probabilitic Büchi Automata}
+The synthesis for \acp{PBA} is - in our current context - understood as the
+following question:
+\begin{definition}[PBA-Synthesis Question]
+  For a given \ac{MDP} $\mathcal{M}$ where the actions are a finite set $O$ and
+  a \ac{PBA} $\mathcal{A}$ over the alphabet $S_{\mathcal{M}}\times O$ we want
+  to find a strategy that generates for every history
+  $\tuple{s_{0}, o_{0}}\dots\tuple{s_{n-1},o_{n-1}}s_{n}$ an
+  $o_{n}$ such that the measure induced by the probability of projection to the
+  first component induced by $\mathcal{M}$ $\mu$ of those words that lay within
+  $L(\mathcal{A})$ is 1.
+\end{definition}
+Considering a qualitative acceptance condition on $\mathcal{A}$ we can answer
+this question positively. We construct a \ac{WDTA} where the accepted trees are
+precisely those that encode such a strategy and use the emptiness game to
+actually synthesis a strategy (or prove its non-existence). This cumulates to
+\begin{theorem}[Qualitative PBA Synthesis]
+  The synthesis question of an environment $\mathcal{M}$ and a specification
+  provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance condition
+  can be solved.
+\end{theorem}
