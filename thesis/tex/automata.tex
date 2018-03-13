@@ -200,13 +200,17 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{*}\rightarrow A_{\mathcal{M}}$.
 \begin{example}
   Re-examining a \ac{PBA} $\mathcal{A}$ and the equivalent \ac{MDP}
   $\mathcal{M}$ we observed that every word $\alpha$ induces a corresponding
-  strategy $\varphi_{\alpha}$. We add to $\mathcal{M}$ an equivalence relation
-  $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$, hence there is exactly
-  one equivalence class. Firstly, we observe that $\varphi_{\alpha}$ is still a
-  valid strategy for the resulting \ac{POMDP}
+  strategy $\varphi_{\alpha}$. But not every strategy induces a word because
+  strategies on $\mathcal{M}$ may choose depending on the state of the play
+  different letters for plays of the same length which creates an inconsistency
+  with respect to an - hypothetical - associated word. To tackle this, we add
+  to $\mathcal{M}$ an equivalence relation
+  $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$,
+  hence there is exactly one equivalence class. Firstly, we observe that
+  $\varphi_{\alpha}$ is still a valid strategy for the resulting \ac{POMDP}
   $\mathcal{P} = \tuple{\mathcal{M}, \sim}$. Secondly, since there is
   exactly one equivalence class every strategy for $\mathcal{P}$ observes at
-  any time only the length of the history, hence we can provide an equivalent
+  any time only the length of the history. Hence we can provide an equivalent
   strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This in turn
   means that every strategy in $\mathcal{P}$ induces a word in $\Sigma^{\omega}$
   of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the measure of one
@@ -472,7 +476,26 @@ thoughts?}
 \section{Emptiness}
 Similarly to \acp{PBA}, we want to define for a given \ac{WDTA} $\mathcal{A}$
 a game that captures the behaviour of $\mathcal{A}$. Again, this will result in
-the definition of \ac{POMDP}.
+the definition of \ac{POMDP}. This game is designed to go through the following
+steps:
+\begin{enumerate}
+  \item initially, the player chooses any $G\in\mathcal{G}_{\mathcal{A}}$
+    such that $G\in\Delta(q_{0},\sigma)$ for any $\sigma\in\Sigma$
+  \item then the game moves to a position $\tuple{q,d}\in\tuple{Q\times D}$
+    with probability $G(q,d)$
+  \item the player is not allowed to observe the state of the current position
+    but may choose dependent on the observed direction $d$ one
+    $\sigma\in\Sigma$ and a transition $G\in\Delta(q,\sigma)$ for every
+    $q\in Q$
+  \item the game proceeds to any $\tuple{q,d}$ with the corresponding
+    probability $G(q,d)$
+\end{enumerate}
+Similiar to Example \ref{ex:pba} a strategy only represents a tree if for every
+play the choice of a letter $\sigma$ is consistent throughout all plays
+associated with one certain word of directions. Therefore, we introduce in the
+choice of the player the restriction of observation in step $3$. This allows
+the player to exclusively observe the directions taken throughout the game and
+base his decision of which letter to place on this observation only.
 \begin{definition}[Emptiness Game]
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   define an arena of the form 
@@ -482,18 +505,6 @@ the definition of \ac{POMDP}.
     \tuple{\tau_{G}}_{G\in\mathcal{G}_{\mathcal{A}}}, q_{0}}
   \end{equation*}
   where the game goes as follows:
-  \begin{enumerate}
-    \item initially, the player chooses any $G\in\mathcal{G}_{\mathcal{A}}$
-      such that $G\in\Delta(q_{0},\sigma)$ for any $\sigma\in\Sigma$
-    \item then the game moves to any $\tuple{q,d}\in\tuple{Q\times D}$ with
-      probability $G(q,d)$
-    \item the player may choose any $\sigma\in\Sigma$
-    \item the game moves with probability $1$ to the corresponding
-      $\tuple{q,\sigma}$
-    \item the player may choose a transition $G\in\Delta(q,\sigma)$
-    \item the game proceeds to any $\tuple{q,d}$ with the corresponding
-      probability from $G$
-  \end{enumerate}
   Furthermore we enforce the restricted decisions of the player in step 1, 3
   and 5 by moving the game deterministically, i.e. with probability 1, to
   $\bot$ where every decision moves deterministically to $\bot$ trapping the
