@@ -500,8 +500,8 @@ base his decision of which letter to place on this observation only.
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   define an arena of the form 
   \begin{equation*}
-    \tuple{\tuple{Q\times D}\cup\tuple{Q\times\Sigma}\cup\set{q_{0},\bot},
-    \mathcal{G}_{\mathcal{A}}\cup\Sigma,
+    \tuple{\tuple{Q\times D}\cup\set{q_{0}},
+    \Sigma\times\set{},
     \tuple{\tau_{G}}_{G\in\mathcal{G}_{\mathcal{A}}}, q_{0}}
   \end{equation*}
   where the game goes as follows:
@@ -524,3 +524,18 @@ bottom to complete the automaton; can be fixed by removing q,sigma states
 and encode this decision already in the action in q,d}
 
 \section{Equivalence of \acp*{WDTA} and \acp*{PBA}}
+By reducing the directions to a singelton set a tree degenerates to a single
+path. This path can be interpreted as one word and thus, we can identify any
+tree $t: D = \set{0}\rightarrow\Sigma$ as a function
+$t':\mathbb{N}\rightarrow\Sigma$ with $t'(n) = t(0^{n})$ and as described in
+Example \ref{ex:pba} we obtain from $t'$ a word in $\Sigma^{\omega}$ (and vice
+versa). This gives reason to incorporate \acp{PBA} into the theory of
+\acp{WDTA} by the following theorem
+\begin{theorem}
+  For every \ac{PBA} $\mathcal{P}$ existent an equivalent \ac{WDTA}
+  $\mathcal{A}$ and for every \ac{WDTA} $\mathcal{A}$ with
+  $\size{D_{\mathcal{A}}} = 1$ exists an equivalent \ac{PBA}.
+\end{theorem}
+\fxfatal{add proofs and lemmas}
+\fxfatal{derive undecideable results for Streett-WDTA with qualitative
+acceptance from 0/1 Streett PBA equivalent to >0- PBA}
