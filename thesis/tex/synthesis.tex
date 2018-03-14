@@ -13,7 +13,7 @@ following question:
   $L(\mathcal{A})$ is 1.
 \end{definition}
 Considering a qualitative acceptance condition on $\mathcal{A}$ we can answer
-this question positively with the following Theorem
+this question positively with
 \begin{theorem}[Qualitative PBA Synthesis]
   The synthesis question of an environment $\mathcal{M}$ and a specification
   provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance condition
@@ -73,7 +73,7 @@ $s_{1}t(s_{1})s_{2}t(s_{1}s_{2})\dots$. This cummulates into
   of the $\sigma$-algebras and on the other hand we show that the measures on
   the generating sets of cylinders agree which then yields the claimed
   equivalence.
-\item [Algebras]
+\item [Algebras:]
   The generating sets of the $\sigma$-algebra induced by the run $r$ of
   $\mathcal{A}$ on $t$ are cylinders over the set
   $\tuple{\tuple{S_{\mathcal{M}}\times Q}\times S_{\mathcal{M}}}$ while the
@@ -83,9 +83,45 @@ $s_{1}t(s_{1})s_{2}t(s_{1}s_{2})\dots$. This cummulates into
   $\cyl(v)$. First of all, balance the length of the generating prefixes $u, v$
   without changing the generated $\sigma$-algebra: we claim to obtain the
   product algebra if we only take for every $n$ and $u\in S_{\mathcal{M}}^{n}$,
-  $v\in Q^{n}$ the product of $\cyl{u}$ and $\cyl{v}$. Fix two arbitrary
+  $v\in Q^{n}$ the product of $\cyl(u)$ and $\cyl(v)$ (analogous to
+  \cite[Remark 35]{RandAutoInfTrees}). Fix two arbitrary
   $u\in S_{\mathcal{M}}^{*}$, $v\in Q^{*}$ and assume w.l.o.g.
-  $\size{u} > \size{v}$. There are finitely many possibilities to prolong
-  $v$ in $Q$ to the length $\size{u}$. Let $v_{1},\dots, v_{n}$ be these
-  prolongations.
+  $\size{u} > \size{v}$. There are finitely many possibilities to prolong $v$
+  in $Q$ to the length $\size{u}$.  Let $v_{1},\dots, v_{n}$ be these
+  prolongations. The union of the products of $\cyl(u)$ and $\cyl(v_{i})$ for
+  $1\leq i\leq n$ are part of the generating sets and thus their union is part
+  of the generated $\sigma$-algebra which yields that all generating sets of
+  the product algebra are part of the balanced generators. Additionally, the
+  set of all \enquote{unbalanced} products contains all \enquote{balanced}
+  products which gives the claimed equality of the generated $\sigma$-algebras.
+\item [Measures:] Foremost, we note that technically the run induces a measure
+  over the $\sigma$-algebra induced by the cylinders over
+  $\tuple{\tuple{S_{\mathcal{M}}\times Q}\times S_{\mathcal{M}}}$. But by
+  examining the distributions $G_{0}$ and $G^{s}_{\sigma}$ for all
+  $s\in S_{\mathcal{M}}$ and $\sigma\in O$ we can see that any cylinder where
+  the two occurences of states of $\mathcal{M}$ diverge are immediately
+  discarded, i.e. set to $0$. We can therefore restrict our attention to those
+  cylinders over $S_{\mathcal{M}}\times Q$. Additionally, we note that we can
+  biject those cylinders over $S_{\mathcal{M}}\times O$ to the products of
+  cylinders over $S_{\mathcal{M}}$ and $O$ by resolve the interleaving of the
+  letters. By \cite[Theorem 22.2]{Bauer} it suffices to show that the induced
+  measure of the run and the product measure agree on the generating sets.
+  Thus, we show that for every $n$ and all $u\in S_{\mathcal{M}}^{n},
+  v\in Q^{n}$ we have $\lambda(\cyl(s_{0}u_{1}v_{1}\dots u_{n}v_{n})) =
+  \mu_{\varphi_{t}}(u)\cdot\mu_{\alpha}(v)$ and obtain the Lemma. The run
+  induces
+  \begin{alignat*}{4}
+    \lambda(\cyl(s_{0}u_{1}v_{1}\dots u_{n}v_{n})) &=&
+    &G_{0}(u_{1}v_{1})&&\cdot\prod\limits_{i = 1}^{n-1}
+    G^{u_{i}}_{t(u_{1}\dots u_{i})}(u_{i+1}, v_{i+1})&&\\
+    &=&&\iota_{0}(u_{1})&&\cdot\prod\limits_{i = 1}^{n-1}
+    \tau_{t(u_{1}\dots u_{i})}(u_{i}, u_{i+1})&&\cdot
+    \delta(v_{i}, \tuple{u_{i}, t(u_{1}\dots u_{i})}, v_{i+1})\\
+    &=&&\iota_{0}(u_{1})&&\cdot\prod\limits_{i = 1}^{n-1}\tuple{
+      \tau_{t(u_{1}\dots u_{i})}(u_{i}, u_{i+1})}
+    &&\cdot\prod\limits_{i = 1}^{n-1}\tuple{
+      \delta(v_{i}, \tuple{u_{i}, t(u_{1}\dots u_{i})}, v_{i+1})}\\
+    &=&&&&\mu_{\varphi_{t}}(u)&&\cdot\mu_{\alpha}(v)
+  \end{alignat*}
+  which yields the claim.
 \end{proof}
