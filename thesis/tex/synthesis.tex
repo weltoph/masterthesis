@@ -67,6 +67,7 @@ $s_{1}t(s_{1})s_{2}t(s_{1}s_{2})\dots$. This cummulates into
   $\lambda$ on the $\sigma$-algebra induced by the cylinders over
   $S_{\mathcal{M}}\times Q$ which is equivalent to the product measure
   $\mu_{\varphi_{t}}\otimes \mu_{\alpha}$.
+  \label{lem:productmeasure}
 \end{lemma}
 \begin{proof}
   This proof separates into two parts: on the one hand we show the equivalence
@@ -124,4 +125,39 @@ $s_{1}t(s_{1})s_{2}t(s_{1}s_{2})\dots$. This cummulates into
     &=&&&&\mu_{\varphi_{t}}(u)&&\cdot\mu_{\alpha}(v)
   \end{alignat*}
   which yields the claim.
+\end{proof}
+As a second step we show that the acceptance condition for a run in
+$\mathcal{A}$ is fulfilled if and only if the associated strategy of a tree
+only allows for a 0-set of branches to not be in the language of the
+specification $\mathcal{P}$.
+\begin{lemma}[Acceptance Measure]
+  Let $t$ be a tree. $\mathcal{A}$ accepts $t$ if and only if the set of
+  executions in $\mathcal{M}$ under $t$ that does not satisfy $\mathcal{P}$ is
+  a 0-set.
+\end{lemma}
+\begin{proof}
+  Lemma \ref{lem:productmeasure} yields that the unique run of $\mathcal{A}$ on
+  $t$ induces a measure $\lambda$ which is equivalent to the product measure of
+  $\mu_{\varphi_{t}}\otimes\mu_{\alpha}$. Let $M$ be the set of paths that does
+  not satisfy $\mathcal{P}$ and let $\mathcal{F}\subseteq Q^{\omega}$ be the
+  set of paths in $Q$ that satisfy the associated Büchi condition $F$ in
+  $\mathcal{P}$. By Tonelli's Theorem \cite[Theorem 23.6]{Bauer} we get that
+  \begin{equation*}
+    \lambda(\overline{T}) = \int\limits_{\overline{T}}\mathbbm{1}d\lambda =
+    \int\limits_{S_{\mathcal{M}}^{\omega}}\int\limits_{\overline{\mathcal{F}}}
+    \mathbbm{1}d\mu_{\alpha}d\mu_{\varphi_{t}} =
+    \int\limits_{M}\int\limits_{\overline{\mathcal{F}}}
+    \mathbbm{1}d\mu_{\alpha}d\mu_{\varphi_{t}} +
+    \int\limits_{\overline{M}}\int\limits_{\overline{\mathcal{F}}}
+    \mathbbm{1}d\mu_{\alpha}d\mu_{\varphi_{t}}
+  \end{equation*}
+  Thus, by the definition of $M$ we know that
+  \begin{equation*}
+    \int\limits_{\overline{M}}\int\limits_{\overline{\mathcal{F}}}\mathbbm{1}d\mu_{\alpha}d\mu_{\varphi_{t}}
+    =\int\limits_{\overline{M}} \underbrace{\mu_{\alpha}(\overline{\mathcal{F}})}_{=0}d\mu_{\varphi_{t}}
+  \end{equation*}
+  Hence $\lambda(\overline{T}) > 0$ if and only if
+  $\int_{M}\int_{\overline{\mathcal{F}}}\mathbbm{1}d\mu_{\alpha}
+  d\mu_{\varphi_{t}} > 0$ which yields the required equality immediately.
+  \fxfatal{That is utterly wrong since alpha depends on M}
 \end{proof}
