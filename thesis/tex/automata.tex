@@ -510,14 +510,18 @@ measure in a different subtree.
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   fix the set of actions $A$ for the player as a set
   \begin{equation*}
-    A = \Sigma\times\tuple{Q\rightarrow\Delta_{\sigma}}
+    A = Q\rightarrow\Delta_{\sigma}
   \end{equation*}
   where $\tuple{Q\rightarrow\Delta_{\sigma}}$ is the set of functions that map
-  a state $q\in Q$ to any generator in $\Delta(q,\sigma)$. The emptiness game
-  is then defined as \ac{POMDP}
+  a state $q\in Q$ to any generator in $\Delta(q,\sigma)$ for one fixed
+  $\sigma$. The emptiness game is then defined as a \ac{POMDP}
   \begin{equation*}
     \mathcal{M}_{\mathcal{A}} = \tuple{\tuple{Q\times D}\uplus q_{0}, A,
     \tuple{\tau_{a}}_{a\in A}, q_{0}}
+  \end{equation*}
+  where
+  \begin{equation*}
+    \tau_{f}(\tuple{q,d},\tuple{q',d'}) = f(q)(q',d')
   \end{equation*}
 \end{definition}
 This definition allows for the actions of a player to be only dependent of the
