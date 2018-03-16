@@ -1,4 +1,5 @@
 \chapter{Synthesis}
+\label{chapter:synthesis}
 \fxfatal{explain synthesis problem}
 \section{Probabilitic Büchi Automata}
 The synthesis for \acp{PBA} is - in our current context - understood as the
@@ -48,6 +49,11 @@ strategy as required by the synthesis question.
   original Büchi condition projected to the second component of the
   states in $\mathcal{A}$.
 \end{definition}
+The proof mainly follows ideas from \cite[Proposition 43]{RandAutoInfTrees}.
+\fxfatal{Current proof is utterly wrong since alpha depends on M; we can fix
+this by defining the probability space for the PBA over a tree and
+directions x states, then the directions yield a word and the states are the
+runtree-probability on that word; this way we can salvage most of this proof}
 First of all, we observe that $\mathcal{A}$ is deterministic. And secondly, we
 have - given a strategy $\varphi_{\mathcal{M}}$ for the environment - a
 probability distribution $\mu_{\varphi_{\mathcal{M}}}$ over the
@@ -159,8 +165,4 @@ specification $\mathcal{P}$.
   Hence $\lambda(\overline{T}) > 0$ if and only if
   $\int_{M}\int_{\overline{\mathcal{F}}}\mathbbm{1}d\mu_{\alpha}
   d\mu_{\varphi_{t}} > 0$ which yields the required equality immediately.
-  \fxfatal{That is utterly wrong since alpha depends on M; we can fix this by
-  defining the probability space for the PBA over a tree and
-  directions x states, then the directions yield a word and the states are the
-  states on that word; this way we can salvage most of this proof}
 \end{proof}

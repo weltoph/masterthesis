@@ -3,8 +3,9 @@ It is well established to rely on finite automata to recognize languages of
 infinite objects, e.g. trees or words \cite{LangAutoLog}. In this chapter we
 recall some known results for languages of infinite words and infinite trees.
 Furthermore, building upon the work in \cite{RandAutoInfTrees}, we introduce and
-examine a new class of tree automata, called \aclp*{WDTA}, and, using theses,
-present a synthesis result for \aclp*{PBA}.
+examine a new class of tree automata, called \aclp*{WDTA}. In Chapter
+\ref{chapter:synthesis} we use these class of automata to (re-)prove some
+synthesis results in the context of probabilistic environments.
 
 \section{$\omega$-regular Languages}
 Following \cite{LangAutoLog} we introduce word automata with the following
@@ -17,7 +18,7 @@ structural definition
   relation. We define some associated notions as follows:
   \begin{description}
     \item [Run]
-      For a word $\alpha = \alpha_{0}\alpha{1}\dots\in\Sigma^{\omega}$ we call
+      For a word $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$ we call
       a sequence $\pi = \pi_{0}\pi_{1}\dots \in Q^{\omega}$ a run of
       $\mathcal{A}$ on $\alpha$ if $\pi_{0} = q_{0}$ and for every
       $i\in\mathbb{N}$ holds that
@@ -25,7 +26,7 @@ structural definition
     \item [Determinism]
       We call $\mathcal{A}$ deterministic if for every pair $q\in Q$ and
       $\sigma\in\Sigma$ the set
-      $\set{p\in Q\middle| \tuple{q,\sigma,p}\in\Delta}$ has at most one
+      $\set{p\in Q\mid\tuple{q,\sigma,p}\in\Delta}$ has at most one
       element.
   \end{description}
 \end{definition}
@@ -84,7 +85,7 @@ It is known that all these automata (except for \acp{DBA}) do have the same
 expressiveness.
 \begin{theorem}
   \cite[Proposition 5.3, Theorem 5.4, Proposition 5.6]{LangAutoLog}
-  \fxfatal{find more references}
+  \fxfatal{find one fitting reference}
   The class of recognizable languages coincides for \acp{NBA}, \acp{NMA},
   \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NSA}, \acp{DSA}, \acp{NPA} and
   \acp{DPA}.
@@ -96,7 +97,8 @@ non-deterministic choices by probabilities for the choices
 (see \cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}). In order to
 properly define these automata we introduce the concept of \aclp{MDP}.
 \aclp*{MDP} can be used to model a system which reacts to the actions of an
-agent (often called player) probabilisticly.\fxfatal{more references missing}
+agent (often called player) probabilisticly.\fxfatal{more general reference for
+MPD}
 More formally we use these definitions which follow \cite{RandAutoInfTrees}:
 \begin{definition}[Markov Decision Process]
   A \acl*{MDP} is modelled as tuple
@@ -107,11 +109,6 @@ More formally we use these definitions which follow \cite{RandAutoInfTrees}:
   $s_{0}$ is the initial state. Additionally we define a few helpful
   auxilliaries:
   \begin{description}
-    \item [Following States] For a state $s\in S$ we call the states in which a
-      \ac{MDP} can move from into for an action $a\in A$ $a$-following states:
-      \begin{equation*}
-        \follow_{a}(s) = \set{q\in S\mid \tau_{a}(s,q) > 0}
-      \end{equation*}
     \item [Cylinder] For a finite word of states $w\in S^{*}$ we define the
       corresponding cylinder as the set of all infinite state-sequences
       that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
@@ -122,12 +119,17 @@ More formally we use these definitions which follow \cite{RandAutoInfTrees}:
     \item [Strategy] We define $\varphi:S^{*}\rightarrow A$ as strategy for
       a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
+    \item [Initial Distribution] Occasionally, we substitute the initial state
+      $s_{0}$ with an initial probability distribution
+      $\iota_{0}:S\rightarrow[0,1]$ which allows the plays to start in any
+      $s\in S$ such that $\iota_{0}(s) > 0$.
   \end{description}
+  \fxfatal{again find nice reference for the general mdp things}
   \label{def:mdp}
 \end{definition}
 We examine the ring induced by the set of cylinders of a \ac{MDP} $\mathcal{A}$
 and for a given strategy $\varphi_{\mathcal{A}}$ we obtain an induced
-pre-measure for the cylinders as follows:\fxfatal{still only a pre-measure}
+probability for the cylinders as follows:
 \begin{equation}
   \mu_{\varphi}(\cyl(w = w_{0}\dots w_{n})\cap\plays) = \begin{cases}
     \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1})
@@ -135,36 +137,33 @@ pre-measure for the cylinders as follows:\fxfatal{still only a pre-measure}
     0 &\text{ otherwise}
   \end{cases}
 \end{equation}
-Additionally we can observe that for two finite words $u,v\in S^{*}$ we have
-either that these words describe two independent plays, i.e. neither
-$u\sqsubseteq v$ nor $v\sqsubseteq u$ (where $\sqsubseteq$ describes the prefix
-relation), or that one is prefix of the other (w.l.o.g.) $u\sqsubseteq v$. In
-the first case we can set the probability measure for $\cyl(v)\cup\cyl(u)$ to
-the sum of both cylinders
+We can close the set of cylinders under finite union by associating
+the probability measure for $\cyl(v)\cup\cyl(u)$ to the sum of both cylinders
+if $u$ and $v$ are two finite words but neither $v$ is prefix of $u$ nor $u$
+is prefix of $v$.
 \begin{equation}
   \mu_{\varphi}(\cyl(v)\cup\cyl(u)) = \mu_{\varphi}(\cyl(v)) 
   + \mu_{\varphi}(\cyl(u))
 \end{equation}
-and in the second case we have $\cyl(v)\subseteq\cyl(u)$ hence
-$\cyl(u) = \cyl(u)\cup\cyl(v)$ and for this cylinder we have already defined
-a measure. In this fashion we obtained a pre-measure (induced by a strategy
-\fxfatal{show $\sigma$-additivity of pre-measure} $\varphi$) on the ring of
-cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}). This pre-measure can
-now be uniquely extended to a probability measure on the $\sigma$-algebra
-induced by the set of cylinders \cite[Theorem 5.4]{Bauer}.
+In this fashion we obtained a pre-measure (induced by a strategy $\varphi$) on
+the ring of cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}). This
+pre-measure can now be uniquely extended to a probability measure on the
+$\sigma$-algebra induced by the set of cylinders \cite[Theorem 5.4]{Bauer}.
 
 Given this definition of \acp{MDP} we can now examine \acp{PBA}. A \ac{PBA}
 essentially is a \ac{NBA} where the non-determinism is solved by a probability
 distribution. More formally, we define analogously to \cite{Groesser}
 \begin{definition}[Probabilistic Büchi Automata]
   A \acl{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
-  tuple $\tuple{Q, \Sigma, \delta, s_{0}, F}$ where $Q$ is a finite state set,
+  tuple $\tuple{Q, \Sigma, \delta, q_{0}, F}$ where $Q$ is a finite state set,
   $q_{0}\in Q$ the initial state,
     $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$
   a transition probability function such that for all pairs $q\in Q$ and
   $\sigma\in\Sigma$ we have $\sum{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
   and $F\subseteq Q$ is the set of final states.
 \end{definition}
+Note that this definition may also be altered to allow initial distributions
+rather than one initial state \cite{RecOmeLangProbAuto}.
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
 are induced by a word $\alpha = \alpha_{1}\alpha{2}\dots\in\Sigma^{\omega}$
 rather than a player. For a \ac{PBA} $\mathcal{A}$ we can easily define a
@@ -356,7 +355,7 @@ observation that parity conditions can be used to express all other conditions
 \end{proof}
 We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
 notion of an accepting run is (analogously to \acp{PBA}) tied to an
-\enquote{acceptable measure} such as a Positive Acceptance or an Almost-Sure
+\enquote{acceptable measure}, e.g. Positive Acceptance or Almost-Sure
 Acceptance. It is remarkable that these measures of the accepted sets solely
 depend on the occured states rather than the direction throughout the run-tree.
 This motivates the following definition of an auxillary measure.
@@ -399,7 +398,6 @@ This allows to define acceptance in terms of state measures.
     \item[Almost-Surely Accepting] iff $\lambda_{r}(T_{\mathcal{A}}) = 1$
   \end{description}
 \end{corollary}
-
 Additionally, we define certain structural properties on \acp{WDTA}
 \begin{definition}[Structural Properties]
   A \ac{WDTA} $\mathcal{A}$ is called
@@ -506,7 +504,10 @@ accepted measure - not viable, since it is in general not possible to complete
 automata with a positive acceptance semantics since this allows to obtain runs
 that may not have been possible before but still have a positive acceptance
 measure in a different subtree
-\cite[cp. Introduction to chapter 3.8]{RandAutoInfTrees}.
+\cite[cp. Introduction to chapter 3.8]{RandAutoInfTrees}.\fxfatal{allow for
+runs to have a bottom symbol which is ignored if only hit with probability 0
+but otherwise invalidates the run to allow for invalidation of runs at any
+moment}
 \begin{definition}[Emptiness Game]
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   fix the set of actions $A$ for the player as a set
@@ -524,12 +525,39 @@ measure in a different subtree
   \begin{equation*}
     \tau_{f}(\tuple{q,d},\tuple{q',d'}) = f(q)(q',d')
   \end{equation*}
+  and the associated observation relation is $\sim$ with
+  \begin{equation*}
+    \tuple{q, d}\sim\tuple{p, d'}\text{ if and only if } d = d'
+  \end{equation*}
 \end{definition}
-This definition allows for the actions of a player to be only dependent of the
-observations. Thus, for a strategy $\varphi$ we can obtain a corresponding tree
-by following the directions of the history and placing the element
-$\sigma\in\Sigma$ that the player chooses for his action.
-\fxfatal{proceed with formal definition and proving the viability}
+The observation restriction renders the actions of a player to be only
+dependent of the directions and not the states. Thus, for a strategy $\varphi$
+we can obtain a corresponding tree by following the directions of the history
+and placing the element $\sigma\in\Sigma$ that the player chooses for his
+action. Equipping \acp{MDP} and \acp{POMDP} analogously to automata with
+objectives allows to synthesis strategies for the player that try to satisfy
+the objective \cite{RandAutoInfTrees}. Thus, equipping the \ac{POMDP} of the
+emptiness game above with the corresponding objective on the states allows to
+obtain accepted trees from a possible strategy.
+\fxfatal{Show equivalence, gather decideability and undecideability results
+for strategy synthesis; for uni-directional WDTAs we can drop the observation
+relation, since there is only one state at any position at any time which
+allows for stronger acceptance conditions}
+\begin{corollary}[Emptiness Almost-Sure Büchi WDTA]
+  The emptiness problem for a \ac{WDTA} with almost-sure acceptance measure of
+  a Büchi condition can be decided in exponential time.
+\end{corollary}
+\begin{proof}
+  Apply \cite[Theorem 5]{QualAnaPOMDP} to the corresponding emptiness game.
+\end{proof}
+\begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
+  The emptiness problem for an uni-directional \ac{WDTA} with almost-sure
+  acceptance measure of a $\omega$-regular condition can be decided in
+  polynomial time.
+\end{corollary}
+\begin{proof}
+  Apply \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
+\end{proof}
 
 \subsection{Equivalence of \acp*{WDTA} and \acp*{PBA}}
 By reducing the directions to a singelton set a tree degenerates to a single
@@ -594,8 +622,8 @@ other. First of all, we notice that determinism obviously is a restriction.
   paths are examined. \fxfatal{elaborate}
 \end{proof}
 It is a very interesting result that alternation in non-weighted tree automata
-may be resolved (see \cite{MullerSchupp}). This result does unfortunately not
-translate unconstraint to the weighted case.
+does not increase the general expressiveness (see \cite{MullerSchupp}).
+This result does unfortunately not translate unconstraint to the weighted case.
 \begin{proposition}
   The class of languages recognizable with uni-directional \acp{WDTA} with
   Büchi condition is incomparabel with the class of languages recognizable with
@@ -631,7 +659,7 @@ translate unconstraint to the weighted case.
   equivalent uni-directional \ac{WDTA} with any acceptance measure.
 \end{corollary}
 \begin{proof}
-  In above construction the measure of the one path of a run in a
+  In above construction the measure of the one path of a run in an
   uni-directional \ac{WDTA} is binary ($1$ if the path is accepting and $0$
   otherwise). Thus the acceptance measures coincide. For the \ac{PBA} the
   runtree is in bijection to the run of the \ac{WDTA} and
