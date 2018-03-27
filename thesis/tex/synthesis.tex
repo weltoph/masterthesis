@@ -11,6 +11,7 @@ following question:
   $\tuple{s_{0}, o_{0}}\dots\tuple{s_{n-1},o_{n-1}}s_{n}$ an
   $o_{n}$ such that almost-all generated executions are accepted by
   $\mathcal{P}$.
+  \label{def:synthesis}
 \end{definition}
 Considering a qualitative acceptance condition on $\mathcal{A}$ we can answer
 this question positively with
@@ -23,41 +24,13 @@ We substantiate this claim by providing a construction of a \ac{WDTA} from the
 given environment and the specification \ac{PBA}. The obtained \ac{WDTA} - with
 a qualitative acceptance measure - accepts precisely those trees that encode a
 strategy as required by the synthesis question.
-\begin{definition}[Synthesis WDTA]
-  For a \ac{MDP} $\mathcal{M} = \tuple{S, O, \tuple{\tau_{o}}_{o\in O},
-  \iota_{0}}$ and a \ac{PBA} $\mathcal{P} = \tuple{Q, S\times O, \delta, q_{0},
-  F}$ we construct the \ac{WDTA}
-  $\mathcal{A} = \tuple{S\times Q\uplus\set{s_{0}}, s_{0}, S, O, \Delta,
-  T}$ with $\Delta(s_{0}, \sigma) = \set{G_{0}}$ where
-  \begin{equation*}
-    G_{0}(\tuple{s,q}, s') =
-    \begin{cases}
-      \iota_{0}(s)&\text{ if }s = s'\text{ and }q = q_{0}\\
-      0 &\text{ otherwise}
-    \end{cases}
-  \end{equation*}
-  and $\Delta(\tuple{s, q}, \sigma) = \set{G^{s}_{\sigma}}$ where
-  \begin{equation*}
-    G^{s}_{\sigma}(\tuple{z,p}, z') =
-    \begin{cases}
-      \delta(q, \tuple{s,\sigma}, p)\cdot\tau_{\sigma}(s,z)&\text{ if }z = z'\\
-      0 &\text{ otherwise}
-    \end{cases}
-  \end{equation*}
-  Furthermore we define $T$ as a Büchi condition with $T = S\times F$, i.e. the
-  original Büchi condition projected to the second component of the
-  states in $\mathcal{A}$.
-\end{definition}
-The proof is conceptually similar to \cite[Proposition 43]{RandAutoInfTrees} by
-examining an integratable function within the product space which coincides
-with the characteristic function of the accepted paths in the unique run of
-the \ac{WDTA} on a tree $t$, hence the measure of the set of all accepted
-paths.
-
-Starting with a tree $t$ we consider two measure spaces, namely the space of
-executions in the \ac{MDP} modelling the environment induced by the encoded
-strategy of $t$ and the space of the executions of the \ac{PBA} modelling the
-specification moving along one execution and using the strategy encoded by $t$.
+The argument is conceptually similar to \cite[Proposition 43]{RandAutoInfTrees}
+by examining an integratable function within the product space which models
+the acceptance of every execution of the environment by the specification.
+Starting with a strategy $t$ we consider two measure spaces, namely the space
+of executions in the \ac{MDP} modelling the environment induced by the strategy
+$t$ and the space of the executions of the \ac{PBA} modelling the
+specification moving along one execution and using the strategy $t$.
 Thus, we get $\mu^{\mathcal{M}}_{t}$ as a measure on the $\sigma$-algebra
 $\mathcal{F}_{\mathcal{M}}$ which is induced by the set of cylinders in
 $S_{\mathcal{M}}$. And, we get $\mu^{\mathcal{P}}_{t}$ as a measure on the
@@ -112,8 +85,9 @@ $f:\tuple{\tuple{S_{\mathcal{M}}}^{\omega}\times
     0&\text{ otherwise}
   \end{cases}
 \end{equation*}
-The measureability of $f$ is shown analogously to Lemma
-\ref{lemma:measurabilityAcceptance}.
+which models precisely the acceptance of executions of the environment by the
+specification. We note that the measureability of $f$ is shown analogously to
+Lemma \ref{lemma:measurabilityAcceptance}.
 \begin{lemma}
   $f$ is a measureable function w.r.t. the $\sigma$-algebra $\mathcal{F}$.
 \end{lemma}
@@ -121,4 +95,68 @@ The measureability of $f$ is shown analogously to Lemma
   \fxfatal{add; maybe move to an appendix since it does not add much value}
 \end{proof}
 Thus, $f$ is the indicator-function of a measureable set and therefore
-integrable.
+integrable. Examining the integral of $f$ yields interesting results. Most
+notably for one fixed execution $\alpha\in S_{\mathcal{M}}^{\omega}$ we can
+argue that $\int_{\tuple{\beta,\gamma}\in
+\tuple{Q_{\mathcal{P}}}^{\omega}\times\tuple{S_{\mathcal{M}}}^{\omega}}
+f(\tuple{\beta,\gamma},\alpha)$ is precisely the measure of accepted paths for
+the specification-\ac{PBA} regarding this execution. Let
+$P_{\alpha} = \set{\tuple{\alpha, \beta}:\beta\in
+\tuple{Q_{\mathcal{P}}}^{\omega}}$ and by definition $f(q, \alpha) = 0$ for all
+$q\not\in P_{\alpha}$. Hence
+\begin{equation*}
+  \int\limits_{\tuple{\beta,\gamma}\in
+  \tuple{Q_{\mathcal{P}}}^{\omega}\times\tuple{S_{\mathcal{M}}}^{\omega}}
+  f(\tuple{\beta,\gamma},\alpha)d\mu_{\mathcal{P}}^{t}
+  =\int\limits_{\tuple{\beta,\alpha}\in P_{\alpha}}
+  f(\tuple{\beta,\alpha},\alpha)d\mu_{\mathcal{P}}^{t}
+  =\int\limits_{\beta\in\tuple{Q_{\mathcal{P}}}^{\omega}}
+  f(\tuple{\beta,\alpha},\alpha)d\mu_{\mathcal{P}}^{t}
+\end{equation*}
+and since the first and third component are synchronised $f$ is the indicator
+function of those words in $\tuple{Q_{\mathcal{P}}}^{\omega}$ which satisfy the
+attached Büchi condition (gathered in set $\mathcal{F}$), thus
+\begin{equation*}
+  \int\limits_{\beta\in\tuple{Q_{\mathcal{P}}}^{\omega}}
+  f(\tuple{\beta,\alpha},\alpha)d\mu_{\mathcal{P}}^{t}
+  = \mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F})
+\end{equation*}
+where $\mu_{\mathcal{P}}^{t,\alpha}$ describes the probability measure of
+states in $\mathcal{P}$ on path $\alpha$. This concludingly gives with
+Tonelli's Theorem (see \cite[Theorem 23.6]{Bauer})
+\begin{equation*}
+  \int f d(\mu_{\mathcal{M}}^{t}\otimes\mu_{\mathcal{P}}^{t}) =
+  \int\int f d(\mu_{\mathcal{P}}^{t})d(\mu_{\mathcal{M}}^{t}) =
+  \int_{\alpha}\mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F})d(\mu_{\mathcal{M}}^{t})
+\end{equation*}
+and $\int_{\alpha}\mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F})
+d(\mu_{\mathcal{M}}^{t}) = 1$ if and only if
+$\mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F}) = 1$ almost everywhere by
+\cite[Lemma 40]{RandAutoInfTrees} which in turn characterises precisely the
+synthesis question provided in Definition \ref{def:synthesis}.
+
+\begin{definition}[Synthesis WDTA]
+  For a \ac{MDP} $\mathcal{M} = \tuple{S, O, \tuple{\tau_{o}}_{o\in O},
+  \iota_{0}}$ and a \ac{PBA} $\mathcal{P} = \tuple{Q, S\times O, \delta, q_{0},
+  F}$ we construct the \ac{WDTA}
+  $\mathcal{A} = \tuple{S\times Q\uplus\set{s_{0}}, s_{0}, S, O, \Delta,
+  T}$ with $\Delta(s_{0}, \sigma) = \set{G_{0}}$ where
+  \begin{equation*}
+    G_{0}(\tuple{s,q}, s') =
+    \begin{cases}
+      \iota_{0}(s)&\text{ if }s = s'\text{ and }q = q_{0}\\
+      0 &\text{ otherwise}
+    \end{cases}
+  \end{equation*}
+  and $\Delta(\tuple{s, q}, \sigma) = \set{G^{s}_{\sigma}}$ where
+  \begin{equation*}
+    G^{s}_{\sigma}(\tuple{z,p}, z') =
+    \begin{cases}
+      \delta(q, \tuple{s,\sigma}, p)\cdot\tau_{\sigma}(s,z)&\text{ if }z = z'\\
+      0 &\text{ otherwise}
+    \end{cases}
+  \end{equation*}
+  Furthermore we define $T$ as a Büchi condition with $T = S\times F$, i.e. the
+  original Büchi condition projected to the second component of the
+  states in $\mathcal{A}$.
+\end{definition}
