@@ -19,6 +19,7 @@ this question positively with
   The synthesis question of an environment $\mathcal{M}$ and a specification
   provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance condition
   can be decided.
+  \label{thm:synthesis}
 \end{theorem}
 We substantiate this claim by providing a construction of a \ac{WDTA} from the
 given environment and the specification \ac{PBA}. The obtained \ac{WDTA} - with
@@ -135,6 +136,10 @@ $\mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F}) = 1$ almost everywhere by
 \cite[Lemma 40]{RandAutoInfTrees} which in turn characterises precisely the
 synthesis question provided in Definition \ref{def:synthesis}.
 
+To conclude the proof for Theorem \ref{thm:synthesis} we provide a definition
+of a \ac{WDTA} for a given environment-\ac{MDP} $\mathcal{M}$ and a
+specification-\ac{PBA} $\mathcal{P}$ which precisely models the defined
+function $f$ from above with its acceptance condition.
 \begin{definition}[Synthesis WDTA]
   For a \ac{MDP} $\mathcal{M} = \tuple{S, O, \tuple{\tau_{o}}_{o\in O},
   \iota_{0}}$ and a \ac{PBA} $\mathcal{P} = \tuple{Q, S\times O, \delta, q_{0},
@@ -160,3 +165,14 @@ synthesis question provided in Definition \ref{def:synthesis}.
   original Büchi condition projected to the second component of the
   states in $\mathcal{A}$.
 \end{definition}
+Examining the unique run of $\mathcal{A}$ on a tree $t$ therefore yields a
+probability distribution upon the $\sigma$-algebra induced by the cylinders
+over the set $\tuple{\tuple{S_{\mathcal{M}}\times Q_{\mathcal{P}}}\times
+S_{\mathcal{M}}}$. We argue that this run models the product measure of
+$\mu_{\mathcal{M}}^{t}$ and $\mu_{\mathcal{P}}^{t}$. \fxfatal{explain
+synchronised sub-algebra}
+\begin{lemma}
+  The measure $\mu_{r}$ of the unique run $r$ of $\mathcal{A}$ on $t$ coincides
+  with $\mu_{\mathcal{M}}^{t}\otimes\mu_{\mathcal{P}}^{t}$ on the synchronised
+  sub-algebra.
+\end{lemma}
