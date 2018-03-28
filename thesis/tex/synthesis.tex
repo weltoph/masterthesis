@@ -55,6 +55,7 @@ these generating cylinders can be \enquote{balanced}.
   $u\in \tuple{S_{\mathcal{M}}}^{n}$ and
   $v\in \tuple{S_{\mathcal{M}}\times Q_{\mathcal{P}}}^{n}$ for all
   $n\in\mathbb{N}$ coincides with $\mathcal{F}$.
+  \label{lem:balanced}
 \end{lemma}
 \begin{proof}
   Since all balanced generators are included in the generators of $\mathcal{F}$
@@ -168,11 +169,61 @@ function $f$ from above with its acceptance condition.
 Examining the unique run of $\mathcal{A}$ on a tree $t$ therefore yields a
 probability distribution upon the $\sigma$-algebra induced by the cylinders
 over the set $\tuple{\tuple{S_{\mathcal{M}}\times Q_{\mathcal{P}}}\times
-S_{\mathcal{M}}}$. We argue that this run models the product measure of
-$\mu_{\mathcal{M}}^{t}$ and $\mu_{\mathcal{P}}^{t}$. \fxfatal{explain
-synchronised sub-algebra}
+S_{\mathcal{M}}}$. Recall that the product algebra of
+$\mu_{\mathcal{M}}^{t}$ and $\mu_{\mathcal{P}}^{t}$ is defined by the product
+of the sets $\cyl(u)$ and $\cyl(v)$ for all $u\in\tuple{S_{\mathcal{M}}}^{*}$
+and $v\in\tuple{Q_{\mathcal{P}}\times S_{\mathcal{M}}}^{*}$. Examining the
+sub-algebra of \enquote{synchronised} paths, i.e. the trace-algebra of
+\begin{equation*}
+  \set{\tuple{\alpha,\beta}\in \tuple{S_{\mathcal{M}}}^{\omega}\times
+  \tuple{Q_{\mathcal{P}}\times S_{\mathcal{M}}}^{\omega}\mid\text{ with }
+  \beta = \tuple{q_{1}, s_{1}}\tuple{q_{2}, s_{2}}\dots\text{ and }
+  s_{1}s_{2}\dots = \alpha}
+\end{equation*}
+we obtain the equality to the measure induced by the run of $\mathcal{A}$ on
+$t$ to the product measure on the synchronised part of the product algebra.
 \begin{lemma}
   The measure $\mu_{r}$ of the unique run $r$ of $\mathcal{A}$ on $t$ coincides
   with $\mu_{\mathcal{M}}^{t}\otimes\mu_{\mathcal{P}}^{t}$ on the synchronised
-  sub-algebra.
+  part of the product algebra.
+  \label{lem:productmeasure}
 \end{lemma}
+\begin{proof}
+  By Lemma \ref{lem:balanced} it is sufficient to examine balanced generators
+  and thus, fix $n\in\mathbb{N}$ and $s_{1}\dots s_{n}
+  \in\tuple{S_{\mathcal{M}}}^{n},
+  q_{1}\dots q_{n}\in\tuple{Q_{\mathcal{P}}}^{n}$. By definition of
+  $\mathcal{A}$ we obtain
+  \begin{align*}
+    \mu_{r}&(\cyl(s_{0}\tuple{\tuple{s_{1},q_{1}}, s_{1}}\dots\tuple{\tuple{s_{n},q_{n}}, s_{n}}))\\
+    &= G_{0}(\tuple{\tuple{s_{1},q_{1}}, s_{1}})\cdot\prod\limits_{i = 1}^{n-1}
+    G^{s_{i}}_{t(s_{1}\dots s_{i})}(\tuple{\tuple{s_{i+1},q_{i+1}}, s_{i+1}}))\\
+    &=\iota_{0}(s_{1})\cdot\prod\limits_{i = 1}^{n-1}
+    \tau_{t(s_{1}\dots s_{i})}(s_{i}, s_{i+1})\cdot
+    \delta(q_{i}, \tuple{s_{i}, t(s_{1}\dots s_{i})}, q_{i+1})\\
+    &=\iota_{0}(s_{1})\cdot\prod\limits_{i = 1}^{n-1}\tuple{
+      \tau_{t(s_{1}\dots s_{i})}(s_{i}, s_{i+1})}
+    \cdot\prod\limits_{i = 1}^{n-1}\tuple{
+      \delta(q_{i}, \tuple{s_{i}, t(s_{1}\dots s_{i})}, q_{i+1})}\\
+    &=\mu_{\mathcal{M}}^{t}(\cyl(s_{1}\dots s_{n}))\cdot
+      \mu_{\mathcal{P}}^{t}(\cyl(\tuple{q_{1},s_{1}}\dots\tuple{q_{n},s_{n}}))
+  \end{align*}
+  and thus, by unique extension of $\mu_{r}$ and uniqueness of the product
+  measure \cite[Theorem 5.6, Theorem 22.2]{Bauer} follows the claimed equality.
+\end{proof}
+Furthermore, by definition of $f$ we obtain that $f^{-1}(1)$ is the set of all
+paths in the synchronised part of the product algebra where the state component
+satisfies the Büchi condition and therefore
+\begin{equation*}
+  \int_{\alpha}\mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F})
+  d(\mu_{\mathcal{M}}^{t}) = \mu_{r}(\mathcal{T})
+\end{equation*}
+where $\mathcal{T}$ is the set of all paths in $r$ satisfying the Büchi
+condition imposed by $T_{\mathcal{A}}$. This implies that
+\begin{equation*}
+  \int_{\alpha}\mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F})
+  d(\mu_{\mathcal{M}}^{t}) = 1\text{ if and only if }\mathcal{A}
+  \text{ accepts } t
+\end{equation*}
+and hence Theorem \ref{thm:synthesis} follows from the possibility to check
+emptiness of $\mathcal{A}$ (by Corollary \ref{cor:emptiness}).
