@@ -159,13 +159,13 @@ distribution. More formally, we define analogously to \cite{Groesser}
   $q_{0}\in Q$ the initial state,
     $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$
   a transition probability function such that for all pairs $q\in Q$ and
-  $\sigma\in\Sigma$ we have $\sum{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
+  $\sigma\in\Sigma$ we have $\sum_{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
   and $F\subseteq Q$ is the set of final states.
 \end{definition}
 Note that this definition may also be altered to allow initial distributions
 rather than one initial state \cite{RecOmeLangProbAuto}.
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
-are induced by a word $\alpha = \alpha_{1}\alpha{2}\dots\in\Sigma^{\omega}$
+are induced by a word $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$
 rather than a player. For a \ac{PBA} $\mathcal{A}$ we can easily define a
 corresponding strategy $\varphi_{\alpha}:Q^{*}\rightarrow\Sigma$ for the
 equivalent \ac{MDP} $\mathcal{M}_{\mathcal{A}} =
@@ -246,7 +246,8 @@ allowing the automaton to build a run of \enquote{transitions}.
   $\Delta:Q\times\Sigma\rightarrow\mathcal{C}^{Q}_{D}$
   where $\mathcal{C}^{Q}_{D}$ denotes the set of all clauses over $Q$ and $D$.
   Additionally, we define the set of all used generators as
-  $\mathcal{G}_{\mathcal{A}} = \bigcup\limits_{q\in Q,d\in D}\Delta(q,d)$.
+  $\mathcal{G}_{\mathcal{A}} = \bigcup\limits_{q\in Q,\sigma\in\Sigma}
+    \Delta(q,\sigma)$.
 \end{definition}
 The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run
 $r:(Q\times D)^{*}\rightarrow \mathcal{G}_{\mathcal{A}}$ on a tree
@@ -349,10 +350,77 @@ observation that parity conditions can be used to express all other conditions
   construct for a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
   \mathcal{F} = \set{F_{1},\dots,F_{n}}}$ with a Muller condition $\mathcal{F}$
   an equivalent \ac{WDTA} $\mathcal{B}$ with a parity condition via the use of
-  a \ac{LAR}. \fxfatal{actually prove this and find fitting reference}
-  Using a \ac{LAR} increases the state space but preserves the structure,
-  especially the weighting, of a run and thus yields the same measure of the
-  set of accepted paths.
+  a \ac{LAR} (analogously to e.g. \cite{MullerSchupp} for unweighted tree
+  automata). The idea of an \ac{LAR} is to keep a record of the order of
+  recently visited states which eventually stabilizes to those states seen
+  infinitely often. Using a \ac{LAR} increases the state space but preserves
+  the structure, especially the weighting, of a run and thus yields the same
+  measure of the set of accepted paths. \fxfatal{this does not precisely follow
+  Muller Schupp but InfCompGames and a reference shall be found accordingly}
+  \begin{definition}[Latest Appearance Record]
+    For a finite state set $Q$ define the set of permutations of elements in
+    $Q$ as $\perm(Q)\subseteq Q^{\size{Q}}$ and
+    \begin{equation*}
+      \lar(Q) = \set{\interval{w,h}\mid w\in\perm(Q)\text{ and }1\leq
+      h\leq\size{Q}}
+    \end{equation*}
+    Additionally we define an update function
+    $\up:\lar(Q)\times Q\rightarrow\lar(Q)$ with
+    \begin{equation*}
+      \up(\interval{q_{1}\dots q_{n},h}, q)
+      = \interval{qq_{1}\dots q_{i-1}q_{i+1}\dots q_{n},i}
+      \text{ for the unique }i\text{ s.t. }q=q_{i}
+    \end{equation*}
+    and conclude with one auxillary definition:
+    \begin{description}
+      \item [Hit set] for $\ell = \interval{q_{1}\dots q_{n},h}$ we call
+        $\set{q_{1},\dots,q_{h}}$ the hit set of $\ell$.
+    \end{description}
+  \end{definition}
+  For a word $q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
+  sequence of elements in $\lar(Q)$ by picking one arbitrary starting value
+  $\ell_{1}$ and successively applying the update operation, i.e.
+  $\ell_{1}\ell_{2}\dots\in\lar(Q)^{\omega}$ with
+  $\ell_{i+1} = \up(\ell_{i},q_{i})$ for all $i>0$. We can now state that
+  $\Inf(q_{1}q_{2}\dots)$ moves to the beginning of the $\lar(Q)$ elements in
+  the associated sequence
+  \begin{lemma}
+    \cite[Lemma 2.1]{MullerSchupp}
+    $\Inf(q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit set of
+    all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely many
+    $i>k$ s.t. the hit set of $\ell_{i}$ coincides with $F$.
+  \end{lemma}
+  This Lemma induces that the sequence of hit sets stabilises to the set
+  $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller condition
+  $\mathcal{F}$ if and only if the hit sets stabilises to an element of
+  $\mathcal{F}$. This can be captured within a parity condition by associating
+  to $\ell = \interval{p_{1}\dots p_{n},h}$ with hit set
+  $H = \set{p_{1},\dots,p_{h}}$ a parity condition
+  \begin{equation*}
+    \parity(\ell) = \begin{cases}
+      2\cdot\size{H} &\text{ if }H\in\mathcal{F}\\
+      2\cdot\size{H}-1 &\text{ if }H\notin\mathcal{F}
+    \end{cases}
+  \end{equation*}
+  Thus, winning hit sets do have an even and losing hit sets do have an odd
+  parity and notably the highest parity value is even if and only if
+  $\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$.
+  We construct
+  $\mathcal{B}=\tuple{\lar(Q),\ell_{0}, D, \Sigma, \Delta',\parity}$ where
+  $\ell_{0}$ is one arbitrary element of $\lar(Q)$ and $\parity$ is defined as
+  described above for the Muller condition of $\mathcal{A}$. For every clause
+  $\Delta(q,\sigma) = \set{G_{1},\dots,G_{n}}$ we define
+  $\Delta'(\ell,\sigma) = \set{G_{1}',\dots,G_{n}'}$ with
+  \begin{equation*}
+    G_{i}'(\ell', d) = \begin{cases}
+      G_{i}(q,d) &\text{ if }\ell' = \up(\ell,q)\\
+      0          &\text{ otherwise}
+    \end{cases}
+  \end{equation*}
+  This yields that every run of $\mathcal{A}$ on a tree $t$ induces a run of
+  $\mathcal{B}$ on $t$ by substituting every $G$ by $G'$ and vice versa. Since
+  the set of accepting paths in both runs have the same measure we obtain the
+  equivalence of $\mathcal{A}$ and $\mathcal{B}$.
 \end{proof}
 We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
 notion of an accepting run is (analogously to \acp{PBA}) tied to an
@@ -424,7 +492,7 @@ Additionally, we define certain structural properties on \acp{WDTA}
       $\mathcal{A}$. 
   \end{description}
 \end{definition}
-The examined tree automata in \cite{RandAutoInfTrees} are captured by
+The examined tree automata in \cite{RandAutoInfTrees} are therefore captured by
 uniformly distributed \acp{WDTA} over the directions $D = \set{0,1}$ with
 blueprint $B(0) = B(1) = \frac{1}{2}$.
 
