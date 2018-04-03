@@ -21,6 +21,7 @@ this question positively with
   can be decided.
   \label{thm:synthesis}
 \end{theorem}
+\begin{proof}
 We substantiate this claim by providing a construction of a \ac{WDTA} from the
 given environment and the specification \ac{PBA}. The obtained \ac{WDTA} - with
 a qualitative acceptance measure - accepts precisely those trees that encode a
@@ -94,7 +95,26 @@ Lemma \ref{lemma:measurabilityAcceptance}.
   $f$ is a measureable function w.r.t. the $\sigma$-algebra $\mathcal{F}$.
 \end{lemma}
 \begin{proof}
-  \fxfatal{add; maybe move to an appendix since it does not add much value}
+  We show that $f^{-1}(1)$ is measurable in $\mathcal{F}$. Therefore, we fix
+  for every $w = s_{1}\dots s_{n}\in \tuple{S_{\mathcal{M}}}^{*}$ the set of
+  all prolongation of this synchronised prefix
+  \begin{equation*}
+    \Syn(w) = \bigcup_{v = q_{1}\dots q_{n}}\cyl(\tuple{s_{1},q_{1}}\dots
+    \tuple{s_{n},q_{n}})\times\cyl(w)
+  \end{equation*}
+  This allows us to define the set of all synchronised paths by
+  \begin{equation*}
+    \bigcap_{n>0}\bigcup_{w\in \tuple{S_{\mathcal{M}}}^{n}}\Syn(w)
+  \end{equation*}
+  because if a path is unsynchronised it is not included after the length at
+  which the first diversion appears. On the other hand we can assure that every
+  synchronised path is present in every inner union and thus in the outer
+  intersection. Adapting the proof of Lemma \ref{lemma:measurabilityAcceptance}
+  for Büchi condition yields that the set of those paths that satisfy the Büchi
+  condition under projection to the state component is measurable. $f^{-1}(1)$
+  can be obtained as the intersection of the synchronised paths and those
+  path which state component satisfies the Büchi condition rendering it
+  measureable.
 \end{proof}
 Thus, $f$ is the indicator-function of a measureable set and therefore
 integrable. Examining the integral of $f$ yields interesting results. Most
@@ -227,3 +247,4 @@ condition imposed by $T_{\mathcal{A}}$. This implies that
 \end{equation*}
 and hence Theorem \ref{thm:synthesis} follows from the possibility to check
 emptiness of $\mathcal{A}$ (by Corollary \ref{cor:emptiness}).
+\end{proof}
