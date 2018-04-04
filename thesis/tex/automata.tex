@@ -204,19 +204,19 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{*}\rightarrow A_{\mathcal{M}}$.
   different letters for plays of the same length which creates an inconsistency
   with respect to an - hypothetical - associated word. To tackle this, we add
   to $\mathcal{M}$ an equivalence relation
-  $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$,
-  hence there is exactly one equivalence class. Firstly, we observe that
-  $\varphi_{\alpha}$ is still a valid strategy for the resulting \ac{POMDP}
-  $\mathcal{P} = \tuple{\mathcal{M}, \sim}$. Secondly, since there is
-  exactly one equivalence class every strategy for $\mathcal{P}$ observes at
-  any time only the length of the history. Hence we can provide an equivalent
-  strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This in turn
-  means that every strategy in $\mathcal{P}$ induces a word in $\Sigma^{\omega}$
-  of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the measure of one
-  strategy and an associated word coincide, i.e. the language of $\mathcal{A}$
-  can be understood as strategy space for $\mathcal{P}$ and vice versa. This
-  illustrates an idea which is used to define emptiness games for certain
-  automata (e.g. \cite[Proposition 45]{RandAutoInfTrees}).
+  $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$ (as suggested in
+  \cite{DecProblemsForProbAuto}), hence there is exactly one equivalence class.
+  Firstly, we observe that $\varphi_{\alpha}$ is still a valid strategy for the
+  resulting \ac{POMDP} $\mathcal{P} = \tuple{\mathcal{M}, \sim}$. Secondly,
+  since there is exactly one equivalence class every strategy for $\mathcal{P}$
+  observes at any time only the length of the history. Hence we can provide an
+  equivalent strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This
+  in turn means that every strategy in $\mathcal{P}$ induces a word in
+  $\Sigma^{\omega}$ of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the
+  measure of one strategy and an associated word coincide, i.e. the language of
+  $\mathcal{A}$ can be understood as strategy space for $\mathcal{P}$ and vice
+  versa. This illustrates an idea which is used to define emptiness games for
+  certain automata (e.g. \cite[Proposition 45]{RandAutoInfTrees}).
   \label{ex:pba}
 \end{example}
 
