@@ -249,19 +249,22 @@ allowing the automaton to build a run of \enquote{transitions}.
   $\mathcal{G}_{\mathcal{A}} = \bigcup\limits_{q\in Q,\sigma\in\Sigma}
     \Delta(q,\sigma)$.
 \end{definition}
-The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run
-$r:(Q\times D)^{*}\rightarrow \mathcal{G}_{\mathcal{A}}$ on a tree
-$t:D^{*}\rightarrow\Sigma$ with $r(\epsilon)\in \Delta(q_0, t(\epsilon))$ and
-for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in(Q\times D)^{*}$ we
-have $r(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}})\in
-  \Delta(q_{n},t(d_{1}\dots d_{n}))$. Analogously to a strategy in Definition
-\ref{def:mdp} a run induces a probability measure on the set of cylinders
-in $(Q\times D)^{\omega}$ by
+The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run over a
+prefix-closed $T\subseteq(Q\times D)^{*}$ with
+$r:T\rightarrow \mathcal{G}_{\mathcal{A}}$ and for a tree
+$t:D^{*}\rightarrow\Sigma$ with $r(\epsilon)\in\Delta(q_0, t(\epsilon))$ and
+for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in T$ we
+have $r(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}) = G\in
+  \Delta(q_{n},t(d_{1}\dots d_{n}))$ and for every $\tuple{q,d}\in\supp(G)$
+$\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\tuple{q,d}\in T$. Analogously to a
+strategy in Definition \ref{def:mdp} a run induces a probability measure on the
+set of cylinders over $(Q\times D)$ by
 \begin{equation}
   \mu_{r}(\cyl(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}))
     = r(\epsilon)(q_{1},d_{1})\cdot\prod\limits_{i = 1}^{n - 1}
     r(\tuple{q_{1},d_{1}}\dots\tuple{q_{i},d_{i}})(q_{i+1},d_{i+1})
 \end{equation}
+for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in T$ and $0$ otherwise.
 Naturally, we want to define acceptance of a run in terms of its induced
 measure on the set of paths that satisfy the target $T_{\mathcal{A}}$ when
 projected to the state component. Thus, we show (by adapting the proof for
