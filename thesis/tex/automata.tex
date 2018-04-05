@@ -116,7 +116,7 @@ More formally we use these definitions which follow \cite{RandAutoInfTrees}:
       (i.e. $S^{\omega}$) that start in $s_{0}$ a valid play. All plays
       are gathered in $\plays = \set{
         \alpha\in S^{\omega}\mid \alpha_{0} = s_{0}} = \cyl(s_{0})$.
-    \item [Strategy] We define $\varphi:S^{*}\rightarrow A$ as strategy for
+    \item [Strategy] We define $\varphi:S^{+}\rightarrow A$ as strategy for
       a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
     \item [Initial Distribution] Occasionally, we substitute the initial state
@@ -167,7 +167,7 @@ rather than one initial state \cite{RecOmeLangProbAuto}.
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
 are induced by a word $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$
 rather than a player. For a \ac{PBA} $\mathcal{A}$ we can easily define a
-corresponding strategy $\varphi_{\alpha}:Q^{*}\rightarrow\Sigma$ for the
+corresponding strategy $\varphi_{\alpha}:Q^{+}\rightarrow\Sigma$ for the
 equivalent \ac{MDP} $\mathcal{M}_{\mathcal{A}} =
    \tuple{Q, \Sigma, \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, q_{0}}$
 where $\tau_{\sigma}(q,p) = \delta(q,\sigma,p)$ as
@@ -195,7 +195,7 @@ $s\in S_{\mathcal{M}}$ we define
 $[s]_{\sim} = \set{r\in S\mid \sim(r,s)}$ and
 $S_{\mathcal{M}}/_{\sim}$ as set of all these equivalence classes. A
 strategy for a \ac{POMDP} $\tuple{\mathcal{M}, \sim}$ is defined as
-$\varphi:(S_{\mathcal{M}}/_{\sim})^{*}\rightarrow A_{\mathcal{M}}$.
+$\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 \begin{example}
   Re-examining a \ac{PBA} $\mathcal{A}$ and the equivalent \ac{MDP}
   $\mathcal{M}$ we observed that every word $\alpha$ induces a corresponding
@@ -562,32 +562,20 @@ play the choice of a letter $\sigma$ is consistent throughout all plays
 associated with one certain word of directions. Therefore, we introduce in the
 choice of the player the restriction of observation in step $3$. This allows
 the player to exclusively observe the directions taken throughout the game and
-base his decision of which letter to place on this observation only.
-Furthermore, we merge steps step $2$ and $3$ into one action of the player
-since separation into two distinct steps entails the neccessity to model that
-certain pairs of state and letter may not have a corresponding transition
-present. In terms of the automaton this means that such a situation renders the
-partial run invalid. It is common to introduce a sink state and enforce for
-every invalid action to move towards it. But this is - dependent on the
-accepted measure - not viable, since it is in general not possible to complete
-automata with a positive acceptance semantics since this allows to obtain runs
-that may not have been possible before but still have a positive acceptance
-measure in a different subtree
-\cite[cp. Introduction to chapter 3.8]{RandAutoInfTrees}.\fxfatal{allow for
-runs to have a bottom symbol which is ignored if only hit with probability 0
-but otherwise invalidates the run to allow for invalidation of runs at any
-moment}
+base her/his decision of which letter to place on this observation only.
 \begin{definition}[Emptiness Game]
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   fix the set of actions $A$ for the player as a set
   \begin{equation*}
-    A = Q\rightarrow\Delta_{\sigma}
+    A = Q\rightarrow\Delta_{\Sigma}
   \end{equation*}
-  where $\tuple{Q\rightarrow\Delta_{\sigma}}$ is the set of functions that map
+  where $\tuple{Q\rightarrow\Delta_{\Sigma}}$ is the set of functions that map
   for one fixed $\sigma$ a state $q\in Q$ to a generator in $\Delta(q,\sigma)$.
-  The emptiness game is then defined as a \ac{POMDP}
+  Let $\sigma(f)$ for $f\in\tuple{Q\rightarrow\Delta_{\Sigma}}$ be the
+  associated element in $\Sigma$ for $f$. The emptiness game is then defined as
+  a \ac{POMDP}
   \begin{equation*}
-    \mathcal{M}_{\mathcal{A}} = \tuple{\tuple{Q\times D}\uplus q_{0}, A,
+    \mathcal{M}_{\mathcal{A}} = \tuple{\tuple{Q\times D}\uplus \set{q_{0}}, A,
     \tuple{\tau_{a}}_{a\in A}, q_{0}}
   \end{equation*}
   where
@@ -599,19 +587,60 @@ moment}
     \tuple{q, d}\sim\tuple{p, d'}\text{ if and only if } d = d'
   \end{equation*}
 \end{definition}
-The observation restriction renders the actions of a player to be only
-dependent of the directions and not the states. Thus, for a strategy $\varphi$
-we can obtain a corresponding tree by following the directions of the history
-and placing the element $\sigma\in\Sigma$ that the player chooses for his
-action. Equipping \acp{MDP} and \acp{POMDP} analogously to automata with
-objectives allows to synthesis strategies for the player that try to satisfy
-the objective \cite{RandAutoInfTrees}. Thus, equipping the \ac{POMDP} of the
-emptiness game above with the corresponding objective on the states allows to
-obtain accepted trees from a possible strategy.
-\fxfatal{Show equivalence, gather decideability and undecideability results
-for strategy synthesis; for uni-directional WDTAs we can drop the observation
-relation, since there is only one state at any position at any time which
-allows for stronger acceptance conditions}
+In order to prove the viability of this game definition we show that a strategy
+$s$ can be understood as a tree $t$ and that the induced probability measure on
+paths coincides with a run $r$ of $\mathcal{A}$ on $t$. And for any associated
+measureable objective $\mathcal{O}\subseteq Q^{\omega}$ which can be projected
+onto the states of $\mathcal{M}_{\mathcal{A}}$ by only considering the state
+component of any position in the play the measures of plays in
+$\mathcal{M}_{\mathcal{A}}$ and in the run-tree coincide. Thus, we get
+\begin{theorem}
+  There is a strategy $s$ which ensures that an objective
+  $\mathcal{O}\subseteq Q^{\omega}$ is positively (resp. almost-surely)
+  satisfied in $\mathcal{M}_{\mathcal{A}}$ if and only if there is tree $t$ and
+  a run $r$ of $\tuple{\mathcal{A},\mathcal{O}}$ on $t$ which is positively
+  (resp. almost-surely) accepted.
+\end{theorem}
+\begin{proof}
+  First of all, we recall that any strategy for $\mathcal{M}_{\mathcal{A}}$ is
+  defined as a function which chooses for any finite play the next action, i.e.
+  $s:\tuple{\tuple{Q\times D}\uplus\set{q_{0}}}^{+}\rightarrow A$. But
+  considering the properties of the game closely the strategy can be reduced to
+  its effective core. By the restriction of observation every such strategy
+  only observes the directions and thus can be expressed as a function of the
+  form $s:\tuple{D\uplus\set{q_{0}}}^{+}\rightarrow A$. Secondly, we define
+  $P = \set{\alpha_{1}\alpha_{2}\dots\in\tuple{\tuple{Q\times D}\uplus
+  \set{q_{0}}}^{+}\mid \alpha_{0} = q_{0}\text{ and there is no }i>0
+  \text{ s.t. }\alpha_{i} =q_{0}}$
+  and argue that only plays in $P$ actually do matter in the game.
+  \begin{lemma}
+    Every two strategies $s,s'$ that agree on all finite prefixes of
+    observations of plays in $P$ induce the same measure for plays in
+    $\mathcal{M}_{\mathcal{A}}$.
+  \end{lemma}
+  \begin{proof}
+    The begin of any play in $q_{0}$ is by definition of \acp{POMDP} and the
+    fact that $q_{0}$ is the initial state. Furthermore, consider any finite
+    prefix $u\in\tuple{\tuple{Q\times D}\uplus \set{q_{0}}}^{+}$ of a play
+    $\beta\notin P$. And let $i$ be the index of the second occurence of
+    $q_{0}$ in $u$. By the definition of $\mathcal{M}_{\mathcal{A}}$ the
+    movement from $u_{i-1}$ to $u_{i}$ has a probability of $0$ regardless of
+    the choice of either $s$ or $s'$. This yields
+    $\mu_{s}(\cyl(u_{0}\dots u_{i})) = \mu_{s'}(\cyl(u_{0}\dots u_{i})) = 0$.
+    Thus, only plays in $P$ possibly do have a positive measure, hence
+    strategies that coincide in these plays are equivalent.
+  \end{proof}
+  We can therefore regard any strategy as a function
+  $s:q_{0}\cdot D^{*}\rightarrow A$ and extract an associated tree $t$ by
+  $t(u) = \sigma(s(q_{0}\cdot u))$ for any $u\in D^{*}$ and also a run $r$ of
+  $\mathcal{A}$ on $t$ by setting for
+  $\tuple{q_{0}, d_{0}}\dots\tuple{q_{n}, d_{n}}\in\tuple{Q\times D}^{*}$ and
+  $f = s(q_{0}d_{0}d_{1}\dots d_{n})$:
+  $r(\tuple{q_{0}, d_{0}}\dots\tuple{q_{n}, d_{n}}) = f(q_{n})$ which is by
+  definition of $f$ a valid generator from $\Delta(q_{n}, t(d_{0}\dots d_{n}))$.
+  In this fashion we can biject plays of the emptiness game to paths in the
+  run-tree which induce the same probability measure implying the claim.
+\end{proof}
 \begin{corollary}[Emptiness Almost-Sure Büchi WDTA]
   The emptiness problem for a \ac{WDTA} with almost-sure acceptance measure of
   a Büchi condition can be decided in exponential time.
@@ -626,7 +655,10 @@ allows for stronger acceptance conditions}
   polynomial time.
 \end{corollary}
 \begin{proof}
-  Apply \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
+  Since only one state is at any time on a position in the tree the restriction
+  of observation can be discarded without losing the consistency of the
+  associated tree to the strategy. Then, apply
+  \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
 \end{proof}
 
 \subsection{Equivalence of \acp*{WDTA} and \acp*{PBA}}
