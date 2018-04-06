@@ -603,6 +603,7 @@ $\mathcal{M}_{\mathcal{A}}$ and in the run-tree coincide. Thus, we get
   satisfied in $\mathcal{M}_{\mathcal{A}}$ if and only if there is tree $t$ and
   a run $r$ of $\tuple{\mathcal{A},\mathcal{O}}$ on $t$ which is positively
   (resp. almost-surely) accepted.
+  \label{thm:emptinessgame}
 \end{theorem}
 \begin{proof}
   First of all, we recall that any strategy for $\mathcal{M}_{\mathcal{A}}$ is
@@ -662,6 +663,54 @@ $\mathcal{M}_{\mathcal{A}}$ and in the run-tree coincide. Thus, we get
   of observation can be discarded without losing the consistency of the
   associated tree to the strategy. Then, apply
   \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
+\end{proof}
+We designed for one \ac{WDTA} a corresponding emptiness game in form of an
+\ac{POMDP} and in the proof to Theorem \ref{thm:emptinessgame} we used the
+resemblance of a runtree to the unrollment of an \ac{POMDP} as induced by a
+strategy. This naturally poses the question if a translation in the other
+direction is viable and, indeed, it is.
+\begin{theorem}
+  For every \ac{POMDP} $\mathcal{M}$ exists an \enquote{equivalent}
+  deterministic \ac{WDTA} $\mathcal{A}$ with the same state space.
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$ be a
+  \ac{POMDP}. We can extract the possible observations in $\mathcal{M}$ and
+  gather them as $O = \set{\interval{s}_{\sim}\mid:s\in S}$. A strategy for
+  $\mathcal{M}$ therefore is only dependent on the sequence of observations up
+  to the current state of play, i.e. a word in $u\in s_{0}O^{*}$. Fixing the
+  set of directions and the set of letters for a tree $t$ to $O$ and $A$
+  respectively renders $t:O^{*}\rightarrow A$ as a viable strategy $s$ for
+  $\mathcal{M}$ by identifying $t(u)$ with $s(s_{0}\cdot u)$. This naturally
+  leads to
+  \begin{definition}
+    For $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$
+    with $O = \set{\interval{s}_{\sim}: s\in S}$ define
+    \begin{equation*}
+      \mathcal{A} = \tuple{S, s_{0}, O, A, \Delta}
+    \end{equation*}
+    where
+    \begin{equation*}
+      \Delta(s, a\in A) = \set{G_{s}^{a}}\text{ and }
+      G_{s}^{a}(s', o) = \begin{cases}
+        \tau_{a}(s, s')&\text{ if }o = \interval{s'}_{\sim}\\
+        0              &\text{ otherwise}
+      \end{cases}
+    \end{equation*}
+  \end{definition}
+  Thus, from the current state those states with observation $o\in O$ are sent
+  in direction $o$. Therefore, the unique run $r$ on any tree $t$ yields for a
+  state sequence $u\in S^{*}$ and a sequence of observations $v\in O^{\size{u}}$
+  that
+  \begin{equation*}
+    \mu_{r}(\cyl(\tuple{u_{0},v_{0}}\dots\tuple{u_{n},v_{n}})) =
+    \begin{cases}
+      \prod_{0\leq i\leq n-1}\tau_{t(v_{0}\dots v_{i})}(u_{i}, u_{i+1})
+        &\text{ if }u_{0} = s_{0}\text{ and }\interval{u_{i}}_{\sim} = v_{i}\\
+      0 &\text{ otherwise}
+    \end{cases}
+  \end{equation*}
+  which coincides with the measure for $\mu_{s}(\cyl(u))$ in $\mathcal{M}$.
 \end{proof}
 
 \subsection{Equivalence of \acp*{WDTA} and \acp*{PBA}}
