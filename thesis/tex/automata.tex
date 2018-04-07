@@ -540,8 +540,74 @@ directions and the same alphabet.
 \end{proof}
 \fxwarning{what about u.d. with different blueprints? more general question:
 how are non-determinism and weighting related? orthogonal or dependent?}
-\fxfatal{intersection?! naive approach does not work, what about more elaborate
-thoughts?}
+
+Regarding intersection we observe a significant difference between positive and
+almost-sure acceptance. This is rooted in the \enquote{global} nature of
+almost-sure acceptance while positive acceptance can be accomplished by
+\enquote{local} phenomenon, e.g. one accepted subtree somewhere in the tree.
+Thus, for almost-sure acceptance a general intersection operator can separate
+in the first transition the runs of both \ac{WDTA} with a probability of
+$\frac{1}{2}$ each.\fxwarning{add picture} Both these runs do individually need
+an acceptance measure of $1$ to render the new run almost-surely accepted.
+This can be captured with the following lemma
+\begin{lemma}
+  A run $r:T\rightarrow \mathcal{G}_{\mathcal{A}}$ of $\mathcal{A}$ is
+  almost-surely accepted if and only if every subtree of $r$ is almost-surely
+  accepted.
+  \label{lem:subtreeacc}
+\end{lemma}
+\fxfatal{heavily rewrite proof; maybe find reference for a comparable lemma}
+\begin{proof}
+  Considering that the examined acceptance conditions in this thesis are all
+  history independent, i.e. for every $\alpha$ that satisfies an acceptance
+  condition if and only if every $\beta$ with $\alpha = u\cdot\beta$ for a
+  finite $u$ satisfies the condition. If all subtrees of $r$ are almost-surely
+  accepted then $r$ itself. On the other hand, if not all subtrees of $r$ are
+  almost-surely accepted then there is a finite path to a non accepted subtree
+  with a positive measure $m$. The measure of accepted path in the subtree is
+  then $n<1$, hence $r$ is at least $m\cdot n$ short of measure $1$.
+\end{proof}
+which yields the following theorem
+\begin{proposition}
+  Unrestricted \acp{WDTA} with almost-sure acceptance are closed under
+  intersection.
+\end{proposition}
+\begin{proof}
+  We introduce the intersection automaton as follows
+  \begin{definition}
+    For $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$ and
+    $\mathcal{B} = \tuple{P, p_{0}, D, \Sigma, \Delta', \parity'}$ we define
+    \begin{equation*}
+      \mathcal{C} = \tuple{Q\uplus P\uplus\set{b}, b, D, \Sigma,
+      \Delta\uplus\Delta'\uplus\nabla, \parity\uplus\parity'\uplus
+      \set{b\mapsto 0}}
+    \end{equation*}
+    with
+    \begin{equation*}
+      \Delta(q_{0},\sigma) = \set{G_{\sigma}^{1},\dots,G_{\sigma}^{n}}
+      \text{ and }
+      \Delta(p_{0},\sigma) = \set{K_{\sigma}^{1},\dots,K_{\sigma}^{m}}
+    \end{equation*}
+    we set
+    \begin{equation*}
+      \nabla(b,\sigma) = \bigcup^{1\leq i\leq n}_{1\leq j\leq m}\set{
+        \frac{G_{\sigma}^{i}}{2} \cup \frac{K_{\sigma}^{j}}{2}}
+    \end{equation*}
+    where $\frac{G}{2}$ describes the halving of every function value of $G$.
+  \end{definition}
+  Any run $r$ of $\mathcal{C}$ on a tree $t$ consists of two parallel runs on
+  $t$, namely $r_{\mathcal{A}}$ of $\mathcal{A}$ and $r_{\mathcal{B}}$ of
+  $\mathcal{B}$. By Lemma \ref{lem:subtreeacc} holds that $r$ is almost-surely
+  accepted if and only if every subtree of $r$ is almost-surely accepted which
+  holds if and only if every subtree of $r_{\mathcal{A}}$ and $r_{\mathcal{B}}$
+  is almost-surely accepted. This characterisation yields the claimed equality.
+\end{proof}
+For uni-directional \acp{WDTA} with common blueprint the common product
+construction for intersection leads to a intersection operator, hence
+\begin{proposition}
+  Uni-directional \acp{WDTA} with common blueprint are closed under
+  intersection.
+\end{proposition}
 
 \subsection{Emptiness}
 Similarly to \acp{PBA}, we want to define for a given \ac{WDTA} $\mathcal{A}$
