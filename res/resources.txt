@@ -18,6 +18,10 @@ Alternating Finite Automata On Omega-Words - Miyano, Hayashi
 Formalizing And Reasoning About Quality - Almagor, Boker, Kupferman
 Quantitative Stochastic Parity Games - Chatterjee, Jurdzinski, Henzinger
 Qualitative Analysis Of Partially Observable Markov Decision Processes - Chaterjee, Doyen, Henzinger
+Regular Expression for PCTL-Counterexamples - Damman, Han, Katoen
+Survey of Stochastic Omega-regular Games - Chaterjee, Henzinger
+Probabilistic Opacity for MDPs - Berard, Chaterjee, Sznajder
+Dynamic Programming for Partially Observable Stochastic Games - Hansen, Zilberstein
 --
 Acting Optimally In Partially Observable Stochastic Domains - Cassandra, Kaelbling, Littman
 Synthesis Of Reactive Designs - Bloem, Jobstmann, Piterman, Pnueli, Sa'ar
@@ -39,3 +43,16 @@ Automata with Generalized Rabin Pairs for Probabilistic Model Checking and LTL
 Automatic Verification Of Probabilistic Concurrent Finite State Programs - Vardi
 Formal Methods For Real Time and Probabilistic Systems - Editor: Katoen
 Mathematical Metaphysics Of Randomness - Muchnik, Semenov, Uspensky
+A modular approach on Büchi Determinization - 
+Approximate Solutions for Partially Observable Stochastic Games With Common
+  Payoffs -
+Facets of Synthesis, Revisiting Churchs Problem - 
+On Algorithms for Simple Stochastic Games - 
+Polynomial Time Verification of PCTL-Properties of MDPs with convex
+  Uncertainties - 
+Probabilistic Automata on infinite Words: Decideability and Undecideability
+  Results - 
+Qualitative Analysis of POMDPs with LTL Specifications for Robotics
+  Applications - 
+A Survey of Multi-Objective Sequential Decision Making - 
+Game Based Abstraction of MDPs - 
