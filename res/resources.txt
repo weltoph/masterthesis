@@ -43,6 +43,7 @@ Automata with Generalized Rabin Pairs for Probabilistic Model Checking and LTL
 Automatic Verification Of Probabilistic Concurrent Finite State Programs - Vardi
 Formal Methods For Real Time and Probabilistic Systems - Editor: Katoen
 Mathematical Metaphysics Of Randomness - Muchnik, Semenov, Uspensky
+The Complexity of Decentralized Control of MDPs - Bernstein, Givan, Immerman, Zilberstein
 A modular approach on Büchi Determinization - 
 Approximate Solutions for Partially Observable Stochastic Games With Common
   Payoffs -
