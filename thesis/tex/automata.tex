@@ -746,7 +746,7 @@ path. This path can be interpreted as one word and thus, we can incorporate the
 concept of \acp{PBA} into the theory of \acp{WDTA} by the following theorem
 \begin{theorem}
   For every \ac{PBA} $\mathcal{P}$ existent an equivalent \ac{WDTA}
-  $\mathcal{A}$ and for every \ac{WDTA} $\mathcal{A}$ with
+  $\mathcal{A}$ and for every choiceless \ac{WDTA} $\mathcal{A}$ with
   $\size{D_{\mathcal{A}}} = 1$ exists an equivalent \ac{PBA}.
   \label{theorem:pbaequiv}
 \end{theorem}
@@ -783,6 +783,58 @@ Note that this undecideability result does not contradict the decideable
 emptiness for \acp{WDTA} with Büchi condition and almost-sure acceptance but
 simply shows that Büchi conditions are less expressive (as it is for
 non-weighted tree automata\fxfatal{find reference}).
+
+Having used the fact that moving from Büchi to Rabin acceptance conditions
+allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
+acceptance sparks the question if this can be translated to choiceless
+\acp{WDTA} as well. Unfortunately, this question can be answered negatively
+with
+\begin{proposition}
+  There exists a language that is accepted by a choiceless \ac{WDTA} with a
+  positive acceptance of a Büchi condition that is not accepted by any
+  choiceless \ac{WDTA} with a Muller condition.
+\end{proposition}
+\begin{proof}
+  We define $\mathcal{L}_{\exists a}$ as the language of all trees with
+  directions $\set{0,1}$ over the alphabet $\set{a,b}$ that do contain an $a$.
+  First, we show that this language can be accepted by a choiceless Büchi
+  \ac{WDTA} with positive acceptance of a Büchi condition. But this is
+  straightforward by constructing a \ac{WDTA} with two states $q_{a}, q_{b}$
+  where $q_{b}$ is the initial state. The final state is $q_{a}$ and we
+  distribute uniformely over both branches $q_{b}$ until an $a$ occurs where
+  the automaton distributes uniformely the state $q_{a}$ regardless of the read
+  letter, thus $q_{a}$ is a positive sink-state. Any tree that is accepted does
+  necessarily contain an $a$ since it is the only chance to produce an
+  acceptance subtree and conversely, if a tree does contain an $a$ there is a
+  finite path of length $n$ towards the subtree rooted at this occurence of $a$,
+  hence in the run of the automaton on this tree there is an accepted subtree
+  which is reached with probability $(\frac{1}{2})^{n} > 0$ rendering the run
+  accepting for this tree.
+
+  On the other hand we show that there is no choiceless \ac{WDTA} with an
+  almost-sure Muller condition that accepts precisely $\mathcal{L}_{\exists a}$.
+  For this consider three trees $t_{0}, t_{1}, t_{b}$ where every letter in
+  $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ only
+  contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with an
+  almost-sure acceptance of a Muller condition to accept
+  $\mathcal{L}_{\exists a}$. The unique runs of $A$ on $t_{0},t_{1}, t_{b}$ do
+  start with the same distribution in the root since
+  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ and $\mathcal{A}$
+  is choiceless and the runs on $t_{0}$ and $t_{1}$ are accepting.
+  Furthermore, we can savely assume that at least on state in each direction
+  does carry weight. Because if w.l.o.g. no state in direction $0$ carries any
+  weight the measure on all accepted runs for the run on $t_{0}$ and $t_{b}$ is
+  equal. Thus, either $t_{0}$ is not accepted or $t_{b}$ is accepted. Both
+  cases contradict the assumption that $\mathcal{A}$ precisely accepts
+  $\mathcal{L}_{\exists a}$. Additionally, for every state that carries weight
+  in the first level of the run of $\mathcal{A}$ on either $t_{0}$ or $t_{1}$
+  does need to have a almost-sure measure on its accepted paths. But those
+  states on the left side produce for $t_{1}$ and $t_{b}$ the same paths, while
+  the states on the right side produce for $t_{0}$ and $t_{b}$ produce the same
+  paths. These paths are almost-surely accepted for $t_{0}$ (resp. $t_{1}$) and
+  therefore also for $t_{b}$ rendering the unique run on $t_{b}$ almost-surely
+  accepted yielding the desired contradiction and concluding the proof.
+\end{proof}
 
 \subsection{A forrest of languages}
 The different structural properties of \acp{WDTA} introduce different language
@@ -866,7 +918,8 @@ the corresponding equivalent \ac{WDTA} to indeed have the choiceless property.
 
 \subsection{Probabilistic Weighted Automata}
 In order to explore the setting of resolving non-deterministic choices by
-probability distributions we introduce the class of \ac{PWA} with
+probability distributions we introduce analogously to
+\cite[Definition 4.1.1]{RandAutoInfTrees} the class of \ac{PWA} with
 \begin{definition}[Probabilistic Weighted Automata]
   Fix a finite alphabet $\Sigma$, a finite set of directions $D$ and a finite
   set of states $Q$. The transitions are captured by $\Delta$ which maps every
@@ -878,3 +931,5 @@ probability distributions we introduce the class of \ac{PWA} with
     \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}.
   \end{equation*}
 \end{definition}
+The probability distributions for the generators allow for a proper definition
+on the $\sigma$-algebra that is generated by the sets of partial runs.
