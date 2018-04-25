@@ -69,8 +69,8 @@ accepting or non-accepting by the following conditions:
   \end{description}
 \end{definition}\fxfatal{find fitting reference for parity condition} 
 We categorize word automata by their acceptance condition and if they are
-deterministic. Thus, we call a word automaton $\mathcal{A}$ equipped with a
-Büchi condition a \ac{NBA} or respectively \ac{DBA} if
+deterministic. Thus, we call - for example - a word automaton $\mathcal{A}$
+equipped with a Büchi condition a \ac{NBA} or respectively \ac{DBA} if
 $\mathcal{A}$ is deterministic. And analogously we obtain word automata for
 Muller, Rabin, Streett and Parity conditions and corresponding acronyms.
 \acuse{NMA}
@@ -231,8 +231,8 @@ probability function over states and directions of an automaton.
   For a set of states $Q$ and a set of directions $D$ we call a probability
   function on $Q\times D$, i.e. $G: Q\times D\rightarrow [0,1]$ with
   $\sum\limits_{\substack{q\in Q\\ d\in D}}G(q,d) = 1$, a generator over $Q$
-  and $D$. A finite set of generators over sets $Q$ and $D$ is called a clause
-  $C = \set{G_{1},\dots,G_{n}}$.
+  and $D$. A finite non-empty set of generators over sets $Q$ and $D$ is called
+  a clause $C = \set{G_{1},\dots,G_{n}}$.
 \end{definition}
 With these transitions we adapt the common concepts of tree automata by
 allowing the automaton to build a run of \enquote{transitions}.
@@ -428,55 +428,15 @@ observation that parity conditions can be used to express all other conditions
 We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
 notion of an accepting run is (analogously to \acp{PBA}) tied to an
 \enquote{acceptable measure}, e.g. Positive Acceptance or Almost-Sure
-Acceptance. It is remarkable that these measures of the accepted sets solely
-depend on the occured states rather than the direction throughout the run-tree.
-This motivates the following definition of an auxillary measure.
-\begin{definition}[State measure]
-  On the $\sigma$-algebra that is induced by the ring of cylinders in
-  $Q^{\omega}$ a run $r$ of $\mathcal{A}$ induces a measure $\lambda$.
-  This measure $\lambda$ is defined as the unique extension of the pre-measure
-  induced by cylinders of finite words $w = w_{1}\dots w_{n}\in Q^{*}$
-  \begin{equation*}
-    \lambda_{r}(\cyl(w)) = \sum\limits_{d_{1}\dots d_{n}\in D^{n}}\mu_{r}(
-      \cyl(\tuple{w_{1}, d_{1}}\dots\tuple{w_{n},d_{n}}))
-  \end{equation*}
-\end{definition}
-The acceptance of a run can be defined in terms of state measures.
-\begin{lemma}[State measure acceptance]
-  For a run $r$ of \ac{WDTA} $\mathcal{A}$ on $t$ holds
-  \begin{equation*}
-    \lambda_{r}(T_{\mathcal{A}}) = \mu_{r}(\set{\tuple{q_{1},d_{1}}
-    \tuple{q_{2},d_{2}}\dots\in\tuple{Q\times D}^{\omega}\mid q_{1}q_{2}\dots\in T})
-  \end{equation*}
-\end{lemma}
-\begin{proof}
-  By definition holds for all elements of the generating set, i.e. the set of
-  cylinders, the equality
-  \begin{align*}
-    \lambda_{r}(\cyl(w)) &= \sum\limits_{d_{1}\dots d_{n}\in D^{n}}\mu_{r}(
-      \cyl(\tuple{w_{1}, d_{1}}\dots\tuple{w_{n},d_{n}}))\\
-      &= \mu_{r}\tuple{\bigcup\limits_{d_{1}\dots d_{n}\in D^{n}}
-      \cyl(\tuple{w_{1}, d_{1}}\dots\tuple{w_{n},d_{n}})}
-  \end{align*}
-  which induces the claim, since the measures of measurable sets are obtained
-  by the calculation rules of a measure on these generating sets.
-  \fxwarning{we maybe should elaborate here more}
-\end{proof}
-This allows to define acceptance in terms of state measures.
-\begin{corollary}
-  A run $r$ of $\mathcal{A}$ on $t$ is 
-  \begin{description}
-    \item[Positively Accepting] iff $\lambda_{r}(T_{\mathcal{A}}) > 0$
-    \item[Almost-Surely Accepting] iff $\lambda_{r}(T_{\mathcal{A}}) = 1$
-  \end{description}
-\end{corollary}
+Acceptance.
+
 Additionally, we define certain structural properties on \acp{WDTA}
 \begin{definition}[Structural Properties]
   A \ac{WDTA} $\mathcal{A}$ is called
   \begin{description}
-    \item [deterministic] if there is at most one generator in each clause, i.e.
+    \item [choiceless] if there is at most one generator in each clause, i.e.
       for every pair $q\in Q, \sigma\in\Sigma$ holds
-      $\size{\Delta(q, \sigma)} \leq 1$.
+      $\size{\Delta(q, \sigma)} = 1$.
     \item [uni-directional] if for every clause there is at most one state send
       to every direction, i.e. for every $G\in\mathcal{G}_{\mathcal{A}}$
       there is at most one $q\in Q$ such that $G(q, d) > 0$ for all
@@ -848,7 +808,7 @@ This result does unfortunately not translate unconstraint to the weighted case.
 \begin{proposition}
   The class of languages recognizable with uni-directional \acp{WDTA} with
   Büchi condition is incomparabel with the class of languages recognizable with
-  deterministic \acp{WDTA} with Büchi condition under almost-sure acceptance.
+  choiceless \acp{WDTA} with Büchi condition under almost-sure acceptance.
 \end{proposition}
 \begin{proof}
   It is known from \cite[Theorem 4 (b), (c)]{DecProblemsForProbAuto} that
@@ -868,8 +828,8 @@ This result does unfortunately not translate unconstraint to the weighted case.
   $\mathcal{U}$ is only allowed to put weight into one state per direction
   every run of $\mathcal{U}$ on any $\alpha$ can be reduced to one path with
   weight $1$. This path is either accepting or non-accepting and thus
-  remarkably the class of accepted languages of those \ac{WDTA} is the class
-  of $\omega$-regular languages. Remarkably, we can for any \ac{PBA} define an
+  the class of accepted languages of those \ac{WDTA} is the class of
+  $\omega$-regular languages. Remarkably, we can for any \ac{PBA} define an
   equivalent uni-directional \ac{WDTA} (for any transition from $q$ to $p$ in
   the word automaton introduce a transition in the tree automaton that puts all
   its weight from $q$ to $p$). The claimed incomparability translates
@@ -887,3 +847,34 @@ This result does unfortunately not translate unconstraint to the weighted case.
   \cite[Theorem 4]{RecOmeLangProbAuto} states that \acp{PBA} with positive
   measure are more expressive than $\omega$-regularity.
 \end{proof}
+
+\section{Depth vs. Width}
+In \cite[Chapter 4]{RandAutoInfTrees} the concept of resolving non-determinism
+by probability distributions (as suggested for \acp{PBA}) is explored in the
+context of weighted tree automata. Thus, the automaton does not
+\enquote{build} a run by choosing fitting transitions but every transition is
+explored with a certain probability. We refer to this concept as \emph{Depth}
+since it can be illustrated as a number of runs executed in parallel and
+weighted accordingly to the probabilities of possible choices to build the run
+(see Figure \ref{fig:parallelruns}). We argue that the introduced concept of
+\enquote{alternation} for weighted tree automata actually captures this concept
+by allowing for a certain \emph{Width} in runs, hence we can resolve
+probabilities of transitions by moving states downwards in the runtree according
+to the transitions with an adapted weighting. Since resolving non-determinism
+probabilistically renders an automaton literally \enquote{choiceless} we expect
+the corresponding equivalent \ac{WDTA} to indeed have the choiceless property.
+
+\subsection{Probabilistic Weighted Automata}
+In order to explore the setting of resolving non-deterministic choices by
+probability distributions we introduce the class of \ac{PWA} with
+\begin{definition}[Probabilistic Weighted Automata]
+  Fix a finite alphabet $\Sigma$, a finite set of directions $D$ and a finite
+  set of states $Q$. The transitions are captured by $\Delta$ which maps every
+  combination of $q\in Q$ and $\sigma\in\Sigma$ to a probability distribution
+  of one fixed clause $C_{q}^{\sigma}$. Furthermore, we introduce an
+  $\omega$-regular target set $T\subseteq Q^{\omega}$ and pick one $q_{0}\in Q$
+  to combine all these elements to a \ac{PWA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}.
+  \end{equation*}
+\end{definition}

@@ -119,14 +119,19 @@ this question positively with
   can be decided.
   \label{thm:synthesis}
 \end{theorem}
+Considering a certain restricted class of \acp{MDP}, namely those where every
+state has exaclty two following states which are equally likeable to be chosen,
+this result can be derived as a corollary from
+\cite[Proposition 43]{RandAutoInfTrees}. Naturally, the following proof bears
+conceptual similarities to the proof of this Proposition, e.g. by examining an
+integratable function within the product space which models the acceptance of
+every execution of the environment by the specification. But our setting allows
+for a less restricted environment.
 \begin{proof}
 We substantiate this claim by providing a construction of a \ac{WDTA} from the
 given environment and the specification \ac{PBA}. The obtained \ac{WDTA} - with
 a qualitative acceptance measure - accepts precisely those trees that encode a
 strategy as required by the synthesis question.
-The argument is conceptually similar to \cite[Proposition 43]{RandAutoInfTrees}
-by examining an integratable function within the product space which models
-the acceptance of every execution of the environment by the specification.
 Starting with a strategy $t$ we consider two measure spaces, namely the space
 of executions in the \ac{MDP} modelling the environment induced by the strategy
 $t$ and the space of the executions of the \ac{PBA} modelling the
