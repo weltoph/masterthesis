@@ -965,4 +965,35 @@ associated probability with
 Again, as for \acp{WDTA}, this yields a pre-measure on
 $\mathcal{R}_{\mathcal{A}}$ which can be uniquely extended to a measure by
 \cite[Theorem 5.4]{Bauer}, hence we obtain a measurable space
-$\tuple{\mathcal{R}_{\mathcal{A}}, \mu_{t}}$.
+$\tuple{\mathcal{R}_{\mathcal{A}}, \mu_{t}}$. In terms of this measurable space
+we define the acceptance condition. In \cite{RandAutoInfTrees} different
+notions of acceptance are discussed, e.g.
+\begin{enumerate}
+  \item without regard for the weighting of the generators and interpreting the
+    support of a generator as a clause for an alternating tree automaton the
+    semantic can be defined by the measure of $\mu_{t}$ of those runs that
+    satisfy a Büchi condition,
+  \item regarding the weighting of the generators multiple combinations of
+    positive or almost-sure acceptance for the individual runs and positive and
+    almost-sure acceptance for those runs deemed accepting.
+\end{enumerate}
+We want to focus on the acceptance condition of almost-sure property of those
+individual runs that are almost-surely accepting. Thus, we deem a tree accepted
+if almost-all runs do satisfy the almost-sure acceptance of the objective $T$.
+We therefore fix the set of all viable runs on $t$ as $\Runs$ and the set of
+all possible paths in a run $\Paths = \tuple{Q\times D}^{\omega}$ and define
+for an automaton $\mathcal{A}$ the following function within the product
+$\sigma$-algebra of all runs and paths
+\begin{equation*}
+  f_{\mathcal{A}}:\Runs\times\Paths\rightarrow\interval{0,1}
+\end{equation*}
+with
+\begin{equation*}
+  f_{\mathcal{A}}(r, p) = \begin{cases}
+    1&\text{ if the state component of }p\text{ satisfies the condition }T\\
+    0&\text{ otherwise.}
+  \end{cases}
+\end{equation*}
+In the following we show the integrability of the function $f$ and with this
+integrability we argue that the definition of the semantic of the \ac{PWA}
+$\mathcal{A}$ is well founded.
