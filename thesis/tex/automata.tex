@@ -932,4 +932,37 @@ probability distributions we introduce analogously to
   \end{equation*}
 \end{definition}
 In order to define a probability distribution we introduce a $\sigma$-algebra
-which is induced by partial runs, i.e. finite beginnings of runs. 
+which is induced by partial runs, i.e. finite beginnings of runs. Therefore, we
+define a finite tree as a prefix-closed subset of finite words over directions,
+hence
+\begin{definition}[Finite Tree]
+  For a finite set of directions $D$ we call a finite $T\subseteq D^{*}$ a
+  prefix-tree if for every $w\in T$ an every finite prefix $v$ of $w$ holds
+  $v\in T$.
+\end{definition}
+Fixing a set of directions $D$ and an alphabet $\Sigma$ and a \ac{PWA}
+$\mathcal{A}$ over $D$ and $\Sigma$. Let $t:D\rightarrow\Sigma$ be a tree and
+depending on $t$ we can define all partial runs of $\mathcal{A}$ on $t$ as
+follows: analogously to \acp{WDTA} a run $r$ is a tree over the set of
+directions $Q\times D$. A partial run of $\mathcal{A}$ on $t$ can be obtained
+by fixing a prefix-tree $T$ and examing
+$r: T\rightarrow \mathcal{G}_{\mathcal{A}}$ which needs to be consistent with
+$t$, i.e. for every $p = \tuple{q_{0},d_{0}}\dots\tuple{q_{n},d_{n}}\in T$ it
+holds that $r(p)$ is part of the clause $C_{q_{n}}^{t(d_{0}\dots d_{n})}$.
+Considering such a partial run $r$ we can define the set of runs $r'$ of
+$\mathcal{A}$ on $t$ such that these runs agree on $T$ with $r$, i.e. for all
+$w\in T$ holds $r(w) = r'(w)$, as $\compRuns(r)$. Analogously, to the concept
+of cylinders over a set we can capture a $\sigma$-algebra
+$\mathcal{R}_{\mathcal{A}}$ over runs by using the sets $\compRuns(r)$ for
+every partial run $r$ as generating sets. For any partial run $r$ over the
+prefix-tree $T$ (and thus for the set of compatible runs with $r$) there is an
+associated probability with
+\begin{equation*}
+  \mu_{t}(\compRuns(r)) = \prod\limits_{
+    w = \tuple{q_{0},d_{0}}\dots\tuple{q_{n},d_{n}}\in T}
+  \Delta(q_{n},t(d_{0}\dots d_{n}))(r(w)).
+\end{equation*}
+Again, as for \acp{WDTA}, this yields a pre-measure on
+$\mathcal{R}_{\mathcal{A}}$ which can be uniquely extended to a measure by
+\cite[Theorem 5.4]{Bauer}, hence we obtain a measurable space
+$\tuple{\mathcal{R}_{\mathcal{A}}, \mu_{t}}$.
