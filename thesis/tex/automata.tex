@@ -1066,5 +1066,32 @@ $\mathcal{A}$ is well-founded.
   Lemma \ref{lem:measureabilityAcceptance} in a more complex setting. For any
   $p\in D^{*}$ fix the set of all $R_{p}\subseteq\Runs\times\Paths$ such that
   $\tuple{r,\rho}\in R_{p}$ if and only if $p\sqsubset\rho$ and for all
-  $p\sqsubset u\sqsubset\rho$ holds $r(u)\notin F$.
+  $p\sqsubset u\sqsubset\rho$ holds $r(u)\notin F$. The complement of
+  $\cup_{w\in D^{*}}R_{w}$ describes $f_{\mathcal{A}}^{-1}$, since every
+  element $\tuple{r,p}$ in the complement of $\cup_{w\in D^{*}}R_{w}$ is not
+  part of any $R_{w}$. Obviously, it is not part of those $R_{w}$ for which
+  $w\not\sqsubset p$ and for those $w\sqsubset p$ all $w$ do have a prolongation
+  $v$ with $w\sqsubset v\sqsubset p$ with $r(v)\in F$. If on the other hand
+  $\tuple{r,p}\in f_{\mathcal{A}}^{-1}$ then $p$ is a path in $r$ which
+  satisfies the Büchi condition and thus for every prefix $w\sqsubset p$ there
+  is a later point $v$ with $w\sqsubset v\sqsubset p$ with $r(v)\in F$ which
+  makes $\tuple{r,p}$ not part of any $R_{w}$.
+
+  It remains to show that $R_{w}$ are measureable for every $w\in D^{*}$. Fix
+  one such $w$ and for every $n>\size{w}$ gather for all balanced proper
+  partial runs $r$ with depth $n$ and words $p\in D^{n}$ with $w\sqsubset p$
+  and $r(p)\notin F$. The countable union of all such $\compRuns(r)$ and
+  $\cyl(p)$ is collected in $C_{n}$ and we claim that
+  $R_{u} = \cap_{\size{u}<n}C_{n}$ by the following argument: for any
+  $\tuple{r,p}\in R_{u}$ every prolongation of $u$ that stays on $p$ does not
+  visit $F$ and hence for every these prolongations $v$ we know that
+  $\tuple{r,p}$ is part of $C_{\size{v}}$ and hence
+  $\tuple{r,p}\in\cap_{\size{u}<n}C_{n}$. On the other hand assume
+  $\tuple{r,p}\in\cap_{\size{u}<n}C_{n}$, thus for every viable prolongation
+  of length $k$ for $u$ $C_{k}$ witnesses the absence of an occurence of $F$.
+  
+  This renders $f_{\mathcal{A}}^{-1}$ measureable and as index function for a
+  measureable set integrateable in
+  $\tuple{\mathcal{R}_{\mathcal{A}},\mu_{t}}\otimes
+  \tuple{\mathcal{F}_{\mathcal{A}},\mu_{B}}$.
 \end{proof}
