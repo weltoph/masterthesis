@@ -191,7 +191,7 @@ $f:\tuple{\tuple{S_{\mathcal{M}}}^{\omega}\times
     0&\text{ otherwise}
   \end{cases}
 \end{equation*}
-which models precisely the acceptance of executions of the environment by the
+which precisely models the acceptance of executions of the environment by the
 specification. We note that the measureability of $f$ is shown analogously to
 Lemma \ref{lem:measureabilityAcceptance}.
 \begin{lemma}
@@ -202,7 +202,7 @@ Lemma \ref{lem:measureabilityAcceptance}.
   for every $w = s_{1}\dots s_{n}\in \tuple{S_{\mathcal{M}}}^{*}$ the set of
   all prolongation of this synchronised prefix
   \begin{equation*}
-    \Syn(w) = \bigcup_{v = q_{1}\dots q_{n}}\cyl(\tuple{s_{1},q_{1}}\dots
+    \Syn(w) = \bigcup_{q_{1}\dots q_{n}\in Q^{n}}\cyl(\tuple{s_{1},q_{1}}\dots
     \tuple{s_{n},q_{n}})\times\cyl(w)
   \end{equation*}
   This allows us to define the set of all synchronised paths by
@@ -223,7 +223,7 @@ Thus, $f$ is the indicator-function of a measureable set and therefore
 integrable. Examining the integral of $f$ yields interesting results. Most
 notably for one fixed execution $\alpha\in S_{\mathcal{M}}^{\omega}$ we can
 argue that $\int_{\tuple{\beta,\gamma}\in
-\tuple{Q_{\mathcal{P}}}^{\omega}\times\tuple{S_{\mathcal{M}}}^{\omega}}
+\tuple{S_{\mathcal{M}}}^{\omega}\times\tuple{Q_{\mathcal{P}}}^{\omega}}
 f(\tuple{\beta,\gamma},\alpha)$ is precisely the measure of accepted paths for
 the specification-\ac{PBA} regarding this execution. Let
 $P_{\alpha} = \set{\tuple{\alpha, \beta}:\beta\in
@@ -231,19 +231,19 @@ $P_{\alpha} = \set{\tuple{\alpha, \beta}:\beta\in
 $q\not\in P_{\alpha}$. Hence
 \begin{equation*}
   \int\limits_{\tuple{\beta,\gamma}\in
-  \tuple{Q_{\mathcal{P}}}^{\omega}\times\tuple{S_{\mathcal{M}}}^{\omega}}
+  \tuple{S_{\mathcal{M}}}^{\omega}\times\tuple{Q_{\mathcal{P}}}^{\omega}}
   f(\tuple{\beta,\gamma},\alpha)d\mu_{\mathcal{P}}^{t}
-  =\int\limits_{\tuple{\beta,\alpha}\in P_{\alpha}}
-  f(\tuple{\beta,\alpha},\alpha)d\mu_{\mathcal{P}}^{t}
-  =\int\limits_{\beta\in\tuple{Q_{\mathcal{P}}}^{\omega}}
-  f(\tuple{\beta,\alpha},\alpha)d\mu_{\mathcal{P}}^{t}
+  =\int\limits_{\tuple{\alpha,\gamma}\in P_{\alpha}}
+  f(\tuple{\alpha,\gamma},\alpha)d\mu_{\mathcal{P}}^{t}
+  =\int\limits_{\gamma\in\tuple{Q_{\mathcal{P}}}^{\omega}}
+  f(\tuple{\alpha,\gamma},\alpha)d\mu_{\mathcal{P}}^{t}
 \end{equation*}
 and since the first and third component are synchronised $f$ is the indicator
 function of those words in $\tuple{Q_{\mathcal{P}}}^{\omega}$ which satisfy the
 attached Büchi condition (gathered in set $\mathcal{F}$), thus
 \begin{equation*}
-  \int\limits_{\beta\in\tuple{Q_{\mathcal{P}}}^{\omega}}
-  f(\tuple{\beta,\alpha},\alpha)d\mu_{\mathcal{P}}^{t}
+  \int\limits_{\gamma\in\tuple{Q_{\mathcal{P}}}^{\omega}}
+  f(\tuple{\alpha,\gamma},\alpha)d\mu_{\mathcal{P}}^{t}
   = \mu_{\mathcal{P}}^{t,\alpha}(\mathcal{F})
 \end{equation*}
 where $\mu_{\mathcal{P}}^{t,\alpha}$ describes the probability measure of
