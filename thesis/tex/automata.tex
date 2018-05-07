@@ -1,4 +1,6 @@
-\chapter{Languages and Automata}
+\chapter{On words and trees}
+\epigraph{To be inserted.}{
+  John Ronald Reuel Tolkien\\The Lord of the Rings\\ - The two Towers}
 It is well established to rely on finite automata to recognize languages of
 infinite objects, e.g. trees or words \cite{LangAutoLog}. In this chapter we
 recall some known results for languages of infinite words and infinite trees.
@@ -30,8 +32,11 @@ structural definition
       element.
   \end{description}
 \end{definition}
-and expand upon this structure by classifying runs on word automata as
-accepting or non-accepting by the following conditions:
+This allows for automata to yield for an input word a corresponding run, i.e.
+attach onto the input word a word of states that is consistent with the
+structure of the automaton. These attached words of states are runs of word
+automata on words and are categorized as accepting or non-accepting by the
+following conditions:
 \begin{definition}[Acceptance Conditions]
   For a word automaton $\mathcal{A} = \tuple{Q, \Sigma, q_{0}, \Delta}$ we
   define different acceptance conditions. For this we define for a run
@@ -73,15 +78,25 @@ deterministic. Thus, we call - for example - a word automaton $\mathcal{A}$
 equipped with a Büchi condition a \ac{NBA} or respectively \ac{DBA} if
 $\mathcal{A}$ is deterministic. And analogously we obtain word automata for
 Muller, Rabin, Streett and Parity conditions and corresponding acronyms.
-\acuse{NMA}
-\acuse{DMA}
-\acuse{NRA}
-\acuse{DRA}
-\acuse{NSA}
-\acuse{DSA}
-\acuse{NPA}
+\acuse{NMA}\acuse{DMA}\acuse{NRA}\acuse{DRA}\acuse{NSA}\acuse{DSA}\acuse{NPA}
 \acuse{DPA}
-It is known that all these automata (except for \acp{DBA}) do have the same
+\begin{example}
+  We consider one example language $\mathcal{L}$ as the set of all infinite
+  words over the alphabet $\set{a,b}$ such that $a$ occurs only finitely often.
+  \fxfatal{find reference for following argument}
+  It is straightforward to define an \ac{NBA} that accepts this language. The
+  central idea of this \ac{NBA} is to non-deterministically \enquote{guess} the
+  moment from which on no $a$ occurs anymore (see Figure \ref{fig:nbafina} for
+  the precise definition). After this \enquote{guess} any occurence of an $a$
+  invalidates the run but otherwise the run is accepted. Every word in
+  $\mathcal{L}$ does have such a moment from which point onwards only $b$
+  occurs; \enquote{guessing} this moment correctly yields an accepting run.
+  On the other hand, there is at any point an occurence of $a$ in the future
+  for every word that is not in $\mathcal{L}$, thus rendering every
+  \enquote{guess} of the automaton invalid.
+  \label{ex:fina}
+\end{example}
+It is known that except for \acp{DBA} all these automata do have the same
 expressiveness.
 \begin{theorem}
   \cite[Proposition 5.3, Theorem 5.4, Proposition 5.6]{LangAutoLog}
@@ -90,10 +105,34 @@ expressiveness.
   \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NSA}, \acp{DSA}, \acp{NPA} and
   \acp{DPA}.
 \end{theorem}
+\fxfatal{Missing reference}
+Proving that \acp{DBA} are less expressive can be done by using
+$\mathcal{L}$ from Example \ref{ex:fina} and the following argument: the
+deterministic nature of any \ac{DBA} $\mathcal{A}$ yields one possible run for
+every word of $\mathcal{A}$. This means that words with common finite prefixes
+share common finite prefixes of their individual runs. Any run is deemed
+accepting if there are infinitely many occurences of states in some subset $F$
+of the states of $\mathcal{A}$. Assuming one particular \ac{DBA} $\mathcal{A}$
+that precisely accepts $\mathcal{L}$, we construct an accepting run of
+$\mathcal{A}$ on a word that is not in $\mathcal{L}$ by using the common
+prefixes of runs on words that individually are in $\mathcal{L}$. For every
+$i\in\mathbb{N}_{>0}$ we consider an $\alpha_{i}\in\mathcal{L}$ as the word of
+the form $(b^{k_{i}}a)^{i}b^{\omega}$ where every $k_{i}$ is chosen such that
+the run of $\mathcal{A}$ on this prefix visited $F$ right before the next $b$
+$i$-th times. These $k_{i}$ exist since every $\alpha_{i}$ are in $\mathcal{L}$
+hence accepted by $\mathcal{A}$ which requires infinitely many occurences of
+states in $F$. Furthermore all runs of $\mathcal{A}$ on all $\alpha_{i}$ agree
+for the $(b^{k_{i}}a)^{i}$ prefix but iterating this argument constructs by
+design a word with infinitely many occurences of $a$ that is still accepted by
+$\mathcal{A}$. Which concludes the difficult part of the argument for
+\begin{proposition}
+  \acp{DBA} are less expressive than \acp{NBA}.
+  \label{prop:dba<nba}
+\end{proposition}
 
 \section{Probabilistic Büchi Automata}
 Upon the concept of \acp{NBA} there are approaches to substitute the
-non-deterministic choices by probabilities for the choices
+non-deterministic choices by probabilities for the possibilities
 (see \cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}). In order to
 properly define these automata we introduce the concept of \aclp{MDP}.
 \aclp*{MDP} can be used to model a system which reacts to the actions of an
