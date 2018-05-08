@@ -6,7 +6,7 @@ LATEXFLAGS=
 
 BIBTEX=biber
 
-HIDEPATTERN=(\.(aux|log|lox|bbl|bcf|blg|run\.xml)$$)
+HIDEPATTERN=(\.(aux|log|lox|bbl|bcf|toc|blg|run\.xml)$$)
 
 TIKZDIR=tikz/
 TIKZBLUEPRINT=$(TIKZDIR)tikz-blueprint.tex
