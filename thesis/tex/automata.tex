@@ -1,6 +1,4 @@
 \chapter{On words and trees}
-\epigraph{To be inserted.}{
-  John Ronald Reuel Tolkien\\The Lord of the Rings\\ - The two Towers}
 It is well established to rely on finite automata to recognize languages of
 infinite objects, e.g. trees or words \cite{LangAutoLog}. In this chapter we
 recall some known results for languages of infinite words and infinite trees.
@@ -10,6 +8,7 @@ and examine a new class of tree automata, called \aclp{WDTA}. In Chapter
 synthesis results in the context of probabilistic environments.
 
 \section{$\omega$-regular Languages}
+\label{sec:wordautomata}
 Following \cite{LangAutoLog} we introduce word automata with the following
 structural definition
 \begin{definition}[Word Automaton]
@@ -44,7 +43,7 @@ following conditions:
   $\Inf$ as the set of states that occur infinitely in a run, i.e.
   \begin{equation*}
     \Inf(\pi) = \set{q\in Q\middle| \text{ there are infinitely many }
-    i\in\mathbb{N} \text{ s.t. } \pi_{i} = q}
+    i\in\mathbb{N} \text{ s.t. } \pi_{i} = q}.
   \end{equation*}
   With this notion we define the following acceptance conditions:
   \begin{description}
@@ -260,7 +259,47 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 \end{example}
 
 \section{Tree Automata}
-\fxfatal{elaborate on classical tree automata}
+\subsection{Classic Tree Automata}
+In Section \ref{sec:wordautomata} it is noted that word automata attach to a
+word a sequence of states. The idea of classic tree automata is to attach
+states to more complex structures, namely trees.
+\begin{definition}[Tree]
+  For a finite set of directions $D$ and a finite alphabet $\Sigma$ we define
+  a $D/\Sigma$ tree $t:D^{*}\rightarrow\Sigma$. Normally, since $D$ and
+  $\Sigma$ are clear from the context they are omitted in the definition. Let
+  $\mathcal{T}_{D}^{\Sigma}$ denote the set of all $D/\Sigma$ trees.
+\end{definition}
+A classic tree automaton produces a tree of states which is attached to the
+input tree.
+\begin{definition}[Tree automaton]
+  Let $Q$ be a finite set of states and $q_{0}\in Q$ be one initial state.
+  Furthermore, let $\Delta$ denote a set of transitions of the form
+  $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}$ where $q\in Q, q_{d}\in Q$ for
+  all $d\in D$ and $\sigma\in\Sigma$. Thus, define a tree automaton
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, \Delta}.
+  \end{equation*}
+  And its semantics with the following auxillary notions
+  \begin{description}
+    \item[Run] a run of $\mathcal{A}$ on a $D/\Sigma$ tree $t$ is a $D/Q$ tree
+      $r$ such that $r(\epsilon) = q_{0}$ and for every $u\in D^{*}$ there is
+      one $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}\in\Delta$ with
+      $r(ud) = q_{d}$.
+    \item[Acceptance Condition] the acceptance condition of a tree automaton is
+      some language $\Acc\subseteq Q^{\omega}$. Analogously to acceptance
+      conditions for word automata we consider $\Acc$ defined as Büchi,
+      co-Büchi,Parity, Muller, Streett or Rabin conditions.
+    \item[Projection of a tree] for any $\alpha=\alpha_{1}\alpha_{2}\dots\in
+      D^{\omega}$ and any $D/\Sigma$ tree $t$ let $t(\alpha)$ denote the word
+      $\beta = \beta_{0}\beta_{1}\dots\in\Sigma^{\omega}$ such that for every
+      $i\in\mathbb{N}_{>0}$ holds $\beta_{i} = t(\alpha_{1}\dots\alpha_{i})$
+      and $\beta_{0} = t(\epsilon)$.
+  \end{description}
+  $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
+  on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
+\end{definition}
+
+\subsection{Weighted Descent Tree Automata}
 Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
 the different paths of the run. Hereby, we incorporate the concept of
 \emph{alternation} by allowing to send different states on the same path
