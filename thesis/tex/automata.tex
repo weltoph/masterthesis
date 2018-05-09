@@ -79,10 +79,10 @@ $\mathcal{A}$ is deterministic. And analogously we obtain word automata for
 Muller, Rabin, Streett and Parity conditions and corresponding acronyms.
 \acuse{NMA}\acuse{DMA}\acuse{NRA}\acuse{DRA}\acuse{NSA}\acuse{DSA}\acuse{NPA}
 \acuse{DPA}
+\fxfatal{find reference for following argument}
 \begin{example}
   We consider one example language $\mathcal{L}$ as the set of all infinite
   words over the alphabet $\set{a,b}$ such that $a$ occurs only finitely often.
-  \fxfatal{find reference for following argument}
   It is straightforward to define an \ac{NBA} that accepts this language. The
   central idea of this \ac{NBA} is to non-deterministically \enquote{guess} the
   moment from which on no $a$ occurs anymore (see Figure \ref{fig:nbafina} for
@@ -298,6 +298,12 @@ input tree.
   $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
   on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
 \end{definition}
+\fxfatal{find references}
+\begin{example}
+  One commonly used introductory example for tree automata is the language
+  $\mathcal{L}_{\exists a}$ of those binary trees over $\set{a,b}$ that contain
+  at least one $a$.
+\end{example}
 
 \subsection{Weighted Descent Tree Automata}
 Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
