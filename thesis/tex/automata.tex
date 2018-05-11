@@ -259,7 +259,7 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 \end{example}
 
 \section{Tree Automata}
-\subsection{Classic Tree Automata}
+\subsection{Nondeterministic Tree Automata}
 In Section \ref{sec:wordautomata} it is noted that word automata attach to a
 word a sequence of states. The idea of classic tree automata is to attach
 states to more complex structures, namely trees:
@@ -321,16 +321,18 @@ input tree.
   \end{equation*}
   with
   \begin{equation*}
-    \Delta = \{\tuple{q_{a}, a, q_{a}, q_{a}},\tuple{q_{a}, b, q_{a}, q_{a}},
+    \Delta = \set{\tuple{q_{a}, a, q_{a}, q_{a}},\tuple{q_{a}, b, q_{a}, q_{a}},
       \tuple{q_{s}, b, q_{s}, q_{a}}, \tuple{q_{s}, b, q_{a}, q_{s}},
-      \tuple{q_{s}, a, q_{a}, q_{a}}\}.
+      \tuple{q_{s}, a, q_{a}, q_{a}}}.
   \end{equation*}
   For all trees in $\mathcal{L}_{\exists a}$ the automaton
   $\mathcal{A}_{\exists a}$ can produce an accepting run by \enquote{guessing}
   a path to the occurence of $a$ while every tree accepted by
   $\mathcal{A}_{\exists a}$ does need to contain an $a$ since otherwise $q_{s}$
   is never transformed into $q_{a}$ which yields one non-accepting path in any
-  run.
+  run. Enforcing, that $q_{s}$ always reproduces into both subtrees yields an
+  automaton which recognizes the language of those trees which do have an $a$
+  on every branch. We denote this language as $\mathcal{L}_{\forall a}$.
 \end{example}
 It is noteworthy that $\mathcal{A}_{\exists a}$ uses a very simple acceptance
 condition, namely a reachability condition which is emulated by a Büchi
@@ -340,8 +342,54 @@ acceptance condition:
   This example is similiar to e.g.
   \cite[Exercise 8.3 and the proof of Theorem 8.6]{AutoLogInfGames}.
   Let $\mathcal{L}_{\not\infty b}$ be the language of all binary trees over the
-  set $\set{a,b}$ that contain on every path only finitely many $b$.
+  set $\set{a,b}$ that contain on every path only finitely many $b$. This
+  language can be recognized by tree automata with a very easy structure,
+  namely there are two states $q_{a}, q_{b}$ which only are visited if the
+  corresponding letter is read. Thus, we define
+  \begin{equation*}
+    \Delta = \set{
+      \tuple{q_{a}, a, q_{a}, q_{a}},
+      \tuple{q_{b}, a, q_{a}, q_{a}},
+      \tuple{q_{a}, b, q_{b}, q_{b}},
+      \tuple{q_{b}, b, q_{b}, q_{b}}
+    }.
+  \end{equation*}
+  The acceptance condition has to ensure that only $q_{a}$ occurs infinitely
+  often. This can be - for example - expressed via a parity or Muller condition:
+  \begin{equation*}
+    \parity(q_{a}) = 0, \parity(q_{b}) = 1\text{ or }
+    \mathcal{F} = \set{\set{q_{a}}}.
+  \end{equation*}
+  We choose to use the parity condition here and therefore define the
+  corresponding automaton\footnote{and coincidently solve the missing part of
+  \cite[Exercise 8.3]{AutoLogInfGames}.}
+  \begin{equation*}
+    \mathcal{A}_{\not\infty b} = \tuple{\set{q_{a}, q_{b}}, q_{a}, \Delta,
+    \parity}.
+  \end{equation*}
 \end{example}
+Note that both these acceptance conditions specifically exclude the infinite
+occurences of $q_{b}$ (since the parity of $q_{b}$ trumps the parity of
+$q_{a}$ but is odd respectively neither $\set{q_{a}, q_{b}}$ nor
+$\set{q_{b}}$ are part of $\mathcal{F}$). In the equivalent Rabin
+condition $\set{\tuple{\set{q_{a}}, \set{q_{b}}}}$ this exclusion of $q_{b}$
+is even made explicit. But such an exclusion cannot be trivially expressed by a
+Büchi condition due to the positive nature of its semantics. In fact we can use
+this language to separate the expressiveness of tree automata as in
+\begin{theorem}
+  \cite[Corollary 8]{WeakDefRel} cited after
+  \cite[Theorem 8.6]{AutoLogInfGames}.
+  Büchi tree automata are strictly weaker than Muller tree automata in the
+  sense that there exists a Muller tree automaton recognizable language which
+  is not Büchi tree automaton recognizable.
+\end{theorem}
+
+\subsection{Alternating Tree Automata}
+Up to this point the used tree automata mirrored the structure of their inputs
+very closely. This means both the runs of the tree automata and the input tress
+are of the same \enquote{dimensionality}, i.e. both are runs over the same set
+of directions. This notion can be relaxed to obtain a new class of tree
+automata, that is \aclp{ATA}.
 
 \subsection{Weighted Descent Tree Automata}
 Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
