@@ -262,7 +262,7 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 \subsection{Classic Tree Automata}
 In Section \ref{sec:wordautomata} it is noted that word automata attach to a
 word a sequence of states. The idea of classic tree automata is to attach
-states to more complex structures, namely trees.
+states to more complex structures, namely trees:
 \begin{definition}[Tree]
   For a finite set of directions $D$ and a finite alphabet $\Sigma$ we define
   a $D/\Sigma$ tree $t:D^{*}\rightarrow\Sigma$. Normally, since $D$ and
@@ -302,7 +302,45 @@ input tree.
 \begin{example}
   One commonly used introductory example for tree automata is the language
   $\mathcal{L}_{\exists a}$ of those binary trees over $\set{a,b}$ that contain
-  at least one $a$.
+  at least one $a$. This language can be accepted by a tree automaton by
+  non-deterministically choosing a path to an occurence of an $a$ and rendering
+  every other path accepted. And the chosen path accepted from the point
+  onwards where an $a$ occured. The corresponding tree automaton can be
+  described by two states $q_{s}, q_{a}$, where $q_{s}$ is a state that
+  searches for an $a$ while $q_{a}$ is a state that renders all its subtrees
+  accepting. $q_{a}$ reproduces itself into all its subtrees, while $q_{s}$
+  reproduces itself only in one of its subtrees and \enquote{dismissing} the
+  other one by sending $q_{a}$ in it. The acceptance condition is described as
+  a Büchi condition by the set $F = \set{q_{a}}$, thus, since $q_{a}$ only
+  produces $q_{a}$ in all following subtrees, it can be also understood as a
+  reachability condition. This yields the tree automaton
+  \begin{equation*}
+    \mathcal{A}_{\exists a} = \tuple{Q = \set{q_{s}, q_{a}}, q_{s},
+    \Delta
+    ,F = \set{q_{a}}}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta = \{\tuple{q_{a}, a, q_{a}, q_{a}},\tuple{q_{a}, b, q_{a}, q_{a}},
+      \tuple{q_{s}, b, q_{s}, q_{a}}, \tuple{q_{s}, b, q_{a}, q_{s}},
+      \tuple{q_{s}, a, q_{a}, q_{a}}\}.
+  \end{equation*}
+  For all trees in $\mathcal{L}_{\exists a}$ the automaton
+  $\mathcal{A}_{\exists a}$ can produce an accepting run by \enquote{guessing}
+  a path to the occurence of $a$ while every tree accepted by
+  $\mathcal{A}_{\exists a}$ does need to contain an $a$ since otherwise $q_{s}$
+  is never transformed into $q_{a}$ which yields one non-accepting path in any
+  run.
+\end{example}
+It is noteworthy that $\mathcal{A}_{\exists a}$ uses a very simple acceptance
+condition, namely a reachability condition which is emulated by a Büchi
+condition. The following example on the other hand uses a more elaborate
+acceptance condition:
+\begin{example}
+  This example is similiar to e.g.
+  \cite[Exercise 8.3 and the proof of Theorem 8.6]{AutoLogInfGames}.
+  Let $\mathcal{L}_{\not\infty b}$ be the language of all binary trees over the
+  set $\set{a,b}$ that contain on every path only finitely many $b$.
 \end{example}
 
 \subsection{Weighted Descent Tree Automata}
