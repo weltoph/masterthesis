@@ -50,6 +50,10 @@ following conditions:
     \item [Büchi] A Büchi condition is defined by a set of final states
       $F\subseteq Q$ and we call a run $\pi$ accepting if
       $\Inf(\pi)\cap F\neq\emptyset$.
+    \item [co-Büchi] A co-Büchi condition is defined by a set of states
+      $F\subseteq Q$ which eventually have to be avoided, i.e. a run $\pi$ is
+      accpeting if $\Inf(\pi)\cap F=\emptyset$. Note that a co-Büchi condition
+      precisely defines the inverse of a Büchi condition.
     \item [Muller] Muller conditions are given as a family of state sets, i.e.
       $\mathcal{F}\subseteq 2^{F}$. A run $\pi$ is called accepting if
       $\Inf(\pi)\in\mathcal{F}$.
@@ -262,15 +266,11 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 \subsection{Nondeterministic Tree Automata}
 In Section \ref{sec:wordautomata} it is noted that word automata attach to a
 word a sequence of states. The idea of classic tree automata is to attach
-states to more complex structures, namely trees:
-\begin{definition}[Tree]
-  For a finite set of directions $D$ and a finite alphabet $\Sigma$ we define
-  a $D/\Sigma$ tree $t:D^{*}\rightarrow\Sigma$. Normally, since $D$ and
-  $\Sigma$ are clear from the context they are omitted in the definition. Let
-  $\mathcal{T}_{D}^{\Sigma}$ denote the set of all $D/\Sigma$ trees.
-\end{definition}
-A classic tree automaton produces a tree of states which is attached to the
-input tree.
+states to more complex structures, namely trees. For a finite set of
+directions $D$ and a finite alphabet $\Sigma$ we define a $D$-ary $\Sigma$-tree
+$t:D^{*}\rightarrow\Sigma$. A classic tree automaton produces a tree of states
+which is attached to the input tree, hence a $D$-ary $Q$-tree where $Q$ is the
+set of states.
 \begin{definition}[Tree automaton]
   Let $Q$ be a finite set of states and $q_{0}\in Q$ be one initial state.
   Furthermore, let $\Delta$ denote a set of transitions of the form
@@ -403,8 +403,8 @@ operate by sending down \enquote{copies} through the different paths. In the
 classical setting at every branching point every successor is awarded with one
 copy of a state of the automaton. The aforementioned relaxation lies in the
 idea to allow at a branching point to award some successor with more than one
-state while others may not receive a single one. This concept is also used to
-define automata that run over transition systems, e.g.
+state while others may not receive even a single one. This concept is also used 
+to define automata that run over transition systems, e.g.
 \cite[Chapter 9]{AutoLogInfGames} and \cite{SynProbEnv}, where the input tree
 is the unrollment of the transition system.
 
@@ -458,9 +458,40 @@ formalism.
     \delta(q_{s}, b) = \tuple{0, q_{s}}\vee\tuple{1, q_{s}}.
   \end{equation*}
 \end{example}
-We formally define
-\fxfatal{write down definition}
+We formally define similar to \cite{SynProbEnv}
 \begin{definition}[Alternating Tree Automata]
+  For a finite set of states $Q$, one distinct intial state $q_{0}\in Q$, a
+  finite set of directions $D$, a finite alphabet $\Sigma$ and a transition
+  function $\delta:Q\times\Sigma\rightarrow\mathcal{L}(D\times Q)$ we can
+  define an \ac{ATA} $\mathcal{A}$ over $D$-ary $\Sigma$-trees as
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \delta, \Acc\subseteq Q^{\omega}}.
+  \end{equation*}
+  The semantics of $\mathcal{A}$ is given by a run $r$ of $\mathcal{A}$ on a
+  tree $t$. Here $r$ is a $D\times Q$-ary $\set{0,1}$-tree with the following
+  necessities:
+  \begin{enumerate}
+    \item $r(\epsilon) = 1$,
+    \item for every $u = \tuple{d_{1}, q_{1}}\dots\tuple{d_{n}, q_{n}}\in
+      \tuple{D\times Q}^{*}$ with $r(u) = 1$ there exists $C_{i}$ in
+      $\delta(q_{n}, t(d_{1}\dots d_{n}))$ (resp. $\delta(q_{0}, t(\epsilon)$
+      if $u = \epsilon$) such that $r(u\cdot\tuple{d,q}) = 1$ if and only if
+      $\tuple{d,q}$ is in $C_{i}$.
+  \end{enumerate}
+  We consider such a run $r$ accepting if all the marked paths, i.e. those
+  paths along which $r$ always maps to $1$, are part of $\Acc$. Formally, we
+  fix for any run the set of its marked path as
+  \begin{equation*}
+  M_{r} = \set{\tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+    \tuple{D\times Q}^{\omega}\mid r(\tuple{d_{1}, q_{1}}\dots
+  \tuple{d_{i}, q_{i}}) = 1 \text{ for every }i>0}
+  \end{equation*}
+  and require that
+  \begin{equation*}
+    M_{r}\subseteq D^{\omega}\times\Acc.
+  \end{equation*}
+  Again, we consider for $\Acc$ acceptance conditions which are representable
+  as Büchi, co-Büchi, Streett, Rabin, Muller or Parity conditions.
 \end{definition}
 
 \subsection{Weighted Descent Tree Automata}
