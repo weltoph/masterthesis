@@ -497,17 +497,17 @@ We formally define similar to \cite{SynProbEnv}
 \end{definition}
 
 \subsection{Graph Games}
-Tree automata are closely related to graph games\fxfatal{add reference}. Such
-games are held between two players in an \emph{arena}. An arena is a directed
-graph where the nodes are partioned into two sets; each set is associated with
-one player. A game on such an arena begins in one node and unfolds by the
-choices of the players. The player to whom the current node $v$ belongs may
-choose the node $u$ the game proceeds to from the set of those nodes connected
-to $v$. By associating a winning condition for one player to the game we can
-call a game won by this player if the played state sequence belongs to her
-winning condition. In this thesis we consider zero-sum games, i.e. if the
-winning condition of one player is not met we consider the opponent victorious.
-This leads to the definition
+Tree automata are closely related to graph games, e.g.
+\cite[Chapter 9]{AutoLogInfGames}. Such games are held between two players in
+an \emph{arena}. An arena is a directed graph where the nodes are partioned
+into two sets; each set is associated with one player. A game on such an arena
+begins in one node and unfolds by the choices of the players. The player to
+whom the current node $v$ belongs may choose the node $u$ the game proceeds to
+from the set of those nodes connected to $v$. By associating a winning
+condition for one player to the game we can call a game won by this player if
+the played state sequence belongs to her winning condition. In this thesis we
+consider zero-sum games, i.e. if the winning condition of one player is not met
+we consider the opponent victorious. This leads to the definition
 \begin{definition}[Graph Games]
   \begin{description}
     \item [Arena] Let $V$ be a set of nodes which is partioned into $V_{0}$ and
@@ -516,13 +516,18 @@ This leads to the definition
     \item [Game] For an arena $\tuple{V, V_{0}, V_{1}, E}$ we define with a
       winning condition $\Acc$ and one distinguished initial vertex
       $v_{0}\in V$ the game
-      $\mathcal{G} = \tuple{V, V_{0}, V_{1}, E, v_{0}, \Acc}$.
+      $\tuple{\mathcal{G}, v_{0}} = \tuple{V, V_{0}, V_{1}, E, \Acc}$.
+    \item [Play] A play for a game $\tuple{\mathcal{G}, v_{0}} = \tuple{V,
+      V_{0}, V_{1}, E, \Acc}$ is any sequence $v_{0}v_{1}\dots\in
+      V^{\omega}$ which starts in $v_{0}$ and where for every $i > 0$ holds
+      that $v_{i}\in v_{i-1}E$.
     \item [Strategy] For $\sigma\in\set{0,1}$ we define a strategy
       $f_{\sigma}: V^{*}V_{\sigma}\rightarrow V$ where for any $w\in V^{*}$ and
       $v\in V_{\sigma}$ $f_{\sigma}(w\cdot v)\in vE$ (where $vE =
-      \set{u\in V\mid\tuple{v,u}\in E}$).
-    \item [Play] Two strategies $f_{0}, f_{1}$ the game $\mathcal{G}$
-      induce a play $v_{0}v_{1}\dots$ by fixing for any $v\in V$ the term
+      \set{u\in V\mid\tuple{v,u}\in E}$). A play is considered winning for
+      player $0$ if it belongs to $\Acc$. Notably it holds that two strategies
+      $f_{0}, f_{1}$ induce a play $v_{0}v_{1}\dots$ by fixing for any $v\in V$
+      the term
       \begin{equation*}
         \sigma(v) = \begin{cases}
           0&\text{if }v\in V_{0}\\
@@ -530,12 +535,38 @@ This leads to the definition
         \end{cases}\text{ and enforcing }
         v_{i+1} = f_{\sigma(v_{i})}(v_{0}\dots v_{i}).
       \end{equation*}
-      Such a play is considered winning for player $0$ if if belongs to $\Acc$.
+      If a strategy for player $\sigma$ can equivalently be represented as a
+      function $f:V_{\sigma}\rightarrow V$ (naturally still satisfying that
+      $f(u)\in uE$ for all $u\in V_{\sigma}$) we call this strategy
+      \emph{memoryless} or \emph{positional}.
+    \item [Winning] We say a play $v_{0}v_{1}\dots$ is \emph{consistent} with a
+      strategy $f$ for player $\sigma$ if for every $i$ with
+      $v_{i}\in V_{\sigma}$ holds that $v_{i+1} = f(v_{0}\dots v_{i})$. 
       A strategy $f$ for player $\sigma$ is called a \emph{winning strategy} if
       \emph{every} play consistent with $f$ is winning for player $\sigma$.
-
+      We denote with \emph{winning regions}
+      $\mathcal{W}^{\mathcal{G}}_{\sigma}$ those nodes $v\in V$ such that
+      player $\sigma$ has a winning strategy in $\tuple{\mathcal{G}, v}$.
   \end{description}
+  As we are already accustomed $\Acc$ is represented in finite ways by using
+  Büchi, co-Büchi, Streett, Rabin, Muller or Parity conditions.
 \end{definition}
+Given any game $\mathcal{G}$ the question arises that for every node $v$ one of
+the players can ensure her win by playing the correct strategy (regardless of
+the strategy her opponent chooses), i.e.
+$\mathcal{W}^{\mathcal{G}}_{0}\cup\mathcal{W}^{\mathcal{G}}_{1} = V$. We call
+a game with this property \emph{determined}. \fxfatal{Find reference}
+As we explore this topic later on in more detail we state here without detailed
+explanation that Muller and therefore also Büchi, co-Büchi, Streett, Rabin and
+Parity conditions are Borel. And the following theorem
+\begin{theorem}[Martin's Theorem]
+  All Borel-games are determined.
+\end{theorem}
+By this we can deduce the determinacy of all the games we consider
+\begin{corollary}
+  All Büchi-, co-Büchi-, Streett-, Rabin-, Muller- and Parity-games are
+  determined.
+\end{corollary}
 
 \subsection{Weighted Descent Tree Automata}
 Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
