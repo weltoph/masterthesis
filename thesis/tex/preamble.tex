@@ -183,12 +183,12 @@
 
 \newtheorem{localexample}{Example}[section]
 \newenvironment{example}
-{\begin{mdframed}[nobreak=true, backgroundcolor=green!40]\begin{localexample}}
+{\begin{mdframed}[backgroundcolor=green!40]\begin{localexample}}
 {\end{localexample}\end{mdframed}}
 
 \newtheorem{localdef}{Definition}[section]
 \newenvironment{definition}[1][]
-{\begin{mdframed}[nobreak=true, backgroundcolor=gray!20]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\leavevmode\\}
+{\begin{mdframed}[backgroundcolor=gray!20]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\leavevmode\\}
 {\end{localdef}\end{mdframed}}
 
 % quotes
