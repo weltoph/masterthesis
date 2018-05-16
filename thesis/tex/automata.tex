@@ -130,16 +130,17 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   restriction for $\mathcal{A}$.
   \label{ex:fina}
 \end{example}
-\begin{figure}
-  \resizebox{\textwidth}{!}{\includegraphics{tikz/fina-automaton.pdf}}
+\begin{drawing}
   \caption{In (a) an \ac{NBA} is illustrated which accepts the language of
   words with finitely many $a$. The states of the Büchi-condition $F$ are
   marked by doubling the outline, i.e. $F = \set{q_{F}}$.
   In (b) a deterministic automaton is defined which simply moves to $q_{a}$
   (resp. $q_{b}$) if an $a$ (resp. $b$) is read (starting in $q_{a}$).}
   \label{fig:finaautomata}
-\end{figure}
-We radically compress the theory to $\omega$-automata by stating the following
+  \resizebox{\textwidth}{!}{\includegraphics{tikz/fina-automaton.pdf}}
+\end{drawing}
+We radically compress the rich theory of $\omega$-automata by simply stating 
+the following
 \begin{theorem}
   \cite[Theorem 1.19, Theorem 1.24, Section 1.3.2,Theorem 3.2]{AutoLogInfGames}
   The class of recognizable languages coincides for \acp{NBA}, \acp{NMA},
@@ -148,7 +149,7 @@ We radically compress the theory to $\omega$-automata by stating the following
 \end{theorem}
 Additionally, we will restrict the proof to some of its arguments, namely one
 which allows us to introduce the concept of \acp{LAR} and some that are easily
-explained and also re-used later on.
+explained and also later on referred to.
 \begin{proof}
   Firstly, we provide an argument to show that \acp{DBA} are less expressive.
   Consider again $\mathcal{L}$ from Example \ref{ex:fina} and the following
@@ -249,13 +250,48 @@ explained and also re-used later on.
 
 \section{Probabilistic Büchi Automata}
 Upon the concept of \acp{NBA} there are approaches to substitute the
-non-deterministic choices by probabilities for the possibilities
-(see \cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}). In order to
-properly define these automata we introduce the concept of \aclp{MDP}.
-\aclp*{MDP} can be used to model a system which reacts to the actions of an
-agent (often called player) probabilisticly.\fxfatal{more general reference for
-MPD}
-More formally we use these definitions which follow \cite{RandAutoInfTrees}:
+non-deterministic choices by probabilistic ones, e.g.
+\cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}. We begin with
+a formal introduction of an automaton model which makes use of this idea,
+called \aclp{PBA}. Then we proceed by introducing the necessary concept of
+measuring theory to formally define their semantics. Additionally, these basic
+concepts of measuring theory are re-used later on for more complex
+probabilistic automata models.
+
+A \ac{PBA} essentially is a \ac{NBA} where the non-determinism is solved by a 
+probability distribution. Therefore, we define analogously to 
+\cite{Groesser}
+\begin{definition}[Probabilistic Büchi Automata]
+  A \acl{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
+  tuple $\tuple{Q, \Sigma, \delta, q_{0}, F}$ where $Q$ is a finite state set,
+  $q_{0}\in Q$ the initial state,
+    $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$
+  a transition probability function such that for all pairs $q\in Q$ and
+  $\sigma\in\Sigma$ we have $\sum_{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
+  and $F\subseteq Q$ is the set of final states.
+\end{definition}
+Note that this definition may also be altered to allow initial distributions
+rather than one initial state \cite{RecOmeLangProbAuto}. Conceptually, a
+\ac{PBA} $\mathcal{P}$ processes an input word similarly as other word automata
+by sequentially reading the letters of the input word and moving along its
+states. Provided the current state is $q$ and the next letter of the input word 
+is $a$ then $\mathcal{P}$ consults $\delta$ to determine its next state,
+specifically $\mathcal{P}$ chooses a state $p$ by the probability
+$\delta(q,a,p)$. Naturally, any run of $\mathcal{P}$ starts in its initial
+state $q_{0}$ (respectively $\mathcal{P}$ may choose its initial state by a
+given probability distribution $\iota:Q\rightarrow\interval{0,1}$). Considering
+one fixed input word $\alpha$ the \ac{PBA} $\mathcal{P}$ provides a process
+which produces corresponding state sequences with certain probabilities. Its
+acceptance is defined by the notion of how probable the produced state 
+sequences are to satisfy the associated Büchi-condition $F$. The formal
+definition of this intuition is slightly postponed to define the required
+basics of measuring theory.
+
+In order to properly define these automata we introduce the concept of
+\aclp{MDP}. \aclp*{MDP} can be used to model a system which reacts to the
+actions of an agent (often called player) probabilisticly.\fxfatal{more general 
+reference for MPD} More formally we use these definitions which follow
+\cite{RandAutoInfTrees}:
 \begin{definition}[Markov Decision Process]
   A \acl*{MDP} is modelled as tuple
   $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ where $S$ is a set of states
@@ -306,20 +342,6 @@ the ring of cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}). This
 pre-measure can now be uniquely extended to a probability measure on the
 $\sigma$-algebra induced by the set of cylinders \cite[Theorem 5.4]{Bauer}.
 
-Given this definition of \acp{MDP} we can now examine \acp{PBA}. A \ac{PBA}
-essentially is a \ac{NBA} where the non-determinism is solved by a probability
-distribution. More formally, we define analogously to \cite{Groesser}
-\begin{definition}[Probabilistic Büchi Automata]
-  A \acl{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
-  tuple $\tuple{Q, \Sigma, \delta, q_{0}, F}$ where $Q$ is a finite state set,
-  $q_{0}\in Q$ the initial state,
-    $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$
-  a transition probability function such that for all pairs $q\in Q$ and
-  $\sigma\in\Sigma$ we have $\sum_{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
-  and $F\subseteq Q$ is the set of final states.
-\end{definition}
-Note that this definition may also be altered to allow initial distributions
-rather than one initial state \cite{RecOmeLangProbAuto}.
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
 are induced by a word $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$
 rather than a player. For a \ac{PBA} $\mathcal{A}$ we can easily define a

@@ -1,6 +1,6 @@
 \begin{tikzpicture}
   \node (a) {$(a)$};
-  \node [below right=0.2 of a] {%
+  \node [below right=0.1 and 0.1 of a] (pica) {%
     \begin{tikzpicture}[anchor=center]
       \node[autonode, state, initial] (q0) {$q_{0}$};
       \node[autonode, right=of q0, state, accepting] (qF) {$q_{F}$};
@@ -9,8 +9,8 @@
       \draw[->] (q0) to node[above] {$b$} (qF);
     \end{tikzpicture}
   };
-  \node [right=4 of a] (b) {$(b)$};
-  \node [below right=0.2 of b] {%
+  \node [right=5 of a] (b) {$(b)$};
+  \node [below right=0.1 and 0.1 of b] (picb) {%
     \begin{tikzpicture}[anchor=center]
       \node[autonode, state, initial] (qa) {$q_{a}$};
       \node[autonode, right=of qa, state] (qb) {$q_{b}$};
