@@ -94,7 +94,7 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   We consider the language $\mathcal{L}$ as the set of all infinite
   words over the alphabet $\set{a,b}$ such that $a$ occurs only finitely often.
   This language can be accepted using e.g. an \ac{NBA} $\mathcal{A}$ as defined 
-  in Figure \ref{fig:nbafina}. The argument that this \ac{NBA} accepts 
+  in Figure \ref{fig:finaautomata}. The argument that this \ac{NBA} accepts 
   $\mathcal{L}$ is as follows: The non-determinism allows the automaton to 
   \enquote{guess} one moment from which on no more $a$ is read. For any word in 
   $\mathcal{L}$ such a moment exists and can therefore be correctly guessed 
@@ -105,7 +105,7 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   Alternatively, we can accept $\mathcal{L}$ by a \ac{DPA} $\mathcal{B}_{P}$,
   \ac{DRA} $\mathcal{B}_{R}$, \ac{DMA}
   $\mathcal{B}_{M}$ which all share the same structure as defined in Figure
-  \ref{fig:detautofina}. We use the different acceptance conditions to model
+  \ref{fig:finaautomata}. We use the different acceptance conditions to model
   the same restriction, namely that $q_{a}$ only occurs finitely often while
   $q_{b}$ occurs infinitely often.
   \begin{description}
@@ -130,6 +130,15 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   restriction for $\mathcal{A}$.
   \label{ex:fina}
 \end{example}
+\begin{figure}
+  \resizebox{\textwidth}{!}{\includegraphics{tikz/fina-automaton.pdf}}
+  \caption{In (a) an \ac{NBA} is illustrated which accepts the language of
+  words with finitely many $a$. The states of the Büchi-condition $F$ are
+  marked by doubling the outline, i.e. $F = \set{q_{F}}$.
+  In (b) a deterministic automaton is defined which simply moves to $q_{a}$
+  (resp. $q_{b}$) if an $a$ (resp. $b$) is read (starting in $q_{a}$).}
+  \label{fig:finaautomata}
+\end{figure}
 We radically compress the theory to $\omega$-automata by stating the following
 \begin{theorem}
   \cite[Theorem 1.19, Theorem 1.24, Section 1.3.2,Theorem 3.2]{AutoLogInfGames}
@@ -230,8 +239,8 @@ explained and also re-used later on.
     For every \acp{NBA} exists an equivalent \ac{NMA} and for every \acp{NMA}
     exists an equivalent \ac{NBA}.
   \end{theorem}
-  And also we avoid the technicalities of determinization of an \ac{NBA} by
-  simply stating
+  And also we avoid the lengthy technicalities of determinization of an
+ \ac{NBA} by simply stating
   \begin{theorem}
     \cite[Theorem 3.6]{AutoLogInfGames}
     For every \acp{NBA} exists an equivalent \ac{DMA}.

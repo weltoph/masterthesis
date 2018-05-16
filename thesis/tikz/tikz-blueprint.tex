@@ -1,4 +1,43 @@
 \documentclass[crop, tikz]{standalone}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,backgrounds,fit,decorations.pathmorphing,%
+automata}
+\tikzset{
+  initial text = {},
+  autonode/.style = {
+    draw,
+    inner sep = 0mm,
+    minimum size = 8mm
+  },
+  gamenode/.style = {
+    draw,
+    inner sel = 0mm,
+    minimum size = 8mm
+  }
+}
+
+% usage: loopabove {state} {text}
+\newcommand{\loopabove}[2]{
+  \draw[bend right=120, looseness=10, ->] (#1.80) to node[above] {#2} (#1.100)
+}
+
+% usage: loopbelow {state} {text}
+\newcommand{\loopbelow}[2]{
+  \draw[bend right=120, looseness=10, ->] (#1.260) to node[below] {#2} (#1.280)
+}
+
+% usage: loopleft {state} {text}
+\newcommand{\loopleft}[2]{
+  \draw[bend right=120, looseness=10, ->] (#1.170) to node[left] {#2} (#1.190)
+}
+
+% usage: loopright {state} {text}
+\newcommand{\loopright}[2]{
+  \draw[bend right=120, looseness=10, ->] (#1.350) to node[right] {#2} (#1.10)
+}
+
 \begin{document}
 \input{\inputfile}
 \end{document}
