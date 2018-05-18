@@ -328,10 +328,40 @@ Thus, we are interested in a probability space that is induced by the \ac{PBA}
 $\mathcal{P}$ on the base set $Q^{\omega}$ while reading the input word 
 $\alpha$. Fix for every $u\in Q^{*}$ the set 
 $\cyl(u) = \set{u\beta : \beta\in Q^{\omega}}\subseteq Q^{\omega}$, a 
-\emph{cylinder} as illustrated in Figure \ref{fig:cyl}. By using
-the transition probabilities of $\mathcal{P}$ we can formulate the probability
-to stay within a certain cylinder while reading a finite prefix of the input
-word. Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$.
+\emph{cylinder} as illustrated in Figure \ref{fig:cylinder}.
+\begin{drawing}
+  \caption{All infinite sequences of states $\set{q_{1},\dots, q_{k}}$ can be
+  organised in a tree. In this tree the set $\cyl(u_{1}\dots u_{n})$ are all 
+  possible prolongations of the initial sequence $u_{1}\dots u_{n}$ as 
+  illustrated by the blue path and attached cylinder.}
+  \label{fig:cylinder}
+  \begin{center}
+  % \resizebox{\textwidth}{!}{
+    \includegraphics{tikz/cylinder.pdf}
+  % }
+  \end{center}
+\end{drawing}
+By using the transition probabilities of $\mathcal{P}$ we can formulate the 
+probability to stay within a certain cylinder while reading a finite prefix of 
+the input word. Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$.
+First we observe, that all cylinders that are not rooted in $q_{0}$ can be 
+discarded. For any sequence $q_{0}q_{1}\dots q_{n}$ the run of $\mathcal{P}$
+on $\alpha$ stays within $\cyl(q_{0}q_{1}\dots q_{n})$ with the probability to
+move along the path $q_{0}q_{1}\dots q_{n}$ while reading $u_{1}\dots u_{n}$.
+This is the product of the probabilities to move from $q_{i-1}$ to $q_{i}$
+while reading $u_{i}$ for $1\leq i\leq n$; thus 
+$\prod_{1\leq i\leq n}\delta(q_{i-1},u_{i},q_{i})$. In order to associate with
+the state sequences of $\mathcal{P}$ a probability space we rely on the 
+$\sigma$-algebra which is created by including the sets $\cyl(w)$ for all 
+$w\in Q^{*}$ and closing the set under negation and countably union. This is
+commonly referred to as \emph{Borel}-algebra, cp. \cite{}, and formally 
+defined as
+\begin{definition}[Borel-algebra on words]
+  For a finite set $A$ we call $\mathcal{B}(A)\subseteq\Pot(A^{\omega})$ the 
+  Borel-algebra of $A$ and define it as the smallest set of subsets of 
+  $A^{\omega}$ which contains all $\cyl(w)$ for $w\in A^{*}$ and is a 
+  $\sigma$-algeba.
+\end{definition}
 
 In order to properly define these automata we introduce the concept of
 \aclp{MDP}. \aclp*{MDP} can be used to model a system which reacts to the
