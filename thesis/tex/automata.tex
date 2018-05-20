@@ -67,7 +67,8 @@ following conditions:
   \end{description}
   For any of these objects $\Gamma\in\set{F, \mathcal{F}, \set{\tuple{E_{0},
   F_{0}},\dots,\tuple{E_{n}, F_{n}}}, \parity}$ we use $\Acc(\Gamma)$ to refer
-  to the accepted language.
+  to the accepted language. If necessary we use subscripts to $\Acc$ to make 
+  the interpretation of its argument clear.
 \end{definition}\fxfatal{find fitting reference for prefix-independence}
 Note that by the nature of these acceptance conditions, namely that acceptance
 solely depends on those states that occur infinitely often, the acceptance is
@@ -354,13 +355,117 @@ $\prod_{1\leq i\leq n}\delta(q_{i-1},u_{i},q_{i})$. In order to associate with
 the state sequences of $\mathcal{P}$ a probability space we rely on the 
 $\sigma$-algebra which is created by including the sets $\cyl(w)$ for all 
 $w\in Q^{*}$ and closing the set under negation and countably union. This is
+\fxfatal{find reference for borel algebra}
 commonly referred to as \emph{Borel}-algebra, cp. \cite{}, and formally 
 defined as
 \begin{definition}[Borel-algebra on words]
   For a finite set $A$ we call $\mathcal{B}(A)\subseteq\Pot(A^{\omega})$ the 
-  Borel-algebra of $A$ and define it as the smallest set of subsets of 
-  $A^{\omega}$ which contains all $\cyl(w)$ for $w\in A^{*}$ and is a 
-  $\sigma$-algeba.
+  smallest $\sigma$-algebra containing $\cyl(w)$ for all $w\in A^{*}$. We call
+  a set $C\subset A^{\omega}$ \emph{Borel} if $C\in\mathcal{B}(A)$.
+\end{definition}
+Given an input word $\alpha$ and having fixed a $\sigma$-algebra, namely the
+Borel-algebra over $Q$ which is induced by all cylinders, and the probability 
+for staying in a cylinder for $\alpha$. This allows with 
+\cite[Theorem 5.6]{Bauer}\footnote{This theorem is called Carath\'{e}odory's
+extension theorem, cp. \cite[Chapter 2.3.]{RandAutoInfTrees}.} to obtain a 
+probability space
+\begin{equation*}
+  \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}.
+\end{equation*}
+Note that by \cite[Theorem 5.4]{Bauer} this $\mu_{\alpha}$ is unique.
+
+Since we want to define the acceptance of an \ac{PBA} $\mathcal{P}$ of a word
+$\alpha$ in terms of the induced probability of the set 
+$\set{\alpha\in Q^{\omega}\mid\alpha\text{ satisfies the Büchi-condition }F}$,
+it is necessary to show that this set is measureable, i.e. Borel. This is known
+from e.g. \cite[Chapter 4.1.1.]{Groesser} but we present a proof here which
+follows \cite[Proposition 6]{RandAutoInfTrees} since this argument can be
+easily presented and is re-used later in a more involved context.
+\begin{lemma}[Measurability]
+  The set $\Acc(F)$ for a Büchi-condition $F\subseteq Q$ is measurable in 
+  $\mathcal{B}(Q)$.
+  \label{lem:measureabilityAcceptance}
+\end{lemma}
+\begin{proof}
+  In order to show the measureability of $\Acc(F)$ we formulate it at as
+  Boolean combination of cylinders inducing its membership in the 
+  Borel-algebra by the closure properties of a $\sigma$-algebra.
+  Initially, we start with a co-Büchi condition, i.e. those words which 
+  eventually does not visit a target set $T$ anymore. More precisely, such a 
+  set $T$ defines the accepted language as
+  \begin{equation*}
+    \Acc(T) = \set{\alpha_{0}\alpha_{1}\dots\in Q^{\omega}\mid\text{ there is } 
+    i \text{ such that for all } j>i \text{ holds }\alpha_{j}\notin T}.
+  \end{equation*}
+  We claim that
+  \begin{equation} 
+    \Acc(T) = \bigcup\limits_{u\in Q^{*}}(
+    \cyl(u)\setminus\bigcup\limits^{v_{0}\dots v_{n}\in\prolong(u)}_{v_{n}\in T}
+    \cyl(v))
+    \label{eq:measureability}
+  \end{equation}
+  which renders $\Acc(T)$ measurable as countable union of measurable sets.
+  For $\beta\in\Acc(T)$ we know that there is eventually no occurence of $T$
+  anymore. This induces that for every finite prefix $u\sqsubseteq\beta$ after 
+  the last occurence of an element in $T$ holds
+  $\beta\notin\bigcup\limits^{v_{0}\dots v_{n}\in\prolong(u)}_{v_{n}\in E}
+  \cyl(v))$ and thus $\beta$ is element of the right hand side of Equation 
+  \ref{eq:measureability}. On the other hand if $\beta\notin\Acc(T)$ we know 
+  that for every finite prefix $u\sqsubseteq\beta$ there is a (finite) 
+  prolongation $u\sqsubseteq v_{0}\dots v_{n}\sqsubseteq\beta$ such that 
+  $v_{n}\in T$, hence $\beta$ is for every such $u$ removed by the cylinder 
+  associated with $v_{0}\dots v_{n}$ since $v_{0}\dots v_{n}\in\prolong(u)$.
+  This yields that $\beta$ is not element of the right hand side of Equation
+  \ref{eq:measureability} which proves the announced equality. 
+  For any Büchi-condition $F\subseteq Q$ we use its duality to the 
+  co-Büchi-condition $T = Q\setminus F$, i.e.
+  \begin{equation*}
+    \Acc_{\buechi}(F) = Q^{\omega}\setminus\Acc_{\cobuechi}(T).
+  \end{equation*}
+  The measureability of $\Acc(F)$ follows by the closure of $\mathcal{B}(Q)$
+  under complementation and the explored measureability of $\Acc(T)$.
+\end{proof}
+Since we explicitly defined \acp{PBA} with Büchi-conditions this suffices to
+show their definition to be useful. But it is a natural escalation to consider
+more elaborate acceptance conditions, e.g. Muller-, Parity- or 
+Rabin-conditions. We show the measureability of those sets here as well, since
+it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}.
+\begin{corollary}
+  For a Muller-condition, a Parity-condition and a Rabin-condition
+  defined by $\mathcal{F}\subseteq\Pot(Q)$, $\parity$, 
+  $R = \set{\tuple{E_{0}, F_{0}},\dots,\tuple{E_{n}, F_{n}}}$ respectively, the 
+  sets $\Acc(\mathcal{F})$, $\Acc(\parity)$ and $\Acc(R)$ are measureable in 
+  $\mathcal{B}(Q)$.
+\end{corollary}
+\begin{proof}
+  Since the Rabin- and Parity-condition can be expressed by fitting 
+  Muller-conditions it suffices to show the measureability of any 
+  $\Acc(\mathcal{F})$ for a Muller-condition $\mathcal{F}\subseteq\Pot(Q)$.
+  Fix one Muller-condition $\mathcal{F} = \set{F_{1},\dots,F_{n}}$. We claim
+  that for one $F = \set{f_{1},\dots, f_{k}}\in\mathcal{F}$
+  \begin{equation*}
+    \Acc_{\muller}(\set{F}) = \tuple{
+      \bigcap\limits_{1\leq i\leq k}\Acc_{buechi}(\set{f_{i}})}\setminus
+      \Acc_{cobuechi}(Q\setminus F).
+  \end{equation*}
+  The individual Büchi-conditions on $f_{i}$ for $1\leq i\leq k$ ensure that 
+  every of these states is visited infinitely often while the 
+  co-Büchi-condition on all other states ensure that they are only visited
+  finitely often rendering the $\Inf$-set to be $F$. By simply setting
+  \begin{equation*}
+    \Acc_{muller}(\mathcal{F}) = \bigcup\limits_{F\in\mathcal{F}}(
+    \Acc_{\muller}(\set{F}))
+  \end{equation*}
+  we obtain the measureability of $\Acc_{muller}(\mathcal{F})$ by the closure
+  properties of the $\sigma$-algebra $\mathcal{B}(Q)$.
+\end{proof}
+
+This finally allows us to define the semantics of a \ac{PBA} $\mathcal{P}$
+formally with
+\begin{definition}[Probabilistic Büchi Automaton - Acceptance]
+  A \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ accepts a word 
+  $\alpha\in\Sigma^{\omega}$ positively (resp. almost-surely) if
+  $\mu_{\alpha}(\Acc(F)) > 0$ (resp. $\mu_{\alpha}(\Acc(F))$).
 \end{definition}
 
 In order to properly define these automata we introduce the concept of
@@ -807,80 +912,7 @@ the set of cylinders over $(Q\times D)$ by
     r(\tuple{q_{1},d_{1}}\dots\tuple{q_{i},d_{i}})(q_{i+1},d_{i+1})
 \end{equation}
 for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in\tuple{Q\times D}^{*}$.
-Naturally, we want to define acceptance of a run in terms of its induced
-measure on the set of paths that satisfy the target $T_{\mathcal{A}}$ when
-projected to the state component. Thus, we show (by adapting the proof for
-\cite[Proposition 6]{RandAutoInfTrees}) the measurability of that set.
-\begin{lemma}[Measurability]
-  The set
-  \begin{equation*}
-    \set{\alpha = \tuple{q_{1},d_{1}}\tuple{q_{2},d_{2}}\dots\in
-    (Q\times D)^{\omega}\mid q_{0}q_{1}q_{2}\dots\in T_{\mathcal{A}}}
-  \end{equation*} is measurable in the $\sigma$-algebra that is induced by the
-  ring of cylinders.
-  \label{lem:measureabilityAcceptance}
-\end{lemma}
-\begin{proof}
-  We start with the co-Büchi condition which is dual to the Büchi condition.
-  Specifically, a co-Büchi condition is also defined by a set of
-  states $E\subseteq Q$ which in contrast must eventually be avoided. More
-  precisely, such a set $E$ defines the accepted language as
-  $\set{\alpha_{0}\alpha_{1}\dots\in Q^{\omega}\mid\text{ there is } i
-  \text{ such that for all } j>i \text{ holds }\alpha_{j}\notin E}$.
-  By abuse of notation we write in the following
-  $\tuple{q, d}\in E$ if $q\in E$. With
-  \begin{equation*}
-    \prolong(u) = \set{v\in (Q\times D)^{*}\mid u\sqsubseteq v}
-  \end{equation*} and
-  \begin{equation*}
-    T = \set{\alpha_{0}\alpha_{1}\dots\in (Q\times D)^{\omega}\mid\text{ there
-    is } i \text{ such that for all } j>i \text{ holds }\alpha_{j}\notin E}
-  \end{equation*}
-  we claim that
-  \begin{equation} 
-    T = \bigcup\limits_{u\in (Q\times D)^{*}}(
-    \cyl(u)\setminus\bigcup\limits_{v\in\prolong(u),v\in E}\cyl(v))
-    \label{eq:measureability}
-  \end{equation}
-  which renders $T$ measurable as countable union of measurable sets.
-  For $b\in T$ we know that there is eventually no occurence of $E$
-  anymore. This induces that for every finite prefix $u\sqsubseteq b$ after the
-  last occurence of an element in $E$ holds
-  $b\notin\bigcup\limits_{v\in\prolong(u),v\in E}\cyl(v))$ and thus $b$
-  is element of the right hand side of Equation \ref{eq:measureability}. On the
-  other hand if $b\notin T$ we know that for every finite prefix
-  $u\sqsubseteq b$ there is a prolongation $u\sqsubseteq v\sqsubseteq b$ such
-  that the last element of $v$ is in $E$, hence $b$ is for every such $u$
-  removed with by the cylinder associated with $v$ since $v\in\prolong(u)$.
-  This yields that $b$ is not element of the right hand side of Equation
-  \ref{eq:measureability} which proves the proclaimed equality. Additionally,
-  we get measureability of all Büchi conditions $F\subseteq Q$ by using its
-  duality to the co-Büchi condition $Q\setminus F$ and the closure of a
-  $\sigma$-algebra under complementation.
 
-  For a parity condition we get finitely many parities as
-  $\parity(Q) = \set{d_{1},\dots,d_{n}}$. We define for an arbitrary set
-  $E\subseteq Q$ the set $\cob(E)$ which is the set of accepted paths if
-  $E$ is interpreted as co-Büchi condition and $\bue(E)$ which is the set of
-  accepted path if $E$ is interpreted as Büchi condition. We already know that
-  these sets are measureable. With these auxilliaries we can define the
-  accepted paths of a parity condition $\parity$ by
-  \begin{equation}
-    \bigcup\limits^{1\leq i\leq n}_{d_{i}\text{ even}}\tuple{\bue(\parity^{-1}(d_{i}))
-    \bigcap\bigcup\limits^{1\leq j\leq n}_{d_{j} > d_{i}, d_{j}\text{ odd}}
-    \cob(\parity^{-1}(d_{j}))}
-  \end{equation}
-  which yields measureability of the accepted paths of a parity condition.
-  Analogously, for a Muller condition $\mathcal{F} = \set{F_{1},\dots,F_{n}}$
-  we can define
-  \begin{equation}
-    \bigcup\limits_{1\leq i\leq n}
-    \tuple{\bue(F_{i})\bigcap\cob(Q\setminus F_{i})}
-  \end{equation}
-  Since Rabin conditions can be expressed as Muller conditions
-  (see \cite[Proposition 5.3]{LangAutoLog}) this implies measurability for
-  these conditions as well.
-\end{proof}
 In the following we often focus on parity conditions and motivate this by the
 observation that parity conditions can be used to express all other conditions
 (as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees}).
