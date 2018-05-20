@@ -140,13 +140,14 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   \label{fig:finaautomata}
   \resizebox{\textwidth}{!}{\includegraphics{tikz/fina-automaton.pdf}}
 \end{drawing}
-We radically compress the rich theory of $\omega$-automata by simply stating 
-the following
+We radically compress the rich theory of $\omega$-automata by stating the 
+following
 \begin{theorem}
   \cite[Theorem 1.19, Theorem 1.24, Section 1.3.2,Theorem 3.2]{AutoLogInfGames}
   The class of recognizable languages coincides for \acp{NBA}, \acp{NMA},
   \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NPA} and \acp{DPA} while \acp{DBA} are
   strictly less expressive.
+  \label{thm:omegaregularexp}
 \end{theorem}
 Additionally, we will restrict the proof to some of its arguments, namely one
 which allows us to introduce the concept of \acp{LAR} and some that are easily
@@ -429,7 +430,9 @@ Since we explicitly defined \acp{PBA} with Büchi-conditions this suffices to
 show their definition to be useful. But it is a natural escalation to consider
 more elaborate acceptance conditions, e.g. Muller-, Parity- or 
 Rabin-conditions. We show the measureability of those sets here as well, since
-it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}.
+it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}. Also, we
+note that we introduce, analogously as for $\omega$-regular word automata, 
+corresponding acronyms. \acuse{PRA}\acuse{PMA}\acuse{PPA}
 \begin{corollary}
   For a Muller-condition, a Parity-condition and a Rabin-condition
   defined by $\mathcal{F}\subseteq\Pot(Q)$, $\parity$, 
@@ -543,14 +546,80 @@ Which combined yields
   The class of languages that can be accepted by a \ac{PBA} strictly contains
   the class of $\omega$-regular languages.
 \end{theorem}
+Additionally, we know that the class of languages that are positively accepted 
+by a \ac{PBA} forms a Boolean algebra, i.e. is closed under union, intersection
+and negation. This is captured in
+\begin{theorem}
+  \cite[Chapter 4.3.]{Groesser}
+  The class of languages that can be accepted by a \ac{PBA} form a Boolean 
+  algebra. The transformations can be effectively constructed.
+\end{theorem}
+\begin{proof}[Proof-sketch]
+  A union operator is very easily obtained by the following idea: given two
+  \acp{PBA} $\mathcal{P}_{1},\mathcal{P}_{2}$ with initial states $q^{1}_{0},
+  q^{2}_{0}$ respectively, then we can construct a \ac{PBA} $\mathcal{P}$ which
+  effectively uses a initial distribution 
+  $\iota:Q^{1}\cup Q^{2}\rightarrow\interval{0,1}$ such that 
+  $\iota(q^{1}_{0}) = \iota(q^{2}_{0}) = \frac{1}{2}$ while $\iota(p) = 0$ for
+  any other state $p$. By introducing a new initial state $q_{0}$ and 
+  \enquote{skipping over} $q^{1}_{0},q^{2}_{0}$ in the first step, i.e.
+  setting
+  \begin{equation*}
+    \delta(q_{0},\sigma, p) = \frac{1}{2}\cdot\delta^{i}(q^{i}_{0},\sigma, p)
+    \text{ with }
+    i = \begin{cases}
+      1&\text{if }p\in Q^{1},\\
+      2&\text{if }p\in Q^{2}
+    \end{cases}
+  \end{equation*}
+  we can emulate such an initial distribution $\iota$. This yields that the 
+  resulting $\mathcal{P}$ accepts $\alpha$ with a probability
+  $\frac{1}{2}\cdot\mu^{1}_{\alpha}(\Acc(F^{1})) + 
+  \frac{1}{2}\cdot\mu^{2}_{\alpha}(\Acc(F^{2}))$ which is greater than $0$ if
+  and only if one of the probabilities is greater than $0$.
 
-This gain in expressiveness is unfortunately accompanied by some undesired 
-effects. Notably, given a \ac{PBA} $\mathcal{P}$ it is undecideable to find if
-there is any word positively accepted by $\mathcal{P}$ as stated in
+  Complementation requires a rather involved construction which we do not 
+  present here; but we mention an intermediate construction, namely a 
+  \ac{PRA} $\mathcal{R}$ associated with a \ac{PBA} $\mathcal{P}$. The 
+  interesting aspect of $\mathcal{R}$ is that it induces a binary probability 
+  measure on its acceptance condition, i.e. for its Rabin-condition $R$ we have
+  $\mu_{\alpha}(\Acc(R))\in\set{0,1}$, but it accepts the same language as
+  $\mathcal{P}$. The main idea of its construction is to sample partial runs of 
+  the original \ac{PBA} and keeping track of those that are accepting. These 
+  partial runs can be then \enquote{sticked together}\footnote{The idea of 
+  sticking partial runs together is conceptually similar to the proof of 
+  Theorem \ref{thm:omegaregularexp}.}. Therefore we state here
+  \begin{theorem}
+    \cite[Theorem 4.3.2]{Groesser}
+    For each \ac{PBA} $\mathcal{P}$ there exists a \ac{PRA} $\mathcal{R}$ that 
+    accepts the same language, but for every word the acceptance measure for
+    $\mathcal{R}$ is either $0$ or $1$.
+  \end{theorem}
+  Since we soon see that \acp{PBA} with almost-sure acceptance are strictly
+  less expressive than \acp{PBA} with positive acceptance we note the 
+  correspondance to Theorem \ref{thm:omegaregularexp} in the
+  sense that more expressive acceptance conditions allow for a 
+  \enquote{stuctural} strictness, which in this case is the acceptance measure.
+  Also, we note that all \enquote{strong} conditions again coincide but we 
+  postpone the proof since it is a corollary from a later result\footnote{
+    Nevertheless, it makes use of the same concept, namely \acp{LAR}.
+  }.
+  \begin{theorem}
+    The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides under
+    positive as well as almost-sure acceptance.
+  \end{theorem}
+\end{proof}
+
+The gain in expressiveness for \ac{PBA} with positive acceptance over 
+$\omega$-regular languages is unfortunately accompanied by some undesired 
+effects. Notably, while emptiness for a \ac{NBA} can be decided by means of 
+graph algorithms we have that given a \ac{PBA} $\mathcal{P}$ it is undecideable 
+to find if there is any word positively accepted by $\mathcal{P}$ as stated in
 \begin{theorem}
   \cite[Theorem 2]{DecProblemsForProbAuto}
   The emptiness problem for \ac{PBA} is undecideable.
 \end{theorem}
+
 
 In order to properly define these automata we introduce the concept of
 \aclp{MDP}. \aclp*{MDP} can be used to model a system which reacts to the
