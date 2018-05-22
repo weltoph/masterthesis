@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+  \node [autonode, state] (q2) {$q_{2}$};
+  \node [autonode, state, right=2 of q2] (q1) {$q_{1}$};
+  \node [autonode, state, accepting, below=2 of q2] (q3) {$q_{3}$};
+  \node [autonode, state, initial right] (q0) at (q3-|q1) {$q_{0}$};
+
+  \draw [bend right,->] (q0) to node[right] {$a,1-\lambda$} (q1);
+  \draw [bend right=10,->] (q0) to node[above right, near end] {$q,\lambda$} (q2);
+  \draw [bend right=10,->] (q3) to node[near start,label={[label distance=2pt]271:{$a, 1-\lambda$}}] {} (q1);
+  \draw [bend right,->] (q3) to node[right] {$a,\lambda$} (q2);
+\end{tikzpicture}

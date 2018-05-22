@@ -235,8 +235,8 @@ explained and also later on referred to.
   by the pair $\tuple{E_{k}, F_{k}}$, has  $k$ as the highest parity which is
   the even witness rendering the run accepting.
 
-  Thirdly, we conclude by stating that for every \acp{NMA} exists an equivalent
-  \ac{NBA} and - more easily - the other way around
+  Thirdly, we conclude by stating (without proof) that for every \acp{NMA} 
+  exists an equivalent \ac{NBA} and - more easily - the other way around
   \begin{theorem}
     \cite[Theorem 1.10]{AutoLogInfGames}
     For every \acp{NBA} exists an equivalent \ac{NMA} and for every \acp{NMA}
@@ -578,9 +578,9 @@ and negation. This is captured in
   \frac{1}{2}\cdot\mu^{2}_{\alpha}(\Acc(F^{2}))$ which is greater than $0$ if
   and only if one of the probabilities is greater than $0$.
 
-  Complementation requires a rather involved construction which we do not 
-  present here; but we mention an intermediate construction, namely a 
-  \ac{PRA} $\mathcal{R}$ associated with a \ac{PBA} $\mathcal{P}$. The 
+  Complementation requires a rather involved operation which we do not present 
+  here; but we mention an intermediate construction, namely a \ac{PRA} 
+  $\mathcal{R}$ associated with a \ac{PBA} $\mathcal{P}$. The 
   interesting aspect of $\mathcal{R}$ is that it induces a binary probability 
   measure on its acceptance condition, i.e. for its Rabin-condition $R$ we have
   $\mu_{\alpha}(\Acc(R))\in\set{0,1}$, but it accepts the same language as
@@ -594,6 +594,7 @@ and negation. This is captured in
     For each \ac{PBA} $\mathcal{P}$ there exists a \ac{PRA} $\mathcal{R}$ that 
     accepts the same language, but for every word the acceptance measure for
     $\mathcal{R}$ is either $0$ or $1$.
+    \label{thm:pbatopra}
   \end{theorem}
   Since we soon see that \acp{PBA} with almost-sure acceptance are strictly
   less expressive than \acp{PBA} with positive acceptance we note the 
@@ -607,9 +608,9 @@ and negation. This is captured in
   \begin{theorem}
     The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides under
     positive as well as almost-sure acceptance.
+    \label{thm:probautoequiv}
   \end{theorem}
 \end{proof}
-
 The gain in expressiveness for \ac{PBA} with positive acceptance over 
 $\omega$-regular languages is unfortunately accompanied by some undesired 
 effects. Notably, while emptiness for a \ac{NBA} can be decided by means of 
@@ -620,6 +621,37 @@ to find if there is any word positively accepted by $\mathcal{P}$ as stated in
   The emptiness problem for \ac{PBA} is undecideable.
 \end{theorem}
 
+In order to re-gain some desired algorithmic properties of e.g. the emptiness
+problem \cite{DecProblemsForProbAuto} considers almost-sure acceptance. By
+Theorem \ref{thm:pbatopra} we conclude easily that the emptiness problem for
+almost-sure accepting \ac{PRA} (and by Theorem \ref{thm:probautoequiv} also for
+\ac{PPA} and \ac{PMA}) is undecideable. But for Büchi-conditions this is not
+the case as stated in
+\begin{theorem}
+  \cite[Theorem 6]{DecProblemsForProbAuto}
+  The emptiness problem for \ac{PBA} with almost-sure acceptance is decideable.
+\end{theorem}
+Again, we consider an example for a \ac{PBA} with almost-sure acceptance (taken
+from \cite{DecProblemsForProbAuto}.
+\begin{example}
+  Let $\mathcal{P}$ be a \ac{PBA} as defined in Figure 
+  \ref{fig:almostsureacceptingpba}. The language accepted by $\mathcal{P}$ is
+  \begin{equation*}
+    L_{\lambda} = \set{a^{k_{1}}ba^{k_{2}}b\dots\mid k_{i}>0\text{ for }i>0
+    \text{ and }\prod\limits_{i>0}\tuple{1-\lambda^{k_{i}}} = 0}.
+  \end{equation*}
+  Again holds that this language is not $\omega$-regular.
+\end{example}
+\begin{drawing}
+  \caption{A \ac{PBA} which accepts a non-$\omega$-regular language under
+  almost-sure acceptance.}
+  \label{fig:almostsureacceptingpba}
+  \begin{center}
+    \resizebox{0.3\textwidth}{!}{%
+      \includegraphics{tikz/almostsureacceptingpba.pdf}
+    }
+  \end{center}
+\end{drawing}
 
 In order to properly define these automata we introduce the concept of
 \aclp{MDP}. \aclp*{MDP} can be used to model a system which reacts to the
