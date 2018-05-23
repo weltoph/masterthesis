@@ -5,7 +5,20 @@
   \node [autonode, state, initial right] (q0) at (q3-|q1) {$q_{0}$};
 
   \draw [bend right,->] (q0) to node[right] {$a,1-\lambda$} (q1);
-  \draw [bend right=10,->] (q0) to node[above right, near end] {$q,\lambda$} (q2);
+  \draw [bend right=10,->] (q0) to node[above right, near end] {$a,\lambda$} (q2);
+
   \draw [bend right=10,->] (q3) to node[near start,label={[label distance=2pt]271:{$a, 1-\lambda$}}] {} (q1);
   \draw [bend right,->] (q3) to node[right] {$a,\lambda$} (q2);
+
+  \draw [bend right,->] (q1) to node[right] {$b,1$} (q0);
+  \loopabove{q1}{$a,1$};
+
+  \draw [bend left, ->] (q2) to node[above] {$a,1-\lambda$} (q1);
+  \draw [bend right,->] (q2) to node[right] {$b,1$} (q3);
+  \loopabove{q2}{$a,\lambda$};
+
+  \begin{scope}[on background layer]
+    \node [inner sep=20pt, yshift=10pt, fit=(q2) (q1),draw,fill=green!50, label=0:{Separation}] {};
+    \node [inner sep=20pt, yshift=-0pt, fit=(q0) (q3),draw,fill=red!50, label=180:{Disposal}] {};
+  \end{scope}
 \end{tikzpicture}

@@ -392,11 +392,12 @@ easily presented and is re-used later in a more involved context.
   Boolean combination of cylinders inducing its membership in the 
   Borel-algebra by the closure properties of a $\sigma$-algebra.
   Initially, we start with a co-Büchi condition, i.e. those words which 
-  eventually does not visit a target set $T$ anymore. More precisely, such a 
+  eventually do not visit a target set $T$ anymore. More precisely, such a 
   set $T$ defines the accepted language as
   \begin{equation*}
-    \Acc(T) = \set{\alpha_{0}\alpha_{1}\dots\in Q^{\omega}\mid\text{ there is } 
-    i \text{ such that for all } j>i \text{ holds }\alpha_{j}\notin T}.
+    \Acc_{\cobuechi}(T) = \set{\alpha_{0}\alpha_{1}\dots\in Q^{\omega}\mid
+    \text{ there is } i \text{ such that for all } j>i \text{ holds }
+    \alpha_{j}\notin T}.
   \end{equation*}
   We claim that
   \begin{equation} 
@@ -410,7 +411,7 @@ easily presented and is re-used later in a more involved context.
   anymore. This induces that for every finite prefix $u\sqsubseteq\beta$ after 
   the last occurence of an element in $T$ holds
   $\beta\notin\bigcup\limits^{v_{0}\dots v_{n}\in\prolong(u)}_{v_{n}\in E}
-  \cyl(v))$ and thus $\beta$ is element of the right hand side of Equation 
+  \cyl(v)$ and thus $\beta$ is element of the right hand side of Equation 
   \ref{eq:measureability}. On the other hand if $\beta\notin\Acc(T)$ we know 
   that for every finite prefix $u\sqsubseteq\beta$ there is a (finite) 
   prolongation $u\sqsubseteq v_{0}\dots v_{n}\sqsubseteq\beta$ such that 
@@ -448,18 +449,18 @@ corresponding acronyms. \acuse{PRA}\acuse{PMA}\acuse{PPA}
   that for one $F = \set{f_{1},\dots, f_{k}}\in\mathcal{F}$
   \begin{equation*}
     \Acc_{\muller}(\set{F}) = \tuple{
-      \bigcap\limits_{1\leq i\leq k}\Acc_{buechi}(\set{f_{i}})}\setminus
-      \Acc_{cobuechi}(Q\setminus F).
+      \bigcap\limits_{1\leq i\leq k}\Acc_{\buechi}(\set{f_{i}})}\setminus
+      \Acc_{\cobuechi}(Q\setminus F).
   \end{equation*}
   The individual Büchi-conditions on $f_{i}$ for $1\leq i\leq k$ ensure that 
   every of these states is visited infinitely often while the 
   co-Büchi-condition on all other states ensure that they are only visited
   finitely often rendering the $\Inf$-set to be $F$. By simply setting
   \begin{equation*}
-    \Acc_{muller}(\mathcal{F}) = \bigcup\limits_{F\in\mathcal{F}}(
+    \Acc_{\muller}(\mathcal{F}) = \bigcup\limits_{F\in\mathcal{F}}(
     \Acc_{\muller}(\set{F}))
   \end{equation*}
-  we obtain the measureability of $\Acc_{muller}(\mathcal{F})$ by the closure
+  we obtain the measureability of $\Acc_{\muller}(\mathcal{F})$ by the closure
   properties of the $\sigma$-algebra $\mathcal{B}(Q)$.
 \end{proof}
 
@@ -477,8 +478,9 @@ which allows us to get a feel for the behavior while also providing a witness
 to separate the expressiveness of $\omega$-regular languages and languages 
 positively accepted by \acp{PBA}.
 \begin{drawing}
-  \caption{A \ac{PBA} accepting a non-$\omega$-regular language depicted by the
-  same notions as finite word automata before.}
+  \caption{A \ac{PBA} accepting under positive acceptance a 
+  non-$\omega$-regular language depicted by the same notions as finite word 
+  automata before.}
   \label{fig:posacceptingpba}
   \begin{center}
     \resizebox{0.35\textwidth}{!}{%
@@ -529,13 +531,13 @@ As mentioned before the \ac{PBA} $\mathcal{P}$ from Example
   period $v$. But this induces that the sequences of $a$ are bound by a natural
   number $k_{0}$ yielding that for this word
   \begin{equation*}
-    \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) < 
+    \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) \leq
     \underbrace{\prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{0}})}_{
       \text{infinite product of a constant }c<0} = 0
   \end{equation*}
   rendering it not accepted.
 \end{proof}
-Furthermore, we state here
+Furthermore, we state here without proof
 \begin{lemma}
   \cite[Lemma 5]{RecOmeLangProbAuto} For any \ac{NBA} $\mathcal{A}$ exists a
   \ac{PBA} $\mathcal{P}$ which accepts the same language.
@@ -600,9 +602,10 @@ and negation. This is captured in
   less expressive than \acp{PBA} with positive acceptance we note the 
   correspondance to Theorem \ref{thm:omegaregularexp} in the
   sense that more expressive acceptance conditions allow for a 
-  \enquote{stuctural} strictness, which in this case is the acceptance measure.
-  Also, we note that all \enquote{strong} conditions again coincide but we 
-  postpone the proof since it is a corollary from a later result\footnote{
+  \enquote{stuctural} difference, which in this case is the acceptance measure
+  (rather than determinsm before). Also, we note that all \enquote{strong} 
+  conditions again coincide but we postpone the proof since it is a corollary 
+  from a later result\footnote{
     Nevertheless, it makes use of the same concept, namely \acp{LAR}.
   }.
   \begin{theorem}
@@ -640,18 +643,76 @@ from \cite{DecProblemsForProbAuto}.
     L_{\lambda} = \set{a^{k_{1}}ba^{k_{2}}b\dots\mid k_{i}>0\text{ for }i>0
     \text{ and }\prod\limits_{i>0}\tuple{1-\lambda^{k_{i}}} = 0}.
   \end{equation*}
-  Again holds that this language is not $\omega$-regular.
+  Every $a$-sequence $w\in\set{a}^{*}$ models an experiment which determines 
+  how probable it is to stay in $q_{2}$, namely $\lambda^{\size{w}}$. 
+  Naturally, the probability to \enquote{fail} such an experiment is 
+  $1-\lambda^{\size{w}}$. Due to the equivalent behaviour of $q_{3}$ and 
+  $q_{0}$ all these experiments are independent and therefore, consistenly 
+  failing these experiments with $a$-sequences of length $k_{1}, k_{2},\dots$ 
+  starting from the $m$-th experiment happens with probability
+  \begin{equation*}
+    p_{m} = \prod\limits_{i>m}(1-\lambda^{k_{i}})
+    \text{ and thus }
+    \prod\limits_{i>0}(1-\lambda^{k_{i}}) = 
+    \underbrace{\prod\limits_{m\geq i>0}(1-\lambda^{k_{i}})}_{=c_{m}}
+    \cdot p_{m}.
+  \end{equation*}
+  $c_{m} > 0$ implies $c_{m}\cdot p_{m} = 0$ if and only if 
+  $p_{m} = 0$.
+  Every non-accepting run $\pi$ consistently fails from one experiment onwards.
+  This allows to conclude with asymptotic equvialence of $p_{m}$ and 
+  $c_{m}\cdot p_{m}$ and addivity of a probability measure that the probability
+  of non-accepting runs is
+  \begin{equation*}
+    \sum_{i > 0} p_{m}\text{, and therefore }
+    \sum_{i > 0} p_{m} = 0\text{ iff }\prod\limits_{i>0}(1-\lambda^{k_{i}}) =0.
+  \end{equation*}
+  In order to accept almost-surely the set of non-accepting runs needs to be
+  \emph{negligible}, i.e. carrying a probability of $0$.  Thus, indeed 
+  $\mathcal{P}$ accepts $L_{\lambda}$.
+
+  If $\lambda$ is set to $\frac{1}{2}$, this language is - to a certain degree 
+  - dual to the language in Example \ref{ex:posacceptingpba} (without 
+  considering all words ending in $a^{\omega}$ or those words starting in $b$ 
+  or ommitting an \enquote{$a$-phase}). This duality is rooted in structural 
+  similarities. Examining the \emph{Separation} part, it mirrors the 
+  $a$-transitions of the \ac{PBA} in Figure \ref{fig:posacceptingpba}. But an 
+  occurences of $b$ does not discard the probability mass in $q_{2}$ ($q_0$, 
+  respectively) but saves it in an accepting state and re-introduces into the 
+  circulation (as seen in the \emph{Disposal} part).
+  \label{ex:almostsureacceptingpba}
 \end{example}
 \begin{drawing}
   \caption{A \ac{PBA} which accepts a non-$\omega$-regular language under
-  almost-sure acceptance.}
+  almost-sure acceptance. We conceptually separate it into two regions, namely
+  the \enquote{Separation-} and \enquote{Disposal-}region (marked by the green
+  or red box respectively).}
   \label{fig:almostsureacceptingpba}
   \begin{center}
-    \resizebox{0.3\textwidth}{!}{%
+    \resizebox{0.4\textwidth}{!}{%
       \includegraphics{tikz/almostsureacceptingpba.pdf}
     }
   \end{center}
 \end{drawing}
+Considering Example \ref{ex:almostsureacceptingpba} it is a natural question if
+the choice of $\lambda$ matters. Quoting the following
+\begin{lemma}
+  \cite[Lemma 1]{DecProblemsForProbAuto}
+  For each $n\in\mathbb{N}_{>1}$ there exists a sequence $\tuple{k_{i}}_{i>0}$
+  such that
+  \begin{equation*}
+    \prod_{i>0}(1-\lambda^{k_{i}}) > 0 \text{ if and only if }
+    \lambda<\frac{1}{n},
+  \end{equation*}
+  \label{lem:measureinpba}
+\end{lemma}
+allows us to answer this question positively. Choosing $\lambda_{1}$ and
+$\lambda_{2}$ differently, we can find $n$ such that 
+$\lambda_{1} < \frac{1}{n} < \lambda_{2}$ and then the languages of 
+$\mathcal{P}$ with $\lambda_{1}$ and $\lambda_{2}$ do not agree on the sequence
+given by Lemma \ref{lem:measureinpba} for $n$ since $\lambda_{1}$ renders
+this sequence non-accepting in $\mathcal{P}$ while $\lambda_{2}$ renders it
+accepting.
 
 In order to properly define these automata we introduce the concept of
 \aclp{MDP}. \aclp*{MDP} can be used to model a system which reacts to the
