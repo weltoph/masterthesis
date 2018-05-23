@@ -644,12 +644,13 @@ from \cite{DecProblemsForProbAuto}.
     \text{ and }\prod\limits_{i>0}\tuple{1-\lambda^{k_{i}}} = 0}.
   \end{equation*}
   Every $a$-sequence $w\in\set{a}^{*}$ models an experiment which determines 
-  how probable it is to stay in $q_{2}$, namely $\lambda^{\size{w}}$. 
-  Naturally, the probability to \enquote{fail} such an experiment is 
-  $1-\lambda^{\size{w}}$. Due to the equivalent behaviour of $q_{3}$ and 
-  $q_{0}$ all these experiments are independent and therefore, consistenly 
-  failing these experiments with $a$-sequences of length $k_{1}, k_{2},\dots$ 
-  starting from the $m$-th experiment happens with probability
+  how probable it is to stay in $q_{2}$, namely $\lambda^{\size{w}}$. Every 
+  experiment is concluded with the occurence of a single $b$.  Naturally, the 
+  probability to \enquote{fail} such an experiment is $1-\lambda^{\size{w}}$. 
+  Due to the equivalent behaviour of $q_{3}$ and $q_{0}$ all these experiments 
+  are independent and therefore, consistenly failing these experiments with 
+  $a$-sequences of length $k_{1}, k_{2},\dots$ starting from the $m$-th 
+  experiment happens with probability
   \begin{equation*}
     p_{m} = \prod\limits_{i>m}(1-\lambda^{k_{i}})
     \text{ and thus }
@@ -661,8 +662,8 @@ from \cite{DecProblemsForProbAuto}.
   $p_{m} = 0$.
   Every non-accepting run $\pi$ consistently fails from one experiment onwards.
   This allows to conclude with asymptotic equvialence of $p_{m}$ and 
-  $c_{m}\cdot p_{m}$ and addivity of a probability measure that the probability
-  of non-accepting runs is
+  $c_{m}\cdot p_{m}$ and $\sigma$-additivity of a probability measure that the 
+  probability of non-accepting runs is
   \begin{equation*}
     \sum_{i > 0} p_{m}\text{, and therefore }
     \sum_{i > 0} p_{m} = 0\text{ iff }\prod\limits_{i>0}(1-\lambda^{k_{i}}) =0.
@@ -714,11 +715,45 @@ given by Lemma \ref{lem:measureinpba} for $n$ since $\lambda_{1}$ renders
 this sequence non-accepting in $\mathcal{P}$ while $\lambda_{2}$ renders it
 accepting.
 
-In order to properly define these automata we introduce the concept of
-\aclp{MDP}. \aclp*{MDP} can be used to model a system which reacts to the
-actions of an agent (often called player) probabilisticly.\fxfatal{more general 
-reference for MPD} More formally we use these definitions which follow
-\cite{RandAutoInfTrees}:
+Regarding the relationship of $\omega$-regularity to languages which are 
+accepted by a \ac{PBA} with almost-sure acceptance we find that
+\begin{theorem}
+  \cite[Theorem 4, (b), (c)]{DecProblemsForProbAuto}
+  The classes of $\omega$-regular languages and languages accepted by a 
+  \ac{PBA} with almost-sure acceptance are incomparable.
+\end{theorem}
+\begin{proof}
+  The proof separates in both directions of possible inclusions. As noted in
+  Figure \ref{fig:almostsureacceptingpba} the defined \ac{PBA} $\mathcal{P}$
+  with almost-surely accepts a non-$\omega$-regular language, hence
+  \begin{lemma}
+    There is a non-$\omega$-regular language that is accepted by any \ac{PBA} 
+    with almost-sure acceptance.
+  \end{lemma}
+  \begin{proof}
+    \fxfatal{to be done}
+  \end{proof}
+  And on the other hand we state that
+  \begin{lemma}
+    There is a $\omega$-regular language that cannot be accepted by any 
+    \ac{PBA} with almost-sure acceptance.
+  \end{lemma}
+  \begin{proof}
+    We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
+    $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
+    \ref{ex:fina}).
+    \fxfatal{to be finished}
+  \end{proof}
+\end{proof}
+
+\section{Markov Decision Processes}
+In the following we introduce \acp{MDP}, a model of interaction between a 
+probabilistic domain and an actor within this domain. The actions of the actor
+impact the behavior of the domain and depending on the behavior of the domain
+the actor may adapt her behavior. It shares significant structural similarities
+to \acp{PBA} but allows for a rather different interpretation. Nevertheless, we
+reuse various concepts from \acp{PBA} to define \acp{MDP}. The following 
+definitions follow \cite{RandAutoInfTrees}:
 \begin{definition}[Markov Decision Process]
   A \acl*{MDP} is modelled as tuple
   $\tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ where $S$ is a set of states
@@ -728,9 +763,6 @@ reference for MPD} More formally we use these definitions which follow
   $s_{0}$ is the initial state. Additionally we define a few helpful
   auxilliaries:
   \begin{description}
-    \item [Cylinder] For a finite word of states $w\in S^{*}$ we define the
-      corresponding cylinder as the set of all infinite state-sequences
-      that can prolong $w$: $\cyl(w) = w\cdot S^{\omega}$.
     \item [Plays] We consider all infinite sequences of states
       (i.e. $S^{\omega}$) that start in $s_{0}$ a valid play. All plays
       are gathered in $\plays = \set{
@@ -743,87 +775,76 @@ reference for MPD} More formally we use these definitions which follow
       $\iota_{0}:S\rightarrow[0,1]$ which allows the plays to start in any
       $s\in S$ such that $\iota_{0}(s) > 0$.
   \end{description}
-  \fxfatal{again find nice reference for the general mdp things}
   \label{def:mdp}
 \end{definition}
-We examine the ring induced by the set of cylinders of a \ac{MDP} $\mathcal{A}$
-and for a given strategy $\varphi_{\mathcal{A}}$ we obtain an induced
-probability for the cylinders as follows:
-\begin{equation}
-  \mu_{\varphi}(\cyl(w = w_{0}\dots w_{n})\cap\plays) = \begin{cases}
-    \prod_{i=1}^{n-1}\tau_{\varphi(w_{0}\dots w_{i})}(w_{i}, w_{i+1})
-      &\text{ if }\cyl(w)\cap\plays\neq\emptyset\\
-    0 &\text{ otherwise}
-  \end{cases}
-\end{equation}
-We can close the set of cylinders under finite union by associating
-the probability measure for $\cyl(v)\cup\cyl(u)$ to the sum of both cylinders
-if $u$ and $v$ are two finite words but neither $v$ is prefix of $u$ nor $u$
-is prefix of $v$.
-\begin{equation}
-  \mu_{\varphi}(\cyl(v)\cup\cyl(u)) = \mu_{\varphi}(\cyl(v)) 
-  + \mu_{\varphi}(\cyl(u))
-\end{equation}
-In this fashion we obtained a pre-measure (induced by a strategy $\varphi$) on
-the ring of cylinders (cp. \cite[Chapter 1 and Chapter 3]{Bauer}). This
-pre-measure can now be uniquely extended to a probability measure on the
-$\sigma$-algebra induced by the set of cylinders \cite[Theorem 5.4]{Bauer}.
-
+A strategy $\varphi$ for an \ac{MDP}
+$\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ induces a 
+probability measure $\mu_{\varphi}$ on the Borel-algebra $\mathcal{B}(S)$. 
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
 are induced by a word $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$
-rather than a player. For a \ac{PBA} $\mathcal{A}$ we can easily define a
-corresponding strategy $\varphi_{\alpha}:Q^{+}\rightarrow\Sigma$ for the
-equivalent \ac{MDP} $\mathcal{M}_{\mathcal{A}} =
-   \tuple{Q, \Sigma, \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, q_{0}}$
-where $\tau_{\sigma}(q,p) = \delta(q,\sigma,p)$ as
-$\varphi_{\alpha}(w) = \alpha_{\size{w}}$. This strategy yields a probability
-measure $\mu_{\alpha}$ on $Q^{\omega}$ and we can define whether $\mathcal{A}$ 
-accepts $\alpha$ by this measure; namely by the measure of the set
-$\mathcal{F}\subseteq Q^{\omega}$ of words that satisfy the Büchi condition
-given by $F_{\mathcal{A}}$. It is known that this set $\mathcal{F}$ is
-measurable and we define different acceptance conditions \cite{Groesser}:
-\begin{description}
-  \item [Positive Acceptance] $\mu_{\alpha}(\mathcal{F}) > 0$
-  \item [Almost-Sure Acceptance] $\mu_{\alpha}(\mathcal{F}) = 1$
-  \item [Threshold Acceptance] $\mu_{\alpha}(\mathcal{F}) > \lambda$ for a
-    fixed threshold $\lambda\in[0, 1)$
-\end{description}
-
-Examining an induced strategy $\varphi_{\alpha}$ of a word
-$\alpha\in\Sigma^{\omega}$ it is noteworthy that the strategy operates
-indifferently regarding the state the play is in. We use this observation to
-motivate the introduction of \acp{POMDP}. A \ac{POMDP} is a \ac{MDP}
-$\mathcal{M}$ with an associated equivalence relation $\sim$
-\cite{RandAutoInfTrees}. The equivalence relation models a restriction of the
-player to observe the state of $\mathcal{M}$. For every
+rather than a player. Any \ac{PBA} $\mathcal{P}$ can be interpreted as \ac{MDP}
+and for any $\alpha$ a corresponding strategy 
+$\varphi_{\alpha}:Q^{+}\rightarrow\Sigma$ with 
+$\varphi_{\alpha}(w) = \alpha_{\size{w}}$ can be defined. On the other hand, do
+strategies for \acp{MDP} allow for an interaction between the player and the
+environment, thus the player might react differently considering which state
+she stays in, e.g.
+\begin{example}
+  We interpret the \ac{PBA} pictured in Figure \ref{fig:posacceptingpba} as
+  \ac{MDP} $\mathcal{M}$. Furthermore, we challenge the player with the task to
+  visit states in $F$ infinitely often. The player trivially has a strategy 
+  that allows him to satisfy this task by
+  \begin{equation*}
+    \varphi(p_{1}\dots p_{n}) = \begin{cases}
+      b&\text{if }p_{n} = q_{1},\\
+      a&\text{if }p_{n} = q_{0}.
+    \end{cases}
+  \end{equation*}
+  The player is not restricted as words are to be \enquote{consistent} 
+  regarding the length of the play. A word has exactly one letter at each 
+  position while a player may provide different actions (or letters) after
+  the same length of the play depending on the state she currently resides in
+  (or even the current history of the play).
+  \label{ex:pbaasmdp}
+\end{example}
+This freedom of the player can be restricted again. Therefore, we define in the
+following \acp{POMDP}. A \ac{POMDP} is a \ac{MDP} $\mathcal{M}$ with an 
+associated equivalence relation $\sim$. The equivalence relation models a 
+restriction of the player to observe the state of $\mathcal{M}$. For every
 $s\in S_{\mathcal{M}}$ we define
 $[s]_{\sim} = \set{r\in S\mid \sim(r,s)}$ and
 $S_{\mathcal{M}}/_{\sim}$ as set of all these equivalence classes. A
 strategy for a \ac{POMDP} $\tuple{\mathcal{M}, \sim}$ is defined as
 $\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 \begin{example}
-  Re-examining a \ac{PBA} $\mathcal{A}$ and the equivalent \ac{MDP}
+  Again, consider a \ac{PBA} $\mathcal{P}$ and interpret it as an \ac{MDP}
   $\mathcal{M}$ we observed that every word $\alpha$ induces a corresponding
   strategy $\varphi_{\alpha}$. But not every strategy induces a word because
   strategies on $\mathcal{M}$ may choose depending on the state of the play
   different letters for plays of the same length which creates an inconsistency
-  with respect to an - hypothetical - associated word. To tackle this, we add
-  to $\mathcal{M}$ an equivalence relation
+  with respect to an - hypothetical - associated word (cp. Example 
+  \ref{ex:pbaasmdp}). We add to $\mathcal{M}$ an equivalence relation
   $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$ (as suggested in
   \cite{DecProblemsForProbAuto}), hence there is exactly one equivalence class.
   Firstly, we observe that $\varphi_{\alpha}$ is still a valid strategy for the
-  resulting \ac{POMDP} $\mathcal{P} = \tuple{\mathcal{M}, \sim}$. Secondly,
-  since there is exactly one equivalence class every strategy for $\mathcal{P}$
+  resulting \ac{POMDP} $\mathcal{N} = \tuple{\mathcal{M}, \sim}$. Secondly,
+  since there is exactly one equivalence class every strategy for $\mathcal{N}$
   observes at any time only the length of the history. Hence we can provide an
   equivalent strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This
-  in turn means that every strategy in $\mathcal{P}$ induces a word in
+  in turn means that every strategy in $\mathcal{N}$ induces a word in
   $\Sigma^{\omega}$ of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the
   measure of one strategy and an associated word coincide, i.e. the language of
-  $\mathcal{A}$ can be understood as strategy space for $\mathcal{P}$ and vice
+  $\mathcal{P}$ can be understood as strategy space for $\mathcal{N}$ and vice
   versa. This illustrates an idea which is used to define emptiness games for
   certain automata (e.g. \cite[Proposition 45]{RandAutoInfTrees}).
-  \label{ex:pba}
+  \label{ex:pbaaspomdp}
 \end{example}
+The definitions of \acp{MDP} and \acp{POMDP} are for now probabilistic 
+transition systems and strategies induce a behavior of such a transition 
+system. To model goals or task for the player to satisfy we again use 
+Büchi-, Rabin-, Parity- and Muller-conditions. We can then ask if a player has
+a strategy to positively or almost-surely satisfy the associated condition in
+an \ac{MDP} or \ac{POMDP}.
 
 \section{Tree Automata}
 \subsection{Nondeterministic Tree Automata}
@@ -1357,12 +1378,13 @@ steps:
   \item the game proceeds to any $\tuple{q,d}$ with the corresponding
     probability $G(q,d)$
 \end{enumerate}
-Similiar to Example \ref{ex:pba} a strategy only represents a tree if for every
-play the choice of a letter $\sigma$ is consistent throughout all plays
-associated with one certain word of directions. Therefore, we introduce in the
-choice of the player the restriction of observation in step $3$. This allows
-the player to exclusively observe the directions taken throughout the game and
-base her/his decision of which letter to place on this observation only.
+Similiar to Example \ref{ex:pbaaspomdp} a strategy only represents a tree if 
+for every play the choice of a letter $\sigma$ is consistent throughout all 
+plays associated with one certain word of directions. Therefore, we introduce 
+in the choice of the player the restriction of observation in step $3$. This 
+allows the player to exclusively observe the directions taken throughout the 
+game and base her/his decision of which letter to place on this observation 
+only.
 \begin{definition}[Emptiness Game]
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   fix the set of actions $A$ for the player as a set
