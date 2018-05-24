@@ -145,8 +145,8 @@ following
 \begin{theorem}
   \cite[Theorem 1.19, Theorem 1.24, Section 1.3.2,Theorem 3.2]{AutoLogInfGames}
   The class of recognizable languages coincides for \acp{NBA}, \acp{NMA},
-  \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NPA} and \acp{DPA} while \acp{DBA} are
-  strictly less expressive.
+  \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NPA} and \acp{DPA} and is called
+  $\omega$-regular languages. \acp{DBA} are strictly less expressive.
   \label{thm:omegaregularexp}
 \end{theorem}
 Additionally, we will restrict the proof to some of its arguments, namely one
@@ -210,6 +210,7 @@ explained and also later on referred to.
     $\Inf(q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit set of
     all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely many
     $i>k$ s.t. the hit set of $\ell_{i}$ coincides with $F$.
+    \label{lem:larhitset}
   \end{lemma}
   This Lemma induces that the sequence of hit sets stabilises to the set
   $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller condition
@@ -225,7 +226,15 @@ explained and also later on referred to.
   \end{equation*}
   Thus, winning hit sets do have an even and losing hit sets do have an odd
   parity and notably the highest parity value is even if and only if
-  $\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$. We close this argument by stating that
+  $\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$. Therefore, we can define a \ac{NPA}
+  that has as state set the elements $\lar(Q)$ and mirrors the transitions of
+  the original \ac{NMA} through the application of the update function, i.e.
+  for every $\tuple{q, a, p}$ there is a corresponding 
+  $\tuple{\ell_{q}, a, \up(\ell_{q}, p)}$ for every $\ell_{q}\in\lar(Q)$ that
+  is produced by $\up(\cdot,q)$. Every run in the \ac{NPA} can be translated 
+  back to a run in the original \ac{NMA} and vice versa and by Lemma 
+  \ref{lem:larhitset} and the definition of $\parity$ we obtain the acceptance
+  equivalence of both runs. We close this argument by stating that
   any Parity-condition can be expressed by a Rabin-condition as follows:
   we define for every occuring even parity $k\in\parity(Q)$ a pair
   $\tuple{E_{k}, F_{k}}$ where $F_{k} = \parity^{-1}(k)$ and
@@ -248,6 +257,53 @@ explained and also later on referred to.
     \cite[Theorem 3.6]{AutoLogInfGames}
     For every \acp{NBA} exists an equivalent \ac{DMA}.
   \end{theorem}
+\end{proof}
+Concludingly, we state here
+\begin{theorem}
+  The $\omega$-regular languages form a Boolean-algebra, i.e. are closed under
+  union, intersection and negation.
+\end{theorem}
+\begin{proof}
+  The proof consist of operations that take two (respectively one) word 
+  automata and construct a word automaton that accepts the union, intersection 
+  or respectively the negation. Beginning with the union, we make use of
+  non-determinism such that the resulting automaton guesses at the beginning in
+  which language the word is and simulates the \enquote{correct} automaton. The 
+  closure under intersection makes use of a natural product construction, 
+  namely
+  \begin{definition}
+    For $\mathcal{A}_{1} = \tuple{Q, \Sigma, q_{0}, \Delta}$ and
+    $\mathcal{A}_{2} = \tuple{P, \Sigma, p_{0}, \nabla}$ we define
+    \begin{equation*}
+      \mathcal{A}_{1}\otimes\mathcal{A}_{2} = \tuple{Q\times P, \Sigma, 
+      \tuple{q_{0}, p_{0}}, \Delta\otimes\nabla}
+    \end{equation*}
+    with
+    \begin{equation*}
+      \Delta\otimes\nabla = 
+      \set{\tuple{\tuple{q^{1}, p^{1}}, \sigma, 
+      \tuple{q^{2}, p^{2}}}: \tuple{q^{1},\sigma, q^{2}}\in\Delta, 
+      \tuple{p^{1},\sigma, p^{2}}\in\nabla}.
+    \end{equation*}
+  \end{definition}
+  Every run in this product can be separated into runs in $\mathcal{A}_{1}$ and
+  $\mathcal{A}_{2}$. W.l.o.g. we can assume the original two automata to be
+  equipped with Muller-conditions $\mathcal{F}_{1},\mathcal{F}_{2}$ and define
+  for the product automaton the Muller-condition 
+  \begin{equation*}
+    \mathcal{F} = \set{\set{\tuple{q^{1}, p^{1}},\dots,\tuple{q^{1}, p^{1}}}:
+    \set{q^{1},\dots,q^{n}}\in\mathcal{F}_{1},
+    \set{p^{1},\dots,p^{n}}\in\mathcal{F}_{2}}.
+  \end{equation*}
+  Hence the run in the product automaton is accepted if and only if the 
+  associated runs in the original automata are accepted.
+
+  The closure under negation can be expressed very elegantly (cp. 
+  \cite[Transformation 1.25.]{AutoLogInfGames}). W.l.o.g. we consider the 
+  original automaton to be a \ac{DPA}. By setting a new Parity-condition with
+  $\parity'(q) = \parity(q) + 1$ and keeping the original structure we exchange
+  non-accepting and accepting runs and therefore obtain a structural equivalent 
+  \ac{DPA} that precisely accepts the complement of the original automaton.
 \end{proof}
 
 \section{Probabilistic Büchi Automata}
@@ -467,8 +523,8 @@ corresponding acronyms. \acuse{PRA}\acuse{PMA}\acuse{PPA}
 This finally allows us to define the semantics of a \ac{PBA} $\mathcal{P}$
 formally with
 \begin{definition}[Probabilistic Büchi Automaton - Acceptance]
-  A \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ accepts a word 
-  $\alpha\in\Sigma^{\omega}$ positively (resp. almost-surely) if
+  A \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ positively 
+  (resp. almost-surely) accepts a word $\alpha\in\Sigma^{\omega}$ if
   $\mu_{\alpha}(\Acc(F)) > 0$ (resp. $\mu_{\alpha}(\Acc(F))$).
 \end{definition}
 This yields two kinds of \acp{PBA} separated by the measure of their accepted 
@@ -896,9 +952,10 @@ In Section \ref{sec:wordautomata} it is noted that word automata attach to a
 word a sequence of states. The idea of classic tree automata is to attach
 states to more complex structures, namely trees. For a finite set of
 directions $D$ and a finite alphabet $\Sigma$ we define a $D$-ary $\Sigma$-tree
-$t:D^{*}\rightarrow\Sigma$. A classic tree automaton produces a tree of states
+$t:D^{*}\rightarrow\Sigma$. A tree automaton produces a tree of states
 which is attached to the input tree, hence a $D$-ary $Q$-tree where $Q$ is the
-set of states.
+set of states. The following introduction conceptually follows 
+\cite[Chapter 8]{AutoLogInfGames}
 \begin{definition}[Tree automaton]
   Let $Q$ be a finite set of states and $q_{0}\in Q$ be one initial state.
   Furthermore, let $\Delta$ denote a set of transitions of the form
@@ -909,43 +966,47 @@ set of states.
   \end{equation*}
   And its semantics with the following auxillary notions
   \begin{description}
-    \item[Run] a run of $\mathcal{A}$ on a $D/\Sigma$ tree $t$ is a $D/Q$ tree
-      $r$ such that $r(\epsilon) = q_{0}$ and for every $u\in D^{*}$ there is
-      one $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}\in\Delta$ with
-      $r(ud) = q_{d}$.
+    \item[Run] a run of $\mathcal{A}$ on a $D$-ary $\Sigma$-tree $t$ is a
+      $D$-ary $Q$-tree $r$ such that $r(\epsilon) = q_{0}$ and for every 
+      $u\in D^{*}$ there is one 
+      $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}\in\Delta$ with $r(ud) = q_{d}$,
+    \item[Determinism] $\mathcal{A}$ is considered deterministic if for every
+      $q\in Q$ and $\sigma\in\Sigma$ there is exactly one 
+      $\tuple{q,\sigma,\tuple{q_{d}}_{d\in D}\in\Delta}$. We then refer to it 
+      as \ac{DTA} otherwise as \ac{NTA},
     \item[Acceptance Condition] the acceptance condition of a tree automaton is
       some language $\Acc\subseteq Q^{\omega}$. Analogously to acceptance
       conditions for word automata we consider $\Acc$ defined as Büchi-,
-      Parity-, Muller- or Rabin-conditions.
+      Parity-, Muller- or Rabin-conditions,
     \item[Projection of a tree] for any $\alpha=\alpha_{1}\alpha_{2}\dots\in
-      D^{\omega}$ and any $D/\Sigma$ tree $t$ let $t(\alpha)$ denote the word
-      $\beta = \beta_{0}\beta_{1}\dots\in\Sigma^{\omega}$ such that for every
-      $i\in\mathbb{N}_{>0}$ holds $\beta_{i} = t(\alpha_{1}\dots\alpha_{i})$
-      and $\beta_{0} = t(\epsilon)$.
+      D^{\omega}$ and any $D$-ary $\Sigma$-tree $t$ let $t(\alpha)$ denote the 
+      word $\beta = \beta_{0}\beta_{1}\dots\in\Sigma^{\omega}$ such that for 
+      every $i\in\mathbb{N}_{>0}$ holds 
+      $\beta_{i} = t(\alpha_{1}\dots\alpha_{i})$ and $\beta_{0} = t(\epsilon)$.
   \end{description}
   $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
   on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
 \end{definition}
-\fxfatal{find references}
+We present a very simple introductory example to familiarize us with the 
+notions of \acp{NTA}:
 \begin{example}
-  One commonly used introductory example for tree automata is the language
-  $\mathcal{L}_{\exists a}$ of those binary trees over $\set{a,b}$ that contain
-  at least one $a$. This language can be accepted by a tree automaton by
-  non-deterministically choosing a path to an occurence of an $a$ and rendering
-  every other path accepted. And the chosen path accepted from the point
-  onwards where an $a$ occured. The corresponding tree automaton can be
-  described by two states $q_{s}, q_{a}$, where $q_{s}$ is a state that
-  searches for an $a$ while $q_{a}$ is a state that renders all its subtrees
-  accepting. $q_{a}$ reproduces itself into all its subtrees, while $q_{s}$
-  reproduces itself only in one of its subtrees and \enquote{dismissing} the
-  other one by sending $q_{a}$ in it. The acceptance condition is described as
-  a Büchi condition by the set $F = \set{q_{a}}$, thus, since $q_{a}$ only
-  produces $q_{a}$ in all following subtrees, it can be also understood as a
-  reachability condition. This yields the tree automaton
+  Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
+  the $\set{a,b}$ that contain at least one $a$. This language can be accepted 
+  by a tree automaton by non-deterministically choosing a path to an occurence 
+  of an $a$ and rendering every other path accepted. And the chosen path 
+  accepted from the point onwards where an $a$ occured. The corresponding tree 
+  automaton can be described by two states $q_{s}, q_{a}$, where $q_{s}$ is a 
+  state that searches for an $a$ while $q_{a}$ is a state that renders all its 
+  subtrees accepting. $q_{a}$ reproduces itself into all its subtrees, while 
+  $q_{s}$ reproduces itself only in one of its subtrees and 
+  \enquote{dismissing} the other one by sending $q_{a}$ in it. The acceptance 
+  condition is described as a Büchi condition by the set $F = \set{q_{a}}$, 
+  thus, since $q_{a}$ only produces $q_{a}$ in all following subtrees, it can 
+  be also understood as a reachability condition. This yields the tree 
+  automaton
   \begin{equation*}
     \mathcal{A}_{\exists a} = \tuple{Q = \set{q_{s}, q_{a}}, q_{s},
-    \Delta
-    ,F = \set{q_{a}}}
+    \Delta ,F = \set{q_{a}}}
   \end{equation*}
   with
   \begin{equation*}
@@ -970,8 +1031,9 @@ acceptance condition:
 \begin{example}
   This example is similiar to e.g.
   \cite[Exercise 8.3 and the proof of Theorem 8.6]{AutoLogInfGames}.
-  Let $\mathcal{L}_{\not\infty b}$ be the language of all binary trees over the
-  set $\set{a,b}$ that contain on every path only finitely many $b$. This
+  Let $\mathcal{L}_{\not\infty a}$ be the language of all binary trees over the
+  set $\set{a,b}$ that contain on every path only finitely many $a$. Note the
+  similarity to Example \ref{ex:fina} for word automata. This
   language can be recognized by tree automata with a very easy structure,
   namely there are two states $q_{a}, q_{b}$ which only are visited if the
   corresponding letter is read. Thus, we define
@@ -983,49 +1045,78 @@ acceptance condition:
       \tuple{q_{b}, b, q_{b}, q_{b}}
     }.
   \end{equation*}
-  The acceptance condition has to ensure that only $q_{a}$ occurs infinitely
-  often. This can be - for example - expressed via a parity or Muller condition:
-  \begin{equation*}
-    \parity(q_{a}) = 0, \parity(q_{b}) = 1\text{ or }
-    \mathcal{F} = \set{\set{q_{a}}}.
-  \end{equation*}
-  We choose to use the parity condition here and therefore define the
-  corresponding automaton\footnote{and coincidently solve the missing part of
-  \cite[Exercise 8.3]{AutoLogInfGames}.}
-  \begin{equation*}
-    \mathcal{A}_{\not\infty b} = \tuple{\set{q_{a}, q_{b}}, q_{a}, \Delta,
-    \parity}.
-  \end{equation*}
+  Any Rabin-, Muller- or Parity-condition as described in Example \ref{ex:fina}
+  accepts the correct language since these precisely define the abscence of
+  infinitely many occurences of $q_{a}$.
+
+  For the corresponding \ac{NBA} in Example \ref{ex:fina} we used a structural
+  way to model the abscence of further occurences of $a$ from one point 
+  onwards.  This argument of guessing the moment when no further $a$ appears 
+  cannot be used in the case of trees since every such guess involves the 
+  complete subtree. Considering the tree $t:\set{0,1}*\rightarrow\set{a,b}$ 
+  with $t(w) = a$ if and only if $w = 1^{n}0$ for any $n\in\mathbb{N}_{>0}$ we 
+  see that $t\in\mathcal{L}_{\not\infty a}$, but for all $k\in\mathbb{N}_{>0}$ 
+  the subtree rooted in $1^{k}$ contains an $a$. Thus, there is no point from
+  which this subtree is $a$-free, therefore this idea of guessing such a point 
+  does not translate to tree automata.
 \end{example}
-Note that both these acceptance conditions specifically exclude the infinite
-occurences of $q_{b}$ (since the parity of $q_{b}$ trumps the parity of
-$q_{a}$ but is odd respectively neither $\set{q_{a}, q_{b}}$ nor
-$\set{q_{b}}$ are part of $\mathcal{F}$). In the equivalent Rabin
-condition $\set{\tuple{\set{q_{a}}, \set{q_{b}}}}$ this exclusion of $q_{b}$
-is even made explicit. But such an exclusion cannot be trivially expressed by a
-Büchi condition due to the positive nature of its semantics. In fact we can
-show that this language cannot be accepted by any Büchi tree
-automaton\footnote{Büchi tree automata are prone to a
-\enquote{Pumping argmuent}; that is in an accepting run we can pick a path that
-visits the same state in $F$ twice and periodically plug the subtree rooted at
-the first occurence into the second (and all subsequent) occurence of this
-state. This again yields an accepting run since all paths in this subtree were
-originally accepting and allows to construct from an accepted tree another
-accepted tree with the same periodic nature as the constructed run.}, thus
-separating the expressiveness of tree automata as in
+The difficulties to define a \ac{NTA} with a Büchi-condition to accept 
+$\mathcal{L}_{\not\infty a}$ are inherent to the Büchi-condition for tree 
+automata. In fact it is possible to show that $\mathcal{L}_{\not\infty a}$ 
+cannot be accepted by any \ac{NTA} with Büchi-condition, thus separating the 
+expressiveness of tree automata as in
 \begin{theorem}
   \cite[Corollary 8]{WeakDefRel} cited after
   \cite[Theorem 8.6]{AutoLogInfGames}.
   Büchi tree automata are strictly weaker than Muller tree automata in the
-  sense that there exists a Muller tree automaton recognizable language which
-  is not Büchi tree automaton recognizable.
+  sense that there exists a language recognizable by a \ac{NTA} with a 
+  Muller-condition but not recognizable by a \ac{NTA} with a Büchi-condition.
 \end{theorem}
+\begin{proof}
+  We omit the proof since it requires some technicalities which are well
+  documented but not useful for the further course of this thesis.
+\end{proof}
+On the other hand, we can use already established technicalities, namely 
+\acp{LAR}, to state the following
+\begin{theorem}
+  \cite[Theorem 8.7]{AutoLogInfGames}
+  \acp{NTA} with Muller-, Parity- and Rabin-conditions all recognize the same
+  tree languages.
+\end{theorem}
+\begin{proof}
+  This proof follows the same structure as the proof to Theorem 
+  \ref{thm:omegaregularexp} in the sense that Parity- and Rabin-conditions can
+  be expressed as Muller-conditions and Parity-conditions can be expressed as
+  Rabin-conditions and any \ac{NTA} with Muller-conditions can be transformed 
+  to an \ac{NTA} with Parity-condition as follows. Considering an \ac{NTA} 
+  $\mathcal{M} = \tuple{Q, q_{0}, \Delta}$ with an associated Muller-condition
+  $\mathcal{F}$ we define $\mathcal{P} = \tuple{\lar(Q), \ell_{0}, \nabla}$
+  (again $\ell_{0}$ is arbitrarily chosen) with
+  \begin{equation*}
+    \nabla = \set{
+      \tuple{\ell_{q}, \sigma, \tuple{\up(\ell_{q}, q_{d})}_{d\in D}}:
+      \tuple{q,\sigma,\tuple{q_{d}}_{d\in D}}\in\Delta
+    }
+  \end{equation*}
+  and
+  \begin{equation*}
+    \parity(\interval{p_{1}\dots p_{n},h}) = \begin{cases}
+      2\cdot h&\text{if }\set{p_{1},\dots, p_{n}}\in\mathcal{F},\\
+      2\cdot h - 1&\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+  We obtain for every run in $\mathcal{M}$ a corresponding run in $\mathcal{P}$
+  and vice versa and Lemma \ref{lem:larhitset} yields the acceptance 
+  equivalence of these runs.
+\end{proof}
+We postpone the discussion of other aspects of tree automata, e.g. closure 
+properties, after the introduction of another form of tree automata.
 
 \subsection{Alternating Tree Automata}
-Up to this point the used tree automata mirrored the structure of their inputs
-very closely. This means both the runs of the tree automata and the input tress
-are of the same \enquote{dimensionality}, i.e. both are runs over the same set
-of directions. This notion can be relaxed to obtain a new class of tree
+Up to this point the used automata mirrored the structure of their inputs
+very closely. Word automata generated words of states and tree automata 
+generated trees of states of the same arity of their input trees. This notion 
+can be relaxed for tree automata to obtain a new class of tree
 automata, that is \aclp{ATA}. Following \cite{AltTreeAuto} tree automata
 operate by sending down \enquote{copies} through the different paths. In the
 classical setting at every branching point every successor is awarded with one
@@ -1038,20 +1129,20 @@ is the unrollment of the transition system.
 
 Formally, before transitions for tree automata are defined as tuples of the 
 form $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$. This specifically defines for
-every direction one single state to move along this direction. In
-\cite{AltTreeAuto} a representation via the operators $\wedge, \vee$ is chosen
-to formulate a transition. Hereby, transitions are given in \emph{distributive
-normal form}, i.e. of the form $\bigvee_{i} C_{i}$ where every $C_{i}$ is a
-collection of elements from $D\times Q$ concatenated by $\wedge$. Thus, a run
-of an \ac{ATA} may choose one $C_{i}$ (as it chose one transition of those
-available in $\Delta$ before) and send down a state $q$ downwards direction $d$
-for every $\tuple{d,q}$ in $C_{i}$. Formally, such a transition is an element
-of the \emph{distributive lattice} $\mathcal{L}(D\times Q)$ generated by
-elements in $D\times Q$ and the transition function
-$\delta:Q\times\Sigma\rightarrow\mathcal{L}(D\times Q)$ is defined using this
-formalism. By \cite[Proposition C1]{SimAltTreeAuto} the restriction to
-distributive normal form does not pose a conceptual restriction since every
-positive formula can be transformed to this normal form.
+every direction one single state to move along this direction. We introduce
+transitions of the form $\tuple{q,\sigma,\delta_{A}}$ where $\delta_{A}$ is a 
+characteristic function of a non-empty subset $A\subseteq D\times Q$ called a
+\emph{clause-function}, i.e.
+\begin{equation*}
+  \delta_{A}:D\times Q\rightarrow\set{0,1}\text{ with }
+  \delta_{A}(a) = \begin{cases}
+    1&\text{if }a\in A,\\
+    0&\text{if }a\notin A.
+  \end{cases}
+\end{equation*}
+Semantically, $\delta_{A}$ sends a copy of $q$ down the direction $d$ for every
+$\tuple{d,q}\in A$. This notion allows us to refine the tree automaton of 
+Example \ref{ex:treeexa}:
 \begin{example}
   Recall $\mathcal{A}_{\exists a}$ from Example \ref{ex:treeexa} which
   determines if a tree contains an $a$ with 
@@ -1064,57 +1155,51 @@ positive formula can be transformed to this normal form.
       \tuple{q_{s}, b, q_{a}, q_{s}}
     }.
   \end{equation*}
-  This $\Delta$ can be represented in the notion of a transition function
-  $\delta:Q\times\Sigma\rightarrow\mathcal{L}(D\times Q)$ as follows (note that
-  $\wedge$ binds stronger than $\vee$)
-  \begin{align*}
-    &\delta(q_{a}, a) = \delta(q_{a}, b) = \delta(q_{s}, a) =
-    \tuple{0, q_{a}}\wedge\tuple{1, q_{a}}
-    \text{ and }\\
-    &\delta(q_{s}, b) = \tuple{0, q_{s}}\wedge\tuple{1, q_{a}}
-    \vee\tuple{0, q_{a}}\wedge\tuple{1, q_{s}}.
-  \end{align*}
-  But the concept of alternating tree automata allows to formulate the
-  \enquote{searching} part of the run more concisely\footnote{Occasionally,
-  e.g. in \cite[Chapter 9]{AutoLogInfGames}, \acp{ATA} are equipped with the
-  possibility to give a truth value instead of a formula which expresses that
-  this subtree is considered accepting regardless of its structure. We
-  explicitly do not include this notion, but it is easy to see that this would
-  allow to equivalently define
-  $\delta(q_{a}, a) = \delta(q_{a}, b) = \delta(q_{s}, a) = 1$ (where $1$ is
-  such a truth value).} by dropping the necessity to send a $q_{a}$ along the
-  path that is not chosen, thus yielding
+  The concept of alternating tree automata allows to formulate the
+  \enquote{searching} part of the run more concisely\footnote{
+    Occasionally, e.g. in \cite[Chapter 9]{AutoLogInfGames}, \acp{ATA} are 
+    equipped with the possibility to render a subtree accepted regardless of 
+    its structure. We explicitly do not include this notion, but it is easy to 
+    see that this would allow to equivalently define transitions
+    $\tuple{q_{a}, a, \delta_{\top}},\tuple{q_{a}, b, \delta_{\top}},
+    \tuple{q_{s}, a, \delta_{\top}}$ where $\delta_{\top}$ renders the subtree
+    accepted.
+  }
+  by dropping the necessity to send a $q_{a}$ along the
+  path that is not chosen, thus including
   \begin{equation*}
-    \delta(q_{s}, b) = \tuple{0, q_{s}}\vee\tuple{1, q_{s}}.
+    \tuple{q_{s}, b, \delta_{\set{\tuple{0, q_{s}}}}},
+    \tuple{q_{s}, b, \delta_{\set{\tuple{1, q_{s}}}}}.
   \end{equation*}
 \end{example}
 We formally define similar to \cite{SynProbEnv}
+\fxfatal{run epsilon not yet consistent}
 \begin{definition}[Alternating Tree Automata]
   For a finite set of states $Q$, one distinct intial state $q_{0}\in Q$, a
   finite set of directions $D$, a finite alphabet $\Sigma$ and a transition
-  function $\delta:Q\times\Sigma\rightarrow\mathcal{L}(D\times Q)$ we can
-  define an \ac{ATA} $\mathcal{A}$ over $D$-ary $\Sigma$-trees as
+  relation $\Delta$ we can define an \ac{ATA} $\mathcal{A}$ over $D$-ary 
+  $\Sigma$-trees as
   \begin{equation*}
-    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \delta, \Acc\subseteq Q^{\omega}}.
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
   \end{equation*}
   The semantics of $\mathcal{A}$ is given by a run $r$ of $\mathcal{A}$ on a
-  tree $t$. Here $r$ is a $D\times Q$-ary $\set{0,1}$-tree with the following
+  tree $t$. Here $r$ is a $D\times Q$-ary $\nabla$-tree where $\nabla$ is the
+  set of all clause-functions occuring in $\Delta$ with the following
   necessities:
   \begin{enumerate}
-    \item $r(\epsilon) = 1$,
+    \item $r(\epsilon) = \delta_{A}$ for 
+      $\tuple{q_{0}, t(\epsilon), \delta_{A}}\in\Delta$,
     \item for every $u = \tuple{d_{1}, q_{1}}\dots\tuple{d_{n}, q_{n}}\in
-      \tuple{D\times Q}^{*}$ with $r(u) = 1$ there exists $C_{i}$ in
-      $\delta(q_{n}, t(d_{1}\dots d_{n}))$ (resp. $\delta(q_{0}, t(\epsilon)$
-      if $u = \epsilon$) such that $r(u\cdot\tuple{d,q}) = 1$ if and only if
-      $\tuple{d,q}$ is in $C_{i}$.
+      \tuple{D\times Q}^{*}$ with $r(u) = \delta_{A}$ there exists
+      $\tuple(q_{n}, t(d_{1}\dots d_{n}), \delta_{A})\in\Delta$.
   \end{enumerate}
-  We consider such a run $r$ accepting if all the marked paths, i.e. those
-  paths along which $r$ always maps to $1$, are part of $\Acc$. Formally, we
-  fix for any run the set of its marked path as
+  We consider such a run $r$ accepting if all paths that move along 
+  clause-functions are part of $\Acc$. Formally, we fix for any run $r$ the set 
+  of its \enquote{marked path} as
   \begin{equation*}
   M_{r} = \set{\tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
     \tuple{D\times Q}^{\omega}\mid r(\tuple{d_{1}, q_{1}}\dots
-  \tuple{d_{i}, q_{i}}) = 1 \text{ for every }i>0}
+    \tuple{d_{i}, q_{i}})(d_{i+1}, q_{i+1}) = 1 \text{ for }i>0}
   \end{equation*}
   and require that
   \begin{equation*}
