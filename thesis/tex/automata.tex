@@ -622,6 +622,7 @@ to find if there is any word positively accepted by $\mathcal{P}$ as stated in
 \begin{theorem}
   \cite[Theorem 2]{DecProblemsForProbAuto}
   The emptiness problem for \ac{PBA} is undecideable.
+  \label{thm:emptinesspospba}
 \end{theorem}
 
 In order to re-gain some desired algorithmic properties of e.g. the emptiness
@@ -633,6 +634,7 @@ the case as stated in
 \begin{theorem}
   \cite[Theorem 6]{DecProblemsForProbAuto}
   The emptiness problem for \ac{PBA} with almost-sure acceptance is decideable.
+  \label{thm:emptinessalmostsurepba}
 \end{theorem}
 Again, we consider an example for a \ac{PBA} with almost-sure acceptance (taken
 from \cite{DecProblemsForProbAuto}.
@@ -844,7 +846,49 @@ transition systems and strategies induce a behavior of such a transition
 system. To model goals or task for the player to satisfy we again use 
 Büchi-, Rabin-, Parity- and Muller-conditions. We can then ask if a player has
 a strategy to positively or almost-surely satisfy the associated condition in
-an \ac{MDP} or \ac{POMDP}.
+an \ac{MDP} or \ac{POMDP}. The equality described in Example 
+\ref{ex:pbaaspomdp} directly induces some undecideability results, namely
+\begin{theorem}
+  It is undecideable to compute a strategy for a \ac{POMDP} that either 
+  positively or almost-surely satisfies a Rabin-, Parity- or Muller-condition.
+  Additionally, it is undecideable to compute a strategy for a \ac{POMDP} that
+  positively satisfies a Büchi-condition.
+\end{theorem}
+\begin{proof}
+  Any algorithm to compute a strategy for a \ac{POMDP} that positively 
+  satisfies a Büchi-condition immediately solves the emptiness problem for
+  \acp{PBA} with positive acceptance which is undecideable by Theorem 
+  \ref{thm:emptinesspospba}. By Theorem \ref{thm:pbatopra} and Theorem 
+  \ref{thm:probautoequiv} there is for any \ac{PBA} an equivalent \ac{PRA}, 
+  \ac{PPA} and \ac{PMA} which accept either with probability $0$ or $1$; thus, 
+  positive and almost-sure acceptance coincide. Hence again computing a 
+  strategy for the positive or almost-sure satisfaction of Rabin-, Parity- or 
+  Muller-conditions for \acp{POMDP} solves the undecideable emptiness problem 
+  for \acp{PBA} with positive acceptance.
+\end{proof}
+On the other hand, there are some positive results regarding computation of 
+strategies for \acp{MDP} and for almost-sure satisfaction of Büchi-conditions
+in \acp{POMDP}:
+\begin{theorem}
+  \cite[Theorem 5]{QualAnaPOMDP}
+  It is possible to compute a strategy for a \ac{POMDP} that almost-surely 
+  satisfies an associated Büchi-condition.
+\end{theorem}
+and
+\begin{theorem}
+  It is possible to compute a strategy for a \ac{MDP} that almost-surely
+  satisfies an associated Büchi-, Parity-, Rabin- or Muller-condition.
+\end{theorem} 
+\fxwarning{find a better reference for this and explain a little about 
+endcomponents and such}
+\begin{proof}
+  All these conditions induce an $\omega$-regular language on the set of 
+  states. Expressing this language by an \ac{NBA} allows us to use 
+  \cite[Theorem 4.1.7.]{ComplexProbVerification} to solve these problems.
+\end{proof}
+Additionally to the close connection of \acp{POMDP} to probabilistic word 
+automata we make use of these models in the later course to define decision
+procedures for even more elaborate probabilistic automata.
 
 \section{Tree Automata}
 \subsection{Nondeterministic Tree Automata}
