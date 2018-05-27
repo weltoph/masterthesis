@@ -549,8 +549,8 @@ positively accepted by \acp{PBA}.
   \ref{fig:posacceptingpba}. The accepted language is by 
   \cite{RecOmeLangProbAuto}
   \begin{equation*}
-    \set{a^{k_{1}}ba^{k_{2}}b\dots:k_{i}>0\text{ for all }i>0\text{ and }
-    \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) > 0}.
+    \mathcal{L}_{>0} = \set{a^{k_{1}}ba^{k_{2}}b\dots:k_{i}>0\text{ for all }
+    i>0\text{ and } \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) > 0}.
   \end{equation*}
   This can be explained the following way: intially $\mathcal{P}$ starts in 
   $q_{0}$, thus the whole \emph{probability mass} lays within $q_{0}$. Every
@@ -576,6 +576,7 @@ As mentioned before the \ac{PBA} $\mathcal{P}$ from Example
     \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) > 0}
   \end{equation*}
   can be positively accepted by a \ac{PBA} but is not $\omega$-regular.
+  \label{lem:posaccpba>omegareg}
 \end{lemma}
 \begin{proof}
   It is well known that any $\omega$-regular language contains an ultimately
@@ -730,15 +731,16 @@ from \cite{DecProblemsForProbAuto}.
   \emph{negligible}, i.e. carrying a probability of $0$.  Thus, indeed 
   $\mathcal{P}$ accepts $L_{\lambda}$.
 
-  If $\lambda$ is set to $\frac{1}{2}$, this language is - to a certain degree 
-  - dual to the language in Example \ref{ex:posacceptingpba} (without 
-  considering all words ending in $a^{\omega}$ or those words starting in $b$ 
-  or ommitting an \enquote{$a$-phase}). This duality is rooted in structural 
-  similarities. Examining the \emph{Separation} part, it mirrors the 
-  $a$-transitions of the \ac{PBA} in Figure \ref{fig:posacceptingpba}. But an 
-  occurences of $b$ does not discard the probability mass in $q_{2}$ ($q_0$, 
-  respectively) but saves it in an accepting state and re-introduces into the 
-  circulation (as seen in the \emph{Disposal} part).
+  If $\lambda$ is set to $\frac{1}{2}$, the resulting language 
+  $\mathcal{L}_{=1}$ is - to a certain degree - dual to the language in Example 
+  \ref{ex:posacceptingpba} (without considering all words ending in 
+  $a^{\omega}$ or those words starting in $b$ or ommitting an 
+  \enquote{$a$-phase}). This duality is rooted in structural similarities. 
+  Examining the \emph{Separation} part, it mirrors the $a$-transitions of the 
+  \ac{PBA} in Figure \ref{fig:posacceptingpba}. But an occurences of $b$ does 
+  not discard the probability mass in $q_{2}$ ($q_0$, respectively) but saves
+  it in an accepting state and re-introduces into the circulation (as seen in 
+  the \emph{Disposal} part).
   \label{ex:almostsureacceptingpba}
 \end{example}
 \begin{drawing}
@@ -771,7 +773,7 @@ $\lambda_{1} < \frac{1}{n} < \lambda_{2}$ and then the languages of
 $\mathcal{P}$ with $\lambda_{1}$ and $\lambda_{2}$ do not agree on the sequence
 given by Lemma \ref{lem:measureinpba} for $n$ since $\lambda_{1}$ renders
 this sequence non-accepting in $\mathcal{P}$ while $\lambda_{2}$ renders it
-accepting.
+accepting (as described in \cite{DecProblemsForProbAuto}).
 
 Regarding the relationship of $\omega$-regularity to languages which are 
 accepted by a \ac{PBA} with almost-sure acceptance we find that
@@ -789,7 +791,33 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
     with almost-sure acceptance.
   \end{lemma}
   \begin{proof}
-    \fxfatal{to be done}
+    As expected, we use the language $\mathcal{L}_{=1}$ from Example 
+    \ref{ex:almostsureacceptingpba} to witness this claim. In Example 
+    \ref{ex:almostsureacceptingpba} we already mentioned the 
+    \enquote{almost duality} of this language to $\mathcal{L}_{>0}$ from 
+    Example \ref{ex:posacceptingpba}. By defining
+    \begin{equation*}
+      \mathcal{L}_{\omega} = \set{
+        \alpha_{1}\alpha_{2}\dots\in\set{a,b}^{\omega}\middle|
+        \text{s.t. }
+        \begin{aligned}
+          &\alpha_{1} = b&\text{or }\\
+          &\alpha_{i} = \alpha_{i+1} = b&\text{for one }i>0\text{ or }\\
+          &\alpha_{i} = \alpha_{i+1} = \dots = b&\text{for one }i>0\text{ holds}
+        \end{aligned}
+      },
+    \end{equation*}
+    we can state that 
+    $\set{a,b}^{\omega}\setminus\mathcal{L}_{>0} = 
+      \mathcal{L}_{=1}\cup\mathcal{L}_{\omega}$.
+    $\mathcal{L}_{\omega}$ can be separated into its individual parts where 
+    each part is $\omega$-regular and so is $\mathcal{L}_{\omega}$ by closure 
+    under union for $\omega$-regular languages. Thus, assuming 
+    $\mathcal{L}_{=1}$ $\omega$-regularity renders 
+    $\mathcal{L}_{=1}\cup\mathcal{L}_{\omega}$ $\omega$-regular and by closure 
+    under complement of $\omega$-regular languages also $\mathcal{L}_{>0}$ 
+    which is a contradiction to Lemma \ref{lem:posaccpba>omegareg}. Therefore, 
+    we state that $\mathcal{L}_{=1}$ is not $\omega$-regular.
   \end{proof}
   And on the other hand we state that
   \begin{lemma}
@@ -962,7 +990,7 @@ set of states. The following introduction conceptually follows
   $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}$ where $q\in Q, q_{d}\in Q$ for
   all $d\in D$ and $\sigma\in\Sigma$. Thus, define a tree automaton
   \begin{equation*}
-    \mathcal{A} = \tuple{Q, q_{0}, \Delta}.
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
   \end{equation*}
   And its semantics with the following auxillary notions
   \begin{description}
@@ -970,14 +998,11 @@ set of states. The following introduction conceptually follows
       $D$-ary $Q$-tree $r$ such that $r(\epsilon) = q_{0}$ and for every 
       $u\in D^{*}$ there is one 
       $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}\in\Delta$ with $r(ud) = q_{d}$,
+    \item[Acceptance Condition] the acceptance condition $\Acc$ is considered
+      to be represented as Büchi-, Parity-, Muller- or Rabin-condition,
     \item[Determinism] $\mathcal{A}$ is considered deterministic if for every
       $q\in Q$ and $\sigma\in\Sigma$ there is exactly one 
-      $\tuple{q,\sigma,\tuple{q_{d}}_{d\in D}\in\Delta}$. We then refer to it 
-      as \ac{DTA} otherwise as \ac{NTA},
-    \item[Acceptance Condition] the acceptance condition of a tree automaton is
-      some language $\Acc\subseteq Q^{\omega}$. Analogously to acceptance
-      conditions for word automata we consider $\Acc$ defined as Büchi-,
-      Parity-, Muller- or Rabin-conditions,
+      $\tuple{q,\sigma,\tuple{q_{d}}_{d\in D}\in\Delta}$,
     \item[Projection of a tree] for any $\alpha=\alpha_{1}\alpha_{2}\dots\in
       D^{\omega}$ and any $D$-ary $\Sigma$-tree $t$ let $t(\alpha)$ denote the 
       word $\beta = \beta_{0}\beta_{1}\dots\in\Sigma^{\omega}$ such that for 
@@ -987,8 +1012,10 @@ set of states. The following introduction conceptually follows
   $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
   on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
 \end{definition}
-We present a very simple introductory example to familiarize us with the 
-notions of \acp{NTA}:
+We introduce as we are already accustomed fitting acronyms, e.g. \ac{DPTA}
+\acuse{NPTA} \acuse{DRTA} \acuse{NRTA} \acuse{DMTA} \acuse{NMTA} \acuse{DBTA}
+\acuse{NBTA}, and present an easy example to familiarize ourself with the 
+notions of tree automata
 \begin{example}
   Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
   the $\set{a,b}$ that contain at least one $a$. This language can be accepted 
@@ -1060,37 +1087,30 @@ acceptance condition:
   which this subtree is $a$-free, therefore this idea of guessing such a point 
   does not translate to tree automata.
 \end{example}
-The difficulties to define a \ac{NTA} with a Büchi-condition to accept 
-$\mathcal{L}_{\not\infty a}$ are inherent to the Büchi-condition for tree 
-automata. In fact it is possible to show that $\mathcal{L}_{\not\infty a}$ 
-cannot be accepted by any \ac{NTA} with Büchi-condition, thus separating the 
-expressiveness of tree automata as in
+The difficulties to define a \ac{NBTA} to accept $\mathcal{L}_{\not\infty a}$ 
+are inherent to the Büchi-condition. In fact it is possible to show that 
+$\mathcal{L}_{\not\infty a}$ cannot be accepted by any \ac{NBTA}, thus 
+separating the expressiveness of tree automata as in
 \begin{theorem}
   \cite[Corollary 8]{WeakDefRel} cited after
   \cite[Theorem 8.6]{AutoLogInfGames}.
-  Büchi tree automata are strictly weaker than Muller tree automata in the
-  sense that there exists a language recognizable by a \ac{NTA} with a 
-  Muller-condition but not recognizable by a \ac{NTA} with a Büchi-condition.
+  \acp{NBTA} are strictly weaker than \ac{NMTA} in the sense that there exists 
+  a language recognizable by a \ac{NMTA} but not recognizable by a \ac{NBTA}.
 \end{theorem}
-\begin{proof}
-  We omit the proof since it requires some technicalities which are well
-  documented but not useful for the further course of this thesis.
-\end{proof}
 On the other hand, we can use already established technicalities, namely 
 \acp{LAR}, to state the following
 \begin{theorem}
   \cite[Theorem 8.7]{AutoLogInfGames}
-  \acp{NTA} with Muller-, Parity- and Rabin-conditions all recognize the same
-  tree languages.
+  \acp{NMTA},\acp{NRTA} and \acp{NPTA} all recognize the same tree languages.
 \end{theorem}
 \begin{proof}
   This proof follows the same structure as the proof to Theorem 
   \ref{thm:omegaregularexp} in the sense that Parity- and Rabin-conditions can
   be expressed as Muller-conditions and Parity-conditions can be expressed as
-  Rabin-conditions and any \ac{NTA} with Muller-conditions can be transformed 
-  to an \ac{NTA} with Parity-condition as follows. Considering an \ac{NTA} 
-  $\mathcal{M} = \tuple{Q, q_{0}, \Delta}$ with an associated Muller-condition
-  $\mathcal{F}$ we define $\mathcal{P} = \tuple{\lar(Q), \ell_{0}, \nabla}$
+  Rabin-conditions and any \ac{NMTA} can be transformed to an \ac{NPTA} as 
+  follows. Considering an \ac{NMTA} $\mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, 
+  \Delta, \mathcal{F}}$ we define 
+  $\mathcal{P} = \tuple{\lar(Q), \ell_{0}, D, \Sigma, \nabla, \parity}$
   (again $\ell_{0}$ is arbitrarily chosen) with
   \begin{equation*}
     \nabla = \set{
@@ -1117,15 +1137,16 @@ Up to this point the used automata mirrored the structure of their inputs
 very closely. Word automata generated words of states and tree automata 
 generated trees of states of the same arity of their input trees. This notion 
 can be relaxed for tree automata to obtain a new class of tree
-automata, that is \aclp{ATA}. Following \cite{AltTreeAuto} tree automata
-operate by sending down \enquote{copies} through the different paths. In the
-classical setting at every branching point every successor is awarded with one
-copy of a state of the automaton. The aforementioned relaxation lies in the
-idea to allow at a branching point to award some successor with more than one
-state while others may not receive even a single one. This concept is also used 
-to define automata that run over transition systems, e.g.
-\cite[Chapter 9]{AutoLogInfGames} and \cite{SynProbEnv}, where the input tree
-is the unrollment of the transition system.
+automata, that is \emph{Alternating Tree Automata}. Following 
+\cite{AltTreeAuto} tree automata operate by sending down \enquote{copies} 
+through the different paths. In the classical setting at every branching point 
+every successor is awarded with one copy of a state of the automaton. The 
+aforementioned relaxation lies in the idea to allow at a branching point to 
+award some successor with more than one state while others may not receive even 
+a single one. This concept is also used to define automata that run over 
+transition systems, e.g. \cite[Chapter 9]{AutoLogInfGames} and 
+\cite{SynProbEnv}, where the input tree is the unrollment of the transition 
+system.
 
 Formally, before transitions for tree automata are defined as tuples of the 
 form $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$. This specifically defines for
@@ -1157,10 +1178,10 @@ Example \ref{ex:treeexa}:
   \end{equation*}
   The concept of alternating tree automata allows to formulate the
   \enquote{searching} part of the run more concisely\footnote{
-    Occasionally, e.g. in \cite[Chapter 9]{AutoLogInfGames}, \acp{ATA} are 
-    equipped with the possibility to render a subtree accepted regardless of 
-    its structure. We explicitly do not include this notion, but it is easy to 
-    see that this would allow to equivalently define transitions
+    Occasionally, e.g. in \cite[Chapter 9]{AutoLogInfGames}, alternating tree
+    automata are equipped with the possibility to render a subtree accepted 
+    regardless of its structure. We explicitly do not include this notion, but 
+    it is easy to see that this would allow to equivalently define transitions
     $\tuple{q_{a}, a, \delta_{\top}},\tuple{q_{a}, b, \delta_{\top}},
     \tuple{q_{s}, a, \delta_{\top}}$ where $\delta_{\top}$ renders the subtree
     accepted.
@@ -1173,40 +1194,46 @@ Example \ref{ex:treeexa}:
   \end{equation*}
 \end{example}
 We formally define similar to \cite{SynProbEnv}
-\fxfatal{run epsilon not yet consistent}
 \begin{definition}[Alternating Tree Automata]
   For a finite set of states $Q$, one distinct intial state $q_{0}\in Q$, a
   finite set of directions $D$, a finite alphabet $\Sigma$ and a transition
-  relation $\Delta$ we can define an \ac{ATA} $\mathcal{A}$ over $D$-ary 
-  $\Sigma$-trees as
+  relation $\Delta$ we define 
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
   \end{equation*}
   The semantics of $\mathcal{A}$ is given by a run $r$ of $\mathcal{A}$ on a
-  tree $t$. Here $r$ is a $D\times Q$-ary $\nabla$-tree where $\nabla$ is the
-  set of all clause-functions occuring in $\Delta$ with the following
-  necessities:
+  $D$-ary $\Sigma$-tree $t$. Here $r$ is a $D\times Q$-ary $\nabla$-tree where 
+  $\nabla$ is the set of all clause-functions occuring in $\Delta$ with the 
+  following necessities:
   \begin{enumerate}
     \item $r(\epsilon) = \delta_{A}$ for 
       $\tuple{q_{0}, t(\epsilon), \delta_{A}}\in\Delta$,
     \item for every $u = \tuple{d_{1}, q_{1}}\dots\tuple{d_{n}, q_{n}}\in
       \tuple{D\times Q}^{*}$ with $r(u) = \delta_{A}$ there exists
-      $\tuple(q_{n}, t(d_{1}\dots d_{n}), \delta_{A})\in\Delta$.
+      $\tuple{q_{n}, t(d_{1}\dots d_{n}), \delta_{A}}\in\Delta$.
   \end{enumerate}
   We consider such a run $r$ accepting if all paths that move along 
   clause-functions are part of $\Acc$. Formally, we fix for any run $r$ the set 
   of its \enquote{marked path} as
   \begin{equation*}
-  M_{r} = \set{\tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
-    \tuple{D\times Q}^{\omega}\mid r(\tuple{d_{1}, q_{1}}\dots
-    \tuple{d_{i}, q_{i}})(d_{i+1}, q_{i+1}) = 1 \text{ for }i>0}
+  M_{r} = \set{
+    \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+    \tuple{D\times Q}^{\omega}\middle|
+    \begin{aligned}
+      &r(\tuple{d_{1}, q_{1}}\dots
+      \tuple{d_{i}, q_{i}})(d_{i+1}, q_{i+1}) = 1&\text{if }i>0\\
+      &r(\epsilon)(d_{1}, q_{1}) = 1&\text{if }i=0
+    \end{aligned}
+    }
   \end{equation*}
   and require that
   \begin{equation*}
     M_{r}\subseteq D^{\omega}\times\Acc.
   \end{equation*}
   Again, we consider for $\Acc$ acceptance conditions which are representable
-  as Büchi-, Rabin-, Muller- or Parity-conditions.
+  as Büchi-, Rabin-, Muller- or Parity-conditions and use according acronyms,
+  namely \acs{ABTA}, \acs{ARTA}, \acs{AMTA}, \acs{APTA} respectively.
+  \acuse{ABTA} \acuse{AMTA} \acuse{ARTA} \acuse{APTA} 
 \end{definition}
 
 \subsection{Graph Games}
