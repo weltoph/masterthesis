@@ -612,6 +612,7 @@ and negation. This is captured in
   \cite[Chapter 4.3.]{Groesser}
   The class of languages that can be accepted by a \ac{PBA} form a Boolean 
   algebra. The transformations can be effectively constructed.
+  \label{thm:pbaboolalgebra}
 \end{theorem}
 \begin{proof}[Proof-sketch]
   A union operator is very easily obtained by the following idea: given two
@@ -975,7 +976,6 @@ automata we make use of these models in the later course to define decision
 procedures for even more elaborate probabilistic automata.
 
 \section{Tree Automata}
-\subsection{Nondeterministic Tree Automata}
 In Section \ref{sec:wordautomata} it is noted that word automata attach to a
 word a sequence of states. The idea of classic tree automata is to attach
 states to more complex structures, namely trees. For a finite set of
@@ -1102,6 +1102,7 @@ On the other hand, we can use already established technicalities, namely
 \begin{theorem}
   \cite[Theorem 8.7]{AutoLogInfGames}
   \acp{NMTA},\acp{NRTA} and \acp{NPTA} all recognize the same tree languages.
+  \label{thm:treeautoequiv}
 \end{theorem}
 \begin{proof}
   This proof follows the same structure as the proof to Theorem 
@@ -1235,6 +1236,75 @@ We formally define similar to \cite{SynProbEnv}
   namely \acs{ABTA}, \acs{ARTA}, \acs{AMTA}, \acs{APTA} respectively.
   \acuse{ABTA} \acuse{AMTA} \acuse{ARTA} \acuse{APTA} 
 \end{definition}
+By using the same argument as for Theorem 
+\ref{thm:omegaregularexp} and Theorem \ref{thm:treeautoequiv} we obtain
+\begin{theorem}
+  \ac{ARTA}, \ac{AMTA} and \ac{APTA} recognize the same class of languages.
+  \label{thm:atreeautoequiv}
+\end{theorem}
+Again, we consider again the closure properties of alternating tree automata. 
+Hereby, union and intersection are constructed very naturally, while negation 
+takes some more effort.
+\begin{proposition}
+  The class of languages recognized by \acp{AMTA} is closed under union and
+  intersection.
+\end{proposition}
+\begin{proof}
+  Given two \acp{AMTA} 
+  $\mathcal{A}_{1} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{1}, \mathcal{F}_{1}}$
+  and
+  $\mathcal{A}_{2} = \tuple{P, p_{0}, D, \Sigma, \Delta_{2}, \mathcal{F}_{2}}$
+  we construct an \ac{AMTA} for their union and one for their intersection.
+  W.l.o.g. we assume that $Q\cap P = \emptyset$. The construction for the union 
+  can be trivially obtained using the non-determinism by defining
+  \begin{equation*}
+    \mathcal{A}_{\cup} = \tuple{
+      Q\cup P\uplus\set{q^{i}}, q^{i}, D, \Sigma, 
+      \Delta_{1}\cup\Delta_{2}\cup\Delta_{\cup}, 
+      \mathcal{F}_{1}\cup\mathcal{F}_{2}
+    }
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta_{\cup} = \set{
+      \tuple{q^{i},\sigma,\delta_{A}}:
+        \tuple{q_{0},\sigma,\delta_{A}}\in\Delta_{1}\text{ or }
+        \tuple{p_{0},\sigma,\delta_{A}}\in\Delta_{2}
+        \text{ for every }\sigma\in\Sigma
+    }.
+  \end{equation*}
+  We can simply biject any run of $\mathcal{A}_{\cup}$ to one of the runs of
+  $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ by mapping $q^{i}$ to $q_{0}$ or 
+  $p_{0}$ respectively.
+
+  For the intersection it suffices to initially dispatch one transition of each
+  automaton which independently traverse the tree. Considering the possible 
+  runs of a \ac{PBA} on a word as tree with weighted transitions then the same
+  idea is used in the proof to Theorem \ref{thm:pbaboolalgebra} for the union
+  operator. Hence, we define
+  \begin{equation*}
+    \mathcal{A}_{\cap} = \tuple{
+      Q\cup P\uplus\set{q^{i}}, q^{i}, D, \Sigma, 
+      \Delta_{1}\cup\Delta_{2}\cup\Delta_{\cap}, 
+      \mathcal{F}_{1}\cup\mathcal{F}_{2}
+    }
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta_{\cap} = \set{
+      \tuple{q^{i},\sigma,\delta_{A\cup B}}:
+        \tuple{q_{0},\sigma,\delta_{A}}\in\Delta_{1}
+      \text{ and }
+        \tuple{p_{0},\sigma,\delta_{B}}\in\Delta_{2}
+      \text{ for every }
+        \sigma\in\Sigma
+    }.
+  \end{equation*}
+  Thus, we can construct from the resulting run in $\mathcal{A}_{\cap}$ two
+  individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively.
+\end{proof}
+We consider negation after introducing graph games which allows us to define
+a negation operation very naturally.
 
 \subsection{Graph Games}
 Tree automata are closely related to graph games, e.g.
