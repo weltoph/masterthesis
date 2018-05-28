@@ -1242,6 +1242,17 @@ By using the same argument as for Theorem
   \ac{ARTA}, \ac{AMTA} and \ac{APTA} recognize the same class of languages.
   \label{thm:atreeautoequiv}
 \end{theorem}
+Although \emph{alternation} is an extension of the \enquote{classic} tree 
+automata it turns out that it does not increase the expressibility; that is
+for every alternating tree automta there is a classic tree automata which 
+accepts the same language of trees.
+\begin{theorem}[The Simulation Theorem]
+  \cite[Theorem 1.2]{SimAltTreeAuto}
+  There is an effective construction which, when given an \ac{AMTA} 
+  on infinite trees, produces an equivalent \ac{NMTA}. Furthermore, given an 
+  \ac{ABTA}, there is a way to effectively construct an equivalent \ac{NBTA}.
+\end{theorem}
+
 Again, we consider again the closure properties of alternating tree automata. 
 Hereby, union and intersection are constructed very naturally, while negation 
 takes some more effort.
