@@ -502,6 +502,7 @@ corresponding acronyms. \acuse{PRA}\acuse{PMA}\acuse{PPA}
   $R = \set{\tuple{E_{0}, F_{0}},\dots,\tuple{E_{n}, F_{n}}}$ respectively, the 
   sets $\Acc(\mathcal{F})$, $\Acc(\parity)$ and $\Acc(R)$ are measureable in 
   $\mathcal{B}(Q)$.
+  \ref{cor:borelAcceptance}
 \end{corollary}
 \begin{proof}
   Since the Rabin- and Parity-condition can be expressed by fitting 
@@ -1323,7 +1324,11 @@ separating dispatch is in every direction tuned down by a factor of
 $\frac{1}{2}$. This intuition is later on re-visited and formally 
 substantiated. In the meantime we introduce the concept of \emph{Graph Games} 
 to obtain a transformation that constructs the \ac{AMTA} which accepts the 
-negation of the language of a given \ac{AMTA}.
+negation of the language of a given \ac{AMTA}. Mainly, we formulate the 
+acceptance of a tree in terms of a game between two players. One player 
+constructs the run to prove the existance of a valid run while the other play 
+chooses the path along the run to spoil the correctness by finding a 
+non-accepted path.
 
 \subsection{Graph Games}
 Tree automata are closely related to graph games, e.g.
@@ -1384,7 +1389,32 @@ Given any game $\mathcal{G}$ the question arises that for every node $v$ one of
 the players can ensure her win by playing the correct strategy (regardless of
 the strategy her opponent chooses), i.e.
 $\mathcal{W}^{\mathcal{G}}_{0}\cup\mathcal{W}^{\mathcal{G}}_{1} = V$. We call
-a game with this property \emph{determined}.
+a game with this property \emph{determined}. There is a fundamental result by
+Martin establishing determinacy for all Borel winning conditions for another 
+kind of games\footnote{Gale-Stewart games} \cite{BorelDeterminacy}. 
+Fortunately, this translates to graph games and allows us to state using Lemma 
+\ref{lem:measureabilityAcceptance} and its Corollary \ref{cor:borelAcceptance}
+that
+\begin{theorem}
+  \cite[Corollary 2.10]{AutoLogInfGames}
+  All graph games with Büchi-, Rabin-, Muller- or Parity-condition are 
+  determined.
+\end{theorem}
+And additionally, for Parity-conditions we even obtain that the corresponding
+strategies are positional, i.e.
+\begin{theorem}
+  \cite[Theorem 6]{ParityGamesPosDet}
+  For a graph game with a Parity-condition with finitely many parities both 
+  players have positional winning strategies on their corresponding winning 
+  regions.
+  \label{thm:posdetparity}
+\end{theorem}
+
+As mentioned above we use graph games to model the semantics of tree automata.
+Therefore, we define an acceptance game for an automaton and a tree, i.e. an 
+(infinite) graph game where one player constructs a run of the automaton on the
+tree and the other player explores the tree and tries to find a path which is
+not accepted.
 
 \subsection{Weighted Descent Tree Automata}
 Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
