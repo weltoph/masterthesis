@@ -252,16 +252,20 @@ explained and also later on referred to.
     exists an equivalent \ac{NBA}.
   \end{theorem}
   And also we avoid the lengthy technicalities of determinization of an
- \ac{NBA} by simply stating
+  \ac{NBA} by simply stating
   \begin{theorem}
     \cite[Theorem 3.6]{AutoLogInfGames}
     For every \acp{NBA} exists an equivalent \ac{DMA}.
   \end{theorem}
 \end{proof}
 Concludingly, we state here
+\fxfatal{effective construction for union is not mentioned in reference}
 \begin{theorem}
+  \cite[Consequence from Theorem 1.5 and Theorem 1.24]{AutoLogAndInfGames}
   The $\omega$-regular languages form a Boolean-algebra, i.e. are closed under
-  union, intersection and negation.
+  union, intersection and negation. The transformations can be effectively
+  constructed.
+  \label{thm:omegaregboolean}
 \end{theorem}
 \begin{proof}
   The proof consist of operations that take two (respectively one) word 
@@ -606,8 +610,7 @@ Which combined yields
   the class of $\omega$-regular languages.
 \end{theorem}
 Additionally, we know that the class of languages that are positively accepted 
-by a \ac{PBA} forms a Boolean algebra, i.e. is closed under union, intersection
-and negation. This is captured in
+by a \ac{PBA} forms a Boolean algebra. This is captured in
 \begin{theorem}
   \cite[Chapter 4.3.]{Groesser}
   The class of languages that can be accepted by a \ac{PBA} form a Boolean 
@@ -934,6 +937,8 @@ a strategy to positively or almost-surely satisfy the associated condition in
 an \ac{MDP} or \ac{POMDP}. The equality described in Example 
 \ref{ex:pbaaspomdp} directly induces some undecideability results, namely
 \begin{theorem}
+  \cite[Corollary 3 (a)]{DecProblemsForProbAuto}
+  \cite[Theorem 5]{QualAnaPOMDP}
   It is undecideable to compute a strategy for a \ac{POMDP} that either 
   positively or almost-surely satisfies a Rabin-, Parity- or Muller-condition.
   Additionally, it is undecideable to compute a strategy for a \ac{POMDP} that
@@ -943,13 +948,17 @@ an \ac{MDP} or \ac{POMDP}. The equality described in Example
   Any algorithm to compute a strategy for a \ac{POMDP} that positively 
   satisfies a Büchi-condition immediately solves the emptiness problem for
   \acp{PBA} with positive acceptance which is undecideable by Theorem 
-  \ref{thm:emptinesspospba}. By Theorem \ref{thm:pbatopra} and Theorem 
-  \ref{thm:probautoequiv} there is for any \ac{PBA} an equivalent \ac{PRA}, 
-  \ac{PPA} and \ac{PMA} which accept either with probability $0$ or $1$; thus, 
-  positive and almost-sure acceptance coincide. Hence again computing a 
-  strategy for the positive or almost-sure satisfaction of Rabin-, Parity- or 
-  Muller-conditions for \acp{POMDP} solves the undecideable emptiness problem 
-  for \acp{PBA} with positive acceptance.
+  \ref{thm:emptinesspospba}. Furthermore, it is easy to express 
+  Büchi-conditions as Parity-, Rabin- or Muller-conditions, rendering the 
+  positive acceptance of these conditions in \ac{POMDP} at least as difficult
+  as for Büchi-conditions. 
+  
+  By Theorem \ref{thm:pbatopra} and Theorem \ref{thm:probautoequiv} there is 
+  for any \ac{PBA} an equivalent \ac{PRA}, \ac{PPA} and \ac{PMA} which 
+  almost-surely accepts the same language. Hence again computing a strategy for 
+  the almost-sure satisfaction of Rabin-, Parity- or Muller-conditions for 
+  \acp{POMDP} solves the undecideable emptiness problem for \acp{PBA} with 
+  positive acceptance.
 \end{proof}
 On the other hand, there are some positive results regarding computation of 
 strategies for \acp{MDP} and for almost-sure satisfaction of Büchi-conditions
@@ -960,17 +969,12 @@ in \acp{POMDP}:
   satisfies an associated Büchi-condition.
 \end{theorem}
 and
+\fxfatal{find nice way to extend this to Rabin and Muller conditions}
 \begin{theorem}
+  \cite[Theorem 4.1.7.]{QuanStochParityGames}
   It is possible to compute a strategy for a \ac{MDP} that almost-surely
-  satisfies an associated Büchi-, Parity-, Rabin- or Muller-condition.
+  satisfies an associated Büchi- or Parity-condition.
 \end{theorem} 
-\fxwarning{find a better reference for this and explain a little about 
-endcomponents and such}
-\begin{proof}
-  All these conditions induce an $\omega$-regular language on the set of 
-  states. Expressing this language by an \ac{NBA} allows us to use 
-  \cite[Theorem 4.1.7.]{ComplexProbVerification} to solve these problems.
-\end{proof}
 Additionally to the close connection of \acp{POMDP} to probabilistic word 
 automata we make use of these models in the later course to define decision
 procedures for even more elaborate probabilistic automata.
@@ -1000,9 +1004,6 @@ set of states. The following introduction conceptually follows
       $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}\in\Delta$ with $r(ud) = q_{d}$,
     \item[Acceptance Condition] the acceptance condition $\Acc$ is considered
       to be represented as Büchi-, Parity-, Muller- or Rabin-condition,
-    \item[Determinism] $\mathcal{A}$ is considered deterministic if for every
-      $q\in Q$ and $\sigma\in\Sigma$ there is exactly one 
-      $\tuple{q,\sigma,\tuple{q_{d}}_{d\in D}\in\Delta}$,
     \item[Projection of a tree] for any $\alpha=\alpha_{1}\alpha_{2}\dots\in
       D^{\omega}$ and any $D$-ary $\Sigma$-tree $t$ let $t(\alpha)$ denote the 
       word $\beta = \beta_{0}\beta_{1}\dots\in\Sigma^{\omega}$ such that for 
@@ -1012,10 +1013,9 @@ set of states. The following introduction conceptually follows
   $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
   on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
 \end{definition}
-We introduce as we are already accustomed fitting acronyms, e.g. \ac{DPTA}
-\acuse{NPTA} \acuse{DRTA} \acuse{NRTA} \acuse{DMTA} \acuse{NMTA} \acuse{DBTA}
-\acuse{NBTA}, and present an easy example to familiarize ourself with the 
-notions of tree automata
+We introduce as we are already accustomed fitting acronyms, e.g.
+\acuse{PTA}  \acuse{RTA}  \acuse{MTA} \acuse{BTA}, and present an easy example 
+to familiarize ourself with the notions of tree automata
 \begin{example}
   Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
   the $\set{a,b}$ that contain at least one $a$. This language can be accepted 
@@ -1087,51 +1087,45 @@ acceptance condition:
   which this subtree is $a$-free, therefore this idea of guessing such a point 
   does not translate to tree automata.
 \end{example}
-The difficulties to define a \ac{NBTA} to accept $\mathcal{L}_{\not\infty a}$ 
+The difficulties to define a \ac{BTA} to accept $\mathcal{L}_{\not\infty a}$ 
 are inherent to the Büchi-condition. In fact it is possible to show that 
-$\mathcal{L}_{\not\infty a}$ cannot be accepted by any \ac{NBTA}, thus 
+$\mathcal{L}_{\not\infty a}$ cannot be accepted by any \ac{BTA}, thus 
 separating the expressiveness of tree automata as in
 \begin{theorem}
   \cite[Corollary 8]{WeakDefRel} cited after
   \cite[Theorem 8.6]{AutoLogInfGames}.
-  \acp{NBTA} are strictly weaker than \ac{NMTA} in the sense that there exists 
-  a language recognizable by a \ac{NMTA} but not recognizable by a \ac{NBTA}.
+  \acp{BTA} are strictly weaker than \ac{MTA} in the sense that there exists 
+  a language recognizable by a \ac{MTA} but not recognizable by a \ac{BTA}.
 \end{theorem}
-On the other hand, we can use already established technicalities, namely 
-\acp{LAR}, to state the following
+This is in contrast to Theorem \ref{thm:omegaregularexp} where we could use the
+non-determinism of an \ac{NBA} to emulate a more expressive acceptance 
+condition, e.g. a Muller-condition. But by the same techniques as for the proof 
+of Theorem \ref{thm:omegaregularexp} for the equivalence of the 
+\enquote{strong} acceptance conditions, namely \acp{LAR}, we can ensure
 \begin{theorem}
   \cite[Theorem 8.7]{AutoLogInfGames}
-  \acp{NMTA},\acp{NRTA} and \acp{NPTA} all recognize the same tree languages.
+  \acp{MTA}, \acp{RTA} and \acp{PTA} all recognize the same tree languages.
   \label{thm:treeautoequiv}
 \end{theorem}
-\begin{proof}
-  This proof follows the same structure as the proof to Theorem 
-  \ref{thm:omegaregularexp} in the sense that Parity- and Rabin-conditions can
-  be expressed as Muller-conditions and Parity-conditions can be expressed as
-  Rabin-conditions and any \ac{NMTA} can be transformed to an \ac{NPTA} as 
-  follows. Considering an \ac{NMTA} $\mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, 
-  \Delta, \mathcal{F}}$ we define 
-  $\mathcal{P} = \tuple{\lar(Q), \ell_{0}, D, \Sigma, \nabla, \parity}$
-  (again $\ell_{0}$ is arbitrarily chosen) with
-  \begin{equation*}
-    \nabla = \set{
-      \tuple{\ell_{q}, \sigma, \tuple{\up(\ell_{q}, q_{d})}_{d\in D}}:
-      \tuple{q,\sigma,\tuple{q_{d}}_{d\in D}}\in\Delta
-    }
-  \end{equation*}
-  and
-  \begin{equation*}
-    \parity(\interval{p_{1}\dots p_{n},h}) = \begin{cases}
-      2\cdot h&\text{if }\set{p_{1},\dots, p_{n}}\in\mathcal{F},\\
-      2\cdot h - 1&\text{otherwise}.
-    \end{cases}
-  \end{equation*}
-  We obtain for every run in $\mathcal{M}$ a corresponding run in $\mathcal{P}$
-  and vice versa and Lemma \ref{lem:larhitset} yields the acceptance 
-  equivalence of these runs.
-\end{proof}
-We postpone the discussion of other aspects of tree automata, e.g. closure 
-properties, after the introduction of another form of tree automata.
+Regarding the closure properties of this class of tree languages it is again
+possible to show its closure under union, intersection and negation. This gives
+\begin{theorem}
+  \cite[Theorem 1.3]{SOTheoAndTrees}
+  \cite[Theorem 1.5]{SOTheoAndTrees}
+  The class of languages that can be accepted by \acp{MTA}, \acp{RTA} and 
+  \acp{PTA} forms a Boolean-algebra. The transformations can be effectively
+  constructed.
+  \label{thm:treeautoboolean}
+\end{theorem}
+We do not state the proof explicitly since the used concepts for union and
+intersection are the same as for the proof Theorem \ref{thm:omegaregboolean},
+namely we can obtain union by constructing an automaton that performs an 
+initial \emph{guess} which input automata is simulated and an automaton for the
+intersection simulates both input automata by a a product construction and uses 
+a Muller-condition which formulates the acceptance of the individual components 
+by their original acceptance conditions. In order to convey the closure under
+negation we introduce further concepts regarding tree automata which allow to
+present a proof in a natural way.
 
 \subsection{Alternating Tree Automata}
 Up to this point the used automata mirrored the structure of their inputs
@@ -1248,51 +1242,36 @@ for every alternating tree automta there is a classic tree automata which
 accepts the same language of trees.
 \begin{theorem}[The Simulation Theorem]
   \cite[Theorem 1.2]{SimAltTreeAuto}
-  There is an effective construction which, when given an \ac{AMTA} 
-  on infinite trees, produces an equivalent \ac{NMTA}. Furthermore, given an 
-  \ac{ABTA}, there is a way to effectively construct an equivalent \ac{NBTA}.
+  There is an effective construction which, when given an \ac{AMTA}, produces 
+  an equivalent \ac{MTA}. Furthermore, given an \ac{ABTA}, there is a way to 
+  effectively construct an equivalent \ac{BTA}.
+  \label{thm:treesimulation}
 \end{theorem}
-
-Again, we consider again the closure properties of alternating tree automata. 
-Hereby, union and intersection are constructed very naturally, while negation 
-takes some more effort.
-\begin{proposition}
-  The class of languages recognized by \acp{AMTA} is closed under union and
-  intersection.
-\end{proposition}
-\begin{proof}
-  Given two \acp{AMTA} 
-  $\mathcal{A}_{1} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{1}, \mathcal{F}_{1}}$
-  and
-  $\mathcal{A}_{2} = \tuple{P, p_{0}, D, \Sigma, \Delta_{2}, \mathcal{F}_{2}}$
-  we construct an \ac{AMTA} for their union and one for their intersection.
-  W.l.o.g. we assume that $Q\cap P = \emptyset$. The construction for the union 
-  can be trivially obtained using the non-determinism by defining
+This result and the apparent observation that alternation does not weaken the 
+formalism to accept trees allows to translate the closure properties stated in 
+Theorem \ref{thm:treeautoboolean} to alternating tree automata as well. Thus, 
+we obtain that there are effectively constructable transformations for the 
+union, intersection and complement of tree languages accepted by \ac{AMTA}. 
+Nevertheless, we want to present one construction for the closure under 
+intersection because it allows us to relate concepts of \acp{PBA} and of
+alternation.
+\begin{corollary}
+  The class of languages of infinite trees that can be recognized by \acp{AMTA}
+  is closed under intersection.
+\end{corollary}
+\begin{proof}[Alternative Proof]
+  Given two \acp{AMTA}
   \begin{equation*}
-    \mathcal{A}_{\cup} = \tuple{
-      Q\cup P\uplus\set{q^{i}}, q^{i}, D, \Sigma, 
-      \Delta_{1}\cup\Delta_{2}\cup\Delta_{\cup}, 
-      \mathcal{F}_{1}\cup\mathcal{F}_{2}
-    }
+    \mathcal{A}_{1} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{1}, \mathcal{F}_{1}}
+      \text{ and }
+    \mathcal{A}_{2} = \tuple{P, p_{0}, D, \Sigma, \Delta_{2}, \mathcal{F}_{2}}
   \end{equation*}
-  with
-  \begin{equation*}
-    \Delta_{\cup} = \set{
-      \tuple{q^{i},\sigma,\delta_{A}}:
-        \tuple{q_{0},\sigma,\delta_{A}}\in\Delta_{1}\text{ or }
-        \tuple{p_{0},\sigma,\delta_{A}}\in\Delta_{2}
-        \text{ for every }\sigma\in\Sigma
-    }.
-  \end{equation*}
-  We can simply biject any run of $\mathcal{A}_{\cup}$ to one of the runs of
-  $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ by mapping $q^{i}$ to $q_{0}$ or 
-  $p_{0}$ respectively.
-
-  For the intersection it suffices to initially dispatch one transition of each
-  automaton which independently traverse the tree. Considering the possible 
-  runs of a \ac{PBA} on a word as tree with weighted transitions then the same
-  idea is used in the proof to Theorem \ref{thm:pbaboolalgebra} for the union
-  operator. Hence, we define
+  we construct an \ac{AMTA} for their intersection. W.l.o.g. we assume that 
+  $Q\cap P = \emptyset$. The idea is to perform two independent runs on the 
+  tree in parallel. We illustrate this in Figure \ref{fig:parallelruns}. 
+  Formally, it is accomplished by initially dispatching one transition of each 
+  automaton onto the tree. After this initial dispatch both state sets $Q$ and
+  $P$ operate independently on the tree. Hence, we define
   \begin{equation*}
     \mathcal{A}_{\cap} = \tuple{
       Q\cup P\uplus\set{q^{i}}, q^{i}, D, \Sigma, 
@@ -1311,11 +1290,38 @@ takes some more effort.
         \sigma\in\Sigma
     }.
   \end{equation*}
-  Thus, we can construct from the resulting run in $\mathcal{A}_{\cap}$ two
-  individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively.
+  Thus, we can construct from the resulting run $r$ in $\mathcal{A}_{\cap}$ two
+  individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively, e.g.
+  for $\mathcal{A}_{1}$ it is the run $r_{1}$ in the $Q$-part of the domain of 
+  $r$ while the initial transition in $r$ uses a $\delta_{A\cup B}$ where 
+  $r_{1}$ uses $\delta_{A}$.
 \end{proof}
-We consider negation after introducing graph games which allows us to define
-a negation operation very naturally.
+
+While considering the semantics of \acp{PBA} we used a notion of considering 
+individual runs and their probabilities. This can be captured very similar to 
+the concept of alternation as follows: we can regard any word 
+$\alpha\in\Sigma^{\omega}$ as a $\set{0}$-ary $\Sigma$-tree $t_{\alpha}$. Then 
+one \ac{PBA} $\mathcal{P}$ induces a run in a tree-sense by unrolling the state
+sequences of $\mathcal{P}$ around the unary tree $t_{\alpha}$. Hereby, we can
+substitute the clause-functions which have a very absolute semantic (either a
+path is taken or it is not) by a probability distribution. When we gather the
+individual probability distributions of $\mathcal{P}$, that is set 
+$\mathcal{G}$ of all functions of the form 
+$G_{\sigma}^{q}:\set{0}\times Q\rightarrow\interval{0,1}$ such that
+$G_{\sigma}^{q}(0, p) = \delta(q,\sigma, p)$. We can model the run of 
+$\mathcal{P}$ as a $\set{0}\times Q$-ary $\mathcal{G}$-tree where the chosen
+$G_{\sigma}^{q}$ one the paths $\tuple{0,q_{1}}\dots\tuple{0,q_{n}}$ are 
+consistent with the current state ($q = q_{n}$) and input symbol 
+($\sigma = t(0^n)$). Therefore, every path corresponds to one state sequence of 
+$\mathcal{P}$ and the visited $G_{\sigma}^{q}$ on the path induce the 
+associated probabilities for the peformed steps. In this sense we can use 
+Figure \ref{fig:parallelruns} as illustration for the part of the union 
+operator of the proof of Theorem \ref{thm:pbaboolalgebra} where the initial 
+separating dispatch is in every direction tuned down by a factor of 
+$\frac{1}{2}$. This intuition is later on re-visited and formally 
+substantiated. In the meantime we introduce the concept of \emph{Graph Games} 
+to obtain a transformation that constructs the \ac{AMTA} which accepts the 
+negation of the language of a given \ac{AMTA}.
 
 \subsection{Graph Games}
 Tree automata are closely related to graph games, e.g.
