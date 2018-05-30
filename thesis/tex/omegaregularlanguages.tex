@@ -1,0 +1,305 @@
+\section{$\omega$-regular Languages}
+\label{sec:wordautomata}
+Following \cite{LangAutoLog} (resp. \cite[Chapter 1]{AutoLogInfGames} for the
+Parity-condition below) we introduce word automata with the following
+structural definition
+\begin{definition}[Word Automaton]
+  We define a word automaton as
+  $\mathcal{A} = \tuple{Q, \Sigma, q_{0}, \Delta}$ where
+  $Q$ is a set of states, $\Sigma$ a finite alphabet, $q_{0}\in Q$ is the
+  initial state and $\Delta\subseteq Q\times\Sigma\times Q$ is the transition
+  relation. We define some associated notions as follows:
+  \begin{description}
+    \item [Run]
+      For a word $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$ we call
+      a sequence $\pi = \pi_{0}\pi_{1}\dots \in Q^{\omega}$ a run of
+      $\mathcal{A}$ on $\alpha$ if $\pi_{0} = q_{0}$ and for every
+      $i\in\mathbb{N}$ holds that
+      $\tuple{\pi_{i}, \alpha_{i}, \pi_{i+1}}\in\Delta$
+    \item [Determinism]
+      We call $\mathcal{A}$ deterministic if for every pair $q\in Q$ and
+      $\sigma\in\Sigma$ the set
+      $\set{p\in Q\mid\tuple{q,\sigma,p}\in\Delta}$ has at most one
+      element.
+  \end{description}
+\end{definition}
+This allows for automata to yield for an input word a corresponding run, i.e.
+attach onto the input word a word of states that is consistent with the
+structure of the automaton. These attached words of states are runs of word
+automata on words and are categorized as accepting or non-accepting by the
+following conditions:
+\begin{definition}[Acceptance Conditions]
+  For a word automaton $\mathcal{A} = \tuple{Q, \Sigma, q_{0}, \Delta}$ we
+  define different acceptance conditions. For this we define for a run
+  $\pi = \pi_{0}\pi_{1}\dots\in Q^{\omega}$ the operator
+  $\Inf$ as the set of states that occur infinitely in a run, i.e.
+  \begin{equation*}
+    \Inf(\pi) = \set{q\in Q\middle| \text{ there are infinitely many }
+    i\in\mathbb{N} \text{ s.t. } \pi_{i} = q}.
+  \end{equation*}
+  With this notion we define the following acceptance conditions:
+  \begin{description}
+    \item [Büchi] A Büchi condition is defined by a set of final states
+      $F\subseteq Q$ and we call a run $\pi$ accepting if
+      $\Inf(\pi)\cap F\neq\emptyset$.
+    \item [Muller] Muller conditions are given as a family of state sets, i.e.
+      $\mathcal{F}\subseteq 2^{F}$. A run $\pi$ is called accepting if
+      $\Inf(\pi)\in\mathcal{F}$.
+    \item [Rabin] This acceptance condition is represented by a set of pairs\\
+      $\Omega = \set{\tuple{E_{0}, F_{0}}, \dots, \tuple{F_{n}, E_{n}}}$ and we
+      call a run $\pi$ accepting if there is an $i$ s.t.
+      $\Inf(\pi)\cap F_{i}\neq\emptyset$ but $\Inf(\pi)\cap E_{i} = \emptyset$.
+    \item [Parity] This condition is defined by a function
+      $\parity:Q\rightarrow \mathbb{N}$. We call a run $\pi$ accepting if the
+      maximum of the set $\parity(\Inf(\pi))$, which describes the pointwise
+      application of $\parity$ to the set $\Inf(\pi)$, is even (note that due
+      to the finiteness of $Q$, $\Inf(\pi)$ is finite as well and thus the
+      maximum of $\parity(\Inf(\pi))$ exists).
+  \end{description}
+  For any of these objects $\Gamma\in\set{F, \mathcal{F}, \set{\tuple{E_{0},
+  F_{0}},\dots,\tuple{E_{n}, F_{n}}}, \parity}$ we use $\Acc(\Gamma)$ to refer
+  to the accepted language. If necessary we use subscripts to $\Acc$ to make 
+  the interpretation of its argument clear.
+\end{definition}\fxfatal{find fitting reference for prefix-independence}
+Note that by the nature of these acceptance conditions, namely that acceptance
+solely depends on those states that occur infinitely often, the acceptance is
+at any moment determined by the \enquote{future}. We call this
+\emph{prefix-independence} and formerly capture this by stating that every
+$\alpha = \alpha_{1}\alpha_{2}\dots\in\Acc(\Gamma)$ implies that for any $i>0$
+also $\alpha_{i}\alpha_{i+1}\dots\in\Acc(\Gamma)$ (again we let $\Gamma$ be a
+meta variable, ranging over the described finite representations of acceptance
+conditions). We categorize word automata by their acceptance condition and if
+they are deterministic. Thus, we call - for example - a word automaton
+$\mathcal{A}$ equipped with a Büchi-condition a \ac{NBA} or respectively
+\ac{DBA} if $\mathcal{A}$ is deterministic. And analogously we obtain word
+automata for Muller-, Rabin- and Parity-conditions and corresponding
+acronyms. 
+\acuse{NMA}\acuse{DMA}\acuse{NRA}\acuse{DRA}\acuse{NSA}\acuse{DSA}\acuse{NPA}
+\acuse{DPA}
+
+The theory to these - so called - $\omega$-automata is well
+established. We recall some of the central results and provide proofs since it
+allows us to define auxiliary structures in a simple context which we use later
+on in more involved settings. Our arguments follow, in some condensed and
+occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
+\begin{example}
+  We consider the language $\mathcal{L}$ as the set of all infinite
+  words over the alphabet $\set{a,b}$ such that $a$ occurs only finitely often.
+  This language can be accepted using e.g. an \ac{NBA} $\mathcal{A}$ as defined 
+  in Figure \ref{fig:finaautomata}. The argument that this \ac{NBA} accepts 
+  $\mathcal{L}$ is as follows: The non-determinism allows the automaton to 
+  \enquote{guess} one moment from which on no more $a$ is read. For any word in 
+  $\mathcal{L}$ such a moment exists and can therefore be correctly guessed 
+  while every word that is accepted by $\mathcal{A}$ needs to move to its
+  $q_{F}$ state and it is straightforward to argue that no more $a$ can occur
+  afterwards.
+
+  Alternatively, we can accept $\mathcal{L}$ by a \ac{DPA} $\mathcal{B}_{P}$,
+  \ac{DRA} $\mathcal{B}_{R}$, \ac{DMA}
+  $\mathcal{B}_{M}$ which all share the same structure as defined in Figure
+  \ref{fig:finaautomata}. We use the different acceptance conditions to model
+  the same restriction, namely that $q_{a}$ only occurs finitely often while
+  $q_{b}$ occurs infinitely often.
+  \begin{description}
+    \item [$\mathcal{B}_{P}$] We define $\parity(q_{a}) = 1$ and
+      $\parity(q_{b}) = 0$, thus - since the parity of $q_{a}$ trumps the
+      parity of $q_{b}$ but is odd - $q_{a}$ must only occur finitely often.
+    \item [$\mathcal{B}_{R}$] Here we define $\set{\tuple{E = \set{q_{a}},
+      F = \set{q_{b}}}}$, which models the restriction very clearly by
+      explicitly stating which states are \enquote{good} respectively
+      \enquote{bad} to visit infinitely often.
+    \item [$\mathcal{B}_{M}$] The acceptance family is fixed with
+      $\mathcal{F} = \set{\set{q_{b}}}$, thus the only way to achieve an
+      accepting run is to eventually stay in $q_{b}$.
+  \end{description}
+  It is noteworthy that all these conditions are essentially modelling the
+  abscence of a state. This is occasionally done by defining a set of states
+  that must only be visited finitely often. Such an acceptance condition is
+  called a co-Büchi-condition with $F = \set{q_{a}}$ and describes the inverse
+  of a Büchi-condition (hence the name).
+ 
+  Note that on the other hand we used a structural way to model this negative
+  restriction for $\mathcal{A}$.
+  \label{ex:fina}
+\end{example}
+\begin{drawing}
+  \caption{In (a) an \ac{NBA} is illustrated which accepts the language of
+  words with finitely many $a$. The states of the Büchi-condition $F$ are
+  marked by doubling the outline, i.e. $F = \set{q_{F}}$.
+  In (b) a deterministic automaton is defined which simply moves to $q_{a}$
+  (resp. $q_{b}$) if an $a$ (resp. $b$) is read (starting in $q_{a}$).}
+  \label{fig:finaautomata}
+  \resizebox{\textwidth}{!}{\includegraphics{tikz/fina-automaton.pdf}}
+\end{drawing}
+We radically compress the rich theory of $\omega$-automata by stating the 
+following
+\begin{theorem}
+  \cite[Theorem 1.19, Theorem 1.24, Section 1.3.2,Theorem 3.2]{AutoLogInfGames}
+  The class of recognizable languages coincides for \acp{NBA}, \acp{NMA},
+  \acp{DMA}, \acp{NRA}, \acp{DRA}, \acp{NPA} and \acp{DPA} and is called
+  $\omega$-regular languages. \acp{DBA} are strictly less expressive.
+  \label{thm:omegaregularexp}
+\end{theorem}
+Additionally, we will restrict the proof to some of its arguments, namely one
+which allows us to introduce the concept of \acp{LAR} and some that are easily
+explained and also later on referred to.
+\begin{proof}
+  Firstly, we provide an argument to show that \acp{DBA} are less expressive.
+  Consider again $\mathcal{L}$ from Example \ref{ex:fina} and the following
+  argument: the deterministic nature of any \ac{DBA} $\mathcal{A}$ yields one
+  possible run for every word of $\mathcal{A}$. This means that words with
+  common finite prefixes share common finite prefixes of their individual runs.
+  Assume to have one \ac{DBA} $\mathcal{A}$ which accepts $\mathcal{L}$ and 
+  consider the following family of words with common prefixes
+  \begin{equation*}
+    b^{\omega}, b^{n_{0}}ab^{\omega}, b^{n_{0}}ab^{n_{1}}ab^{\omega}, \dots,
+  \end{equation*}
+  where every $n_{i}$ is chosen such that the unique run in $\mathcal{A}$
+  just visited a state in $F$ (which needs to happen since every element of
+  this word-family is in $\mathcal{L}$ and therefore accepted by $\mathcal{A}$).
+  Thus, by iterating \enquote{sliding in} $a$ after a visit in $F$ we construct 
+  a word which is accepted but contains infinitely many $a$ contradicting that
+  $\mathcal{A}$ actually recognizes $\mathcal{L}$.
+
+  Secondly, we argue that Muller-, Rabin- and Parity-conditions are
+  equally expressive. Therefore, we initially consider that all deterministic
+  automata are non-deterministic automata which do not use their
+  non-determinism. Furthermore it is easy to see, that Rabin- and
+  Parity-conditions are captured by Muller-conditions by enumerating all
+  $\Inf$-sets that satisfy the corresponding conditions. In a second step we
+  show that \acp{NMA} can be translated to \acp{NPA} as well as \acp{NRA}. This
+  translation makes use of the following construct:
+  \begin{definition}[Latest Appearance Record]
+    For a finite state set $Q$ define the set of permutations of elements in
+    $Q$ as $\perm(Q)\subseteq Q^{\size{Q}}$ and
+    \begin{equation*}
+      \lar(Q) = \set{\interval{w,h}\mid w\in\perm(Q)\text{ and }1\leq
+      h\leq\size{Q}}
+    \end{equation*}
+    Additionally we define an update function
+    $\up:\lar(Q)\times Q\rightarrow\lar(Q)$ with
+    \begin{equation*}
+      \up(\interval{q_{1}\dots q_{n},h}, q)
+      = \interval{qq_{1}\dots q_{i-1}q_{i+1}\dots q_{n},i}
+      \text{ for the unique }i\text{ s.t. }q=q_{i}
+    \end{equation*}
+    and conclude with one auxillary definition:
+    \begin{description}
+      \item [Hit set] for $\ell = \interval{q_{1}\dots q_{n},h}$ we call
+        $\set{q_{1},\dots,q_{h}}$ the hit set of $\ell$.
+    \end{description}
+  \end{definition}
+  For a word $q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
+  sequence of elements in $\lar(Q)$ by picking one arbitrary starting value
+  $\ell_{1}$ and successively applying the update operation, i.e.
+  $\ell_{1}\ell_{2}\dots\in\lar(Q)^{\omega}$ with
+  $\ell_{i+1} = \up(\ell_{i},q_{i})$ for all $i>0$. We can now state that
+  $\Inf(q_{1}q_{2}\dots)$ moves to the beginning of the $\lar(Q)$ elements in
+  the associated sequence
+  \begin{lemma}
+    \cite[Lemma 1.21]{AutoLogInfGames}
+    $\Inf(q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit set of
+    all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely many
+    $i>k$ s.t. the hit set of $\ell_{i}$ coincides with $F$.
+    \label{lem:larhitset}
+  \end{lemma}
+  This Lemma induces that the sequence of hit sets stabilises to the set
+  $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller condition
+  $\mathcal{F}$ if and only if the hit sets stabilises to an element of
+  $\mathcal{F}$. This can be captured within a parity condition by associating
+  to $\ell = \interval{p_{1}\dots p_{n},h}$ with hit set
+  $H = \set{p_{1},\dots,p_{h}}$ a parity condition
+  \begin{equation*}
+    \parity(\ell) = \begin{cases}
+      2\cdot\size{H} &\text{ if }H\in\mathcal{F}\\
+      2\cdot\size{H}-1 &\text{ if }H\notin\mathcal{F}
+    \end{cases}
+  \end{equation*}
+  Thus, winning hit sets do have an even and losing hit sets do have an odd
+  parity and notably the highest parity value is even if and only if
+  $\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$. Therefore, we can define a \ac{NPA}
+  that has as state set the elements $\lar(Q)$ and mirrors the transitions of
+  the original \ac{NMA} through the application of the update function, i.e.
+  for every $\tuple{q, a, p}$ there is a corresponding 
+  $\tuple{\ell_{q}, a, \up(\ell_{q}, p)}$ for every $\ell_{q}\in\lar(Q)$ that
+  is produced by $\up(\cdot,q)$. Every run in the \ac{NPA} can be translated 
+  back to a run in the original \ac{NMA} and vice versa and by Lemma 
+  \ref{lem:larhitset} and the definition of $\parity$ we obtain the acceptance
+  equivalence of both runs. We close this argument by stating that
+  any Parity-condition can be expressed by a Rabin-condition as follows:
+  we define for every occuring even parity $k\in\parity(Q)$ a pair
+  $\tuple{E_{k}, F_{k}}$ where $F_{k} = \parity^{-1}(k)$ and
+  $E_{k} = \cup_{p>k}\parity^{-1}(p)$; hence, an accepting run regarding the
+  Parity-condition satisfies the pair associated with the highest parity and
+  on the other hand, any run that is accepting by the Rabin-condition, namely
+  by the pair $\tuple{E_{k}, F_{k}}$, has  $k$ as the highest parity which is
+  the even witness rendering the run accepting.
+
+  Thirdly, we conclude by stating (without proof) that for every \acp{NMA} 
+  exists an equivalent \ac{NBA} and - more easily - the other way around
+  \begin{theorem}
+    \cite[Theorem 1.10]{AutoLogInfGames}
+    For every \acp{NBA} exists an equivalent \ac{NMA} and for every \acp{NMA}
+    exists an equivalent \ac{NBA}.
+  \end{theorem}
+  And also we avoid the lengthy technicalities of determinization of an
+  \ac{NBA} by simply stating
+  \begin{theorem}
+    \cite[Theorem 3.6]{AutoLogInfGames}
+    For every \acp{NBA} exists an equivalent \ac{DMA}.
+  \end{theorem}
+\end{proof}
+
+Finally, we state here
+\fxfatal{effective construction for union is not mentioned in reference}
+\begin{theorem}
+  \cite[Consequence from Theorem 1.5 and Theorem 1.24]{AutoLogAndInfGames}
+  The $\omega$-regular languages form a Boolean-algebra, i.e. are closed under
+  union, intersection and negation. The transformations can be effectively
+  constructed.
+  \label{thm:omegaregboolean}
+\end{theorem}
+\begin{proof}
+  The proof consist of operations that take two (respectively one) word 
+  automata and construct a word automaton that accepts the union, intersection 
+  or respectively the negation. Beginning with the union, we make use of
+  non-determinism such that the resulting automaton guesses at the beginning in
+  which language the word is and simulates the \enquote{correct} automaton. The 
+  closure under intersection makes use of a natural product construction, 
+  namely
+  \begin{definition}
+    For $\mathcal{A}_{1} = \tuple{Q, \Sigma, q_{0}, \Delta}$ and
+    $\mathcal{A}_{2} = \tuple{P, \Sigma, p_{0}, \nabla}$ we define
+    \begin{equation*}
+      \mathcal{A}_{1}\otimes\mathcal{A}_{2} = \tuple{Q\times P, \Sigma, 
+      \tuple{q_{0}, p_{0}}, \Delta\otimes\nabla}
+    \end{equation*}
+    with
+    \begin{equation*}
+      \Delta\otimes\nabla = 
+      \set{\tuple{\tuple{q^{1}, p^{1}}, \sigma, 
+      \tuple{q^{2}, p^{2}}}: \tuple{q^{1},\sigma, q^{2}}\in\Delta, 
+      \tuple{p^{1},\sigma, p^{2}}\in\nabla}.
+    \end{equation*}
+  \end{definition}
+  Every run in this product can be separated into runs in $\mathcal{A}_{1}$ and
+  $\mathcal{A}_{2}$. W.l.o.g. we can assume the original two automata to be
+  equipped with Muller-conditions $\mathcal{F}_{1},\mathcal{F}_{2}$ and define
+  for the product automaton the Muller-condition 
+  \begin{equation*}
+    \mathcal{F} = \set{\set{\tuple{q^{1}, p^{1}},\dots,\tuple{q^{1}, p^{1}}}:
+    \set{q^{1},\dots,q^{n}}\in\mathcal{F}_{1},
+    \set{p^{1},\dots,p^{n}}\in\mathcal{F}_{2}}.
+  \end{equation*}
+  Hence the run in the product automaton is accepted if and only if the 
+  associated runs in the original automata are accepted.
+
+  The closure under negation can be expressed very elegantly (cp. 
+  \cite[Transformation 1.25.]{AutoLogInfGames}). W.l.o.g. we consider the 
+  original automaton to be a \ac{DPA}. By setting a new Parity-condition with
+  $\parity'(q) = \parity(q) + 1$ and keeping the original structure we exchange
+  non-accepting and accepting runs and therefore obtain a structural equivalent 
+  \ac{DPA} that precisely accepts the complement of the original automaton.
+\end{proof}
+
+
