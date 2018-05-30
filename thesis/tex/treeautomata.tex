@@ -338,13 +338,21 @@ Figure \ref{fig:parallelruns} as illustration for the part of the union
 operator of the proof of Theorem \ref{thm:pbaboolalgebra} where the initial 
 separating dispatch is in every direction tuned down by a factor of 
 $\frac{1}{2}$. This intuition is later on re-visited and formally 
-substantiated. In the meantime we introduce the concept of \emph{Graph Games} 
+substantiated. In the meantime we introduce the concept of \emph{graph games} 
 to obtain a transformation that constructs the \ac{AMTA} which accepts the 
-negation of the language of a given \ac{AMTA}. Mainly, we formulate the 
+negation of the language of a given \ac{AMTA}.
+\fxfatal{find reference for quantor exchange}
+The inherent problem with intersection is the following discrepancy: for an 
+accepted tree there has to be one run such that all its paths are accepted 
+while for every non-accepted tree there is for every run one path that is 
+non-accepting; hence there is an exchange of quantifiers. The semantic of tree
+automata does conceptually rely on the former quantifier order, that is there
+is one run such that all its path are accepted. Therefore, we formulate the 
 acceptance of a tree in terms of a game between two players. One player 
 constructs the run to prove the existance of a valid run while the other play 
 chooses the path along the run to spoil the correctness by finding a 
-non-accepted path.
+non-accepted path. Then we use game theoretic notions to obtain the necessary
+change in the order of quantifiers.
 
 \subsection{Graph Games}
 Tree automata are closely related to graph games, e.g.
@@ -366,7 +374,7 @@ we consider the opponent victorious. This leads to the definition
     \item [Game] For an arena $\tuple{V, V_{0}, V_{1}, E}$ we define with a
       winning condition $\Acc$ and one distinguished initial vertex
       $v_{0}\in V$ the game
-      $\tuple{\mathcal{G}, v_{0}} = \tuple{V, V_{0}, V_{1}, E, \Acc}$.
+      $\tuple{\mathcal{G}, v_{0}} = \tuple{V, V_{0}, V_{1}, E, \Acc, v_{0}}$.
     \item [Play] A play for a game $\tuple{\mathcal{G}, v_{0}} = \tuple{V,
       V_{0}, V_{1}, E, \Acc}$ is any sequence $v_{0}v_{1}\dots\in
       V^{\omega}$ which starts in $v_{0}$ and where for every $i > 0$ holds
@@ -407,7 +415,7 @@ the strategy her opponent chooses), i.e.
 $\mathcal{W}^{\mathcal{G}}_{0}\cup\mathcal{W}^{\mathcal{G}}_{1} = V$. We call
 a game with this property \emph{determined}. There is a fundamental result by
 Martin establishing determinacy for all Borel winning conditions for another 
-kind of games\footnote{Gale-Stewart games} \cite{BorelDeterminacy}. 
+kind of games\footnote{so called Gale-Stewart games} \cite{BorelDeterminacy}. 
 Fortunately, this translates to graph games and allows us to state using Lemma 
 \ref{lem:measureabilityAcceptance} and its Corollary \ref{cor:borelAcceptance}
 that
@@ -416,8 +424,13 @@ that
   All graph games with Büchi-, Rabin-, Muller- or Parity-condition are 
   determined.
 \end{theorem}
-And additionally, for Parity-conditions we even obtain that the corresponding
-strategies are positional, i.e.
+This result allows for the aforementioned quantifier exchange since it allows
+to state that if for every strategy of one player the opponent has a winning
+riposte, i.e. the position is \emph{not} in the player's winning region then it
+is in the winning region of the opponent. Hence the opponent has one strategy
+to win against all of the player's strategies. Additionally, for 
+Parity-conditions we even obtain that the corresponding strategies are 
+positional, i.e.
 \begin{theorem}
   \cite[Theorem 6]{ParityGamesPosDet}
   For a graph game with a Parity-condition with finitely many parities both 
@@ -428,7 +441,78 @@ strategies are positional, i.e.
 
 As mentioned above we use graph games to model the semantics of tree automata.
 Therefore, we define an acceptance game for an automaton and a tree, i.e. an 
-(infinite) graph game where one player constructs a run of the automaton on the
-tree and the other player explores the tree and tries to find a path which is
-not accepted.
-
+(infinite) graph game where player $0$ constructs a run of the automaton on the
+tree and player $1$ explores the tree and tries to find a path which is
+not accepted. Formally, we restrict ourself to \ac{APTA} since they are 
+sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
+\begin{definition}
+  For a \ac{APTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
+  and a $D$-ary $\Sigma$-tree $t:D^{*}\rightarrow\Sigma$ we define the graph 
+  game $\mathcal{G}(\mathcal{A}, t) = \tuple{V, V_{0}, V_{1}, E, 
+  \parity', \tuple{q_{0},\epsilon}}$ with
+  \begin{description}
+    \item [Arena] 
+      $V_{0} = Q\times D^{*},V_{1} = \nabla\times D^{*}$ where $\nabla$ is 
+      again the set of all clause-functions occuring in $\Delta$ and 
+      $V = V_{0}\cup V_{1}$,
+    \item [Edges] 
+      the movements of player $0$ are captured by
+      \begin{equation*}
+        E_{0} = \set{
+          \tuple{\tuple{q, u},\tuple{\delta_{A}, u}}:\text{ for every }
+          q\in Q,u\in D^{*}\text{ and }\tuple{q, t(u), \delta_{A}}\in\Delta
+        }
+      \end{equation*}
+      and for player $1$ by
+      \begin{equation*}
+        E_{1} = \set{
+          \tuple{\tuple{\delta_{A}, u}, \tuple{q, u\cdot d}}:\text{ for every }
+          \delta_{A}\in\nabla, u\in D^{*}\text{ and }\tuple{q,d}\in A
+        }.
+      \end{equation*}
+      Naturally, we set $E = E_{0}\cup E_{1}$,
+    \item [Winning Condition]
+      the associated winning condition is the projection of the old 
+      condition to the state component for nodes in $V_{0}$, i.e.
+      \begin{equation*}
+        \parity'(\tuple{q, u}) = \parity(q),
+      \end{equation*}
+      and nodes in $V_{1}$ should not impact the evaluation of a game directly, 
+      therefore we set their parities lower than all parities used in 
+      $\mathcal{A}$:
+      \begin{equation*}
+        \parity'(\tuple{\delta_{A}, u}) = p_{\bot}
+        \text{ for one }p_{\bot} < \min\set{\parity(q):q\in Q}.
+      \end{equation*}
+  \end{description}
+\end{definition}
+\begin{drawing}
+  \caption{
+    Illustration of $\mathcal{G}(\mathcal{A}, t)$ for $\mathcal{A}$ as
+    defined in Example \ref{ex:treeexa} and a $\set{0,1}$-ary $\set{a,b}$-tree
+    $t$ with $t(u) = a$ if and only if $u = 00$. Nodes of player $0$ are marked
+    as circles while player $1$ plays on rectangles. Every triangle is 
+    associated with one word $u\in\set{0,1}^{*}$ and labeled with $t(u)$. 
+    Player $0$ wins by forcing the game to the node $\tuple{q_{s}, 00}$ where
+    $q_{s}$ is transformed to the accepted sink $q_{a}$.
+  }
+  \label{fig:treeacceptancegame}
+  \begin{center}
+    \resizebox{1.0\textwidth}{!}{%
+      \includegraphics{tikz/treeacceptancegame.pdf}%
+    }
+  \end{center}
+\end{drawing}
+An illustration of such a game can be found in Figure 
+\ref{fig:treeacceptancegame}. The central insight for this game is the 
+following lemma which connects the acceptance of $\mathcal{A}$ of $t$ with the
+strategies of player $0$ in $\mathcal{G}(\mathcal{A}, t)$.
+\begin{lemma}
+  \cite[Lemma 3.1.]{AltTreeAuto}
+  The automaton $\mathcal{A}$ accepts $t$ if and onlay if player $0$ has a 
+  winning strategy in the game $\mathcal{G}(\mathcal{A}, t)$.
+\end{lemma}
+In the following we present one proof for this lemma which reveals the 
+central idea behind the construction of a dual automata for a given \ac{APTA}.
+\begin{proof}
+\end{proof}

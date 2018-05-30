@@ -15,7 +15,10 @@ TIKZFILES=$(patsubst %.tikz, %.pdf, $(wildcard $(TIKZDIR)*.tikz))
 TEXDIR=tex/
 TEXFILES=$(wildcard $(TEXDIR)*.tex)
 
-$(PDFNAME): $(MAINFILE).tex $(TEXFILES) $(TIKZFILES)
+BIBDIR=bib/
+BIBFILES=$(wildcard $(BIBDIR)*.bib)
+
+$(PDFNAME): $(MAINFILE).tex $(TEXFILES) $(TIKZFILES) $(BIBFILES)
 	#unhide hidden auxilliary files
 	ls -a | grep -E "\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}
 	- $(LATEX) $< && $(BIBTEX) $(MAINFILE) && $(LATEX) $<
@@ -24,7 +27,7 @@ $(PDFNAME): $(MAINFILE).tex $(TEXFILES) $(TIKZFILES)
 
 tikz/%.pdf: tikz/%.tikz $(TIKZBLUEPRINT)
 	#unhide auxilliary files
-	ls -a $(TIKZDIR) | grep -E "$*/\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' $(TIKZDIR){}
+	ls -a $(TIKZDIR) | grep -E "\.$*$(HIDEPATTERN)" | xargs -I {} rename '.' '' $(TIKZDIR){}
 	- $(LATEX) --jobname=$* -output-directory $(TIKZDIR) '\def\inputfile{$<}\input{$(TIKZBLUEPRINT)}'
-	#hide auxilliary files again
+	# hide auxilliary files again
 	ls -a $(TIKZDIR) | grep -E "$*$(HIDEPATTERN)" | xargs -I {} mv $(TIKZDIR){} $(TIKZDIR).{}
