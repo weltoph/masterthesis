@@ -34,7 +34,7 @@ set of states. The following introduction conceptually follows
 \end{definition}
 We introduce as we are already accustomed fitting acronyms, e.g.
 \acuse{PTA}  \acuse{RTA}  \acuse{MTA} \acuse{BTA}, and present an easy example 
-to familiarize ourself with the notions of tree automata
+to familiarize ourselves with the notions of tree automata
 \begin{example}
   Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
   the $\set{a,b}$ that contain at least one $a$. This language can be accepted 
@@ -423,6 +423,7 @@ that
   \cite[Corollary 2.10]{AutoLogInfGames}
   All graph games with Büchi-, Rabin-, Muller- or Parity-condition are 
   determined.
+  \label{thm:boreldet}
 \end{theorem}
 This result allows for the aforementioned quantifier exchange since it allows
 to state that if for every strategy of one player the opponent has a winning
@@ -443,7 +444,7 @@ As mentioned above we use graph games to model the semantics of tree automata.
 Therefore, we define an acceptance game for an automaton and a tree, i.e. an 
 (infinite) graph game where player $0$ constructs a run of the automaton on the
 tree and player $1$ explores the tree and tries to find a path which is
-not accepted. Formally, we restrict ourself to \ac{APTA} since they are 
+not accepted. Formally, we restrict ourselves to \ac{APTA} since they are 
 sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
 \begin{definition}
   For a \ac{APTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
@@ -515,4 +516,49 @@ strategies of player $0$ in $\mathcal{G}(\mathcal{A}, t)$.
 In the following we present one proof for this lemma which reveals the 
 central idea behind the construction of a dual automata for a given \ac{APTA}.
 \begin{proof}
+  We can connect strategies $f_{0}$ for player $0$ with runs $r$ of the 
+  automaton $\mathcal{A}$ on $t$ directly by stating
+  \begin{equation*}
+    f_{0}(\tuple{q_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\dots
+    \tuple{\delta_{A_{n}}, u_{1}\dots u_{n-1}}\tuple{q_{n},u_{1}\dots u_{n}}) =
+    \tuple{\delta_{A_{n}},u_{1}\dots u_{n}}
+  \end{equation*}
+  if and only if 
+  \begin{equation*}
+    r(\tuple{q_{1}, u_{1}}\dots\tuple{q_{n}, u_{n}}) = \delta_{A_{n}}
+  \end{equation*}
+  and additionally $f_{0}(\tuple{q_{0},\epsilon}) =r(\epsilon)=\delta_{A_{0}}$. 
+  As mentioned before we consider player $1$ to choose a path through the run 
+  and checking this path for its acceptance. Thus, given a strategy 
+  $f_{0}$ associated with a run $r$ we obtain for an additional riposte $f_{1}$ 
+  of player $1$ one element in $M_{r}$ and for one element in $M_{r}$ one 
+  strategy for player $1$. We fix pairs $f_{1}$ and $\alpha = 
+  \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in M_{r}$ such that
+  \begin{equation*}
+    f_{1}(\tuple{p_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\dots
+    \tuple{p_{n-1},u_{1}\dots u_{n-1}}\tuple{\delta_{A_{n}},u_{1}\dots u_{n-1}})
+    = \tuple{p_{n}, u_{1}\dots u_{n}}
+  \end{equation*}
+  if and only if 
+  \begin{equation*}
+    (u_{n} = d_{n}\text{ and }q_{n} = p_{n}).
+  \end{equation*}
+  The combination of two strategies $f_{0}, f_{1}$ gives a play 
+  $\beta = \tuple{p_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\tuple{p_{1}, 
+  u_{1}}\dots\in V^{\omega}$ in $\mathcal{G}(\mathcal{A}, t)$. Furthermore,
+  we obtain one associated pair of a run and one path through its domain, 
+  namely $r$ and $\alpha = \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in 
+  M_{r}$. By the choice of parities for states in $V_{1}$ and the connection 
+  between $f_{0}$ and $r$ and $f_{1}$ and $\alpha$ respectively we get that 
+  $\max\set{\parity(p_{i}):i>0} = \max\set{\parity(q_{i}):i>0}$. Hence,
+  $q_{0}q_{1}\dots\in\Acc(\parity')$ if and only if 
+  $p_{0}p_{1}\dots\in\Acc(\parity)$. For an accepting run $r$ we can then state
+  that the associated strategy $f_{0}$ for player $0$ is winning since every
+  possible riposte of player $1$ is associated with one element in $M_{r}$.
+  Every element in $M_{r}$ is accepted in the Parity-condition of $\mathcal{A}$
+  and therefore the resulting play in $\mathcal{G}(\mathcal{A}, t)$. On the 
+  other hand we can state that the associated run $r$ for a winning strategy 
+  $f_{0}$ of player $0$ indeed is accepted since all elements in $M_{r}$ are
+  checked by the strategies player $1$ may choose against $f_{0}$ (which all 
+  loose against the winning strategy $f_{0}$).
 \end{proof}
