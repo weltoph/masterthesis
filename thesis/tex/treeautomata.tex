@@ -491,15 +491,13 @@ sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
   \caption{
     Illustration of $\mathcal{G}(\mathcal{A}, t)$ for $\mathcal{A}$ as
     defined in Example \ref{ex:treeexa} and a $\set{0,1}$-ary $\set{a,b}$-tree
-    $t$ with $t(u) = a$ if and only if $u = 00$. Nodes of player $0$ are marked
-    as circles while player $1$ plays on rectangles. Every triangle is 
+    $t$ with $t(u) = a$ if and only if $u = 00$. Nodes of player $0$ are 
+    circles while player $1$ plays on rectangles. Every triangle is 
     associated with one word $u\in\set{0,1}^{*}$ and labeled with $t(u)$. 
-    Player $0$ wins by forcing the game to the node $\tuple{q_{s}, 00}$ where
-    $q_{s}$ is transformed to the accepted sink $q_{a}$.
   }
   \label{fig:treeacceptancegame}
   \begin{center}
-    \resizebox{1.0\textwidth}{!}{%
+    \resizebox{0.9\textwidth}{!}{%
       \includegraphics{tikz/treeacceptancegame.pdf}%
     }
   \end{center}
@@ -512,6 +510,7 @@ strategies of player $0$ in $\mathcal{G}(\mathcal{A}, t)$.
   \cite[Lemma 3.1.]{AltTreeAuto}
   The automaton $\mathcal{A}$ accepts $t$ if and onlay if player $0$ has a 
   winning strategy in the game $\mathcal{G}(\mathcal{A}, t)$.
+  \label{lem:stratacceptance}
 \end{lemma}
 In the following we present one proof for this lemma which reveals the 
 central idea behind the construction of a dual automata for a given \ac{APTA}.
@@ -528,11 +527,11 @@ central idea behind the construction of a dual automata for a given \ac{APTA}.
     r(\tuple{q_{1}, u_{1}}\dots\tuple{q_{n}, u_{n}}) = \delta_{A_{n}}
   \end{equation*}
   and additionally $f_{0}(\tuple{q_{0},\epsilon}) =r(\epsilon)=\delta_{A_{0}}$. 
-  As mentioned before we consider player $1$ to choose a path through the run 
-  and checking this path for its acceptance. Thus, given a strategy 
-  $f_{0}$ associated with a run $r$ we obtain for an additional riposte $f_{1}$ 
-  of player $1$ one element in $M_{r}$ and for one element in $M_{r}$ one 
-  strategy for player $1$. We fix pairs $f_{1}$ and $\alpha = 
+  As mentioned before we consider player $1$ to choose a \emph{viable} path 
+  through the run and checking this path for its acceptance. Thus, given a 
+  strategy $f_{0}$ associated with a run $r$ we obtain for an additional 
+  riposte $f_{1}$ of player $1$ one element in $M_{r}$ and for one element in 
+  $M_{r}$ one strategy for player $1$. We fix pairs $f_{1}$ and $\alpha = 
   \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in M_{r}$ such that
   \begin{equation*}
     f_{1}(\tuple{p_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\dots
@@ -543,9 +542,13 @@ central idea behind the construction of a dual automata for a given \ac{APTA}.
   \begin{equation*}
     (u_{n} = d_{n}\text{ and }q_{n} = p_{n}).
   \end{equation*}
-  The combination of two strategies $f_{0}, f_{1}$ gives a play 
+  Notably, the strategy $f_{1}$ also describes situations that may never occur
+  because of the choices of player $0$. Therefore the word $\alpha$ and $f_{1}$
+  are only connected on the paths that are viable due to the choices of both
+  players before. Nevertheless, the combination of two strategies $f_{0},f_{1}$ 
+  gives a play 
   $\beta = \tuple{p_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\tuple{p_{1}, 
-  u_{1}}\dots\in V^{\omega}$ in $\mathcal{G}(\mathcal{A}, t)$. Furthermore,
+  u_{1}}\dots\in V^{\omega}$ in $\mathcal{G}(\mathcal{A}, t)$. Additionally,
   we obtain one associated pair of a run and one path through its domain, 
   namely $r$ and $\alpha = \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in 
   M_{r}$. By the choice of parities for states in $V_{1}$ and the connection 
@@ -562,3 +565,43 @@ central idea behind the construction of a dual automata for a given \ac{APTA}.
   checked by the strategies player $1$ may choose against $f_{0}$ (which all 
   loose against the winning strategy $f_{0}$).
 \end{proof}
+Notably, Theorem \ref{thm:boreldet}
+solves the aforementioned difficulty with exchanging quantifiers in the 
+semantic of tree automata since if there exists for every strategy of player 
+$0$ one successful riposte of player $1$ then player $1$ does have one strategy
+to beat all answers of player $0$. On this basis we can construct the dual 
+automaton by the following argument. With Lemma \ref{lem:stratacceptance} and 
+Theorem \ref{thm:boreldet} we can state that $\mathcal{A}$ does not 
+accept $t$ if and only if player $1$ has a winning strategy in 
+$\mathcal{G}(\mathcal{A},t)$. The idea is to encode this winning strategy in
+the transitions. Thus, given the game is in state $q$ and $t$ carries at the
+current position the letter $\sigma$ for every choice of player $0$,
+$\tuple{q,\sigma,\delta_{A_{1}}},\dots,\tuple{q,\sigma,\delta_{A_{n}}}$, player
+$1$ needs an answer. All these answers are encoded in 
+\begin{equation*}
+  \Delta_{1} = \set{
+    \tuple{q,\sigma, \delta_{B}}:B = \set{
+      \tuple{p_{1}, d_{1}}\dots\tuple{p_{n},d_{n}}:\tuple{p_{i}, d_{i}}\in 
+        A_{i} \text{ for }1\leq i\leq n
+    }
+  }.
+\end{equation*}
+Therefore, a run $r$ on $t$ of these transitions explores all possible 
+strategies of player $0$ and the answers of player $1$. Assuming player $1$ 
+does have a winning strategy all the paths in the run are not accepted. In the 
+inversed acceptance condition (again obtained by adding one to every parity), 
+we get that $r$ is accepted if and only if player $1$ has a winning strategy
+in $\mathcal{G}(\mathcal{A}, t)$ which happens if and only if $t$ is not 
+accepted by $\mathcal{A}$. This renders, given
+\begin{equation*}
+  \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{0}, \parity},
+\end{equation*}
+the automaton
+\begin{equation*}
+  \mathcal{B} = (Q, q_{0}, D, \Sigma, 
+  \underbrace{\Delta_{1}}_{\text{strategy encoding transitions to }\Delta_{0}}, 
+  \parity + 1)
+\end{equation*}
+dual to $\mathcal{A}$ and closes the argument of closure under negation for
+\acp{APTA}. And by Theorem \ref{thm:treesimulation} this suffices to show the
+closure of all tree automata under negation.
