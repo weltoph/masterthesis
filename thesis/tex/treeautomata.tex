@@ -240,10 +240,16 @@ We formally define similar to \cite{SynProbEnv}
     \end{aligned}
     }
   \end{equation*}
-  and require that
+  and for any $\mathcal{A}$ the set of accepted paths, i.e. those paths such 
+  that a projection on its state-component yields an element in $\Acc$. We 
+  define
   \begin{equation*}
-    M_{r}\subseteq D^{\omega}\times\Acc.
+    \Acc\interval{Q} = \set{
+      \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+      \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
+    }.
   \end{equation*}
+  A run $r$ is considered accepting if $M_{r}\subseteq\Acc\interval{Q}$.
   Again, we consider for $\Acc$ acceptance conditions which are representable
   as Büchi-, Rabin-, Muller- or Parity-conditions and use according acronyms,
   namely \acs{ABTA}, \acs{ARTA}, \acs{AMTA}, \acs{APTA} respectively.

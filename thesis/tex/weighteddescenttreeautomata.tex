@@ -1,41 +1,78 @@
 \section{Weighted Descent Tree Automata}
-Building upon \cite{RandAutoInfTrees} we expand on the notion of weighting
-the different paths of the run. Hereby, we incorporate the concept of
-\emph{alternation} by allowing to send different states on the same path
-through the tree with individual weight. Thus, we capture on transition in a
-probability function over states and directions of an automaton.
+The basis of the tree automata we want to present in this section is given in
+\cite{RandAutoInfTrees}. There non-deterministic tree automata are equipped 
+with an alternative semantic, namely the runs are equipped with a uniform 
+probability measure at each branching point and the run is considered 
+accepted if the measure of those paths that satisfy an associated condition
+(e.g. Büchi- or Parity-condition) have a certain measure. As for \acp{PBA} this
+allows for almost-sure or positive acceptance of runs. In the following we 
+follow suggested generalizations of \cite{RandAutoInfTrees} by designing 
+transitions more expressive by adding individual probability measures for them.
+Furthermore, we incorporate the concept of \emph{alternation} by allowing to 
+send different states on the same path through the tree with individual weight.
+Formally, we define in analogy to clause-functions a notion of a weighted 
+clause function, i.e.
 \begin{definition}[Generator]
   For a set of states $Q$ and a set of directions $D$ we call a probability
   function on $Q\times D$, i.e. $G: Q\times D\rightarrow [0,1]$ with
-  $\sum\limits_{\substack{q\in Q\\ d\in D}}G(q,d) = 1$, a generator over $Q$
-  and $D$. A finite non-empty set of generators over sets $Q$ and $D$ is called
-  a clause $C = \set{G_{1},\dots,G_{n}}$.
+  \begin{equation*}
+    \sum\limits_{q\in Q,d\in D}G(q,d) = 1,
+  \end{equation*} 
+  a generator over $Q$ and $D$. 
 \end{definition}
-With these transitions we adapt the common concepts of tree automata by
-allowing the automaton to build a run of \enquote{transitions}.
-\begin{definition}[Weighted Descent Tree Automaton]
+These generators are used to substitute clause-functions in alternating tree
+automata and we obtain the following tree automata:
+\begin{definition}[Weighted Descent Tree Automata]
   We define a \acl{WDTA} as tuple
-  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ where $Q$ is a finite
-  set of states, $q_{0}$ the initial state, $D$ a finite set of directions,
-  $\Sigma$ is a finite Alphabet and $T\subseteq Q^{\omega}$ is a
-  $\omega$-regular target of infinite words of elements in $Q$. The transitions
-  in $\Delta$ are given as clauses for every state and symbol:
-  $\Delta:Q\times\Sigma\rightarrow\mathcal{C}^{Q}_{D}$
-  where $\mathcal{C}^{Q}_{D}$ denotes the set of all clauses over $Q$ and $D$.
-  Additionally, we define the set of all used generators as
-  $\mathcal{G}_{\mathcal{A}} = \bigcup\limits_{q\in Q,\sigma\in\Sigma}
-    \Delta(q,\sigma)$.
+  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}$ where $Q$ is a 
+  finite set of states, $q_{0}$ the initial state, $D$ a finite set of 
+  directions, $\Sigma$ is a finite Alphabet and $\Acc\subseteq Q^{\omega}$ is a
+  $\omega$-regular target of infinite words of elements in $Q$. Again, we 
+  consider $\Acc$ to be expressed as Büchi-, Parity-, Rabin- or 
+  Muller-condition. $\Delta$ is defined as set of transitions 
+  $\tuple{q,\sigma,G}$ with $q\in Q, \sigma\in\Sigma$ and $G$ is a generator 
+  over $Q$ and $D$. Additionally, we define the set of all used generators 
+  \begin{equation*}
+    \mathcal{G}(\mathcal{A}) = \set{
+      G:\text{exist }q\in Q\text{ and }\sigma\in\Sigma
+      \text{ such that }\tuple{q,\sigma,G}\in\Delta
+    }.
+  \end{equation*}
+  The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run
+  $r:\tuple{Q\times D}^{*}\rightarrow \mathcal{G}_{\mathcal{A}}$ on a tree 
+  $t:D^{*}\rightarrow\Sigma$ with the same requirements as a run for an 
+  alternating tree automata, namely
+  \begin{enumerate}
+    \item $\tuple{q_{0}, t(\epsilon), r(\epsilon)}\in\Delta$,
+    \item and for every $r(\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}}) = G$ 
+      there is $\tuple{q_{n}, t(d_{1}\dots d_{n}), G}\in\Delta$.
+  \end{enumerate}
 \end{definition}
-The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run
-$r:\tuple{Q\times D}^{*}\rightarrow \mathcal{G}_{\mathcal{A}}$. Analogously to
-a strategy in Definition \ref{def:mdp} a run induces a probability measure on
-the set of cylinders over $(Q\times D)$ by
-\begin{equation}
+Analogously to the semantic of \acp{PBA} or a strategy in a \ac{MDP} a run 
+induces a probability measure on $\mathcal{B}(Q\times D)$ by fixing the measure
+of cylinders by 
+\begin{equation*}
   \mu_{r}(\cyl(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}))
     = r(\epsilon)(q_{1},d_{1})\cdot\prod\limits_{i = 1}^{n - 1}
     r(\tuple{q_{1},d_{1}}\dots\tuple{q_{i},d_{i}})(q_{i+1},d_{i+1})
-\end{equation}
-for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in\tuple{Q\times D}^{*}$.
+\end{equation*}
+for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in\tuple{Q\times D}^{*}$
+and uniquely extend this measure to $\mathcal{B}(Q\times D)$. Naturally, the
+acceptance of $r$ is defined by the measure on those paths accepting the 
+condition in the state component, i.e. $\Acc\interval{Q}$. In order to ensure
+the well-formedness of this defintion it is necessary to show the 
+measurability of $\Acc\interval{Q}$. But this is obtained by the same argument
+as for Lemma \ref{lem:measureabilityAcceptance} or respectively Corollary 
+\ref{cor:borelAcceptance} with setting the base-set of the Borel-algebra as
+$Q\times D$ and extending the acceptance conditions accordingly. Hence, we 
+state
+\begin{lemma}
+  For a Büchi-, Parity-, Rabin- or Muller-condition represented as $F, \parity,
+  R, \mathcal{F}$ respectively, the sets $\Acc\interval{Q}(F),
+  \Acc\interval{Q}(\parity),\Acc\interval{Q}(R),\Acc\interval{Q}(\mathcal{F})$
+  are measureable in $\mathcal{B}(Q\times D)$.
+  \label{lem:treeBorelAcceptance}
+\end{lemma}
 
 In the following we often focus on parity conditions and motivate this by the
 observation that parity conditions can be used to express all other conditions
