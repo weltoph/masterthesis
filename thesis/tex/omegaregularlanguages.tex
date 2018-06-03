@@ -183,10 +183,15 @@ explained and also later on referred to.
       = \interval{qq_{1}\dots q_{i-1}q_{i+1}\dots q_{n},i}
       \text{ for the unique }i\text{ s.t. }q=q_{i}
     \end{equation*}
-    and conclude with one auxillary definition:
+    and conclude with auxillary definitions of
     \begin{description}
-      \item [Hit set] for $\ell = \interval{q_{1}\dots q_{n},h}$ we call
-        $\set{q_{1},\dots,q_{h}}$ the hit set of $\ell$.
+      \item [Hit-set] for $\ell = \interval{q_{1}\dots q_{n},h}$ we call
+        $\set{q_{1},\dots,q_{h}}$ the hit-set of $\ell$,
+      \item [State partition] the states of $\lar(Q)$ can be partitioned into
+        those elements that resulted from an update by $\up(\cdot, q)$ for
+        every $q\in Q$. We define 
+        $\lar(Q)\interval{q} = \set{\interval{q_{1}\dots q_{n}}\in\lar(Q)\mid
+          q_{1} = q} = \set{\up(\ell, q):\ell\in\lar(Q)}$.
     \end{description}
   \end{definition}
   For a word $q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
@@ -198,16 +203,16 @@ explained and also later on referred to.
   the associated sequence
   \begin{lemma}
     \cite[Lemma 1.21]{AutoLogInfGames}
-    $\Inf(q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit set of
+    $\Inf(q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit-set of
     all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely many
-    $i>k$ s.t. the hit set of $\ell_{i}$ coincides with $F$.
+    $i>k$ s.t. the hit-set of $\ell_{i}$ coincides with $F$.
     \label{lem:larhitset}
   \end{lemma}
-  This Lemma induces that the sequence of hit sets stabilises to the set
+  This Lemma induces that the sequence of hit-sets stabilises to the set
   $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller condition
-  $\mathcal{F}$ if and only if the hit sets stabilises to an element of
+  $\mathcal{F}$ if and only if the hit-sets stabilises to an element of
   $\mathcal{F}$. This can be captured within a parity condition by associating
-  to $\ell = \interval{p_{1}\dots p_{n},h}$ with hit set
+  to $\ell = \interval{p_{1}\dots p_{n},h}$ with hit-set
   $H = \set{p_{1},\dots,p_{h}}$ a parity condition
   \begin{equation*}
     \parity(\ell) = \begin{cases}
@@ -215,7 +220,7 @@ explained and also later on referred to.
       2\cdot\size{H}-1 &\text{ if }H\notin\mathcal{F}
     \end{cases}
   \end{equation*}
-  Thus, winning hit sets do have an even and losing hit sets do have an odd
+  Thus, winning hit-sets do have an even and losing hit-sets do have an odd
   parity and notably the highest parity value is even if and only if
   $\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$. Therefore, we can define a \ac{NPA}
   that has as state set the elements $\lar(Q)$ and mirrors the transitions of

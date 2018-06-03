@@ -73,61 +73,122 @@ state
   are measureable in $\mathcal{B}(Q\times D)$.
   \label{lem:treeBorelAcceptance}
 \end{lemma}
+\begin{proof}
+  Given a set of states $Q$ with an associated Büchi-condition $F$ and a set of 
+  directions $D$ we proof the measureability of $\Acc\interval{Q}(F)$ by 
+  setting $Q' = Q\times D$ and $F' = \set{\tuple{q, d}\in Q'\mid q\in F}$. With
+  Lemma \ref{lem:measureabilityAcceptance} we obtain that 
+  $\Acc(F')\in\mathcal{B}(Q') = \mathcal{B}(Q\times D)$. It suffices to show
+  $\Acc(F') = \Acc\interval{Q}(F)$. For every non-empty
+  $A = \set{\tuple{p_{1},b_{1}}\dots\tuple{p_{k},b_{k}}}\subseteq Q'$ we have
+  $A\cap F'\neq\emptyset$ if and only if there is one $i$ such that 
+  $\tuple{p_{i},b_{i}}\in F'$ which holds by choice of $F'$ if and only if
+  $p_{i}\in F$ and therefore 
+  $A\interval{Q} = \set{p_{1},\dots,p_{k}}\cap F\neq\emptyset$. Then we have
+  for every $\alpha = \tuple{q_{1},d_{1}}\tuple{q_{2},d_{2}}\dots\in\Acc(F')$ 
+  if and only if $A = \Inf(\alpha)\cap F'\neq\emptyset$ if and only if 
+  $A\interval{Q}\cap F\neq\emptyset$ if and only if $q_{1}q_{2}\dots\in\Acc(F)$
+  if and only if $\alpha\in\Acc\interval{Q}(F)$. The measureability for 
+  Muller-conditions (and therefore also for Parity- or Rabin-conditions) 
+  follows analogously to the proof of Corollary \ref{cor:borelAcceptance}.
+\end{proof}
 
 In the following we often focus on parity conditions and motivate this by the
 observation that parity conditions can be used to express all other conditions
-(as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees}).
+(as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees} and which is
+an integral part of the omitted proof of Theorem \ref{thm:probautoequiv}).
 \begin{lemma}
-  For every \ac{WDTA} $\mathcal{A}$ with a Büchi, Rabin or Muller
-  acceptance condition we can construct an equivalent \ac{WDTA} $\mathcal{B}$
-  with a parity condition.
+  For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
+  we can construct an equivalent \ac{WDTA} $\mathcal{B}$ with a 
+  Parity-condition.
 \end{lemma}
 \begin{proof}
-  Firstly, we observe that Büchi and Rabin conditions can be expressed
-  as Muller conditions \cite[Proposition 5.3]{LangAutoLog}. Secondly, we
-  construct for a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
-  \mathcal{F} = \set{F_{1},\dots,F_{n}}}$ with a Muller condition $\mathcal{F}$
-  an equivalent \ac{WDTA} $\mathcal{B}$ with a parity condition via the use of
-  a \ac{LAR} (analogously to e.g. \cite{SimAltTreeAuto} for unweighted tree
-  automata). The idea of an \ac{LAR} is to keep a record of the order of
-  recently visited states which eventually stabilizes to those states seen
-  infinitely often. Using a \ac{LAR} increases the state space but preserves
-  the structure, especially the weighting, of a run and thus yields the same
-  measure of the set of accepted paths. 
-  We construct
-  $\mathcal{B}=\tuple{\lar(Q),\ell_{0}, D, \Sigma, \Delta',\parity}$ where
-  $\ell_{0}$ is one arbitrary element of $\lar(Q)$ and $\parity$ is defined as
-  described above for the Muller condition of $\mathcal{A}$. For every clause
-  $\Delta(q,\sigma) = \set{G_{1},\dots,G_{n}}$ we define
-  $\Delta'(\ell,\sigma) = \set{G_{1}',\dots,G_{n}'}$ with
+  Firstly, we observe that Büchi- and Rabin-conditions can be expressed
+  as Muller-conditions. Secondly, we construct for a 
+  \ac{WDTA}
   \begin{equation*}
-    G_{i}'(\ell', d) = \begin{cases}
-      G_{i}(q,d) &\text{ if }\ell' = \up(\ell,q)\\
-      0          &\text{ otherwise}
+    \mathcal{A} = \tuple{
+      Q, q_{0}, D, \Sigma, \Delta, \mathcal{F} = \set{F_{1},\dots,F_{n}}
+    }
+  \end{equation*}
+  an equivalent \ac{WDTA} $\mathcal{B}$ with a Parity-condition via the use of
+  an \ac{LAR}. Using an \ac{LAR} increases the state space but preserves the 
+  structure, especially the weighting, of a run and thus yields the same 
+  measure of the set of accepted paths. We construct
+  \begin{equation*}
+    \mathcal{B}=\tuple{
+      \lar(Q),\ell_{0}, D, \Sigma, \Delta', \parity
+    }
+  \end{equation*} 
+  where $\ell_{0}$ is one arbitrary element of $\lar(Q)_{\interval{q_{0}}}$ and 
+  $\parity$ is defined as before for \acp{LAR}\footnote{
+    Recall that parities grow proportional with the size of the hit-set and are 
+    even for hit-sets that are part of $\mathcal{F}$ and odd otherwise.
+  } (see proof of Theorem \ref{thm:omegaregularexp}). For every transition 
+  $\tuple{q,\sigma,G}\in\Delta$ we define
+  \begin{equation*}
+    G_{\ell}'(\ell', d) = \begin{cases}
+      G_{i}(p,d) &\text{if }\ell' = \up(\ell,p),\\
+      0          &\text{otherwise,}
     \end{cases}
   \end{equation*}
-  This yields that every run of $\mathcal{A}$ on a tree $t$ induces a run of
-  $\mathcal{B}$ on $t$ by substituting every $G$ by $G'$ and vice versa. Since
-  the set of accepting paths in both runs have the same measure we obtain the
-  equivalence of $\mathcal{A}$ and $\mathcal{B}$.
+  and add
+  \begin{equation*}
+    \set{
+      \tuple{\ell,\sigma,G_{\ell}'}:\text{for every }\ell\in
+        \lar(Q)_{\interval{q}}
+    }
+  \end{equation*}
+  to $\Delta'$. Fix a tree $t$ and we observe that every run $r$ of 
+  $\mathcal{A}$ can be embedded in a run $r'$ of $\mathcal{B}$ by an 
+  inductive construction: for $\tuple{q_{0}, t(\epsilon), r(\epsilon)}\in
+  \Delta$ exists an associated $\tuple{\ell_{0}, t(\epsilon), G}$ and we set
+  $r'(\epsilon) = G$. Notably, we can pick any element 
+  $\tuple{\ell, d}\in\lar(Q)\times D$ with $G(\ell, d) > 0$ and project it to
+  $\tuple{p, d}\in Q\times D$ such that $\up(\ell_{0}, p) = \ell$ and iterate
+  this argument. This embeds $r$ in $r'$. Moreover, we can observe that this 
+  allows to obtain for any run $r'$ of $\mathcal{B}$ on $t$ a run $r$ of 
+  $\mathcal{A}$ on $t$ by iteratively using the corresponding original 
+  transitions from which transitions in $\mathcal{B}$ are derived. Importantly, 
+  we can relate by the inductive construction paths in $r$ and $r'$ in both 
+  directions such that
+  \begin{center}
+    \begin{tabular}{ccccc}
+      $q_{0}$ & $\tuple{q_{1}, d_{1}}$ & $\tuple{q_{2}, d_{2}}$ & 
+        $\tuple{q_{3}, d_{3}}$ & \dots\\
+      $\ell_{0}$ & $\tuple{\ell_{1}, d_{1}}$ & $\tuple{\ell_{2}, d_{2}}$ & 
+        $\tuple{\ell_{3}, d_{3}}$ & \dots
+    \end{tabular}
+  \end{center}
+  with $\ell_{i} = \up(\ell_{i-1}, q_{i})$ for all $i>0$ and state that all 
+  other paths in the domain of $r'$ have a measure of $0$ by definition of the
+  generators in $\mathcal{B}$. Thus, in the \enquote{weighted} part of the 
+  domain of $r'$ there is a one-to-one correspondance to elements in the domain
+  of $r$. Specifically, we obtain
+  \begin{equation*}
+    \mu_{r}(\cyl(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}})) = 
+      \mu_{r'}(\cyl(\tuple{\ell_{1},d_{1}}\dots\tuple{\ell_{n},d_{n}}))
+  \end{equation*}
+  for the related paths. This allows to conclude with Lemma \ref{lem:larhitset}
+  \begin{equation*}
+    \mu_{r}(\Acc(\mathcal{F})) = \mu_{r'}(\Acc(\parity)),
+  \end{equation*} 
+  which yields the claimed acceptance equivalence of $\mathcal{A}$ and 
+  $\mathcal{B}$.
 \end{proof}
-We say that $\mathcal{A}$ accepts $t$ if an accepting run exists where the
-notion of an accepting run is (analogously to \acp{PBA}) tied to an
-\enquote{acceptable measure}, e.g. Positive Acceptance or Almost-Sure
-Acceptance.
 
-Additionally, we define certain structural properties on \acp{WDTA}
+We distinguish certain structural properties on \acp{WDTA} which allows us to
+categorize \acp{WDTA}, namely
 \begin{definition}[Structural Properties]
   A \ac{WDTA} $\mathcal{A}$ is called
   \begin{description}
-    \item [choiceless] if there is at most one generator in each clause, i.e.
-      for every pair $q\in Q, \sigma\in\Sigma$ holds
-      $\size{\Delta(q, \sigma)} = 1$.
+    \item [choiceless] if there is at most one transition for every pair 
+      $q\in Q, \sigma\in\Sigma$ in $\Delta$,
     \item [uni-directional] if for every clause there is at most one state send
       to every direction, i.e. for every $G\in\mathcal{G}_{\mathcal{A}}$
       there is at most one $q\in Q$ such that $G(q, d) > 0$ for all
       $d\in D$. Intuitively this means that the automaton explores every path
-      with at most one state.
+      with at most one state,
     \item [uniformly distributed (u.d.)] if $\mathcal{A}$ is uni-directional
       and for a direction $d\in D$ every clause agrees on the weight that is
       sent down that direction. Thus, for all $d\in D$ holds that for all
@@ -141,9 +202,9 @@ Additionally, we define certain structural properties on \acp{WDTA}
       $\mathcal{A}$. 
   \end{description}
 \end{definition}
-The examined tree automata in \cite{RandAutoInfTrees} are therefore captured by
-uniformly distributed \acp{WDTA} over the directions $D = \set{0,1}$ with
-blueprint $B(0) = B(1) = \frac{1}{2}$.
+This allows us to categorize the examined tree automata in 
+\cite{RandAutoInfTrees} as uniformly distributed \acp{WDTA} over a fixed set of
+directions $D = \set{0,1}$ with blueprint a $B(0) = B(1) = \frac{1}{2}$.
 
 \subsection{Closure Properties}
 In the following we want to explore the closure properties of the introduced
