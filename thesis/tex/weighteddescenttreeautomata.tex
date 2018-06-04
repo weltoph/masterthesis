@@ -98,7 +98,7 @@ state
 
 In the following we often focus on Parity-conditions and motivate this by the
 observation that Parity-conditions are sufficient to express all other 
-conditions (as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees} 
+conditions (as suggested in \cite[page 24:9, Proposition 6]{RandAutoInfTrees}
 and which is an integral part of the omitted proof of Theorem 
 \ref{thm:probautoequiv}).
 \begin{lemma}
@@ -193,7 +193,7 @@ categorize \acp{WDTA}, namely
       there is at most one $q\in Q$ such that $G(q, d) > 0$ for all
       $d\in D$. Intuitively this means that the automaton explores every path
       with at most one state,
-    \item [uniformly distributed (u.d.)] if $\mathcal{A}$ is uni-directional
+    \item [uniformly distributed] if $\mathcal{A}$ is uni-directional
       and for a direction $d\in D$ every clause agrees on the weight that is
       sent down that direction. Thus, for all $d\in D$ holds that for all
       $G_{1}, G_{2}\in\mathcal{G}_{\mathcal{A}}$ we have
@@ -220,7 +220,8 @@ union, intersection and negation. Unsuprisingly, the non-determinism of the
 model induces closure under union for certain classes in a straightforward 
 manner (as suggested by \cite{RandAutoInfTrees}). 
 \begin{proposition}[Union - uni-directional, unrestricted]
-  Uni-directional and unrestricted \acp{WDTA} are closed under union.
+  Uni-directional and unrestricted \acp{WDTA} are closed under union for 
+  either positive and almost-sure acceptance.
   \label{prop:uniunrunion}
 \end{proposition}
 \begin{proof}
@@ -231,42 +232,107 @@ manner (as suggested by \cite{RandAutoInfTrees}).
   $Q_{1}\cap Q_{2} = \emptyset$. The union \ac{WDTA} guesses 
   in the very first transition which of the automata is checked for the tree:
   \begin{equation*}
-    \mathcal{B} = \tuple{Q_{1}\cup Q_{2}\uplus\set{q^{i}}, q^{i}, D, \Sigma,
-    \Delta_{1}\cup\Delta_{2}\cup\Delta^{i},\parity_{\cup}}
+    \mathcal{C} = \tuple{Q_{1}\cup Q_{2}\uplus\set{q^{i}}, q^{i}, D, \Sigma,
+    \Delta' = \Delta_{1}'\cup\Delta_{2}'\cup\Delta^{i},\parity_{\cup}}
   \end{equation*}
-  where $q^{i}$ is a new state and
+  where $q^{i}$ is a new state and the transitions separate in
   \begin{equation*}
-    \Delta^{i} = \set{
-      \tuple{q^{i},\sigma,G\interval{}}:\text{for every }\tuple{q_{0},\sigma,G}
-      \in\Delta_{1}\text{ and }\tuple{p_{0},\sigma,G}\in\Delta_{2}
-    }
+    \Delta_{i}' = \set{
+      \tuple{q,\sigma,G\interval{Q_{3-j}\mapsto 0}}:
+        \tuple{q,\sigma,G}\in\Delta_{i}
+    }\text{ for }i = 1,2
   \end{equation*}
-  is the union of all initial transitions from $\Delta_{1}$ and $\Delta_{2}$
   and
   \begin{equation*}
+    \Delta^{i} = \set{
+      \tuple{q^{i},\sigma,G\interval{Q_{j}\times D\mapsto 0}}:
+        \text{for }j = 1,2 \text{ and every } 
+        \tuple{q_{0},\sigma,G}\in\Delta_{3-j}
+    }.
+  \end{equation*}
+  Each transition in $\Delta_{1}'$ or $\Delta_{2}'$ mirrors one original 
+  transition in either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ respectively, but
+  its generator is extended to the necessary domain for formal reasons. By 
+  setting all transitions for states of the other automaton to $0$ ensures that
+  it precisely simulates the original transition. On the other hand we have
+  $\Delta^{i}$ as the union of all initial transitions from 
+  $\Delta_{1}$ and $\Delta_{2}$ which are again formally defined for the 
+  complete domain $\tuple{Q_{1}\cup Q_{2}}\times D$ but effectively mirrors one
+  transition from either $\Delta_{1}$ or $\Delta_{2}$. Finally, we define
+  \begin{equation*}
     \parity_{\cup}(q) = \begin{cases}
-      \parity_{1}&\text{if }q\in Q\\
-      \parity_{2}&\text{if }q\in P\\
+      \parity_{i}&\text{if }q\in Q_{i}\text{ for }i = 1,2,\\
       \min\tuple{\parity_{1}(Q)\cup\parity_{2}(P)}.&\text{if }q = q^{i}.
     \end{cases}
   \end{equation*}
-  The initial decision in $q^{i}$ leads to one generator
-  $\mathcal{A}_{2}$ is chosen determines for which automata the run is
-  generated. It is noteworthy that every run is in bijection to a run of
-  $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ and thus induces the same measurement
-  on the set of accepted paths and that this construction preservers
-  uni-directionality.
+  For any run $r$ of $\mathcal{C}$ the element $r(\epsilon)$ corresponds with a
+  transition in $\Delta_{i}$ for $i$ either $1$ or $2$. By the definition of
+  the transitions in $\Delta'$ we can state that $\mu_{r}(\cyl(u)) = 0$ for any
+  $u\notin\tuple{Q_{i}\times D}^{*}$. More importantly, for any run $r$ of
+  $\mathcal{C}$ on $t$ we find a run $r'$ of $\mathcal{A}$ on $t$ (and vice
+  verca) such that $\mu_{r}(\cyl(u)) = \mu_{r'}(\cyl(u))$ for any 
+  $u\in\tuple{Q_{i}\times D}^{*}$ and therefore $\mu_{r}(A) = \mu_{r'}(A)$ for
+  all $A\in\mathcal{B}(Q_{i}\times D)$ and $\mu_{r}(B) = 0$ for all 
+  $B\in\mathcal{B}(\tuple{Q_{1}\cup Q_{2}}\times D)
+    \setminus\mathcal{B}(Q_{i}\times D)$. Hence, all runs in $\mathcal{C}$
+  can be bijected to all runs of either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$.
+  By definition of $\parity_{\cup}$ we have 
+  $\Acc(\parity_{\cup})\cap\mathcal{B}(Q_{i}\times D) = \Acc(\parity_{i})$ for
+  $i = 1,2$ and therefore $\mathcal{C}$ accepts the trees which are accepted by 
+  either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$. This construction respects 
+  uni-directionality and even a common blueprint of $\mathcal{A}_{1}$ and 
+  $\mathcal{A}_{2}$ since transition are simply mirrored.
 \end{proof}
 \begin{corollary}
-  The class of u.d. \acp{WDTA} with a fixed blueprint $B$ is closed under
-  union.
+  The class of uniformly distributed \acp{WDTA} with a fixed blueprint $B$ is 
+  closed under union.
 \end{corollary}
-\begin{proof}
-  The construction for Proposition \ref{prop:uniunrunion} respects a common
-  blueprint of $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$.
-\end{proof}
-\fxwarning{what about u.d. with different blueprints? more general question:
-how are non-determinism and weighting related? orthogonal or dependent?}
+The natural question arises if this closure persists for the complete class of 
+uniformly distributed \acp{WDTA}. For \acp{PBA} we already established with
+Lemma \ref{lem:measureinpba} and its consequences that the choice of the 
+transition probabilities does matter. In this context we discuss some results 
+from \cite{RandAutoInfTrees}. Firstly, we introduce the following example:
+\begin{example}
+  \cite[Example 7]{RandAutoInfTrees}
+  Let $\mathcal{L}$ be the set of all binary trees over $\set{a,b}$ such that
+  under a uniform probability distribution of successors the set of all 
+  branches containing infinitely many $a$ has measure $1$. We can accept 
+  $\mathcal{L}$ with a deterministic uniformly distributed \ac{WDTA} with 
+  Büchi-condition and almost-sure acceptance
+  \begin{equation*}
+    \mathcal{A} = \tuple{\set{q_{a}, q_{b}}, q_{s}, \set{0,1}, \set{a,b}, 
+    \Delta, \set{q_{a}}}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta = \set{
+      \tuple{q_{a}, \sigma, G_{\sigma}}, \tuple{q_{b},\sigma, G_{\sigma}}:
+        \text{for every }\sigma\in\Sigma
+    }
+    \text{ and } G_{\sigma}(q, d) = \begin{cases}
+      \frac{1}{2}&\text{if }q = q_{\sigma}\text{ and both }d,\\
+      0&\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+  The argument that this automaton accepts $\mathcal{L}$ is straightforward 
+  since only those paths that contain infinitely often an $a$ do have 
+  infinitely often a weighted occurence of $q_{a}$; thus, the run of 
+  $\mathcal{A}$ mirrors the input tree $t$ and the language $\mathcal{L}$ is
+  defined analogously to the semantic of \acp{WDTA}. Note that $\mathcal{A}$
+  respects a blueprint $B(0) = B(1) = \frac{1}{2}$ and can therefore be 
+  considered uniformly distributed.
+  \label{ex:udwdta}
+\end{example}
+To this example we additionally introduce
+\begin{proposition}
+  \cite[Proposition 11]{AutoRandInfTrees}
+  For two reals $0 < p < q < 1$ and we define $\mathcal{A}_{p}$ and 
+  $\mathcal{A}_{q}$ analogously to $\mathcal{A}$ from Example \ref{ex:udwdta}
+  but with blueprint $B(0) = p, B(1) = 1-p$ and $B(0) = q, B(1) = 1-q$ 
+  respectively. Then, there is a tree $t$ such that for the unique runs $r_{p}$
+  (and $r_{q}$) of $\mathcal{A}_{p}$ (and $\mathcal{A}_{q}$ respectively) on 
+  $t$ holds that $\mu_{r_{p}}(\Acc(F)) = 0$ while $\mu_{r_{q}}(\Acc(F)) = 1$.
+\end{proposition}
 
 Regarding intersection we observe a significant difference between positive and
 almost-sure acceptance. This is rooted in the \enquote{global} nature of
