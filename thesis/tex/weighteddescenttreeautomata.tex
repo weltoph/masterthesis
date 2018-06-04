@@ -39,8 +39,8 @@ automata and we obtain the following tree automata:
     }.
   \end{equation*}
   The semantics of a \ac{WDTA} $\mathcal{A}$ is given as a run
-  $r:\tuple{Q\times D}^{*}\rightarrow \mathcal{G}_{\mathcal{A}}$ on a tree 
-  $t:D^{*}\rightarrow\Sigma$ with the same requirements as a run for an 
+  $r:\tuple{Q\times D}^{*}\rightarrow \mathcal{G}(\mathcal{A})$ on a tree 
+  $t:D^{*}\rightarrow\Sigma$ with similar requirements as a run for an 
   alternating tree automata, namely
   \begin{enumerate}
     \item $\tuple{q_{0}, t(\epsilon), r(\epsilon)}\in\Delta$,
@@ -57,18 +57,21 @@ of cylinders by
     r(\tuple{q_{1},d_{1}}\dots\tuple{q_{i},d_{i}})(q_{i+1},d_{i+1})
 \end{equation*}
 for every $\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}}\in\tuple{Q\times D}^{*}$
-and uniquely extend this measure to $\mathcal{B}(Q\times D)$. Naturally, the
-acceptance of $r$ is defined by the measure on those paths accepting the 
-condition in the state component, i.e. $\Acc\interval{Q}$. In order to ensure
-the well-formedness of this defintion it is necessary to show the 
-measurability of $\Acc\interval{Q}$. But this is obtained by the same argument
-as for Lemma \ref{lem:measureabilityAcceptance} or respectively Corollary 
+and uniquely extend\footnote{
+  Again, using \cite[Theorem 5.6 (Carath\'{e}odory's extension theorem) and 
+  Theorem 5.4]{Bauer}.
+} this measure to $\mathcal{B}(Q\times D)$. Naturally, the acceptance of $r$ is 
+defined by the measure on those paths accepting the condition in the state 
+component, i.e. $\Acc\interval{Q}$. In order to ensure the well-formedness of 
+this defintion it is necessary to show the measurability of $\Acc\interval{Q}$. 
+But this is obtained by the same argument as for Lemma 
+\ref{lem:measureabilityAcceptance} or respectively Corollary 
 \ref{cor:borelAcceptance} with setting the base-set of the Borel-algebra as
 $Q\times D$ and extending the acceptance conditions accordingly. Hence, we 
 state
 \begin{lemma}
-  For a Büchi-, Parity-, Rabin- or Muller-condition represented as $F, \parity,
-  R, \mathcal{F}$ respectively, the sets $\Acc\interval{Q}(F),
+  For a Büchi-, Parity-, Rabin- or Muller-condition represented as $F$, 
+  $\parity$, $R$, $\mathcal{F}$ respectively, the sets $\Acc\interval{Q}(F),
   \Acc\interval{Q}(\parity),\Acc\interval{Q}(R),\Acc\interval{Q}(\mathcal{F})$
   are measureable in $\mathcal{B}(Q\times D)$.
   \label{lem:treeBorelAcceptance}
@@ -93,10 +96,11 @@ state
   follows analogously to the proof of Corollary \ref{cor:borelAcceptance}.
 \end{proof}
 
-In the following we often focus on parity conditions and motivate this by the
-observation that parity conditions can be used to express all other conditions
-(as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees} and which is
-an integral part of the omitted proof of Theorem \ref{thm:probautoequiv}).
+In the following we often focus on Parity-conditions and motivate this by the
+observation that Parity-conditions are sufficient to express all other 
+conditions (as suggested but not proven in \cite[page 24:9]{RandAutoInfTrees} 
+and which is an integral part of the omitted proof of Theorem 
+\ref{thm:probautoequiv}).
 \begin{lemma}
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
   we can construct an equivalent \ac{WDTA} $\mathcal{B}$ with a 
@@ -202,35 +206,51 @@ categorize \acp{WDTA}, namely
       $\mathcal{A}$. 
   \end{description}
 \end{definition}
-This allows us to categorize the examined tree automata in 
+This allows us to categorize the mainly examined tree automata in 
 \cite{RandAutoInfTrees} as uniformly distributed \acp{WDTA} over a fixed set of
-directions $D = \set{0,1}$ with blueprint a $B(0) = B(1) = \frac{1}{2}$.
+directions $D = \set{0,1}$ with a blueprint $B$ such that
+\begin{equation*}
+  B(0) = B(1) = \frac{1}{2}.
+\end{equation*}
+Given these definitions we explore the theory of \acp{WDTA}.
 
 \subsection{Closure Properties}
-In the following we want to explore the closure properties of the introduced
-\acp{WDTA} regarding union, intersection and negation. Unsuprisingly, the
-non-determinism of the model induces closure under union for certain classes in
-a straightforward manner (as suggested by \cite{RandAutoInfTrees}). We
-generally only examine these properties for automata over the same set of
-directions and the same alphabet.
+In the following we explore the closure properties of \acp{WDTA} regarding 
+union, intersection and negation. Unsuprisingly, the non-determinism of the 
+model induces closure under union for certain classes in a straightforward 
+manner (as suggested by \cite{RandAutoInfTrees}). 
 \begin{proposition}[Union - uni-directional, unrestricted]
   Uni-directional and unrestricted \acp{WDTA} are closed under union.
   \label{prop:uniunrunion}
 \end{proposition}
 \begin{proof}
   For two automata
-  $\mathcal{A}_{1} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{1}, T_{1}}$ and
-  $\mathcal{A}_{2} = \tuple{P, p_{0}, D, \Sigma, \Delta_{2}, T_{2}}$ we can
-  w.l.o.g. assume that $Q\cap P = \emptyset$. The union \ac{WDTA} guesses in
-  the very first transition which of the automata is checked for the tree:
+  $\mathcal{A}_{1} = \tuple{Q_{1}, q^{0}_{1}, D, \Sigma, \Delta_{1}, 
+    \parity_{1}}$ and $\mathcal{A}_{2} = \tuple{Q_{2}, q^{0}_{2}, D, \Sigma, 
+  \Delta_{2}, \parity_{2}}$ we can w.l.o.g. assume that 
+  $Q_{1}\cap Q_{2} = \emptyset$. The union \ac{WDTA} guesses 
+  in the very first transition which of the automata is checked for the tree:
   \begin{equation*}
-    \tuple{Q\cup P\cup\set{z}, z, D, \Sigma,
-    \Delta_{1}\cup\Delta_{2}\cup\set{
-      \tuple{z,\sigma}\mapsto C_{\sigma}}_{\sigma\in\Sigma}, T_{1}\cup T_{2}}
+    \mathcal{B} = \tuple{Q_{1}\cup Q_{2}\uplus\set{q^{i}}, q^{i}, D, \Sigma,
+    \Delta_{1}\cup\Delta_{2}\cup\Delta^{i},\parity_{\cup}}
   \end{equation*}
-  where $z$ is a new state and
-  $C_{\sigma} = \Delta_{1}(q_{0},\sigma)\cup\Delta_{2}(p_{0}, \sigma)$. Thus,
-  in $z$ the decision if a generator from $\mathcal{A}_{1}$ or
+  where $q^{i}$ is a new state and
+  \begin{equation*}
+    \Delta^{i} = \set{
+      \tuple{q^{i},\sigma,G\interval{}}:\text{for every }\tuple{q_{0},\sigma,G}
+      \in\Delta_{1}\text{ and }\tuple{p_{0},\sigma,G}\in\Delta_{2}
+    }
+  \end{equation*}
+  is the union of all initial transitions from $\Delta_{1}$ and $\Delta_{2}$
+  and
+  \begin{equation*}
+    \parity_{\cup}(q) = \begin{cases}
+      \parity_{1}&\text{if }q\in Q\\
+      \parity_{2}&\text{if }q\in P\\
+      \min\tuple{\parity_{1}(Q)\cup\parity_{2}(P)}.&\text{if }q = q^{i}.
+    \end{cases}
+  \end{equation*}
+  The initial decision in $q^{i}$ leads to one generator
   $\mathcal{A}_{2}$ is chosen determines for which automata the run is
   generated. It is noteworthy that every run is in bijection to a run of
   $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ and thus induces the same measurement
