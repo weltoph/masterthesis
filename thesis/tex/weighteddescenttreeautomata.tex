@@ -216,9 +216,12 @@ Given these definitions we explore the theory of \acp{WDTA}.
 
 \subsection{Closure Properties}
 In the following we explore the closure properties of \acp{WDTA} regarding 
-union, intersection and negation. Unsuprisingly, the non-determinism of the 
-model induces closure under union for certain classes in a straightforward 
-manner (as suggested by \cite{RandAutoInfTrees}). 
+union, intersection and negation. Mainly, we re-iterate ideas for \acp{PBA} and
+alternating tree automata. Also, we examine these properties selective, 
+predominantly focusing on almost-surely accepting models because they prove
+most relevant for the examined use-cases later on. Unsuprisingly, the 
+non-determinism of the model induces closure under union for certain classes in 
+a straightforward manner (as suggested by \cite{RandAutoInfTrees}). 
 \begin{proposition}[Union - uni-directional, unrestricted]
   Uni-directional and unrestricted \acp{WDTA} are closed under union for 
   either positive and almost-sure acceptance.
@@ -288,10 +291,12 @@ manner (as suggested by \cite{RandAutoInfTrees}).
   closed under union.
 \end{corollary}
 The natural question arises if this closure persists for the complete class of 
-uniformly distributed \acp{WDTA}. For \acp{PBA} we already established with
-Lemma \ref{lem:measureinpba} and its consequences that the choice of the 
-transition probabilities does matter. In this context we discuss some results 
-from \cite{RandAutoInfTrees}. Firstly, we introduce the following example:
+uniformly distributed \acp{WDTA}. Considering this question we examine the
+relevance of the local probabilities regarding the resulting measure. For 
+\acp{PBA} we already established with Lemma \ref{lem:measureinpba} and its 
+consequences that the choice of the transition probabilities does matter. In 
+this context we discuss some results from \cite{RandAutoInfTrees}. Firstly, we 
+introduce the following example:
 \begin{example}
   \cite[Example 7]{RandAutoInfTrees}
   Let $\mathcal{L}$ be the set of all binary trees over $\set{a,b}$ such that
@@ -333,60 +338,77 @@ To this example we additionally introduce
   (and $r_{q}$) of $\mathcal{A}_{p}$ (and $\mathcal{A}_{q}$ respectively) on 
   $t$ holds that $\mu_{r_{p}}(\Acc(F)) = 0$ while $\mu_{r_{q}}(\Acc(F)) = 1$.
 \end{proposition}
+Thus, the \enquote{local} probabilities are relevant for the global measure
+which is similar to \acp{PBA}. But in both arguments the examined models are
+deterministic in the choice of their transitions. Naturally, this rises 
+questions about the benefit to use non-determinism in probabilistic models. As 
+we see later on the usage of non-determinism is not a limiting factor in some 
+examined decision procedures, e.g. for deciding emptiness. Nevertheless, we 
+leave the question for the closure under union for uniformly distributed
+\acp{WDTA} open (cp. also \cite[Remark 12]{AutoRandInfTrees}).
 
-Regarding intersection we observe a significant difference between positive and
-almost-sure acceptance. This is rooted in the \enquote{global} nature of
-almost-sure acceptance while positive acceptance can be accomplished by
-\enquote{local} phenomenon, e.g. one accepted subtree somewhere in the tree.
+Regarding intersection we provide a construction to show closure under 
+intersection for \acp{WDTA} under almost-sure acceptance. For positive 
+acceptance the closure under intersection is provided for uniformly distributed
+\acp{WDTA} with common blueprint. As we will see the defined construction for
+almost-sure acceptance actually can be used to show closure under union for
+positively accepting \acp{WDTA}. Since it utilizes the same construction as for
+positively accepting \acp{PBA} or alternating tree automata respectively.
 Thus, for almost-sure acceptance a general intersection operator can separate
 in the first transition the runs of both \ac{WDTA} with a probability of
-$\frac{1}{2}$ each.\fxwarning{add picture} Both these runs do individually need
-an acceptance measure of $1$ to render the new run almost-surely accepted.
-This can be captured with the following lemma
-\begin{lemma}
-  A run $r:T\rightarrow \mathcal{G}_{\mathcal{A}}$ of $\mathcal{A}$ is
-  almost-surely accepted if and only if every subtree of $r$ is almost-surely
-  accepted.
-  \label{lem:subtreeacc}
-\end{lemma}
-\fxfatal{heavily rewrite proof; maybe find reference for a comparable lemma}
-\begin{proof}
-  Considering that the examined acceptance conditions in this thesis are all
-  history independent, i.e. for every $\alpha$ that satisfies an acceptance
-  condition if and only if every $\beta$ with $\alpha = u\cdot\beta$ for a
-  finite $u$ satisfies the condition. If all subtrees of $r$ are almost-surely
-  accepted then $r$ itself. On the other hand, if not all subtrees of $r$ are
-  almost-surely accepted then there is a finite path to a non accepted subtree
-  with a positive measure $m$. The measure of accepted path in the subtree is
-  then $n<1$, hence $r$ is at least $m\cdot n$ short of measure $1$.
-\end{proof}
-which yields the following theorem
+$\frac{1}{2}$ each. Both these runs do individually need an acceptance measure 
+of $1$ to render the new run almost-surely accepted.
 \begin{proposition}
-  Unrestricted \acp{WDTA} with almost-sure acceptance are closed under
-  intersection.
+  \acp{WDTA} with almost-sure acceptance are closed under intersection.
 \end{proposition}
 \begin{proof}
   We introduce the intersection automaton as follows
   \begin{definition}
-    For $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$ and
-    $\mathcal{B} = \tuple{P, p_{0}, D, \Sigma, \Delta', \parity'}$ we define
+    For 
     \begin{equation*}
-      \mathcal{C} = \tuple{Q\uplus P\uplus\set{b}, b, D, \Sigma,
-      \Delta\uplus\Delta'\uplus\nabla, \parity\uplus\parity'\uplus
-      \set{b\mapsto 0}}
+      \mathcal{A}_{1} = \tuple{
+        Q_{1}, q^{1}_{0}, D, \Sigma, \Delta_{1}, \parity_{1}}
+      \text{ and }
+      \mathcal{A}_{2} = \tuple{
+        Q_{2}, q^{2}_{0}, D, \Sigma, \Delta_{2}, \parity_{2}}
+    \end{equation*}
+    (again assuming w.l.o.g. that $Q_{1}\cap Q_{2} = \emptyset$) we define
+    \begin{equation*}
+      \mathcal{C} = \tuple{
+        Q_{1}\cup Q_{2}\uplus\set{q_{\cap}}, q_{\cap}, D, \Sigma, 
+        \Delta_{1}'\cup\Delta_{2}'\cup\Delta_{\cap}, \parity_{\cap}
+      }
     \end{equation*}
     with
     \begin{equation*}
-      \Delta(q_{0},\sigma) = \set{G_{\sigma}^{1},\dots,G_{\sigma}^{n}}
-      \text{ and }
-      \Delta(p_{0},\sigma) = \set{K_{\sigma}^{1},\dots,K_{\sigma}^{m}}
+      \Delta_{i}' = \set{
+        \tuple{q,\sigma,G\interval{Q_{3-i}\cup\set{
+          q_{\cap}}\mapsto 0}}:\tuple{q,\sigma, G}\in\Delta_{i}
+      }\text{ for }i = 1,2,
     \end{equation*}
-    we set
+    and
     \begin{equation*}
-      \nabla(b,\sigma) = \bigcup^{1\leq i\leq n}_{1\leq j\leq m}\set{
-        \frac{G_{\sigma}^{i}}{2} \cup \frac{K_{\sigma}^{j}}{2}}
+      \Delta_{\cap} = \set{
+        \tuple{q_{\cap},\sigma, G^{G_{1}}_{G_{2}}}: \text{for all }
+        \tuple{q^{i}_{0},\sigma, G_{i}}\in\Delta_{i}, i = 1,2
+      }
     \end{equation*}
-    where $\frac{G}{2}$ describes the halving of every function value of $G$.
+    where
+    \begin{equation*}
+      G^{G_{1}}_{G_{2}}(q,d) = \begin{cases}
+        \frac{1}{2}\cdot G_{i}(q,d)&\text{if }q\in Q_{i}\text{ for }i = 1,2,\\
+        0&\text{otherwise}.
+      \end{cases}
+    \end{equation*}
+    Regarding the acceptance condition we choose to use every individual 
+    acceptance condition and render $q_{\cap}$ irrelevant by setting
+    \begin{equation*}
+      \parity_{\cap}(q) = \begin{cases}
+        \parity_{i}(q)&\text{if }q\in Q_{i}\\
+        \min\set{\parity_{1}(q_{0}^{1}),\parity_{2}(q_{0}^{2})}&\text{
+          otherwise}.
+      \end{cases}
+    \end{equation*}
   \end{definition}
   Any run $r$ of $\mathcal{C}$ on a tree $t$ consists of two parallel runs on
   $t$, namely $r_{\mathcal{A}}$ of $\mathcal{A}$ and $r_{\mathcal{B}}$ of
