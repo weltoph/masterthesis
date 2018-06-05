@@ -221,7 +221,8 @@ alternating tree automata. Also, we examine these properties selective,
 predominantly focusing on almost-surely accepting models because they prove
 most relevant for the examined use-cases later on. Unsuprisingly, the 
 non-determinism of the model induces closure under union for certain classes in 
-a straightforward manner (as suggested by \cite{RandAutoInfTrees}). 
+a straightforward manner (as suggested by 
+\cite[Proposition 14]{RandAutoInfTrees}). 
 \begin{proposition}[Union - uni-directional, unrestricted]
   Uni-directional and unrestricted \acp{WDTA} are closed under union for 
   either positive and almost-sure acceptance.
@@ -311,7 +312,7 @@ introduce the following example:
   with
   \begin{equation*}
     \Delta = \set{
-      \tuple{q_{a}, \sigma, G_{\sigma}}, \tuple{q_{b},\sigma, G_{\sigma}}:
+      \tuple{q_{\sigma}, \sigma, G_{\sigma}}:
         \text{for every }\sigma\in\Sigma
     }
     \text{ and } G_{\sigma}(q, d) = \begin{cases}
@@ -330,7 +331,7 @@ introduce the following example:
 \end{example}
 To this example we additionally introduce
 \begin{proposition}
-  \cite[Proposition 11]{AutoRandInfTrees}
+  \cite[Proposition 11]{RandAutoInfTrees}
   For two reals $0 < p < q < 1$ and we define $\mathcal{A}_{p}$ and 
   $\mathcal{A}_{q}$ analogously to $\mathcal{A}$ from Example \ref{ex:udwdta}
   but with blueprint $B(0) = p, B(1) = 1-p$ and $B(0) = q, B(1) = 1-q$ 
@@ -345,7 +346,7 @@ questions about the benefit to use non-determinism in probabilistic models. As
 we see later on the usage of non-determinism is not a limiting factor in some 
 examined decision procedures, e.g. for deciding emptiness. Nevertheless, we 
 leave the question for the closure under union for uniformly distributed
-\acp{WDTA} open (cp. also \cite[Remark 12]{AutoRandInfTrees}).
+\acp{WDTA} open (cp. also \cite[Remark 12]{RandAutoInfTrees}).
 
 Regarding intersection we provide a construction to show closure under 
 intersection for \acp{WDTA} under almost-sure acceptance. For positive 
@@ -410,15 +411,76 @@ of $1$ to render the new run almost-surely accepted.
       \end{cases}
     \end{equation*}
   \end{definition}
-  Any run $r$ of $\mathcal{C}$ on a tree $t$ consists of two parallel runs on
-  $t$, namely $r_{\mathcal{A}}$ of $\mathcal{A}$ and $r_{\mathcal{B}}$ of
-  $\mathcal{B}$. By Lemma \ref{lem:subtreeacc} holds that $r$ is almost-surely
-  accepted if and only if every subtree of $r$ is almost-surely accepted which
-  holds if and only if every subtree of $r_{\mathcal{A}}$ and $r_{\mathcal{B}}$
-  is almost-surely accepted. This characterisation yields the claimed equality.
+  Analogously to the proof of Corollary \ref{cor:treeintersection} we can 
+  identify two independent runs on the tree. The main observation is that no
+  weighting is exchanged between the $Q_{1}$ and $Q_{2}$ part of any run. Let
+  $r$ be a run of $\mathcal{C}$ on a tree $t$, then for all $u\in \tuple{
+    \tuple{Q_{1}\cup Q_{2}}\times D}^{*}\setminus\tuple{
+    \tuple{Q_{1}\times D}^{*}\cup\tuple{Q_{2}\times D}^{*}}$ we have 
+  $\mu_{r}(\cyl(u)) = 0$. Additionally, we can find two runs $r_{1}$ and 
+  $r_{2}$ for $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively on $t$ such
+  that for every $u\in\tuple{Q_{1}\times D}^{+}$ and 
+  $w\in\tuple{Q_{2}\times D}^{+}$ holds $r_{1}(u)=r(u)$ and $r_{2}(w)=r(w)$ 
+  since $\Delta_{i}'$ mirrors $\Delta_{i}$ for $i= 1,2$ respectively (note that
+  also for every two such runs $r_{1}$ and $r_{2}$ a run $r$ in $\mathcal{C}$
+  exists. By construction of $\Delta_{\cap}$ we can additionally state that 
+  $\mu_{r}(\cyl(u)) = \frac{1}{2}\cdot\mu_{r_{1}}(\cyl(u))$ and 
+  $\mu_{r}(\cyl(u)) = \frac{1}{2}\cdot\mu_{r_{2}}(\cyl(w))$ respectively. Using
+  the fact that $\Acc(\parity_{\cap})$ coincides with $\Acc(\parity_{1})$ and
+  $\Acc(\parity_{2})$ on $\tuple{Q_{1}\times D}^{\omega}$ and 
+  $\tuple{Q_{2}\times D}^{\omega}$ allows us to concludingly state that
+  \begin{equation*}
+    \mu_{r}(\Acc(\parity_{\cap})) = 
+      \frac{1}{2}\cdot\mu_{r_{1}}(\Acc(\parity_{1})) 
+    + \frac{1}{2}\cdot\mu_{r_{2}}(\Acc(\parity_{2})).
+  \end{equation*}
+  Hence, $\mu_{r}(\Acc(\parity_{\cap})) = 1$ if and only if 
+  $\mu_{r_{1}}(\Acc(\parity_{1})) = 1$ and 
+  $\mu_{r_{2}}(\Acc(\parity_{2})) = 1$ which ensures that $\mathcal{C}$ indeed
+  accepts the intersection of $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$. Note 
+  that this construction respects choicelessness of the original automata.
+
+  Additionally, we can observe that $\mu_{r}(\Acc(\parity_{\cap})) > 0$ if and 
+  only if $\mu_{r_{1}}(\Acc(\parity_{1}))>0$ or 
+  $\mu_{r_{2}}(\Acc(\parity_{2}))>0$; and therefore we can use $\mathcal{C}$ as
+  alternative construction to ensure the closure of \acp{WDTA} with positive
+  acceptance.
 \end{proof}
-For uni-directional \acp{WDTA} with common blueprint the common product
-construction for intersection leads to a intersection operator, hence
+\begin{corollary}
+  The class of languages that can be recognized by choiceless \acp{WDTA} with
+  almost-sure (positive) acceptance is closed under intersection (union).  
+\end{corollary}
+Actually, this results hints at the duality between choiceless \acp{WDTA} with 
+positive acceptance and almost-sure acceptance.
+\begin{proposition}
+  For every choiceless \acp{WDTA}-skeleton (which are the structural components
+  but not an acceptance condition) 
+  $\mathcal{S} = \tuple{Q, q_{0}, D, \Sigma, \Delta}$ the
+  \ac{WDTA} $\mathcal{A} = \tuple{\mathcal{S}, \parity}$ with positive 
+  (almost-sure) acceptance is dual to the \ac{WDTA} 
+  $\mathcal{C} = \tuple{\mathcal{S}, \parity + 1}$ with almost-sure (positive)
+  acceptance.
+\end{proposition}
+\begin{proof}
+  We already argued in the proof of Theorem \ref{thm:omegaregboolean} that 
+  increasing all parities by one exchanges accepting and non-accepting paths,
+  therefore
+  \begin{equation*}
+    \tuple{Q\times D}^{\omega} = 
+      \Acc\interval{Q}(\parity)\cup\Acc\interval{Q}(\parity + 1)
+    \text{ with }
+      \Acc\interval{Q}(\parity)\cap\Acc\interval{Q}(\parity + 1) = \emptyset.
+  \end{equation*}
+  Hence, for the unique run $r_{t}$ of $\mathcal{S}$ on every $t$ we obtain 
+  that $\mu_{r_{t}}(\Acc\interval{Q}(\parity)) = 
+    1 - \mu_{r_{t}}(\Acc\interval{Q}(\parity + 1)$ and therefore we get that
+  $\mathcal{A}$ accepts $t$ almost-surely (positively) if and only if
+  $\mathcal{C}$ does not accept $t$ positively (almost-surely).
+\end{proof}
+For uni-directional \acp{WDTA} with common blueprint we can relate on the 
+common product construction for intersection to yield an intersection operator.
+The details of this argument can be found in 
+\cite[Proposition 14]{RandAutoInfTrees}
 \begin{proposition}
   Uni-directional \acp{WDTA} with common blueprint are closed under
   intersection.
