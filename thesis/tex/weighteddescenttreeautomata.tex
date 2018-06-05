@@ -486,6 +486,183 @@ The details of this argument can be found in
   intersection.
 \end{proposition}
 
+For the negation we initially consider one example:
+\begin{example}
+  We consider $\mathcal{L}$ as the language of all binary $\set{a,b}$-trees 
+  such that there is at least one path without an $a$. It is easy to accept 
+  this language with a \acp{WDTA} by implementing a search of such a path. We 
+  define
+  \begin{equation*}
+    \mathcal{A} = \tuple{
+      \set{q_{s}, q_{f}}, q_{s}, \set{0,1}, \set{a,b}, \Delta, \parity
+    }
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta = \set{\tuple{q_{s}, b, G_{d}}:\text{ for }d\in\set{0,1}}\cup
+    \set{
+      \tuple{q_{s}, a, G_{f}},\tuple{q_{f}, a, G_{f}},\tuple{q_{f}, a, G_{f}}
+    }
+  \end{equation*}
+  with
+  \begin{equation*}
+    G_{d}(q, b) = \begin{cases}
+      1&\text{if }b = d\text{ and }q = q_{s},\\
+      0&\text{otherwise},
+    \end{cases}
+    \text{ and }
+    G_{f}(q, d) = \begin{cases}
+      \frac{1}{2}&\text{if }q = q_{f},\\
+      0&\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+  Furthermore, we set
+  \begin{equation*}
+    \parity(q_{s}) = 0\text{ and }\parity(q_{f}) = 1.
+  \end{equation*}
+  The automaton accepts by guessing a path which only contains of $b$ and thus
+  staying within state $q_{s}$ and obtain an accepting run with measure $1$.
+  On the other hand, if any $a$ is observed at any time, the run is deemed to
+  fail, since the weighting shifts to a uniform distribution on state $q_{f}$
+  rendering all weighted paths in the run non-accepting.
+  \label{ex:wdtaapath}
+\end{example}
+This example allows us to argue about the negation, namely we state (as for the
+more restricted environment from \cite[Proposition 15]{RandAutoInfTrees})
+\begin{proposition}
+  The class of languages that are almost-surely accepted by \acp{WDTA} is 
+  \emph{not} closed under negation.
+\end{proposition}
+\begin{proof}
+  Naturally, we consider the language $\mathcal{L}$ from Example 
+  \ref{ex:wdtaapath} and its complement, i.e. the language 
+  $\overline{\mathcal{L}}$ of binary $\set{a,b}$-trees such that every path 
+  contains at least one $a$. We show that $\overline{\mathcal{L}}$ is not 
+  recognizeable by a \ac{WDTA} and the argument is conceptually simple. We 
+  consider a tree with precisely one path that does not contain an $a$ but all
+  other paths conceal their $a$ farther and farther which induces the necessity
+  to carry weight in a certain width. This allows to argue that the measure of
+  the one non-accepting path is negligeable. We define 
+  $t:\set{0,1}^{*}\rightarrow\set{a,b}$ with $t(u) = a$ if and only if 
+  $u\in \set{0,1}^{*}1$.
+
+  \fxfatal{end proof}
+\end{proof}
+
+\section{Modelling in \acp*{WDTA}}
+We want to motivate the introduction of \acp{WDTA} by showing their strength to
+model the behaviour of other probabilistic models. We want to initially 
+consider \acp{PBA}. By reducing the directions to a singelton set a tree 
+degenerates to a single path. This path can be interpreted as one word and the 
+run of a \ac{PBA} on that word can be modelled as a run of a \ac{WDTA}:
+\begin{theorem}
+  For every \ac{PBA} $\mathcal{P}$ existent an equivalent \ac{WDTA}
+  $\mathcal{A}$ over a singleton direction set and Büchi-condition and for 
+  every \emph{choiceless} \ac{WDTA} $\mathcal{A}$ with a Büchi-condition and a
+  singleton direction set exists an equivalent \ac{PBA}.
+  \label{theorem:pbaequiv}
+\end{theorem}
+\begin{proof}
+  For a \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ we define
+  \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta, F}$ with
+  \begin{equation*}
+    \Delta = \set{
+      \tuple{q,\sigma,G_{q}^{\sigma}}:\text{for every }q\in Q,\sigma\in\Sigma
+    }\text{ with }G_{q}^{\sigma}(p, 0) = \delta(q,\sigma,p).
+  \end{equation*}
+  By interpreting words $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$
+  as \enquote{trees} $t_{\alpha}:\set{0}^{*}\rightarrow\Sigma$ with 
+  $t(u) = \alpha_{\size{u}}$ allows us to state that for the unique run 
+  $r_{t_{\alpha}}$ of $\mathcal{A}$ on $t_{\alpha}$ and any 
+  $u = \tuple{q_{1}, 0}\dots\tuple{q_{n}, 0}\in\mathcal{Q\times D}^{*}$
+  \begin{align*}
+    \mu_{r}(\cyl(u)) &= G_{q_{0}}^{t_{\alpha}(\epsilon)}(q_{1},0)\cdot
+      \prod\limits_{i=1}^{n-1}G_{q_{i}}^{t_{\alpha}(0^{i})}(q_{i+1}, 0)\\
+      &=\delta(q_{0},t_{\alpha}(\epsilon),q_{1})\cdot
+      \delta(q_{1},t_{\alpha}(0),q_{2})\dots\delta(q_{n-1},t_{\alpha}(0^{n}),q_{n})\\
+      &=\delta(q_{0},\alpha_{0},q_{1})\cdot
+      \delta(q_{1},\alpha_{1},q_{2})\dots\delta(q_{n-1},\alpha_{n-1},q_{n}).
+  \end{align*}
+  Thus, projecting the run $r$ to the state sequences yields an equivalent 
+  measure on $\mathcal{B}(Q)$ as the stochastic process of $\mathcal{P}$. Since
+  the acceptance conditions also coincide we can ensure that the automata are
+  equivalent regarind positive as well as almost-sure acceptance.
+\end{proof}
+This directly entails some undecideability results carried over from \acp{PBA}.
+\begin{corollary}
+  The undecideability of the emptiness problem for \acp{PBA} with positive
+  acceptance \cite{Groesser} renders the emptiness problem for \acp{WDTA} with
+  positive acceptance undecideable.
+\end{corollary}
+\begin{corollary}
+  The emptiness problem for \acp{WDTA} with almost-sure acceptance is
+  undecideable.
+\end{corollary}
+\begin{proof}
+  By \cite[Proof of Theorem 1]{DecProblemsForProbAuto} there is an equivalent
+  probabilistic Rabin automaton for which the accepted paths have either
+  measure $0$ or $1$ for every \ac{PBA} with positive acceptance. Thus, for the
+  the equivalent \ac{WDTA} to this probabilistic Rabin automaton positive and
+  almost-sure acceptance coincides rendering the emptiness problem for both
+  acceptance criteria undecideable.
+\end{proof}
+Note that this undecideability result does not contradict the decideable
+emptiness for \acp{WDTA} with Büchi condition and almost-sure acceptance but
+simply shows that Büchi conditions are less expressive (as it is for
+non-weighted tree automata\fxfatal{find reference}).
+
+Having used the fact that moving from Büchi to Rabin acceptance conditions
+allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
+acceptance sparks the question if this can be translated to choiceless
+\acp{WDTA} as well. Unfortunately, this question can be answered negatively
+with
+\begin{proposition}
+  There exists a language that is accepted by a choiceless \ac{WDTA} with a
+  positive acceptance of a Büchi condition that is not accepted by any
+  choiceless \ac{WDTA} with a Muller condition.
+\end{proposition}
+\begin{proof}
+  We define $\mathcal{L}_{\exists a}$ as the language of all trees with
+  directions $\set{0,1}$ over the alphabet $\set{a,b}$ that do contain an $a$.
+  First, we show that this language can be accepted by a choiceless Büchi
+  \ac{WDTA} with positive acceptance of a Büchi condition. But this is
+  straightforward by constructing a \ac{WDTA} with two states $q_{a}, q_{b}$
+  where $q_{b}$ is the initial state. The final state is $q_{a}$ and we
+  distribute uniformely over both branches $q_{b}$ until an $a$ occurs where
+  the automaton distributes uniformely the state $q_{a}$ regardless of the read
+  letter, thus $q_{a}$ is a positive sink-state. Any tree that is accepted does
+  necessarily contain an $a$ since it is the only chance to produce an
+  acceptance subtree and conversely, if a tree does contain an $a$ there is a
+  finite path of length $n$ towards the subtree rooted at this occurence of $a$,
+  hence in the run of the automaton on this tree there is an accepted subtree
+  which is reached with probability $(\frac{1}{2})^{n} > 0$ rendering the run
+  accepting for this tree.
+
+  On the other hand we show that there is no choiceless \ac{WDTA} with an
+  almost-sure Muller condition that accepts precisely $\mathcal{L}_{\exists a}$.
+  For this consider three trees $t_{0}, t_{1}, t_{b}$ where every letter in
+  $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ only
+  contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with an
+  almost-sure acceptance of a Muller condition to accept
+  $\mathcal{L}_{\exists a}$. The unique runs of $A$ on $t_{0},t_{1}, t_{b}$ do
+  start with the same distribution in the root since
+  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ and $\mathcal{A}$
+  is choiceless and the runs on $t_{0}$ and $t_{1}$ are accepting.
+  Furthermore, we can savely assume that at least on state in each direction
+  does carry weight. Because if w.l.o.g. no state in direction $0$ carries any
+  weight the measure on all accepted runs for the run on $t_{0}$ and $t_{b}$ is
+  equal. Thus, either $t_{0}$ is not accepted or $t_{b}$ is accepted. Both
+  cases contradict the assumption that $\mathcal{A}$ precisely accepts
+  $\mathcal{L}_{\exists a}$. Additionally, for every state that carries weight
+  in the first level of the run of $\mathcal{A}$ on either $t_{0}$ or $t_{1}$
+  does need to have a almost-sure measure on its accepted paths. But those
+  states on the left side produce for $t_{1}$ and $t_{b}$ the same paths, while
+  the states on the right side produce for $t_{0}$ and $t_{b}$ produce the same
+  paths. These paths are almost-surely accepted for $t_{0}$ (resp. $t_{1}$) and
+  therefore also for $t_{b}$ rendering the unique run on $t_{b}$ almost-surely
+  accepted yielding the desired contradiction and concluding the proof.
+\end{proof}
+
 \subsection{Emptiness}
 Similarly to \acp{PBA}, we want to define for a given \ac{WDTA} $\mathcal{A}$
 a game that captures the behaviour of $\mathcal{A}$. Again, this will result in
@@ -658,101 +835,6 @@ direction is viable and, indeed, it is.
   which coincides with the measure for $\mu_{s}(\cyl(u))$ in $\mathcal{M}$.
 \end{proof}
 
-\subsection{Equivalence of \acp*{WDTA} and \acp*{PBA}}
-By reducing the directions to a singelton set a tree degenerates to a single
-path. This path can be interpreted as one word and thus, we can incorporate the
-concept of \acp{PBA} into the theory of \acp{WDTA} by the following theorem
-\begin{theorem}
-  For every \ac{PBA} $\mathcal{P}$ existent an equivalent \ac{WDTA}
-  $\mathcal{A}$ and for every choiceless \ac{WDTA} $\mathcal{A}$ with
-  $\size{D_{\mathcal{A}}} = 1$ exists an equivalent \ac{PBA}.
-  \label{theorem:pbaequiv}
-\end{theorem}
-\begin{proof}
-  For a \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ we define
-  \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta, F}$ with
-  $\Delta(q,\sigma) = \set{G_{q}^{\sigma}}$ and
-  $G_{q}^{\sigma}(p, 0) = \delta(q, \sigma, p)$. A word
-  $\alpha\in\Sigma^{\omega}$ can be expressed equivalently as function
-  $\alpha:\mathbb{N}\rightarrow\Sigma$ and with the bijective mapping of $0^n$
-  to $n$ we obtain an equivalent tree $\alpha:\set{0}^{*}\rightarrow\Sigma$.
-  The (unique) run of $\mathcal{A}$ on $\alpha$ is in bijection to the runtree
-  of $\mathcal{P}$ on $\alpha$ which yields the claimed equality.
-\end{proof}
-This directly entails some undecideability results carried over from \acp{PBA}.
-\begin{corollary}
-  The undecideability of the emptiness problem for \acp{PBA} with positive
-  acceptance \cite{Groesser} renders the emptiness problem for \acp{WDTA} with
-  positive acceptance undecideable.
-\end{corollary}
-\begin{corollary}
-  The emptiness problem for \acp{WDTA} with almost-sure acceptance is
-  undecideable.
-\end{corollary}
-\begin{proof}
-  By \cite[Proof of Theorem 1]{DecProblemsForProbAuto} there is an equivalent
-  probabilistic Rabin automaton for which the accepted paths have either
-  measure $0$ or $1$ for every \ac{PBA} with positive acceptance. Thus, for the
-  the equivalent \ac{WDTA} to this probabilistic Rabin automaton positive and
-  almost-sure acceptance coincides rendering the emptiness problem for both
-  acceptance criteria undecideable.
-\end{proof}
-Note that this undecideability result does not contradict the decideable
-emptiness for \acp{WDTA} with Büchi condition and almost-sure acceptance but
-simply shows that Büchi conditions are less expressive (as it is for
-non-weighted tree automata\fxfatal{find reference}).
-
-Having used the fact that moving from Büchi to Rabin acceptance conditions
-allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
-acceptance sparks the question if this can be translated to choiceless
-\acp{WDTA} as well. Unfortunately, this question can be answered negatively
-with
-\begin{proposition}
-  There exists a language that is accepted by a choiceless \ac{WDTA} with a
-  positive acceptance of a Büchi condition that is not accepted by any
-  choiceless \ac{WDTA} with a Muller condition.
-\end{proposition}
-\begin{proof}
-  We define $\mathcal{L}_{\exists a}$ as the language of all trees with
-  directions $\set{0,1}$ over the alphabet $\set{a,b}$ that do contain an $a$.
-  First, we show that this language can be accepted by a choiceless Büchi
-  \ac{WDTA} with positive acceptance of a Büchi condition. But this is
-  straightforward by constructing a \ac{WDTA} with two states $q_{a}, q_{b}$
-  where $q_{b}$ is the initial state. The final state is $q_{a}$ and we
-  distribute uniformely over both branches $q_{b}$ until an $a$ occurs where
-  the automaton distributes uniformely the state $q_{a}$ regardless of the read
-  letter, thus $q_{a}$ is a positive sink-state. Any tree that is accepted does
-  necessarily contain an $a$ since it is the only chance to produce an
-  acceptance subtree and conversely, if a tree does contain an $a$ there is a
-  finite path of length $n$ towards the subtree rooted at this occurence of $a$,
-  hence in the run of the automaton on this tree there is an accepted subtree
-  which is reached with probability $(\frac{1}{2})^{n} > 0$ rendering the run
-  accepting for this tree.
-
-  On the other hand we show that there is no choiceless \ac{WDTA} with an
-  almost-sure Muller condition that accepts precisely $\mathcal{L}_{\exists a}$.
-  For this consider three trees $t_{0}, t_{1}, t_{b}$ where every letter in
-  $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ only
-  contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with an
-  almost-sure acceptance of a Muller condition to accept
-  $\mathcal{L}_{\exists a}$. The unique runs of $A$ on $t_{0},t_{1}, t_{b}$ do
-  start with the same distribution in the root since
-  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ and $\mathcal{A}$
-  is choiceless and the runs on $t_{0}$ and $t_{1}$ are accepting.
-  Furthermore, we can savely assume that at least on state in each direction
-  does carry weight. Because if w.l.o.g. no state in direction $0$ carries any
-  weight the measure on all accepted runs for the run on $t_{0}$ and $t_{b}$ is
-  equal. Thus, either $t_{0}$ is not accepted or $t_{b}$ is accepted. Both
-  cases contradict the assumption that $\mathcal{A}$ precisely accepts
-  $\mathcal{L}_{\exists a}$. Additionally, for every state that carries weight
-  in the first level of the run of $\mathcal{A}$ on either $t_{0}$ or $t_{1}$
-  does need to have a almost-sure measure on its accepted paths. But those
-  states on the left side produce for $t_{1}$ and $t_{b}$ the same paths, while
-  the states on the right side produce for $t_{0}$ and $t_{b}$ produce the same
-  paths. These paths are almost-surely accepted for $t_{0}$ (resp. $t_{1}$) and
-  therefore also for $t_{b}$ rendering the unique run on $t_{b}$ almost-surely
-  accepted yielding the desired contradiction and concluding the proof.
-\end{proof}
 
 \subsection{A forrest of languages}
 The different structural properties of \acp{WDTA} introduce different language
