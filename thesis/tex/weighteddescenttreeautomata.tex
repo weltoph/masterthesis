@@ -105,6 +105,7 @@ and which is an integral part of the omitted proof of Theorem
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
   we can construct an equivalent \ac{WDTA} $\mathcal{B}$ with a 
   Parity-condition.
+  \label{lem:wdtaparityexpressiveness}
 \end{lemma}
 \begin{proof}
   Firstly, we observe that Büchi- and Rabin-conditions can be expressed
@@ -574,20 +575,120 @@ run of a \ac{PBA} on that word can be modelled as a run of a \ac{WDTA}:
   as \enquote{trees} $t_{\alpha}:\set{0}^{*}\rightarrow\Sigma$ with 
   $t(u) = \alpha_{\size{u}}$ allows us to state that for the unique run 
   $r_{t_{\alpha}}$ of $\mathcal{A}$ on $t_{\alpha}$ and any 
-  $u = \tuple{q_{1}, 0}\dots\tuple{q_{n}, 0}\in\mathcal{Q\times D}^{*}$
+  $u = \tuple{q_{1}, 0}\dots\tuple{q_{n}, 0}\in\tuple{Q\times D}^{*}$
   \begin{align*}
     \mu_{r}(\cyl(u)) &= G_{q_{0}}^{t_{\alpha}(\epsilon)}(q_{1},0)\cdot
       \prod\limits_{i=1}^{n-1}G_{q_{i}}^{t_{\alpha}(0^{i})}(q_{i+1}, 0)\\
       &=\delta(q_{0},t_{\alpha}(\epsilon),q_{1})\cdot
-      \delta(q_{1},t_{\alpha}(0),q_{2})\dots\delta(q_{n-1},t_{\alpha}(0^{n}),q_{n})\\
+      \delta(q_{1},t_{\alpha}(0),q_{2})\dots
+        \delta(q_{n-1},t_{\alpha}(0^{n}),q_{n})\\
       &=\delta(q_{0},\alpha_{0},q_{1})\cdot
       \delta(q_{1},\alpha_{1},q_{2})\dots\delta(q_{n-1},\alpha_{n-1},q_{n}).
   \end{align*}
   Thus, projecting the run $r$ to the state sequences yields an equivalent 
   measure on $\mathcal{B}(Q)$ as the stochastic process of $\mathcal{P}$. Since
   the acceptance conditions also coincide we can ensure that the automata are
-  equivalent regarind positive as well as almost-sure acceptance.
+  equivalent regarding positive as well as almost-sure acceptance.
+
+  For the opposite direction, we fix a choiceless \ac{WDTA} with a 
+  Büchi-condition and a singleton direction set (w.l.o.g. $D = \set{0}$)
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D , \Sigma, \Delta, F}.
+  \end{equation*}
+  By the choicelessness of $\mathcal{A}$ there is exactly one 
+  $\tuple{q,\sigma, G}\in\Delta$ for every pair $q\in Q$ and $\sigma\in\Sigma$.
+  We denote with $G_{q}^{\sigma}$ this unique $G$. The construction of an
+  equivalent \ac{PBA}
+  \begin{equation*}
+    \mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}
+  \end{equation*}
+  with $\delta(q,\sigma, p) = G_{q}^{\sigma}(p, 0)$. Translating any tree
+  $t:\set{0}^{*}\rightarrow\Sigma$ to an associated word 
+  $\alpha_{t} = t(\epsilon)t(0)t(00)t(000)\dots$ allows us to argue that for 
+  the unique run $r$ of $\mathcal{A}$ on any $t$ the can be projected to a 
+  function $r':Q^{*}\rightarrow\mathcal{G}_{\mathcal{A}}$ by dropping the 
+  direction set (since $\size{D} = 1$ this is actually a bijection between
+  $\tuple{Q\times D}^{*}$ and $Q^{*}$). This $r'$ induces for all $u\in Q^{*}$
+  the same measure for $\cyl(u)$ as the stochastic process of $\mathcal{P}$.
+  Naturally, the induced measure on $\mathcal{B}(Q)$ coincide and by 
+  equivalence of the acceptance condition also the measure of all accepted 
+  paths.
 \end{proof}
+The central concept here is the equivalence of the measures on 
+$\mathcal{B}(Q)$. Naturally, the equivalence can be expanded to all measureable
+acceptance conditions. This directly entails
+\begin{corollary}
+  For every probabilistic word automaton $\mathcal{P}$ with a Rabin-, Parity- 
+  or Muller-condition exists an equivalent \ac{WDTA} $\mathcal{A}$ over a 
+  singleton direction set and equivalent acceptance condition and for 
+  every \emph{choiceless} \ac{WDTA} $\mathcal{A}$ with a Rabin-, Parity- or
+  Muller-condition over a singleton direction set exists an equivalent
+  probabilistic word automaton $\mathcal{P}$.
+\end{corollary}
+By the combination of this result and the sufficiency of Parity-conditions to
+express all other acceptance conditions for \acp{WDTA} (Lemma 
+\ref{lem:wdtaparityexpressiveness}) provides the basis to infer the equivalence 
+of \enquote{strong} acceptance conditions for \acp{PBA} (Theorem 
+\ref{thm:probautoequiv}) as a corollary.
+
+In the following we want to examine a very interesting observation, namely that
+any run of a \ac{WDTA} effectively is a unrollment of a transition system which
+is induced by a tree $t$. This behavior appears very similar to the concept of
+\acp{MDP} where the strategy of the actor unrolls the transition system. 
+Indeed, we establish a very deep connection between \acp{POMDP}. Initially, we
+show that \acp{WDTA} can be used to model \acp{POMDP} where trees are 
+interpreted as strategies. Furthermore, we use the mechanism of \acp{POMDP} to
+establish decideability results for algorithmic questions about \acp{WDTA},
+e.g. deciding emptiness. This allows us to reveal intriguing connections 
+between tree automata and \acp{POMDP}; for example the fact that alternation in
+tree automata models partial observability in \acp{MDP}.
+\begin{theorem}
+  For every \ac{POMDP} $\mathcal{M}$ exists a choiceless \ac{WDTA}-skeleton 
+  $\mathcal{S}$ such that strategies for $\mathcal{M}$ when used as input
+  for $\mathcal{S}$ induce equivalent probability spaces on the executions of 
+  $\mathcal{M}$ and state sequences of $\mathcal{S}$.
+  \label{thm:POMDPequivWDTA}
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$ be a
+  \ac{POMDP}. We can extract the possible observations in $\mathcal{M}$ and
+  gather them as $O = \set{\interval{s}_{\sim}\mid:s\in S}$. A strategy for
+  $\mathcal{M}$ therefore is only dependent on the sequence of observations up
+  to the current state of play, i.e. a word in $u\in s_{0}O^{*}$. Fixing the
+  set of directions and the set of letters for a tree $t$ to $O$ and $A$
+  respectively renders $t:O^{*}\rightarrow A$ as a viable strategy $s$ for
+  $\mathcal{M}$ by identifying $t(u)$ with $s(s_{0}\cdot u)$. This naturally
+  leads to
+  \begin{definition}
+    For $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$
+    with $O = \set{\interval{s}_{\sim}: s\in S}$ define
+    \begin{equation*}
+      \mathcal{A} = \tuple{S, s_{0}, O, A, \Delta}
+    \end{equation*}
+    where
+    \begin{equation*}
+      \Delta(s, a\in A) = \set{G_{s}^{a}}\text{ and }
+      G_{s}^{a}(s', o) = \begin{cases}
+        \tau_{a}(s, s')&\text{ if }o = \interval{s'}_{\sim}\\
+        0              &\text{ otherwise}
+      \end{cases}
+    \end{equation*}
+  \end{definition}
+  Thus, from the current state those states with observation $o\in O$ are sent
+  in direction $o$. Therefore, the unique run $r$ on any tree $t$ yields for a
+  state sequence $u\in S^{*}$ and a sequence of observations $v\in O^{\size{u}}$
+  that
+  \begin{equation*}
+    \mu_{r}(\cyl(\tuple{u_{0},v_{0}}\dots\tuple{u_{n},v_{n}})) =
+    \begin{cases}
+      \prod_{0\leq i\leq n-1}\tau_{t(v_{0}\dots v_{i})}(u_{i}, u_{i+1})
+        &\text{ if }u_{0} = s_{0}\text{ and }\interval{u_{i}}_{\sim} = v_{i}\\
+      0 &\text{ otherwise}
+    \end{cases}
+  \end{equation*}
+  which coincides with the measure for $\mu_{s}(\cyl(u))$ in $\mathcal{M}$.
+\end{proof}
+
 This directly entails some undecideability results carried over from \acp{PBA}.
 \begin{corollary}
   The undecideability of the emptiness problem for \acp{PBA} with positive
@@ -785,56 +886,6 @@ $\mathcal{M}_{\mathcal{A}}$ and in the run-tree coincide. Thus, we get
   associated tree to the strategy. Then, apply
   \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
 \end{proof}
-We designed for one \ac{WDTA} a corresponding emptiness game in form of an
-\ac{POMDP} and in the proof to Theorem \ref{thm:emptinessgame} we used the
-resemblance of a runtree to the unrollment of an \ac{POMDP} as induced by a
-strategy. This naturally poses the question if a translation in the other
-direction is viable and, indeed, it is.
-\begin{theorem}
-  \label{thm:POMDPequivWDTA}
-  For every \ac{POMDP} $\mathcal{M}$ exists an \enquote{equivalent}
-  deterministic \ac{WDTA} $\mathcal{A}$ with the same state space.
-\end{theorem}
-\begin{proof}
-  Let $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$ be a
-  \ac{POMDP}. We can extract the possible observations in $\mathcal{M}$ and
-  gather them as $O = \set{\interval{s}_{\sim}\mid:s\in S}$. A strategy for
-  $\mathcal{M}$ therefore is only dependent on the sequence of observations up
-  to the current state of play, i.e. a word in $u\in s_{0}O^{*}$. Fixing the
-  set of directions and the set of letters for a tree $t$ to $O$ and $A$
-  respectively renders $t:O^{*}\rightarrow A$ as a viable strategy $s$ for
-  $\mathcal{M}$ by identifying $t(u)$ with $s(s_{0}\cdot u)$. This naturally
-  leads to
-  \begin{definition}
-    For $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$
-    with $O = \set{\interval{s}_{\sim}: s\in S}$ define
-    \begin{equation*}
-      \mathcal{A} = \tuple{S, s_{0}, O, A, \Delta}
-    \end{equation*}
-    where
-    \begin{equation*}
-      \Delta(s, a\in A) = \set{G_{s}^{a}}\text{ and }
-      G_{s}^{a}(s', o) = \begin{cases}
-        \tau_{a}(s, s')&\text{ if }o = \interval{s'}_{\sim}\\
-        0              &\text{ otherwise}
-      \end{cases}
-    \end{equation*}
-  \end{definition}
-  Thus, from the current state those states with observation $o\in O$ are sent
-  in direction $o$. Therefore, the unique run $r$ on any tree $t$ yields for a
-  state sequence $u\in S^{*}$ and a sequence of observations $v\in O^{\size{u}}$
-  that
-  \begin{equation*}
-    \mu_{r}(\cyl(\tuple{u_{0},v_{0}}\dots\tuple{u_{n},v_{n}})) =
-    \begin{cases}
-      \prod_{0\leq i\leq n-1}\tau_{t(v_{0}\dots v_{i})}(u_{i}, u_{i+1})
-        &\text{ if }u_{0} = s_{0}\text{ and }\interval{u_{i}}_{\sim} = v_{i}\\
-      0 &\text{ otherwise}
-    \end{cases}
-  \end{equation*}
-  which coincides with the measure for $\mu_{s}(\cyl(u))$ in $\mathcal{M}$.
-\end{proof}
-
 
 \subsection{A forrest of languages}
 The different structural properties of \acp{WDTA} introduce different language
