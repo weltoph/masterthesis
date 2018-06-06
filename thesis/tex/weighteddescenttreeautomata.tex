@@ -706,24 +706,26 @@ tree automata models partial observability in \acp{MDP}.
   interpreted as tree) and \ac{POMDP} $\mathcal{M}$ (if interpreted as 
   strategy).
 \end{proof}
+
 On the other hand, we want to relate \acp{WDTA} to \acp{POMDP}. Especially, we 
 obtain arguments to solve algorithmic questions via the correspondent questions
 for \acp{POMDP}. Example \ref{ex:pbaaspomdp} introduced the idea to consider 
 \acp{PBA} as \acp{POMDP} with one equivalence class (for the consistency of
 generated word). We adapt this idea to obtain a comparable equivalence. Namely,
-we construct a \ac{POMDP} for a given \ac{WDTA} such that any run $r$ of 
-\ac{WDTA} is the unrollment of the \ac{POMDP} if the tree is used as strategy.
-This allows to formulate the emptiness problem of a \ac{WDTA} as strategy 
-synthesis question for \acp{POMDP}. The choices of the player (i.e. the 
-strategy) are which transition is used at which position of the run. Hence, the
-player effectively constructs with his choices the run $r$ by providing for 
-every situation the corresponding generator.
-\begin{definition}[Emptiness Game]
-  For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
-  fix the set of actions $A$ for the player as a set
-  \begin{equation*}
-    A = Q\rightarrow\Delta_{\Sigma}
-  \end{equation*}
+we construct a \ac{POMDP} for a given \emph{choiceless} \ac{WDTA} such that any 
+run $r$ of \ac{WDTA} is the unrollment of the \ac{POMDP} if the tree is used as 
+strategy.  This allows to formulate the emptiness problem of a choiceless 
+\ac{WDTA} as strategy synthesis question for \acp{POMDP}. The choices of the 
+player (i.e.  the strategy) are which transition is used at which position of 
+the run. Hence, the player effectively constructs with his choices the tree $t$ 
+by providing for every situation the corresponding letter. We define
+\begin{definition}[Run Building Game]
+  For a choiceless \ac{WDTA} 
+  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
+  we define the set of actions for the player as $\Sigma$.
+  Thus, any action in $A$ corresponds to one tuple $\tuple{G_{0},\dots,G_{n}}$
+  such that every generator is given for one state and every
+
   where $\tuple{Q\rightarrow\Delta_{\Sigma}}$ is the set of functions that map
   for one fixed $\sigma$ a state $q\in Q$ to a generator in $\Delta(q,\sigma)$.
   Let $\sigma(f)$ for $f\in\tuple{Q\rightarrow\Delta_{\Sigma}}$ be the
