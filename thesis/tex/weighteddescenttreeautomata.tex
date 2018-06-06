@@ -481,7 +481,7 @@ positive acceptance and almost-sure acceptance.
 For uni-directional \acp{WDTA} with common blueprint we can relate on the 
 common product construction for intersection to yield an intersection operator.
 The details of this argument can be found in 
-\cite[Proposition 14]{RandAutoInfTrees}
+\cite[Proposition 14]{RandAutoInfTrees}.
 \begin{proposition}
   Uni-directional \acp{WDTA} with common blueprint are closed under
   intersection.
@@ -539,13 +539,11 @@ more restricted environment from \cite[Proposition 15]{RandAutoInfTrees})
   \ref{ex:wdtaapath} and its complement, i.e. the language 
   $\overline{\mathcal{L}}$ of binary $\set{a,b}$-trees such that every path 
   contains at least one $a$. We show that $\overline{\mathcal{L}}$ is not 
-  recognizeable by a \ac{WDTA} and the argument is conceptually simple. We 
-  consider a tree with precisely one path that does not contain an $a$ but all
-  other paths conceal their $a$ farther and farther which induces the necessity
-  to carry weight in a certain width. This allows to argue that the measure of
-  the one non-accepting path is negligeable. We define 
-  $t:\set{0,1}^{*}\rightarrow\set{a,b}$ with $t(u) = a$ if and only if 
-  $u\in \set{0,1}^{*}1$.
+  recognizeable by a \ac{WDTA} and the argument is conceptually simple. The 
+  idea is that all paths can wait arbitrarily long to present an $a$. The 
+  automaton on the other hand has to distribute weight into all path to not
+  miss any occurence of an $a$. This constant distributions renders some path
+  negligeable.
 
   \fxfatal{end proof}
 \end{proof}
@@ -586,9 +584,10 @@ run of a \ac{PBA} on that word can be modelled as a run of a \ac{WDTA}:
       \delta(q_{1},\alpha_{1},q_{2})\dots\delta(q_{n-1},\alpha_{n-1},q_{n}).
   \end{align*}
   Thus, projecting the run $r$ to the state sequences yields an equivalent 
-  measure on $\mathcal{B}(Q)$ as the stochastic process of $\mathcal{P}$. Since
-  the acceptance conditions also coincide we can ensure that the automata are
-  equivalent regarding positive as well as almost-sure acceptance.
+  measure on $\mathcal{B}(Q)$ as the stochastic process of $\mathcal{P}$ (under
+  the word $t_{\alpha}$). Since the acceptance conditions also coincide we can 
+  ensure that the automata are equivalent regarding positive as well as 
+  almost-sure acceptance.
 
   For the opposite direction, we fix a choiceless \ac{WDTA} with a 
   Büchi-condition and a singleton direction set (w.l.o.g. $D = \set{0}$)
@@ -632,13 +631,13 @@ of \enquote{strong} acceptance conditions for \acp{PBA} (Theorem
 \ref{thm:probautoequiv}) as a corollary.
 
 In the following we want to examine a very interesting observation, namely that
-any run of a \ac{WDTA} effectively is a unrollment of a transition system which
-is induced by a tree $t$. This behavior appears very similar to the concept of
-\acp{MDP} where the strategy of the actor unrolls the transition system. 
-Indeed, we establish a very deep connection between \acp{POMDP}. Initially, we
-show that \acp{WDTA} can be used to model \acp{POMDP} where trees are 
-interpreted as strategies. Furthermore, we use the mechanism of \acp{POMDP} to
-establish decideability results for algorithmic questions about \acp{WDTA},
+any run of a \ac{WDTA} effectively is an unrollment of a transition system 
+which is induced by a tree $t$. This behavior appears very similar to the 
+concept of \acp{MDP} where the strategy of the actor unrolls the transition 
+system.  Indeed, we establish a very deep connection between \acp{POMDP}. 
+Initially, we show that \acp{WDTA} can be used to model \acp{POMDP} where trees 
+are interpreted as strategies. Furthermore, we use the mechanism of \acp{POMDP} 
+to establish decideability results for algorithmic questions about \acp{WDTA},
 e.g. deciding emptiness. This allows us to reveal intriguing connections 
 between tree automata and \acp{POMDP}; for example the fact that alternation in
 tree automata models partial observability in \acp{MDP}.
@@ -654,11 +653,10 @@ tree automata models partial observability in \acp{MDP}.
   \ac{POMDP}. We can extract the possible observations in $\mathcal{M}$ and
   gather them as $O = \set{\interval{s}_{\sim}\mid:s\in S}$. A strategy for
   $\mathcal{M}$ therefore is only dependent on the sequence of observations up
-  to the current state of play, i.e. a word in $u\in s_{0}O^{*}$. Fixing the
-  set of directions and the set of letters for a tree $t$ to $O$ and $A$
-  respectively renders $t:O^{*}\rightarrow A$ as a viable strategy $s$ for
-  $\mathcal{M}$ by identifying $t(u)$ with $s(s_{0}\cdot u)$. This naturally
-  leads to
+  to the current state of play, i.e. a word in $u\in O^{*}$. Fixing the
+  set of directions to $O$ and the alphabet to $A$ we get $O$-ary $A$-trees as
+  equivalent objects to strategies for \ac{POMDP} $\mathcal{M}$. This leads us 
+  to 
   \begin{definition}
     For $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$
     with $O = \set{\interval{s}_{\sim}: s\in S}$ define
@@ -667,127 +665,59 @@ tree automata models partial observability in \acp{MDP}.
     \end{equation*}
     where
     \begin{equation*}
-      \Delta(s, a\in A) = \set{G_{s}^{a}}\text{ and }
+      \Delta = \set{
+        \tuple{s, a, G_{s}^{a}}:\text{for all }s\in S\text{ and }a\in A
+      }\text{ with }
       G_{s}^{a}(s', o) = \begin{cases}
-        \tau_{a}(s, s')&\text{ if }o = \interval{s'}_{\sim}\\
-        0              &\text{ otherwise}
+        \tau_{a}(s, s')&\text{if }o = \interval{s'}_{\sim},\\
+        0              &\text{otherwise.}
       \end{cases}
     \end{equation*}
   \end{definition}
   Thus, from the current state those states with observation $o\in O$ are sent
-  in direction $o$. Therefore, the unique run $r$ on any tree $t$ yields for a
-  state sequence $u\in S^{*}$ and a sequence of observations $v\in O^{\size{u}}$
-  that
-  \begin{equation*}
-    \mu_{r}(\cyl(\tuple{u_{0},v_{0}}\dots\tuple{u_{n},v_{n}})) =
+  in direction $o$. This allows us to consider only the effective part of the 
+  unique run $r$ on a tree $t$; that is the weighted part. Precisely, any state 
+  sequence $u\in S^{*}$ induces a unique associated observation sequence 
+  $\interval{u}_{\sim}\in O^{\size{u}}$. By definition of all generators any
+  path along a pair $\tuple{s, o}$ such that $o\neq\interval{s}_{\sim}$ is 
+  awarded with a probability of $0$ rendering for any word 
+  $v = \tuple{s_{1}, o_{1}}\dots\tuple{s_{n}, o_{n}}\in\tuple{S\times O}^{*}$ 
+  such that there is $1\leq i\leq n$ with $o_{i}\neq\interval{s_{i}}_{\sim}$
+  $\mu_{r}(\cyl(v)) = 0$. Concludingly, we get
+  \begin{equation}
+    \mu_{r}(\cyl(\tuple{s_{1},o_{1}}\dots\tuple{s_{n},o_{n}})) =
     \begin{cases}
-      \prod_{0\leq i\leq n-1}\tau_{t(v_{0}\dots v_{i})}(u_{i}, u_{i+1})
-        &\text{ if }u_{0} = s_{0}\text{ and }\interval{u_{i}}_{\sim} = v_{i}\\
-      0 &\text{ otherwise}
+      \prod_{0\leq i\leq n-1}\tau_{t(o_{1}\dots o_{i})}(s_{i}, s_{i+1})
+        &\text{if }\interval{s_{i}}_{\sim} = o_{i}\text{ for }1\leq i\leq n,\\
+      0 &\text{otherwise}.
     \end{cases}
-  \end{equation*}
-  which coincides with the measure for $\mu_{s}(\cyl(u))$ in $\mathcal{M}$.
+    \label{eq:wdtapomdp}
+  \end{equation}
+  Notably, we can define a synchronized subdomain 
+  $D\subseteq \tuple{S\times O}^{*}$, i.e. those words such that the second 
+  component always coincides with the equivalence class of the first component.
+  And reduce $r$ to $D$ and still obtain a viable probability space from $r$.
+  Furthermore, since the first component uniquely identifies the second 
+  component this can be bijected to $S^{*}$. Hence we consider $r$ and its 
+  induced measure as measure on $\mathcal{B}(S)$ rather than on 
+  $\mathcal{B}(S\times O)$. And, using Equation \ref{eq:wdtapomdp}
+  allows us to conclude that any object $t:O^{*}\rightarrow A$ yields the same
+  measure on $\mathcal{B}(S)$ for \ac{WDTA}-sceleton $\mathcal{S}$ (if 
+  interpreted as tree) and \ac{POMDP} $\mathcal{M}$ (if interpreted as 
+  strategy).
 \end{proof}
-
-This directly entails some undecideability results carried over from \acp{PBA}.
-\begin{corollary}
-  The undecideability of the emptiness problem for \acp{PBA} with positive
-  acceptance \cite{Groesser} renders the emptiness problem for \acp{WDTA} with
-  positive acceptance undecideable.
-\end{corollary}
-\begin{corollary}
-  The emptiness problem for \acp{WDTA} with almost-sure acceptance is
-  undecideable.
-\end{corollary}
-\begin{proof}
-  By \cite[Proof of Theorem 1]{DecProblemsForProbAuto} there is an equivalent
-  probabilistic Rabin automaton for which the accepted paths have either
-  measure $0$ or $1$ for every \ac{PBA} with positive acceptance. Thus, for the
-  the equivalent \ac{WDTA} to this probabilistic Rabin automaton positive and
-  almost-sure acceptance coincides rendering the emptiness problem for both
-  acceptance criteria undecideable.
-\end{proof}
-Note that this undecideability result does not contradict the decideable
-emptiness for \acp{WDTA} with Büchi condition and almost-sure acceptance but
-simply shows that Büchi conditions are less expressive (as it is for
-non-weighted tree automata\fxfatal{find reference}).
-
-Having used the fact that moving from Büchi to Rabin acceptance conditions
-allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
-acceptance sparks the question if this can be translated to choiceless
-\acp{WDTA} as well. Unfortunately, this question can be answered negatively
-with
-\begin{proposition}
-  There exists a language that is accepted by a choiceless \ac{WDTA} with a
-  positive acceptance of a Büchi condition that is not accepted by any
-  choiceless \ac{WDTA} with a Muller condition.
-\end{proposition}
-\begin{proof}
-  We define $\mathcal{L}_{\exists a}$ as the language of all trees with
-  directions $\set{0,1}$ over the alphabet $\set{a,b}$ that do contain an $a$.
-  First, we show that this language can be accepted by a choiceless Büchi
-  \ac{WDTA} with positive acceptance of a Büchi condition. But this is
-  straightforward by constructing a \ac{WDTA} with two states $q_{a}, q_{b}$
-  where $q_{b}$ is the initial state. The final state is $q_{a}$ and we
-  distribute uniformely over both branches $q_{b}$ until an $a$ occurs where
-  the automaton distributes uniformely the state $q_{a}$ regardless of the read
-  letter, thus $q_{a}$ is a positive sink-state. Any tree that is accepted does
-  necessarily contain an $a$ since it is the only chance to produce an
-  acceptance subtree and conversely, if a tree does contain an $a$ there is a
-  finite path of length $n$ towards the subtree rooted at this occurence of $a$,
-  hence in the run of the automaton on this tree there is an accepted subtree
-  which is reached with probability $(\frac{1}{2})^{n} > 0$ rendering the run
-  accepting for this tree.
-
-  On the other hand we show that there is no choiceless \ac{WDTA} with an
-  almost-sure Muller condition that accepts precisely $\mathcal{L}_{\exists a}$.
-  For this consider three trees $t_{0}, t_{1}, t_{b}$ where every letter in
-  $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ only
-  contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with an
-  almost-sure acceptance of a Muller condition to accept
-  $\mathcal{L}_{\exists a}$. The unique runs of $A$ on $t_{0},t_{1}, t_{b}$ do
-  start with the same distribution in the root since
-  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ and $\mathcal{A}$
-  is choiceless and the runs on $t_{0}$ and $t_{1}$ are accepting.
-  Furthermore, we can savely assume that at least on state in each direction
-  does carry weight. Because if w.l.o.g. no state in direction $0$ carries any
-  weight the measure on all accepted runs for the run on $t_{0}$ and $t_{b}$ is
-  equal. Thus, either $t_{0}$ is not accepted or $t_{b}$ is accepted. Both
-  cases contradict the assumption that $\mathcal{A}$ precisely accepts
-  $\mathcal{L}_{\exists a}$. Additionally, for every state that carries weight
-  in the first level of the run of $\mathcal{A}$ on either $t_{0}$ or $t_{1}$
-  does need to have a almost-sure measure on its accepted paths. But those
-  states on the left side produce for $t_{1}$ and $t_{b}$ the same paths, while
-  the states on the right side produce for $t_{0}$ and $t_{b}$ produce the same
-  paths. These paths are almost-surely accepted for $t_{0}$ (resp. $t_{1}$) and
-  therefore also for $t_{b}$ rendering the unique run on $t_{b}$ almost-surely
-  accepted yielding the desired contradiction and concluding the proof.
-\end{proof}
-
-\subsection{Emptiness}
-Similarly to \acp{PBA}, we want to define for a given \ac{WDTA} $\mathcal{A}$
-a game that captures the behaviour of $\mathcal{A}$. Again, this will result in
-the definition of \ac{POMDP}. This game is designed to go through the following
-steps:
-\begin{enumerate}
-  \item initially, the player chooses any $G\in\mathcal{G}_{\mathcal{A}}$
-    such that $G\in\Delta(q_{0},\sigma)$ for any $\sigma\in\Sigma$
-  \item then the game moves to a position $\tuple{q,d}\in\tuple{Q\times D}$
-    with probability $G(q,d)$
-  \item the player is not allowed to observe the state of the current position
-    but may choose dependent on the observed direction $d$ one
-    $\sigma\in\Sigma$ and a transition $G\in\Delta(q,\sigma)$ for every
-    $q\in Q$
-  \item the game proceeds to any $\tuple{q,d}$ with the corresponding
-    probability $G(q,d)$
-\end{enumerate}
-Similiar to Example \ref{ex:pbaaspomdp} a strategy only represents a tree if 
-for every play the choice of a letter $\sigma$ is consistent throughout all 
-plays associated with one certain word of directions. Therefore, we introduce 
-in the choice of the player the restriction of observation in step $3$. This 
-allows the player to exclusively observe the directions taken throughout the 
-game and base her/his decision of which letter to place on this observation 
-only.
+On the other hand, we want to relate \acp{WDTA} to \acp{POMDP}. Especially, we 
+obtain arguments to solve algorithmic questions via the correspondent questions
+for \acp{POMDP}. Example \ref{ex:pbaaspomdp} introduced the idea to consider 
+\acp{PBA} as \acp{POMDP} with one equivalence class (for the consistency of
+generated word). We adapt this idea to obtain a comparable equivalence. Namely,
+we construct a \ac{POMDP} for a given \ac{WDTA} such that any run $r$ of 
+\ac{WDTA} is the unrollment of the \ac{POMDP} if the tree is used as strategy.
+This allows to formulate the emptiness problem of a \ac{WDTA} as strategy 
+synthesis question for \acp{POMDP}. The choices of the player (i.e. the 
+strategy) are which transition is used at which position of the run. Hence, the
+player effectively constructs with his choices the run $r$ by providing for 
+every situation the corresponding generator.
 \begin{definition}[Emptiness Game]
   For a \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, T}$ we
   fix the set of actions $A$ for the player as a set
@@ -885,6 +815,82 @@ $\mathcal{M}_{\mathcal{A}}$ and in the run-tree coincide. Thus, we get
   of observation can be discarded without losing the consistency of the
   associated tree to the strategy. Then, apply
   \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
+\end{proof}
+
+
+This directly entails some undecideability results carried over from \acp{PBA}.
+\begin{corollary}
+  The undecideability of the emptiness problem for \acp{PBA} with positive
+  acceptance \cite{Groesser} renders the emptiness problem for \acp{WDTA} with
+  positive acceptance undecideable.
+\end{corollary}
+\begin{corollary}
+  The emptiness problem for \acp{WDTA} with almost-sure acceptance is
+  undecideable.
+\end{corollary}
+\begin{proof}
+  By \cite[Proof of Theorem 1]{DecProblemsForProbAuto} there is an equivalent
+  probabilistic Rabin automaton for which the accepted paths have either
+  measure $0$ or $1$ for every \ac{PBA} with positive acceptance. Thus, for the
+  the equivalent \ac{WDTA} to this probabilistic Rabin automaton positive and
+  almost-sure acceptance coincides rendering the emptiness problem for both
+  acceptance criteria undecideable.
+\end{proof}
+Note that this undecideability result does not contradict the decideable
+emptiness for \acp{WDTA} with Büchi-condition and almost-sure acceptance but
+simply shows that Büchi conditions are less expressive (as it is for
+non-weighted tree automata\fxfatal{find reference}).
+
+Having used the fact that moving from Büchi to Rabin acceptance conditions
+allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
+acceptance sparks the question if this can be translated to choiceless
+\acp{WDTA} as well. Unfortunately, this question can be answered negatively
+with
+\begin{proposition}
+  There exists a language that is accepted by a choiceless \ac{WDTA} with a
+  positive acceptance of a Büchi condition that is not accepted by any
+  choiceless \ac{WDTA} with a Muller condition.
+\end{proposition}
+\begin{proof}
+  We define $\mathcal{L}_{\exists a}$ as the language of all trees with
+  directions $\set{0,1}$ over the alphabet $\set{a,b}$ that do contain an $a$.
+  First, we show that this language can be accepted by a choiceless Büchi
+  \ac{WDTA} with positive acceptance of a Büchi condition. But this is
+  straightforward by constructing a \ac{WDTA} with two states $q_{a}, q_{b}$
+  where $q_{b}$ is the initial state. The final state is $q_{a}$ and we
+  distribute uniformely over both branches $q_{b}$ until an $a$ occurs where
+  the automaton distributes uniformely the state $q_{a}$ regardless of the read
+  letter, thus $q_{a}$ is a positive sink-state. Any tree that is accepted does
+  necessarily contain an $a$ since it is the only chance to produce an
+  acceptance subtree and conversely, if a tree does contain an $a$ there is a
+  finite path of length $n$ towards the subtree rooted at this occurence of $a$,
+  hence in the run of the automaton on this tree there is an accepted subtree
+  which is reached with probability $(\frac{1}{2})^{n} > 0$ rendering the run
+  accepting for this tree.
+
+  On the other hand we show that there is no choiceless \ac{WDTA} with an
+  almost-sure Muller condition that accepts precisely $\mathcal{L}_{\exists a}$.
+  For this consider three trees $t_{0}, t_{1}, t_{b}$ where every letter in
+  $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ only
+  contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with an
+  almost-sure acceptance of a Muller condition to accept
+  $\mathcal{L}_{\exists a}$. The unique runs of $A$ on $t_{0},t_{1}, t_{b}$ do
+  start with the same distribution in the root since
+  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ and $\mathcal{A}$
+  is choiceless and the runs on $t_{0}$ and $t_{1}$ are accepting.
+  Furthermore, we can savely assume that at least on state in each direction
+  does carry weight. Because if w.l.o.g. no state in direction $0$ carries any
+  weight the measure on all accepted runs for the run on $t_{0}$ and $t_{b}$ is
+  equal. Thus, either $t_{0}$ is not accepted or $t_{b}$ is accepted. Both
+  cases contradict the assumption that $\mathcal{A}$ precisely accepts
+  $\mathcal{L}_{\exists a}$. Additionally, for every state that carries weight
+  in the first level of the run of $\mathcal{A}$ on either $t_{0}$ or $t_{1}$
+  does need to have a almost-sure measure on its accepted paths. But those
+  states on the left side produce for $t_{1}$ and $t_{b}$ the same paths, while
+  the states on the right side produce for $t_{0}$ and $t_{b}$ produce the same
+  paths. These paths are almost-surely accepted for $t_{0}$ (resp. $t_{1}$) and
+  therefore also for $t_{b}$ rendering the unique run on $t_{b}$ almost-surely
+  accepted yielding the desired contradiction and concluding the proof.
 \end{proof}
 
 \subsection{A forrest of languages}
