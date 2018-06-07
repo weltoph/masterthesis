@@ -95,6 +95,25 @@ state
   Muller-conditions (and therefore also for Parity- or Rabin-conditions) 
   follows analogously to the proof of Corollary \ref{cor:borelAcceptance}.
 \end{proof}
+Also, analogously to alternating tree automata, a run $r$ contains 
+\enquote{marked paths}. These are those paths that actually carry weight. By
+substituting every generator $G$ with a clause-function $\delta_{A_{G}}$ with
+$A_{G} = \set{\tuple{q,d}\in Q\times D\mid G(q,d)>0}$\footnote{This set $A_{G}$
+is commonly referred to as support of $G$, i.e. $\supp(G)$.
+} we obtain these paths in the same manner as $M_{r}$ for runs of alternating
+tree automata, therefore we refer to these elements also as $M_{r}$. By this 
+concept it is easy to see that only those paths in $M_{r}$ actually matter for
+the acceptance of a run, hence we state
+\begin{lemma}
+  For a \ac{WDTA} $\mathcal{A}$ and two runs $r_{1}, r_{2}$ on $t$ such that
+  $M_{r_{1}} = M_{r_{2}}$ and for all $u$ such that there is a 
+  $\beta\in M_{r_{1}}$ with $u\sqsubset\beta$ holds $r_{1}(u) = r_{2}(u)$, then
+  $\mu_{r_{1}}$ and $\mu_{r_{2}}$ coincide.
+\end{lemma}
+Effectively the choices of a \acp{WDTA} only matter if they actually are 
+weighted. Therefore, we occasionally refer to $M_{r}$ as the 
+\emph{weighted part} of a run $r$ and implicitly deduce general statements on
+$r$ by arguments on $M_{r}$.
 
 In the following we often focus on Parity-conditions and motivate this by the
 observation that Parity-conditions are sufficient to express all other 
@@ -1171,10 +1190,12 @@ acceptance conditions (alternatively one can use the translation from
   positive acceptance of Büchi-, Rabin-, Parity- and Muller-conditions and
   almost-sure acceptance of Rabin-, Parity- and Muller-conditions.
 \end{corollary}
-
+The translation from choiceless \acp{WDTA} to \acp{POMDP} allows us to use the 
+computation of strategies which almost-surely satisfy an associated 
+Büchi-condition to solve the emptiness problem for choiceless \acp{WDTA}
 \begin{corollary}[Emptiness Almost-Sure Büchi WDTA]
-  The emptiness problem for a \ac{WDTA} with almost-sure acceptance measure of
-  a Büchi condition can be decided in exponential time.
+  The emptiness problem for a choiceless \ac{WDTA} with almost-sure acceptance 
+  measure of a Büchi condition is decideable.
   \label{cor:emptiness}
 \end{corollary}
 \begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
