@@ -452,7 +452,7 @@ of $1$ to render the new run almost-surely accepted.
   almost-sure (positive) acceptance is closed under intersection (union).  
 \end{corollary}
 Actually, this results hints at the duality between choiceless \acp{WDTA} with 
-positive acceptance and almost-sure acceptance.
+positive acceptance and almost-sure acceptance which is expressd in
 \begin{proposition}
   For every choiceless \acp{WDTA}-skeleton (which are the structural components
   but not an acceptance condition) 
@@ -550,10 +550,12 @@ more restricted environment from \cite[Proposition 15]{RandAutoInfTrees})
 
 \section{Modelling in \acp*{WDTA}}
 We want to motivate the introduction of \acp{WDTA} by showing their strength to
-model the behaviour of other probabilistic models. We want to initially 
-consider \acp{PBA}. By reducing the directions to a singelton set a tree 
-degenerates to a single path. This path can be interpreted as one word and the 
-run of a \ac{PBA} on that word can be modelled as a run of a \ac{WDTA}:
+model the behaviour of other probabilistic models. 
+\subsection{Word Automata}
+We want to initially consider \acp{PBA}. By reducing the directions to a 
+singelton set a tree degenerates to a single path. This path can be interpreted 
+as one word and the run of a \ac{PBA} on that word can be modelled as a run of 
+a \ac{WDTA}:
 \begin{theorem}
   For every \ac{PBA} $\mathcal{P}$ existent an equivalent \ac{WDTA}
   $\mathcal{A}$ over a singleton direction set and Büchi-condition and for 
@@ -630,6 +632,66 @@ express all other acceptance conditions for \acp{WDTA} (Lemma
 of \enquote{strong} acceptance conditions for \acp{PBA} (Theorem 
 \ref{thm:probautoequiv}) as a corollary.
 
+Additionally, we can use uniformly distributed \acp{WDTA} over words to emulate
+any $\omega$-regular word automaton. Fixing a singleton direction set 
+$D = \set{0}$ simply allows for one possible probability distribution for the
+associated blueprint $B$ of a uniformly distributed \acp{WDTA}, i.e. 
+$B(0) = 1$. Thus, there is for every transition precisely one state which is
+awarded with the complete probability mass. 
+\fxnote{find reference for dirac distribution}
+Therefore, the acceptance of the \acp{WDTA} is defined by the satisfaction of
+the one path that carries the complete probability mass. The acceptance of this
+path is defined via a $\omega$-regular acceptance set. These observations lead
+naturally to the equivalence of these automata models, i.e.
+\begin{theorem}
+  For a singelton direction set $D$ (w.l.o.g. $D = \set{0}$) the languages of
+  trees recognizable with uniformly distributed \acp{WDTA} with either positive 
+  or almost-sure acceptance coincides with the $\omega$-regular languages.
+\end{theorem}
+\begin{proof}
+  For every uniformly distributed \acp{WDTA} over a singleton direction set 
+  there is excatly one possible blueprint with $B(0) = 1$. Thus, we can encode
+  every viable generator $G$ by the one state $q$ such that $G(q,0) = 1$. This
+  allows us to define for every uniformly distributed \ac{WDTA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta, \parity}
+  \end{equation*}
+  an equivalent \ac{NPA}
+  \begin{equation*}
+    \mathcal{P} = \tuple{Q, q_{0}, \Sigma, \Delta', \parity}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta' = \set{
+      \tuple{q,\sigma,p}: \text{there is }\tuple{q,\sigma,G}\in\Delta
+        \text{ such that }G(p,0) = 1
+    }.
+  \end{equation*}
+  Any run $r$ of $\mathcal{A}$ on a tree $t:\set{0}^{*}\rightarrow\Sigma$ 
+  induces a Dirac measure $\mu_{r}$ on $\mathcal{B}(Q\times D)$ for one path 
+  $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$. This means that
+  \begin{equation*}
+    \mu_{r}(A) = \begin{cases}
+      1&\text{if }\alpha_{r}\in A,\\
+      0&\text{otherwise},
+    \end{cases}
+  \end{equation*}
+  and therefore $\mu_{r}(\Acc\interval{Q}(\parity)) = 1$ if and only if
+  $\alpha_{r}\in\Acc\interval{Q}(\parity)$ which happens if and only if the
+  state sequence in $\alpha_{r}$ satisfies the $\parity$ condition. Note here,
+  that this Dirac measure renders positive and almost-sure acceptance 
+  equivalent. Also, by the construction of $\Delta'$ this state sequence is a 
+  viable run of $\mathcal{P}$. Also for every run $\beta\in Q^{\omega}$ of 
+  $\mathcal{P}$ we obtain a run of $\mathcal{A}$ which induces a Dirac measure 
+  on the path $\tuple{\beta_{1}, 0}\tuple{\beta_{2}, 0}\dots$. Thus, 
+  $\mathcal{P}$ and $\mathcal{A}$ accept the same language. The converse 
+  argument follows the same concepts, namely defining for every transition 
+  $\tuple{q,\sigma, p}$ in the word automaton a transition $\tuple{q,\sigma,G}$ 
+  with $G(p, 0) = 1$ in the associated \acp{WDTA} and arguing by the defining 
+  element of the Dirac measure every run of this \ac{WDTA} entails.
+\end{proof}
+
+\subsection{\aclp{POMDP}}
 In the following we want to examine a very interesting observation, namely that
 any run of a \ac{WDTA} effectively is an unrollment of a transition system 
 which is induced by a tree $t$. This behavior appears very similar to the 
@@ -638,9 +700,10 @@ system.  Indeed, we establish a very deep connection between \acp{POMDP}.
 Initially, we show that \acp{WDTA} can be used to model \acp{POMDP} where trees 
 are interpreted as strategies. Furthermore, we use the mechanism of \acp{POMDP} 
 to establish decideability results for algorithmic questions about \acp{WDTA},
-e.g. deciding emptiness. This allows us to reveal intriguing connections 
-between tree automata and \acp{POMDP}; for example the fact that alternation in
-tree automata models partial observability in \acp{MDP}.
+e.g. deciding emptiness, or respectively deduce undecideability results. This 
+allows us to reveal intriguing connections between tree automata and 
+\acp{POMDP}; for example the fact that alternation in tree automata models 
+partial observability in \acp{MDP}.
 \begin{theorem}
   For every \ac{POMDP} $\mathcal{M}$ exists a choiceless \ac{WDTA}-skeleton 
   $\mathcal{S}$ such that strategies for $\mathcal{M}$ when used as input
@@ -789,14 +852,27 @@ measures coincide.
   This yields the claimed equality of the generating objects and therefore by
   unique extension the equivalence of $\mu_{t}$ and $\mu_{r}$.
 \end{proof}
+
+\subsection{Consequences}
+Modelling \acp{PBA} and probabilistic word automata with stronger acceptance 
+conditions entail immediately undecideability results. Namely, Theorem 
+\ref{thm:pbaequiv} allows to deduce the undecideability of the emptiness 
+problem for \acp{WDTA} with positive accepatance of an associated 
+Büchi-condition (and therefore also for Rabin-, Parity- and Muller-conditions,
+since these can model Büchi-conditions) and by Corollary 
+\ref{cor:emptinessstrongalmostsureprob} also almost-sure acceptance of strong
+acceptance conditions
+\begin{corollary}
+  The emptiness problem (even for choiceless) \acp{WDTA} is undecideable for
+  positive acceptance of Büchi-, Rabin-, Parity- and Muller-conditions and
+  almost-sure acceptance of Rabin-, Parity- and Muller-conditions.
+\end{corollary}
+
 \begin{corollary}[Emptiness Almost-Sure Büchi WDTA]
   The emptiness problem for a \ac{WDTA} with almost-sure acceptance measure of
   a Büchi condition can be decided in exponential time.
   \label{cor:emptiness}
 \end{corollary}
-\begin{proof}
-  Apply \cite[Theorem 5]{QualAnaPOMDP} to the corresponding emptiness game.
-\end{proof}
 \begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
   The emptiness problem for an uni-directional \ac{WDTA} with almost-sure
   acceptance measure of a $\omega$-regular condition can be decided in
@@ -809,29 +885,6 @@ measures coincide.
   \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
 \end{proof}
 
-
-This directly entails some undecideability results carried over from \acp{PBA}.
-\begin{corollary}
-  The undecideability of the emptiness problem for \acp{PBA} with positive
-  acceptance \cite{Groesser} renders the emptiness problem for \acp{WDTA} with
-  positive acceptance undecideable.
-\end{corollary}
-\begin{corollary}
-  The emptiness problem for \acp{WDTA} with almost-sure acceptance is
-  undecideable.
-\end{corollary}
-\begin{proof}
-  By \cite[Proof of Theorem 1]{DecProblemsForProbAuto} there is an equivalent
-  probabilistic Rabin automaton for which the accepted paths have either
-  measure $0$ or $1$ for every \ac{PBA} with positive acceptance. Thus, for the
-  the equivalent \ac{WDTA} to this probabilistic Rabin automaton positive and
-  almost-sure acceptance coincides rendering the emptiness problem for both
-  acceptance criteria undecideable.
-\end{proof}
-Note that this undecideability result does not contradict the decideable
-emptiness for \acp{WDTA} with Büchi-condition and almost-sure acceptance but
-simply shows that Büchi conditions are less expressive (as it is for
-non-weighted tree automata\fxfatal{find reference}).
 
 Having used the fact that moving from Büchi to Rabin acceptance conditions
 allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive

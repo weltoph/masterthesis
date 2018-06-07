@@ -375,6 +375,16 @@ to find if there is any word positively accepted by $\mathcal{P}$ as stated in
   The emptiness problem for \ac{PBA} is undecideable.
   \label{thm:emptinesspospba}
 \end{theorem}
+And by Theorem \ref{thm:pbatopra} and Theorem \ref{thm:probautoequiv} we obtain
+the undecideability of emptiness for probabilistic word automata with 
+almost-sure accpetance of more expressiv acceptance conditions and since 
+Büchi-conditions can be emulated also positive acceptance of more expressice
+acceptance conditions:
+\begin{corollary}
+  The emptiness problem for probabilistic word automata with Rabin-, Parity- or
+  Muller-conditions is undecideable for positive and almost-sure acceptance.
+  \label{cor:emptinessstrongalmostsureprob}
+\end{corollary}
 
 In order to re-gain some desired algorithmic properties of e.g. the emptiness
 problem \cite{DecProblemsForProbAuto} considers almost-sure acceptance. By
