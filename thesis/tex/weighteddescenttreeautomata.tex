@@ -714,11 +714,11 @@ for \acp{POMDP}. Example \ref{ex:pbaaspomdp} introduced the idea to consider
 generated word). We adapt this idea to obtain a comparable equivalence. Namely,
 we construct a \ac{POMDP} for a given \emph{choiceless} \ac{WDTA} such that any 
 run $r$ of \ac{WDTA} is the unrollment of the \ac{POMDP} if the tree is used as 
-strategy.  This allows to formulate the emptiness problem of a choiceless 
+strategy. This allows to formulate the emptiness problem of a choiceless 
 \ac{WDTA} as strategy synthesis question for \acp{POMDP}. The choices of the 
-player (i.e.  the strategy) are which transition is used at which position of 
-the run. Hence, the player effectively constructs with his choices the tree $t$ 
-by providing for every situation the corresponding letter. We define
+player (i.e.  the strategy) are which letter is used at which position of 
+the tree. Hence, the player effectively constructs with his choices the tree 
+$t$ by providing for every situation the corresponding letter. We define
 \begin{definition}[Run Building Game]
   For a choiceless \ac{WDTA}-sceleton
   $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta}$ we define the set of 
@@ -727,7 +727,7 @@ by providing for every situation the corresponding letter. We define
   $S = \tuple{Q\times D}\cup\set{q_{0}}$. In order to obtain from a strategy a 
   valid tree we tinker with the observability of the states, namely we restrict 
   the player to only observe the directions and not the states. Hence, we 
-  define $\sim\subseteq \tuple{Q\times D}^{2}$ such that
+  define $\sim\subseteq\tuple{Q\times D}^{2}$ such that
   \begin{equation*}
     \tuple{q, d}\sim\tuple{p, b}\text{ if and only if }d = b.
   \end{equation*}
@@ -751,60 +751,43 @@ by providing for every situation the corresponding letter. We define
     }.
   \end{equation*}
 \end{definition}
-In order to prove the viability of this game definition we show that a strategy
-$s$ can be understood as a tree $t$ and that the induced probability measure on
-paths coincides with a run $r$ of $\mathcal{A}$ on $t$. And for any associated
-measureable objective $\mathcal{O}\subseteq Q^{\omega}$ which can be projected
-onto the states of $\mathcal{M}_{\mathcal{A}}$ by only considering the state
-component of any position in the play the measures of plays in
-$\mathcal{M}_{\mathcal{A}}$ and in the run-tree coincide. Thus, we get
+In order to prove the viability of this game definition we show that strategies
+and trees are both interchangeable objects and define directly a measure on
+$\mathcal{B}(Q\times D)$ in $\mathcal{M}$ and indirectly by associating the 
+corresponding unique run a measure on $\mathcal{B}(Q\times D)$ and these 
+measures coincide.
 \begin{theorem}
-  There is a strategy $s$ which ensures that an objective
-  $\mathcal{O}\subseteq Q^{\omega}$ is positively (resp. almost-surely)
-  satisfied in $\mathcal{M}_{\mathcal{A}}$ if and only if there is tree $t$ and
-  a run $r$ of $\tuple{\mathcal{A},\mathcal{O}}$ on $t$ which is positively
-  (resp. almost-surely) accepted.
-  \label{thm:emptinessgame}
+  For any object $t:D^{*}\rightarrow\Sigma$ the measures $\mu_{r}$ on 
+  $\mathcal{B}(Q\times D)$ for the unique run $r$ on $t$ of $\mathcal{A}$ and
+  the measure $\mu_{t}$ on $\mathcal{B}(Q\times D)$ for the strategy $t$ in
+  $\mathcal{M}$ coincide.
 \end{theorem}
 \begin{proof}
-  First of all, we recall that any strategy for $\mathcal{M}_{\mathcal{A}}$ is
-  defined as a function which chooses for any finite play the next action, i.e.
-  $s:\tuple{\tuple{Q\times D}\uplus\set{q_{0}}}^{+}\rightarrow A$. But
-  considering the properties of the game closely the strategy can be reduced to
-  its effective core. By the restriction of observation every such strategy
-  only observes the directions and thus can be expressed as a function of the
-  form $s:\tuple{D\uplus\set{q_{0}}}^{+}\rightarrow A$. Secondly, we define
-  $P = \set{\alpha_{1}\alpha_{2}\dots\in\tuple{\tuple{Q\times D}\uplus
-  \set{q_{0}}}^{+}\mid \alpha_{0} = q_{0}\text{ and there is no }i>0
-  \text{ s.t. }\alpha_{i} =q_{0}}$
-  and argue that only plays in $P$ actually do matter in the game.
-  \begin{lemma}
-    Every two strategies $s,s'$ that agree on all finite prefixes of
-    observations of plays in $P$ induce the same measure for plays in
-    $\mathcal{M}_{\mathcal{A}}$.
-  \end{lemma}
-  \begin{proof}
-    The begin of any play in $q_{0}$ is by definition of \acp{POMDP} and the
-    fact that $q_{0}$ is the initial state. Furthermore, consider any finite
-    prefix $u\in\tuple{\tuple{Q\times D}\uplus \set{q_{0}}}^{+}$ of a play
-    $\beta\notin P$. And let $i$ be the index of the second occurence of
-    $q_{0}$ in $u$. By the definition of $\mathcal{M}_{\mathcal{A}}$ the
-    movement from $u_{i-1}$ to $u_{i}$ has a probability of $0$ regardless of
-    the choice of either $s$ or $s'$. This yields
-    $\mu_{s}(\cyl(u_{0}\dots u_{i})) = \mu_{s'}(\cyl(u_{0}\dots u_{i})) = 0$.
-    Thus, only plays in $P$ possibly do have a positive measure, hence
-    strategies that coincide in these plays are equivalent.
-  \end{proof}
-  We can therefore regard any strategy as a function
-  $s:q_{0}\cdot D^{*}\rightarrow A$ and extract an associated tree $t$ by
-  $t(u) = \sigma(s(q_{0}\cdot u))$ for any $u\in D^{*}$ and also a run $r$ of
-  $\mathcal{A}$ on $t$ by setting for
-  $\tuple{q_{0}, d_{0}}\dots\tuple{q_{n}, d_{n}}\in\tuple{Q\times D}^{*}$ and
-  $f = s(q_{0}d_{0}d_{1}\dots d_{n})$:
-  $r(\tuple{q_{0}, d_{0}}\dots\tuple{q_{n}, d_{n}}) = f(q_{n})$ which is by
-  definition of $f$ a valid generator from $\Delta(q_{n}, t(d_{0}\dots d_{n}))$.
-  In this fashion we can biject plays of the emptiness game to paths in the
-  run-tree which induce the same probability measure implying the claim.
+  Firstly, we observe that by construction of $\tau_{\sigma}$ every play can
+  \emph{never} return to $q_{0}$. Additionally, by definition of strategies for
+  \acp{POMDP} the initial state is encoded implicitly (since its unique we can
+  omit its explicit occurence in the history of a game). This allows us to 
+  restrict any observation to those strategies that are defined on histories in
+  the $Q\times D$-part of $\mathcal{M}$. Furthermore, we recall that it 
+  suffices to show the equivalence of both measures on the generating objects, 
+  i.e. on all $\cyl{u}$ for all $u\in\tuple{Q\times D}^{*}$, since these values 
+  uniquely determine the extended measures on $\mathcal{B}(Q\times D)$. We fix 
+  one object $t:D^{*}\rightarrow\Sigma$ and the unique run $r$ of $\mathcal{A}$ 
+  on $t$. We fix one 
+  $u = \tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}}\in\tuple{Q\times D}^{*}$. 
+  We obtain
+  \begin{align*}
+    \mu_{t}(\cyl(u)) &= \tau_{t(\epsilon)}(q_{0}, \tuple{q_{1}, d_{1}})\cdot
+      \prod\limits_{1\leq i < n}\tau_{t(d_{1}\dots d_{i})}(
+        \tuple{q_{i}, d_{1}}, \tuple{q_{i+1}, d_{i+1}})&
+          \text{semantic of }\mathcal{M}\\
+    &= G_{t(\epsilon)}^{q_{0}}(q_{1}, d_{1})\cdot\prod\limits_{1\leq i < n}
+      G_{t(d_{1}\dots d_{i})}^{q_{i}}(q_{i+1}, d_{i+1})&
+          \text{definition of }\tuple{\tau_{\sigma}}_{\sigma\in\Sigma}\\
+    &= \mu_{r}(\cyl(u))&\text{semantic of }\mathcal{S}.
+  \end{align*}
+  This yields the claimed equality of the generating objects and therefore by
+  unique extension the equivalence of $\mu_{t}$ and $\mu_{r}$.
 \end{proof}
 \begin{corollary}[Emptiness Almost-Sure Büchi WDTA]
   The emptiness problem for a \ac{WDTA} with almost-sure acceptance measure of
