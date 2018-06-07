@@ -720,28 +720,35 @@ player (i.e.  the strategy) are which transition is used at which position of
 the run. Hence, the player effectively constructs with his choices the tree $t$ 
 by providing for every situation the corresponding letter. We define
 \begin{definition}[Run Building Game]
-  For a choiceless \ac{WDTA} 
-  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
-  we define the set of actions for the player as $\Sigma$.
-  Thus, any action in $A$ corresponds to one tuple $\tuple{G_{0},\dots,G_{n}}$
-  such that every generator is given for one state and every
-
-  where $\tuple{Q\rightarrow\Delta_{\Sigma}}$ is the set of functions that map
-  for one fixed $\sigma$ a state $q\in Q$ to a generator in $\Delta(q,\sigma)$.
-  Let $\sigma(f)$ for $f\in\tuple{Q\rightarrow\Delta_{\Sigma}}$ be the
-  associated element in $\Sigma$ for $f$. The emptiness game is then defined as
-  a \ac{POMDP}
+  For a choiceless \ac{WDTA}-sceleton
+  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta}$ we define the set of 
+  actions for the player as $\Sigma$. The states of the game correspond with 
+  the positions a run can stay in and a dedicated initial position, i.e. 
+  $S = \tuple{Q\times D}\cup\set{q_{0}}$. In order to obtain from a strategy a 
+  valid tree we tinker with the observability of the states, namely we restrict 
+  the player to only observe the directions and not the states. Hence, we 
+  define $\sim\subseteq \tuple{Q\times D}^{2}$ such that
   \begin{equation*}
-    \mathcal{M}_{\mathcal{A}} = \tuple{\tuple{Q\times D}\uplus \set{q_{0}}, A,
-    \tuple{\tau_{a}}_{a\in A}, q_{0}}
+    \tuple{q, d}\sim\tuple{p, b}\text{ if and only if }d = b.
   \end{equation*}
-  where
+  The actions of the player lead to the movement probabilities induced by the
+  generators associated with the current state and the player's choice. 
+  Firstly, there is one unique generator $G_{\sigma}^{q}$ such that 
+  $\tuple{q,\sigma,G_{\sigma}^{q}}\in\Delta$. Secondly, we define 
+  $\tau_{\sigma}$ for every $\sigma\in\Sigma$ such that
   \begin{equation*}
-    \tau_{f}(\tuple{q,d},\tuple{q',d'}) = f(q)(q',d')
+    \tau_{\sigma}(\tuple{q,d},\tuple{p,b}) = G_{\sigma}^{q}(p,b)
   \end{equation*}
-  and the associated observation relation is $\sim$ with
+  and, additionally,
   \begin{equation*}
-    \tuple{q, d}\sim\tuple{p, d'}\text{ if and only if } d = d'
+    \tau_{\sigma}(q_{0},\tuple{q,d}) = G_{\sigma}^{q_{0}}(q,d).
+  \end{equation*}
+  Concludingly, we obtain an associated \ac{POMDP}
+  \begin{equation*}
+    \mathcal{M} = \tuple{
+      Q\times D\cup \set{q_{0}}, \Sigma, 
+        \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, q_{0}
+    }.
   \end{equation*}
 \end{definition}
 In order to prove the viability of this game definition we show that a strategy
