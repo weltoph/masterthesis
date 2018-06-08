@@ -651,12 +651,12 @@ express all other acceptance conditions for \acp{WDTA} (Lemma
 of \enquote{strong} acceptance conditions for \acp{PBA} (Theorem 
 \ref{thm:probautoequiv}) as a corollary.
 
-Additionally, we can use uniformly distributed \acp{WDTA} over words to emulate
-any $\omega$-regular word automaton. Fixing a singleton direction set 
-$D = \set{0}$ simply allows for one possible probability distribution for the
-associated blueprint $B$ of a uniformly distributed \acp{WDTA}, i.e. 
-$B(0) = 1$. Thus, there is for every transition precisely one state which is
-awarded with the complete probability mass. 
+Additionally, we can use uni-directional \acp{WDTA} over words to emulate any 
+$\omega$-regular word automaton. Fixing a singleton direction set $D = \set{0}$ 
+simply allows for one possible probability distribution for the associated 
+blueprint $B$ of a uniformly distributed \acp{WDTA}, i.e.  $B(0) = 1$. Thus, 
+there is for every transition precisely one state which is awarded with the 
+complete probability mass. 
 \fxnote{find reference for dirac distribution}
 Therefore, the acceptance of the \acp{WDTA} is defined by the satisfaction of
 the one path that carries the complete probability mass. The acceptance of this
@@ -669,10 +669,12 @@ naturally to the equivalence of these automata models, i.e.
 \end{theorem}
 \begin{proof}
   For every uni-directional \acp{WDTA} over a singleton direction set 
-  there is excatly one possible blueprint with $B(0) = 1$, hence 
-  uni-directionality implies on \acp{WDTA} with a single direction set an 
-  uniform distribution. Thus, we can encode every viable generator $G$ by the 
-  one state $q$ such that $G(q,0) = 1$. This allows us to define for every 
+  there is excatly one possible probability distribution such that there is 
+  only one state with weight for this direction, i.e. the one where a state is
+  weighted with probability $1$. Therefore uni-directionality implies on 
+  \acp{WDTA} with a single direction set an uniform distribution with blueprint
+  $B$ such that $B(0) = 1$. Thus, we can encode every viable generator $G$ by 
+  the one state $q$ such that $G(q,0) = 1$. This allows us to define for every 
   uniformly distributed \ac{WDTA}
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta, \parity}
@@ -720,70 +722,83 @@ translating it to a \ac{WDTA} yields
 \end{corollary}
 
 \subsection{Probabilistic Weighted Automata}
-In \cite[Chapter 4]{RandAutoInfTrees} the concept of resolving non-determinism
-by probability distributions (as suggested for \acp{PBA}) is explored in the
-context of weighted tree automata. Thus, the automaton does not
-\enquote{build} a run by choosing fitting transitions but every transition is
-explored with a certain probability. We refer to this concept as \emph{Depth}
-since it can be illustrated as a number of runs executed in parallel and
-weighted accordingly to the probabilities of possible choices to build the run
-(see Figure \ref{fig:parallelruns}). We argue that the introduced concept of
-\enquote{alternation} for weighted tree automata actually captures this concept
-by allowing for a certain \emph{Width} in runs, hence we can resolve
-probabilities of transitions by moving states downwards in the runtree according
-to the transitions with an adapted weighting. Since resolving non-determinism
-probabilistically renders an automaton literally \enquote{choiceless} we expect
-the corresponding equivalent \ac{WDTA} to indeed have the choiceless property.
-Additionally, we restrict the transitions to obey a certain structure, i.e. we
-enforce a property which we reffered to as uniform distribution for \acp{WDTA}.
-This de-couples the probability of a movement through the individual runs and
-the probability of the run itself which ensures that the definition is
-well-founded. Also, since resolving non-determinism with probabilities in
-\acp{PBA} yields interesting results this inclusion further strengthens the
-relevance of \acp{WDTA}. \fxwarning{sounds as if we are unsure about the
-relevance in the first place}
-In order to explore the setting of resolving non-deterministic choices by
-probability distributions we introduce analogously to
-\cite[Definition 4.1.1]{RandAutoInfTrees} the class of \ac{PWA} with
+Recall that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
+actually resolved using a probability distribution. This is conceptually 
+slightly different to the concet of \acp{WDTA} which still use transitions to
+construct non-deterministically (or for choiceless \acp{WDTA} 
+deterministically) a run. This run in turn uses a weighting along its paths. 
+This concept is modelled using probability distributions but is not necessarily
+understood as a probabilistic choice. We want to discuss a concept introduced
+in \cite[Chapter 4]{RandAutoInfTrees} where the non-determinism of choosing a
+transition is resolved by probability distributions. This is conceptually 
+closer to the idea of \acp{PBA}. Nevertheless, we still use a weighting within
+the runs itself, but in a more restricted fashion, namely by relying on 
+uniformly distributed weighting only. This de-couples the probability of a 
+movement through the individual runs and the probability of the construction of 
+one particular run itself. This allows for an easier mathematical analysis; but
+lays the technical foundation for a synthesis result later on.
+
+We begin by defining the class of \ac{PWA} analogously to
+\cite[Definition 4.1.1]{RandAutoInfTrees} 
 \begin{definition}[Probabilistic Weighted Automata]
   Fix a finite alphabet $\Sigma$, a finite set of directions $D$ and a finite
   set of states $Q$. We fix a probability distribution
   $B:D\rightarrow\interval{0,1}$ which fixes the movement through any run. The
-  transitions are captured by a finite non-empty set of functions
-  $\set{\delta_{1},\dots,\delta_{n}}$ with $\delta_{i}:D\rightarrow Q$ for
-  $1\leq i\leq n$. A function $\Delta$ is used to map every tuple of any
-  $q\in Q$ and $\sigma\in\Sigma$ to a probability distribution of the
-  associated set of transitions $\set{\delta_{1},\dots,\delta_{n}}$.
-  Furthermore, we introduce an $\omega$-regular target set
-  $T\subseteq Q^{\omega}$ and pick one $q_{0}\in Q$ to combine all these
-  elements to a \ac{PWA}
+  possible transitions for one tuple $q\in Q,\sigma\in\Sigma$ are defined as a 
+  non-empty set
   \begin{equation*}
-    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, B, \Delta, T}.
+    \Tau_{q}^{\sigma} = \set{
+      \tau_{1},\dots,\tau_{n}
+    }
+  \end{equation*}
+  where $\tau_{i}:D\rightarrow Q$ for $1\leq i\leq n$ and $\Tau$ is the union 
+  of $\Tau_{q}^{\sigma}$ for all $q\in Q$, $\sigma\in\Sigma$. The transition 
+  are \enquote{chosen} by a function $\delta:Q\times\Sigma\times\Tau$ such that
+  \begin{equation*}
+    \delta(q,\sigma,\tau) > 0\text{ implies }\tau\in\Tau_{q}^{\sigma}
+  \end{equation*}
+  and every $\delta(q,\sigma,\cdot)$ is a probability distribution over 
+  $\Tau_{q}^{\sigma}$. Concludingly, we obtain \ac{PWA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, B, \Tau, \delta, T}.
   \end{equation*}
 \end{definition}
 One run of such an automaton $\mathcal{A}$ on a tree $t:D\rightarrow\Sigma$ is
 differently defined than runs for \acp{WDTA} since the run does not need to
-encode the weighting of paths through the run. Thus, we define one run
-$r:D^{*}\rightarrow Q$ such that for every $w\in D^{*}$ there exists one
-$\delta\in\supp(\Delta(r(w), t(w)))$ with $r(w\cdot d) = \delta(d)$ for
-all $d\in D$ to which we refer to as $\delta_{r(w)}$ and additionally,
-$r(\epsilon) = q_{0}$. As seen before, the distribution $B$ induces a measure
-$\mu_{B}$ on the $\sigma$-algebra $\mathcal{F}_{\mathcal{A}}$ which is
-generated by the cylinders of all $w\in D^{*}$. The set of accepting paths are
-those paths which associated state sequence satisfy the target $T$:
-$\Acc(r)=\set{\alpha\in D^{\omega}\mid r(\alpha)\in T}$. Semantically, $r$ is
-considered almost-surely accepting if $\mu_{B}(\Acc(r)) = 1$.
+encode the weighting of paths through the run. Nevertheless, forgetting about 
+the distribution $\delta$ for now, we can use the formalism of \acp{WDTA} to 
+define the semantic of one run by constructing for a pair 
+$q\in Q$ and $\sigma\in\Sigma$ with 
+$\Tau_{q}^{\sigma} = \set{tau_{1}\dots\tau_{n}}$ a set of transitions
+$\set{\tuple{q,\sigma,G_{1}},\dots,\tuple{q,\sigma,G_{n}}}$ such that
+\begin{equation*}
+  G_{i}(p,b) = \begin{cases}
+    B(b)&\text{if }\tau_{i}(b) = p,\\
+    0&\text{otherwise}.
+  \end{cases}
+\end{equation*}
+Although sufficient, this semantic feels due to its complexity rather bloated
+and we therefore rely on a more concise (but equivalent) formalism:
+We define one run $r:D^{*}\rightarrow Q$ such that $r(\epsilon) = q_{0}$ and 
+for every $w\in D^{*}$ we obtain $q = r(w)$ and $\sigma = t(w)$ there is one
+$\tau\in\Tau_{q}^{\sigma}$ such that $r(w\cdot d) = \tau(d)$ for all $d\in D$. 
+As seen before, the distribution $B$ induces a measure $\mu_{B}$ on 
+the Borel-algebra $\mathcal{B}(D)$. For a run $r$ we can collect the set of 
+accepting paths regarding the acceptance condition $T$ as 
+$\Acc_{r}(T) = \set{\alpha\in D^{\omega}\mid r(\alpha)\in T}$.
+We consider such a run $r$ almost-surely accepting if 
+$\mu_{B}(\Acc_{r}(T))=1$ and positively accepting if $\mu_{B}(\Acc_{r}(T))>0$.
 
-Additionally, to examine the probabilities induced by $\Delta$ we introduce a
+Additionally, to examine the probabilities induced by $\delta$ we introduce a
 $\sigma$-algebra which is generated by partial runs, i.e. finite beginnings of
 runs. Therefore, we define a finite tree as a prefix-closed subset of finite
 words over directions, hence
 \begin{definition}[Prefix-Tree]
   For a finite set of directions $D$ we call a finite $T\subseteq D^{*}$ a
-  prefix-tree if for every $w\in T$ and every finite prefix $v$ of $w$ holds
-  $v\in T$. Additionally, we call a prefix-tree $T$ \emph{proper} if for any
-  $w\in T$ exists $d\in D$ such that $w\cdot d\in T$ also $w\cdot d'\in T$ for
-  all other $d'\in D$ holds. We define the \enquote{inner} nodes of $T$ as
+  prefix-tree if for every $w\in T$ and every finite prefix $v\sqsubseteq w$ 
+  holds $v\in T$. Additionally, we call a prefix-tree $T$ \emph{proper} if for 
+  any $w\in T$ exists $d\in D$ such that $w\cdot d\in T$ also $w\cdot d'\in T$ 
+  for all other $d'\in D$ holds. We define the \enquote{inner} nodes of $T$ as
   those notes that do have an extension in $T$ as
   $\inner(T) = \set{w\in T\mid w\cdot d\in T\text{ for any }d\in D}$.
 \end{definition}
