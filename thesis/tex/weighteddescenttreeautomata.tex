@@ -580,7 +580,7 @@ a \ac{WDTA}:
   $\mathcal{A}$ over a singleton direction set and Büchi-condition and for 
   every choiceless \ac{WDTA} $\mathcal{A}$ with a Büchi-condition and a
   singleton direction set exists an equivalent \ac{PBA}.
-  \label{theorem:pbaequiv}
+  \label{thm:pbaaswdta}
 \end{theorem}
 \begin{proof}
   For a \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ we define
@@ -666,6 +666,7 @@ naturally to the equivalence of these automata models, i.e.
   For a singelton direction set $D$ (w.l.o.g. $D = \set{0}$) the languages of
   trees recognizable with uni-directional \acp{WDTA} with either positive 
   or almost-sure acceptance coincides with the $\omega$-regular languages.
+  \label{thm:omegaregaswdta}
 \end{theorem}
 \begin{proof}
   For every uni-directional \acp{WDTA} over a singleton direction set 
@@ -1276,131 +1277,160 @@ Büchi-condition to solve the emptiness problem for choiceless \acp{WDTA}
 
 On the other hand, we obtain for uni-directional \acp{WDTA} a decision 
 procedure for the emptiness problem even for Parity-conditions. The central 
-argument here is that by an inductive argument there is always at most one 
-state with weight at every position in the input tree. Especially this entails 
-that the corresponding equivalent \ac{POMDP} does not require the partial 
-observability for the interchangeability of the associated strategy with a 
-tree. Considering only the associated \ac{MDP} without the observation classes 
-allows to use Theorem \ref{thm:mdpstratsynthesis} to obtain a decision 
-procedure for the emptiness problem.
+idea is to drop the partial observability from the representation since there
+is only one weighted state at each position. Thus, the restriction on 
+observability is not necessary to ensure the interchangeability of a strategy 
+and a tree. Hence, we obtain
 \begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
+  \cite[Corollary 47]{RandAutoInfTrees}
   The emptiness problem for an uni-directional \ac{WDTA} with almost-sure
-  acceptance measure of a Parity-condition can be decided in
-  polynomial time.
+  acceptance measure of a Parity-condition can be decided.
 \end{corollary}
+\begin{proof}
+  We translate a given uni-directional \ac{WDTA} 
+  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$ to a \ac{MDP}
+  \begin{equation*}
+    \mathcal{M} = \tuple{Q\times D\cup\set{q_{0}}, q_{0}, 
+      \mathcal{G}_{\mathcal{A}}, \tuple{\tau}_{G\in\mathcal{G}_{\mathcal{A}}}}
+    \text{ with }\tau_{G}(\tuple{q, d}, \tuple{p, b}) = G(\tuple{p, b}).
+  \end{equation*}
+  By an inductive argument we can exploit the uni-directionality to obtain that
+  for a strategie $s$ we can state that for any $d_{1}\dots d_{n}\in D^{*}$ 
+  there is at most one sequence $q_{1}\dots q_{n}\in Q^{*}$ such that
+  $q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}}$ is a possible play under 
+  $s$ in $\mathcal{M}$. Fix these sequences in $D^{*}$ as $P$. Moreover, $s$ 
+  induces a tree $t$ by fixing for every $d_{1}\dots d_{n}\in P$ and the
+  unique $q_{1}\dots q_{n}$ such that 
+  $q_{0}\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}}$ describes a possible 
+  play in $\mathcal{M}$ under $s$ and setting
+  $t(d_{1}\dots d_{n})$ to one $\sigma\in\Sigma$ such that
+  $\tuple{q_{n},\sigma, s(\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})}
+    \in\Delta$. All other elements in $t$ are set arbitrarily. We observe that 
+  the unrollment of $\mathcal{M}$ under $s$ coincides with the run on $t$ that 
+  takes those transitions $s$ chooses its generators from. Additionally, we can
+  obtain for any run $r$ of $\mathcal{A}$ on a tree $t$ a corresponding 
+  strategy $s$ with $s(u) = r(u)$ for all $u\in \tuple{Q\times D}^{*}$. 
+  Concludingly, using Theorem \ref{thm:mdpstratsynthesis} on this $\mathcal{M}$
+  and the Parity-condition $\parity$ (applied to the state component of the 
+  states in $\mathcal{M}$) yields the postulated decision procedure.
+\end{proof}
 
-Having used the fact that moving from Büchi to Rabin acceptance conditions
-allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
-acceptance sparks the question if this can be translated to choiceless
-\acp{WDTA} as well. Unfortunately, this question can be answered negatively
-with
+Furthermore, we use the modelling of different automata in \acp{WDTA} to 
+separate recognizable classes by differently restricted \acp{WDTA}. Namely,
+we state
+\begin{proposition}
+  The class of languages recognizable with uni-directional \acp{WDTA} with any
+  acceptance condition and any acceptance measure is incomparabel with 
+  the class of languages recognizable with choiceless 
+  \acp{WDTA} with Büchi-condition and almost-sure acceptance measure.
+\end{proposition}
+\begin{proof}
+  This result follows from the incomparability of the classes of languages that
+  are recognizable by a \ac{PBA} with almost-sure acceptance and 
+  $\omega$-regular languages (Theorem \ref{thm:regalmostsureincomparable}) and
+  the equivalences stated in Theorem \ref{thm:omegaregaswdta} and Theorem 
+  \ref{thm:pbaaswdta} for uni-directional \acp{WDTA} to 
+  $\omega$-regular languages and choiceless \acp{WDTA} to \acp{PBA} (for 
+  singleton direction sets) respectively.
+\end{proof}
+
+For \acp{PBA} we obtained that more expressive acceptance conditions allows to
+move from positive acceptance to almost-sure acceptance. Unfortunately, this 
+does not translate to choiceless \acp{WDTA}:
 \begin{proposition}
   There exists a language that is accepted by a choiceless \ac{WDTA} with a
-  positive acceptance of a Büchi condition that is not accepted by any
-  choiceless \ac{WDTA} with a Muller condition.
+  positive acceptance of a Büchi-condition but which is not accepted by any
+  choiceless \ac{WDTA} with a Parity-condition.
 \end{proposition}
 \begin{proof}
   We define $\mathcal{L}_{\exists a}$ as the language of all trees with
   directions $\set{0,1}$ over the alphabet $\set{a,b}$ that do contain an $a$.
   First, we show that this language can be accepted by a choiceless Büchi
-  \ac{WDTA} with positive acceptance of a Büchi condition. But this is
-  straightforward by constructing a \ac{WDTA} with two states $q_{a}, q_{b}$
-  where $q_{b}$ is the initial state. The final state is $q_{a}$ and we
-  distribute uniformely over both branches $q_{b}$ until an $a$ occurs where
-  the automaton distributes uniformely the state $q_{a}$ regardless of the read
-  letter, thus $q_{a}$ is a positive sink-state. Any tree that is accepted does
-  necessarily contain an $a$ since it is the only chance to produce an
-  acceptance subtree and conversely, if a tree does contain an $a$ there is a
-  finite path of length $n$ towards the subtree rooted at this occurence of $a$,
-  hence in the run of the automaton on this tree there is an accepted subtree
-  which is reached with probability $(\frac{1}{2})^{n} > 0$ rendering the run
-  accepting for this tree.
+  \ac{WDTA} with positive acceptance. Therefore, we construct a \ac{WDTA} with 
+  two states $q_{a}, q_{b}$ where $q_{b}$ is the initial state. The final state 
+  is $q_{a}$ and we distribute uniformely over both branches $q_{b}$ until an 
+  $a$ occurs where the automaton distributes uniformely the state $q_{a}$ 
+  regardless of the read letter, thus $q_{a}$ is a positive sink-state. Any 
+  tree that is accepted does necessarily contain an $a$ since it is the only 
+  chance to produce an acceptance subtree and conversely, if a tree does 
+  contain an $a$ there is a finite path of length $n$ towards the subtree 
+  rooted at this occurence of $a$, hence in the run of the automaton on this 
+  tree there is an accepted subtree which is reached with probability 
+  $(\frac{1}{2})^{n} > 0$ rendering the run accepting for this tree.
 
   On the other hand we show that there is no choiceless \ac{WDTA} with an
-  almost-sure Muller condition that accepts precisely $\mathcal{L}_{\exists a}$.
-  For this consider three trees $t_{0}, t_{1}, t_{b}$ where every letter in
-  $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ only
-  contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with an
-  almost-sure acceptance of a Muller condition to accept
-  $\mathcal{L}_{\exists a}$. The unique runs of $A$ on $t_{0},t_{1}, t_{b}$ do
-  start with the same distribution in the root since
-  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ and $\mathcal{A}$
-  is choiceless and the runs on $t_{0}$ and $t_{1}$ are accepting.
-  Furthermore, we can savely assume that at least on state in each direction
-  does carry weight. Because if w.l.o.g. no state in direction $0$ carries any
-  weight the measure on all accepted runs for the run on $t_{0}$ and $t_{b}$ is
-  equal. Thus, either $t_{0}$ is not accepted or $t_{b}$ is accepted. Both
-  cases contradict the assumption that $\mathcal{A}$ precisely accepts
-  $\mathcal{L}_{\exists a}$. Additionally, for every state that carries weight
-  in the first level of the run of $\mathcal{A}$ on either $t_{0}$ or $t_{1}$
-  does need to have a almost-sure measure on its accepted paths. But those
-  states on the left side produce for $t_{1}$ and $t_{b}$ the same paths, while
-  the states on the right side produce for $t_{0}$ and $t_{b}$ produce the same
-  paths. These paths are almost-surely accepted for $t_{0}$ (resp. $t_{1}$) and
-  therefore also for $t_{b}$ rendering the unique run on $t_{b}$ almost-surely
-  accepted yielding the desired contradiction and concluding the proof.
+  almost-sure Parity-condition $\parity$ that precisely accepts 
+  $\mathcal{L}_{\exists a}$. For this we prove the following lemma:
+  \begin{lemma}
+    For any run $r$ of a \acp{WDTA} $\mathcal{A}$ with a Parity-condition 
+    $\parity$ on a tree $t$ we can consider subruns $r_{u}$ for 
+    $u\in\tuple{Q\times D}^{*}$ with $r_{u}(w) = r(u\cdot w)$ for 
+    $w\in\tuple{Q\times D}^{*}$ and state for any 
+    $\set{v_{1},\dots, v_{n}}\subseteq\tuple{Q\times D}^{*}$ such that
+    $\cyl(v_{i})$ for $1\leq i\leq n$ partitions $\tuple{Q\times D}^{\omega}$
+    \begin{equation*}
+      \mu_{r}(\Acc\interval{Q}(\parity)) = \sum\limits_{1\leq i\leq n}
+        \mu_{r}(\cyl(v_{i}))\cdot\mu_{r_{v_{i}}}(\Acc\interval{Q}(\parity)).
+    \end{equation*}
+    \label{lem:subrunsum}
+  \end{lemma}
+  \begin{proof}
+    Since Parity-conditions are prefix-independent and we partition 
+    $\tuple{Q\times D}^{\omega}$ into $\cyl(v_{i})$ for $1\leq i\leq n$ we can 
+    also partition $\Acc\interval{Q}(\parity)$ into $n$ sets 
+    $\Acc_{i} = \Acc\interval{Q}(\parity)\cap\cyl(v_{i})$ for $1\leq i\leq n$.
+    Therefore, we state
+    \begin{equation*}
+      \mu_{r}(\Acc\interval{Q}(\parity)) = \sum\limits_{1\leq i\leq n}
+        \mu_{r}(\Acc_{i}) = \sum\limits_{1\leq i\leq n}
+        \mu_{r}(\cyl(v_{i}))\cdot\mu_{r_{v_{i}}}(\Acc\interval{Q}(\parity)).
+    \end{equation*}
+  \end{proof}
+  
+  In the following we consider three trees $t_{0}, t_{1}, t_{b}$ where every 
+  letter in $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ 
+  only contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with 
+  an almost-sure acceptance of a Muller-condition to accept 
+  $\mathcal{L}_{\exists a}$. The fix the unique runs of $\mathcal{A}$ on 
+  $t_{0},t_{1}, t_{b}$ as $r_{0}, r_{1}, r_{b}$ respectively. Since 
+  $\mathcal{A}$ is choiceless and 
+  $t_{0}(\epsilon) = t_{1}(\epsilon) = t_{b}(\epsilon) = b$ we get 
+  $r_{0}(\epsilon) = r_{1}(\epsilon) = r_{b}(\epsilon)$. We can fix
+  into $T_{0}$ and $T_{1}$ with $T_{i} = \set{\tuple{q, i}:\text{for }q\in Q}$ 
+  for $i = 1,2$. We can state that $\cyl(T_{0})\cup\cyl(T_{1})$ parititons 
+  $\tuple{Q\times D}^{\omega}$. We can fix $S_{i} = \prolong(T_{i})$ and 
+  observe that $r_{b}(u) = r_{i}(u)$ for all $u\in S_{i}$ ($i = 1,2$). Hence,
+  we see that $\mu_{r_{u}}$ coincides with $\mu_{r_{i_{u}}}$ for $u\in S_{i}$ 
+  ($i = 1,2$) and therefore with Lemma \ref{lem:subrunsum} we obtain
+  \begin{align*}
+    \mu_{r_{b}}(\Acc\interval{Q}(\parity)) 
+    &= \sum\limits_{q\in Q}\mu_{r_{0}}(\cyl(\tuple{q, 1}))\cdot
+      \mu_{r_{\tuple{q, 1}}}(\Acc\interval{Q}(\parity))\\ 
+    &+ \sum\limits_{q\in Q}\mu_{r_{1}}(\cyl(\tuple{q, 0}))\cdot
+      \mu_{r_{\tuple{q, 0}}}(\Acc\interval{Q}(\parity))
+  \end{align*}
+  and since $r_{0}$ and $r_{1}$ are almost-sure accepting it holds that
+  $\mu_{r_{\tuple{q, 0}}}(\Acc\interval{Q}(\parity)) = 1$ for all $q\in Q$ such
+  that $\mu_{r}(\cyl(q, 0)) > 0$ and analogously
+  $\mu_{r_{\tuple{q, 1}}}(\Acc\interval{Q}(\parity)) = 1$ for all $q\in Q$ such
+  that $\mu_{r}(\cyl(q, 1)) > 0$ and therefore 
+  $\mu_{r_{b}}(\Acc\interval{Q}(\parity)) = 1$. This contradicts that 
+  $\mathcal{A}$ precisely accepts $\mathcal{L}_{\exists a}$ since $t_{b}$ is
+  accepted.
 \end{proof}
 
-\subsection{A forrest of languages}
-The different structural properties of \acp{WDTA} introduce different language
-classes. We explore in the following how these classes are related to each
-other. First of all, we notice that determinism obviously is a restriction.
 \begin{proposition}
   The class of languages recognizable with \acp{WDTA} almost-sure acceptance
-  is a proper superset of languages recognizable with determinisitc \acp{WDTA}
+  is a proper superset of languages recognizable with choiceless \acp{WDTA}
   with almost-sure acceptance.
 \end{proposition}
-\begin{proof}
-  For u.d. \acp{WDTA} with a common blueprint this follows from
-  \cite[Proposition 10]{RandAutoInfTrees}.
-  The general case is a little more elaborate but yields an interesting
-  intuition: non-deterministic \acp{WDTA} allow for search of properties on
-  one path while determinism entails a spread of weight and thus cannot
-  recognize properties on one, finitly many or countably many paths if all
-  paths are examined. \fxfatal{elaborate}
-\end{proof}
+
 It is a very interesting result that alternation in non-weighted tree automata
 does not increase the general expressiveness (see \cite{SimAltTreeAuto}).
 This result does unfortunately not translate unconstraint to the weighted case.
-\begin{proposition}
-  The class of languages recognizable with uni-directional \acp{WDTA} with
-  Büchi condition is incomparabel with the class of languages recognizable with
-  choiceless \acp{WDTA} with Büchi condition under almost-sure acceptance.
-\end{proposition}
-\begin{proof}
-  It is known from \cite[Theorem 4 (b), (c)]{DecProblemsForProbAuto} that
-  $\omega$-regular languages and languages recognizable by \acp{PBA} are
-  incomparable. We consider the inverse of Theorem \ref{theorem:pbaequiv} for
-  \acp{WDTA} over a singleton direction set. Let $D$ be a set with $\size{D}=1$
-  and $\mathcal{D} = \tuple{Q, q_{0}, D, \Sigma, \Delta, F}$ a deterministic
-  \ac{WDTA}, hence w.l.o.g. (under almost-sure acceptance we can complete
-  automata with a non-accepting sink state)
-  $\Delta(q,\sigma) = \set{G^{q}_{\sigma}}$. We can straightforwardly define an
-  equivalent \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}}$ with
-  $\delta(q, \sigma, p) = G^{q}_{\sigma}(p, d)$ for the one $d\in D$. Since the
-  runtree of $\mathcal{P}$ coincides with the unique run of $\mathcal{D}$ on
-  any $\alpha$ the equivalence is obvious. Let
-  $\mathcal{U} = \tuple{P, p_{0}, D, \Sigma, \Delta', F'}$ be a uni-directional
-  \ac{WDTA}. Since there is only one $d\in D$ and every transition in
-  $\mathcal{U}$ is only allowed to put weight into one state per direction
-  every run of $\mathcal{U}$ on any $\alpha$ can be reduced to one path with
-  weight $1$. This path is either accepting or non-accepting and thus
-  the class of accepted languages of those \ac{WDTA} is the class of
-  $\omega$-regular languages. Remarkably, we can for any \ac{PBA} define an
-  equivalent uni-directional \ac{WDTA} (for any transition from $q$ to $p$ in
-  the word automaton introduce a transition in the tree automaton that puts all
-  its weight from $q$ to $p$). The claimed incomparability translates
-  immediately from the incomparability of the word automata.
-\end{proof}
+
+
 \begin{corollary}
   For Büchi conditions there are deterministic \acp{WDTA} that do not have an
   equivalent uni-directional \ac{WDTA} with any acceptance measure.
 \end{corollary}
-\begin{proof}
-  In above construction the measure of the one path of a run in an
-  uni-directional \ac{WDTA} is binary ($1$ if the path is accepting and $0$
-  otherwise). Thus the acceptance measures coincide. For the \ac{PBA} the
-  runtree is in bijection to the run of the \ac{WDTA} and
-  \cite[Theorem 4]{RecOmeLangProbAuto} states that \acp{PBA} with positive
-  measure are more expressive than $\omega$-regularity.
-\end{proof}
