@@ -122,7 +122,7 @@ and which is an integral part of the omitted proof of Theorem
 \ref{thm:probautoequiv}).
 \begin{lemma}
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
-  we can construct an equivalent \ac{WDTA} $\mathcal{B}$ with a 
+  we can construct an equivalent \ac{WDTA} $\mathcal{C}$ with a 
   Parity-condition.
   \label{lem:wdtaparityexpressiveness}
 \end{lemma}
@@ -135,12 +135,12 @@ and which is an integral part of the omitted proof of Theorem
       Q, q_{0}, D, \Sigma, \Delta, \mathcal{F} = \set{F_{1},\dots,F_{n}}
     }
   \end{equation*}
-  an equivalent \ac{WDTA} $\mathcal{B}$ with a Parity-condition via the use of
+  an equivalent \ac{WDTA} $\mathcal{C}$ with a Parity-condition via the use of
   an \ac{LAR}. Using an \ac{LAR} increases the state space but preserves the 
   structure, especially the weighting, of a run and thus yields the same 
   measure of the set of accepted paths. We construct
   \begin{equation*}
-    \mathcal{B}=\tuple{
+    \mathcal{C}=\tuple{
       \lar(Q),\ell_{0}, D, \Sigma, \Delta', \parity
     }
   \end{equation*} 
@@ -164,16 +164,16 @@ and which is an integral part of the omitted proof of Theorem
     }
   \end{equation*}
   to $\Delta'$. Fix a tree $t$ and we observe that every run $r$ of 
-  $\mathcal{A}$ can be embedded in a run $r'$ of $\mathcal{B}$ by an 
+  $\mathcal{A}$ can be embedded in a run $r'$ of $\mathcal{C}$ by an 
   inductive construction: for $\tuple{q_{0}, t(\epsilon), r(\epsilon)}\in
   \Delta$ exists an associated $\tuple{\ell_{0}, t(\epsilon), G}$ and we set
   $r'(\epsilon) = G$. Notably, we can pick any element 
   $\tuple{\ell, d}\in\lar(Q)\times D$ with $G(\ell, d) > 0$ and project it to
   $\tuple{p, d}\in Q\times D$ such that $\up(\ell_{0}, p) = \ell$ and iterate
   this argument. This embeds $r$ in $r'$. Moreover, we can observe that this 
-  allows to obtain for any run $r'$ of $\mathcal{B}$ on $t$ a run $r$ of 
+  allows to obtain for any run $r'$ of $\mathcal{C}$ on $t$ a run $r$ of 
   $\mathcal{A}$ on $t$ by iteratively using the corresponding original 
-  transitions from which transitions in $\mathcal{B}$ are derived. Importantly, 
+  transitions from which transitions in $\mathcal{C}$ are derived. Importantly, 
   we can relate by the inductive construction paths in $r$ and $r'$ in both 
   directions such that
   \begin{center}
@@ -186,7 +186,7 @@ and which is an integral part of the omitted proof of Theorem
   \end{center}
   with $\ell_{i} = \up(\ell_{i-1}, q_{i})$ for all $i>0$ and state that all 
   other paths in the domain of $r'$ have a measure of $0$ by definition of the
-  generators in $\mathcal{B}$. Thus, in the \enquote{weighted} part of the 
+  generators in $\mathcal{C}$. Thus, in the \enquote{weighted} part of the 
   domain of $r'$ there is a one-to-one correspondance to elements in the domain
   of $r$. Specifically, we obtain
   \begin{equation*}
@@ -198,7 +198,7 @@ and which is an integral part of the omitted proof of Theorem
     \mu_{r}(\Acc(\mathcal{F})) = \mu_{r'}(\Acc(\parity)),
   \end{equation*} 
   which yields the claimed acceptance equivalence of $\mathcal{A}$ and 
-  $\mathcal{B}$.
+  $\mathcal{C}$.
 \end{proof}
 
 We distinguish certain structural properties on \acp{WDTA} which allows us to
@@ -443,7 +443,7 @@ of $1$ to render the new run almost-surely accepted.
   $w\in\tuple{Q_{2}\times D}^{+}$ holds $r_{1}(u)=r(u)$ and $r_{2}(w)=r(w)$ 
   since $\Delta_{i}'$ mirrors $\Delta_{i}$ for $i= 1,2$ respectively (note that
   also for every two such runs $r_{1}$ and $r_{2}$ a run $r$ in $\mathcal{C}$
-  exists. By construction of $\Delta_{\cap}$ we can additionally state that 
+  exists). By construction of $\Delta_{\cap}$ we can additionally state that 
   $\mu_{r}(\cyl(u)) = \frac{1}{2}\cdot\mu_{r_{1}}(\cyl(u))$ and 
   $\mu_{r}(\cyl(u)) = \frac{1}{2}\cdot\mu_{r_{2}}(\cyl(w))$ respectively. Using
   the fact that $\Acc(\parity_{\cap})$ coincides with $\Acc(\parity_{1})$ and
@@ -554,7 +554,7 @@ more restricted environment from \cite[Proposition 15]{RandAutoInfTrees})
   \emph{not} closed under negation.
 \end{proposition}
 \begin{proof}
-  Naturally, we consider the language $\mathcal{L}$ from Example 
+  Consequently, we consider the language $\mathcal{L}$ from Example 
   \ref{ex:wdtaapath} and its complement, i.e. the language 
   $\overline{\mathcal{L}}$ of binary $\set{a,b}$-trees such that every path 
   contains at least one $a$. We show that $\overline{\mathcal{L}}$ is not 
@@ -571,14 +571,14 @@ more restricted environment from \cite[Proposition 15]{RandAutoInfTrees})
 We want to motivate the introduction of \acp{WDTA} by showing their strength to
 model the behaviour of other probabilistic models. 
 \subsection{Word Automata}
-We want to initially consider \acp{PBA}. By reducing the directions to a 
+Initially, we consider \acp{PBA}. By reducing the directions to a 
 singelton set a tree degenerates to a single path. This path can be interpreted 
 as one word and the run of a \ac{PBA} on that word can be modelled as a run of 
 a \ac{WDTA}:
 \begin{theorem}
-  For every \ac{PBA} $\mathcal{P}$ existent an equivalent \ac{WDTA}
+  For every \ac{PBA} $\mathcal{P}$ existent an equivalent choiceless \ac{WDTA}
   $\mathcal{A}$ over a singleton direction set and Büchi-condition and for 
-  every \emph{choiceless} \ac{WDTA} $\mathcal{A}$ with a Büchi-condition and a
+  every choiceless \ac{WDTA} $\mathcal{A}$ with a Büchi-condition and a
   singleton direction set exists an equivalent \ac{PBA}.
   \label{theorem:pbaequiv}
 \end{theorem}
@@ -639,8 +639,8 @@ $\mathcal{B}(Q)$. Naturally, the equivalence can be expanded to all measureable
 acceptance conditions. This directly entails
 \begin{corollary}
   For every probabilistic word automaton $\mathcal{P}$ with a Rabin-, Parity- 
-  or Muller-condition exists an equivalent \ac{WDTA} $\mathcal{A}$ over a 
-  singleton direction set and equivalent acceptance condition and for 
+  or Muller-condition exists an equivalent choiceless \ac{WDTA} $\mathcal{A}$ 
+  over a singleton direction set and equivalent acceptance condition and for 
   every \emph{choiceless} \ac{WDTA} $\mathcal{A}$ with a Rabin-, Parity- or
   Muller-condition over a singleton direction set exists an equivalent
   probabilistic word automaton $\mathcal{P}$.
@@ -701,8 +701,8 @@ naturally to the equivalence of these automata models, i.e.
   \end{equation*}
   and therefore $\mu_{r}(\Acc\interval{Q}(\parity)) = 1$ if and only if
   $\alpha_{r}\in\Acc\interval{Q}(\parity)$ which happens if and only if the
-  state sequence in $\alpha_{r}$ satisfies the $\parity$ condition. Note here,
-  that this Dirac measure renders positive and almost-sure acceptance 
+  state sequence in $\alpha_{r}$ satisfies the Parity-condition $\parity$. Note 
+  here, that this Dirac measure renders positive and almost-sure acceptance 
   equivalent. Also, by the construction of $\Delta'$ this state sequence is a 
   viable run of $\mathcal{P}$. Also for every run $\beta\in Q^{\omega}$ of 
   $\mathcal{P}$ we obtain a run of $\mathcal{A}$ which induces a Dirac measure 
@@ -724,7 +724,7 @@ translating it to a \ac{WDTA} yields
 \subsection{Probabilistic Weighted Automata}
 Recall that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
 actually resolved using a probability distribution. This is conceptually 
-slightly different to the concet of \acp{WDTA} which still use transitions to
+slightly different to the concept of \acp{WDTA} which still use transitions to
 construct non-deterministically (or for choiceless \acp{WDTA} 
 deterministically) a run. This run in turn uses a weighting along its paths. 
 This concept is modelled using probability distributions but is not necessarily
@@ -733,7 +733,7 @@ in \cite[Chapter 4]{RandAutoInfTrees} where the non-determinism of choosing a
 transition is resolved by probability distributions. This is conceptually 
 closer to the idea of \acp{PBA}. Nevertheless, we still use a weighting within
 the runs itself, but in a more restricted fashion, namely by relying on 
-uniformly distributed weighting only. This de-couples the probability of a 
+uniformly distributed weighting only. This decouples the probability of a 
 movement through the individual runs and the probability of the construction of 
 one particular run itself. This allows for an easier mathematical analysis; but
 lays the technical foundation for a synthesis result later on.
@@ -772,9 +772,9 @@ for every $\tau$ with $\delta(q,\sigma,\tau)>0$ where
 \end{equation*}
 Although sufficient, this renders runs as objects of unneccessary complexity 
 and we therefore rely on a more concise (but equivalent) formalism:
-We define one run $r:D^{*}\rightarrow Q$ such that $r(\epsilon) = q_{0}$ and 
-for every $w\in D^{*}$ we obtain $q = r(w)$ and $\sigma = t(w)$ there is one
-$\tau\in\Delta$ with $\delta(q,\sigma,\tau)>0$ such that $r(w\cdot d)=\tau(d)$ 
+We define one run $r:D^{*}\rightarrow Q$ such that $r(\epsilon) = q_{0}$. And, 
+for every $w\in D^{*}$ such that $q = r(w)$ and $\sigma = t(w)$ there is one
+$\tau\in\Delta$ with $\delta(q,\sigma,\tau)>0$ and $r(w\cdot d)=\tau(d)$ 
 for all $d\in D$. As seen before, the distribution $B$ induces a measure 
 $\mu_{B}$ on the Borel-algebra $\mathcal{B}(D)$ and therefore a probability 
 space $\tuple{D^{\omega} = \Runs, \mathcal{B}(D), \mu_{B}}$. For a run $r$ we 
@@ -826,8 +826,7 @@ also referred to as $\mu_{t}$)
 In \cite{RandAutoInfTrees} different semantics for this automaton model are
 discussed. For example
 \begin{enumerate}
-  \item in terms of $\mu_{t}$ we can formulate the acceptance condition in 
-    terms of
+  \item in terms of $\mu_{t}$ we can formulate the acceptance condition as
     \begin{equation*}
       \mu_{t}(
         \set{
@@ -840,8 +839,8 @@ discussed. For example
     acceptance condition ignores the weighting of the individual runs,
   \item on the other hand we can define the acceptance condition in terms of
     of the $\mu_{t}$ measure of the set of positively accepting runs or 
-    almost-surely accepting runs. Here any combination of a measure for 
-    $\mu_{t}$ and $\mu_{B}$ is possible, but we restrict our arguments on the 
+    almost-surely accepting runs. Here any combinations of measures for 
+    $\mu_{t}$ and $\mu_{B}$ are possible, but we restrict our arguments on the 
     almost-sure $\mu_{t}$ measure of almost-sure $\mu_{B}$ accepting runs, i.e.
     to the condition
     \begin{equation*}
@@ -914,8 +913,8 @@ Therefore, we formulate
     On the other hand, we consider any partial run $r:T\rightarrow Q$. We fix
     $n = \max\set{\size{u}:u\in T}$. Furthermore, we define 
     $T' = D^{n}\setminus T$ as the set of \enquote{missing} elements to balance
-    $T$. Since there are only finitely many elements in $Q$ there are only
-    finitely many functions $r':T'\rightarrow Q$; we gather these in a set
+    $T$. Since there are only finitely many elements in $Q$ and $T'$ there are 
+    only finitely many functions $r':T'\rightarrow Q$; we gather these in a set
     $R = \set{r_{1}, \dots, r_{k}}$. This implies that there are only finitely
     many balanced partial runs $s_{1}, \dots, s_{k}$ with 
     $s_{i}:D^{n}\rightarrow Q$ that agree with $r$ on $T$, namely
@@ -926,30 +925,30 @@ Therefore, we formulate
       \end{cases}
     \end{equation*}
     Moreover, the set of those balanced partial runs $z_{1}, \dots, z_{m}$ that 
-    are compatible with $t$ are a subset of $s_{1}, \dots, s_{k}$. Furthermore, 
-    we obtain that
+    are compatible with $t$ are a subset of $s_{1}, \dots, s_{k}$ and we obtain
     \begin{equation*}
-      \bigcup_{1\leq i\leq m}\compRuns(z_{i}) = \compRuns(r)
+      \bigcup_{1\leq i\leq m}\compRuns(z_{i}) = \compRuns(r).
     \end{equation*}
-    and thereby the membership of $\compRuns(r)$ for every partial run $r$ in
+    This ensures the membership of $\compRuns(r)$ for every partial run $r$ in
     the $\sigma$-algebra generated by the set of balanced partial runs. This
-    implies the claimed equality.
+    implies the claimed equality by the closure properties of the generated 
+    $\sigma$-algebras and their minimality.
   \end{proof}
 
-  This proof re-iterates concepts of the proof for Lemma 
-  \ref{lem:measureabilityAcceptance} in a more complex setting. For any 
-  $p\in D^{*}$ fix the set of all $R_{p}\subseteq\Runs\times\Paths$ such that
-  $\tuple{r,\rho}\in R_{p}$ if and only if $p\sqsubset\rho$ and for all
-  $p\sqsubset u\sqsubset\rho$ holds $r(u)\notin F$. The complement of
-  $\cup_{w\in D^{*}}R_{w}$ describes $f^{-1}(1)$, since every
-  element $\tuple{r,p}$ in the complement of $\cup_{w\in D^{*}}R_{w}$ is not
-  part of any $R_{w}$. Obviously, it is not part of those $R_{w}$ for which
-  $w\not\sqsubset p$ and for those $w\sqsubset p$ all $w$ do have a 
-  prolongation $v$ with $w\sqsubset v\sqsubset p$ with $r(v)\in F$. If on the 
-  other hand $\tuple{r,p}\in f^{-1}(1)$ then $p$ is a path in $r$ which 
-  satisfies the Büchi-condition and therefore for every prefix $w\sqsubset p$ 
-  there is a point $v$ with $w\sqsubset v\sqsubset p$ with $r(v)\in F$ which
-  makes $\tuple{r,p}$ not part of any $R_{w}$.
+  Furthermore, we re-iterate concepts of the proof for Lemma 
+  \ref{lem:measureabilityAcceptance} in this more complex setting to obtain the
+  measureability of $f^{-1}(1)$. For any $p\in D^{*}$ fix the set of all 
+  $R_{p}\subseteq\Runs\times\Paths$ such that $\tuple{r,\rho}\in R_{p}$ if and 
+  only if $p\sqsubset\rho$ and for all $p\sqsubset u\sqsubset\rho$ holds 
+  $r(u)\notin F$. The complement of $\cup_{w\in D^{*}}R_{w}$ describes 
+  $f^{-1}(1)$, since every element $\tuple{r,p}$ in the complement of 
+  $\cup_{w\in D^{*}}R_{w}$ is not part of any $R_{w}$. Obviously, it is not 
+  part of those $R_{w}$ for which $w\not\sqsubset p$ and for those $w\sqsubset 
+  p$ all $w$ do have a prolongation $v$ with $w\sqsubset v\sqsubset p$ with 
+  $r(v)\in F$. If on the other hand $\tuple{r,p}\in f^{-1}(1)$ then $p$ is a 
+  path in $r$ which satisfies the Büchi-condition and therefore for every 
+  prefix $w\sqsubset p$ there is a point $v$ with $w\sqsubset v\sqsubset p$ 
+  with $r(v)\in F$ which makes $\tuple{r,p}$ not part of any $R_{w}$.
 
   It remains to show that $R_{w}$ are measureable for every $w\in D^{*}$. Fix
   one such $w$ and for every $n>\size{w}$ gather for all balanced proper
@@ -990,7 +989,7 @@ $g^{-1}(1)$. This lays the basis for
   \label{prop:pwabyf}
 \end{proposition}
 \begin{proof}
-  Initially, we define the following lemma:
+  Initially, we quote the following lemma:
   \begin{lemma}
     \cite[Lemma 40]{RandAutoInfTrees} Let $\tuple{\Omega,\mathcal{F},\mu}$ be
     a probability space and $f$ a measureable function from $\Omega$ to
@@ -1012,15 +1011,17 @@ $g^{-1}(1)$. This lays the basis for
 \end{proof}
 We proceed by defining an equivalent \ac{WDTA} for a given \ac{PWA}, yielding
 \begin{theorem}[PWA Inclusion]
-  For any \ac{PWA} $\mathcal{A}$ exists a choiceless \ac{WDTA} $\mathcal{B}$
-  such that the languages of $\mathcal{A}$ and $\mathcal{B}$ are equivalent.
+  For any \ac{PWA} $\mathcal{A}$ exists a choiceless \ac{WDTA} $\mathcal{C}$
+  such that the languages of $\mathcal{A}$ and $\mathcal{C}$ are equivalent.
 \end{theorem}
 \begin{proof}
   We provide for a given \ac{PWA} 
-  $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, B, \Delta, \delta, F}$
+  $\mathcal{A}$
   the definition of the equivalent \ac{WDTA} $\mathcal{C}$ as
   \begin{definition}
-    Define \ac{WDTA}
+    For any \ac{PWA} 
+    $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, B, \Delta, \delta, F}$ define a
+    \ac{WDTA}
     \begin{equation*}
       \mathcal{C} = \tuple{Q, q_{0}, D, \Sigma, \Delta', F}
     \end{equation*} 
@@ -1063,8 +1064,8 @@ We proceed by defining an equivalent \ac{WDTA} for a given \ac{PWA}, yielding
     r\in\Runs\mid r(d_{i}) = q_{i}\text{ for }1\leq i\leq n}$ by
   \begin{align*}
     \mu_{r}(\cyl(\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})) &=
-      \prod\limits_{0\leq i\leq n-1}B(d_{i+1})\cdot\sum\limits_{
-        \substack{\tau\in\Delta\\\tau(d_{i+1}) = q_{i+1}}}\delta(\tau)\\
+      \prod\limits_{0\leq i\leq n-1}\tuple{B(d_{i+1})\cdot\sum\limits_{
+        \substack{\tau\in\Delta\\\tau(d_{i+1}) = q_{i+1}}}\delta(\tau)}\\
     &=\prod\limits_{0\leq i\leq n-1}B(d_{i+1})\cdot\prod
         \limits_{0\leq i\leq n-1}\sum\limits_{\substack{
         \tau\in\Delta\\\tau(d_{i+1}) = q_{i+1}}}\delta(\tau)\\
@@ -1229,7 +1230,7 @@ measures coincide.
   restrict any observation to those strategies that are defined on histories in
   the $Q\times D$-part of $\mathcal{M}$. Furthermore, we recall that it 
   suffices to show the equivalence of both measures on the generating objects, 
-  i.e. on all $\cyl{u}$ for all $u\in\tuple{Q\times D}^{*}$, since these values 
+  i.e. on all $\cyl(u)$ for all $u\in\tuple{Q\times D}^{*}$, since these values 
   uniquely determine the extended measures on $\mathcal{B}(Q\times D)$. We fix 
   one object $t:D^{*}\rightarrow\Sigma$ and the unique run $r$ of $\mathcal{A}$ 
   on $t$. We fix one 
@@ -1252,7 +1253,7 @@ measures coincide.
 \subsection{Consequences}
 Modelling \acp{PBA} and probabilistic word automata with stronger acceptance 
 conditions entail immediately undecideability results. Namely, Theorem 
-\ref{thm:pbaequiv} allows to deduce the undecideability of the emptiness 
+\ref{thm:} allows to deduce the undecideability of the emptiness 
 problem for \acp{WDTA} with positive accepatance of an associated 
 Büchi-condition (and therefore also for Rabin-, Parity- and Muller-conditions,
 since these can model Büchi-conditions) and by Corollary 
@@ -1272,18 +1273,21 @@ Büchi-condition to solve the emptiness problem for choiceless \acp{WDTA}
   measure of a Büchi condition is decideable.
   \label{cor:emptiness}
 \end{corollary}
+
+On the other hand, we obtain for uni-directional \acp{WDTA} a decision 
+procedure for the emptiness problem even for Parity-conditions. The central 
+argument here is that by an inductive argument there is always at most one 
+state with weight at every position in the input tree. Especially this entails 
+that the corresponding equivalent \ac{POMDP} does not require the partial 
+observability for the interchangeability of the associated strategy with a 
+tree. Considering only the associated \ac{MDP} without the observation classes 
+allows to use Theorem \ref{thm:mdpstratsynthesis} to obtain a decision 
+procedure for the emptiness problem.
 \begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
   The emptiness problem for an uni-directional \ac{WDTA} with almost-sure
-  acceptance measure of a $\omega$-regular condition can be decided in
+  acceptance measure of a Parity-condition can be decided in
   polynomial time.
 \end{corollary}
-\begin{proof}
-  Since only one state is at any time on a position in the tree the restriction
-  of observation can be discarded without losing the consistency of the
-  associated tree to the strategy. Then, apply
-  \cite[Theorem 3]{RandAutoInfTrees} to the corresponding emptiness game.
-\end{proof}
-
 
 Having used the fact that moving from Büchi to Rabin acceptance conditions
 allow for \acp{PBA} to allow an almost-sure acceptance rather than a positive
