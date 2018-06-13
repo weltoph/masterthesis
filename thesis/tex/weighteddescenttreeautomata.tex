@@ -6,7 +6,7 @@ probability measure at each branching point and the run is considered
 accepted if the measure of those paths that satisfy an associated condition
 (e.g. Büchi- or Parity-condition) have a certain measure. As for \acp{PBA} this
 allows for almost-sure or positive acceptance of runs. In the following we 
-follow suggested generalizations of \cite{RandAutoInfTrees} by designing 
+introduce suggested generalizations of \cite{RandAutoInfTrees} by designing 
 transitions more expressive by adding individual probability measures for them.
 Furthermore, we incorporate the concept of \emph{alternation} by allowing to 
 send different states on the same path through the tree with individual weight.
@@ -725,19 +725,18 @@ translating it to a \ac{WDTA} yields
 \subsection{Probabilistic Weighted Automata}
 Recall that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
 actually resolved using a probability distribution. This is conceptually 
-slightly different to the concept of \acp{WDTA} which still use transitions to
-construct non-deterministically (or for choiceless \acp{WDTA} 
-deterministically) a run. This run in turn uses a weighting along its paths. 
-This concept is modelled using probability distributions but is not necessarily
-understood as a probabilistic choice. We want to discuss a concept introduced
-in \cite[Chapter 4]{RandAutoInfTrees} where the non-determinism of choosing a
-transition is resolved by probability distributions. This is conceptually 
-closer to the idea of \acp{PBA}. Nevertheless, we still use a weighting within
-the runs itself, but in a more restricted fashion, namely by relying on 
-uniformly distributed weighting only. This decouples the probability of a 
-movement through the individual runs and the probability of the construction of 
-one particular run itself. This allows for an easier mathematical analysis; but
-lays the technical foundation for a synthesis result later on.
+slightly different to the concept of \acp{WDTA} which still incorporate a 
+non-deterministic choice of transitions to construct a run. This run in turn 
+uses a weighting along its paths. This concept is modelled using probability 
+distributions but is not necessarily understood as a probabilistic choice. We 
+want to discuss a concept introduced in \cite[Chapter 4]{RandAutoInfTrees} 
+where the non-determinism of choosing a transition is resolved by probability 
+distributions. This is conceptually closer to the idea of \acp{PBA}. 
+Nevertheless, we still use a weighting within the runs itself, but in a more 
+restricted fashion, namely by relying on uniformly distributed weighting only. 
+This decouples the probability of a movement through the individual runs and 
+the probability of the construction of one particular run itself. This allows 
+for an easier mathematical analysis.
 
 We begin by defining the class of \ac{PWA} analogously to
 \cite[Definition 4.1.1]{RandAutoInfTrees} 
@@ -1088,6 +1087,25 @@ We proceed by defining an equivalent \ac{WDTA} for a given \ac{PWA}, yielding
   \end{equation*}
   implies the claim and therefore concludes the proof.
 \end{proof}
+The concept of \acp{PWA} allows to define an interesting tree language.
+\begin{example}
+  \cite[Proposition 43]{RandAutoInfTrees}
+  For a given \ac{PBA} $\mathcal{P} = \tuple{Q, q_{0}, \Sigma, \delta, F}$ and
+  a blueprint $B:D\rightarrow\interval{0,1}$ we define an associated language 
+  $\mathcal{L}_{\mathcal{P}}^{B}$. This language contains all trees $t$ such 
+  that the set of branches in $t$ which are almost-surely accepted by 
+  $\mathcal{P}$ holds a $\mu_{B}$-measure of $1$. The idea is to define 
+  transitions $\tau_{q}$ for every two $q\in Q$ with $\tau_{q}(d) = q$ for 
+  every $d\in D$. And for a state $p$ and a letter $\sigma$ the transition 
+  $\tau_{q}$ is chosen with probability $\delta(p, \sigma, q)$.
+\end{example}
+\begin{drawing}
+  \caption{Illustration of \ac{PWA} which simulates \ac{PBA} on all paths.}
+  \label{fig:pwapbaallpaths}
+  \begin{center}
+    \includegraphics{tikz/parallelpbas.pdf}
+  \end{center}
+\end{drawing}
 
 \subsection{\aclp{POMDP}}
 In the following we want to examine a very interesting observation, namely that

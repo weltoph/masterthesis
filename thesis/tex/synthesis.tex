@@ -1,116 +1,24 @@
 \chapter{Synthesis}
 \label{chapter:synthesis}
-\fxfatal{explain synthesis problem}
+\subsection{Open Synthesis}
 
-\section{Word Automata}
-On the basis of Theorem \ref{thm:POMDPequivWDTA}, i.e. \acp{WDTA} can be used
-to capture the structure of \acp{POMDP}, we provide a product construction for
-a \ac{WDTA} and a word automaton such that the accepted trees model
-strategies which induce a certain measure of the paths of the \ac{POMDP} that
-are accepted by the word automaton. This result allows us to formulate already
-established synthesis results for \acp{POMDP} in our framework of \acp{WDTA}
-and illustrates that \acp{WDTA} allow for decoupling of the \enquote{weigthing}
-and \enquote{accepting} aspects of the model.
-\begin{theorem}
-  For a \ac{POMDP}
-  $\mathcal{M} = \tuple{S,A,\tuple{\tau_{a}}_{a\in A},s_{0},\sim}$
-  with $\mathcal{O} = \set{\interval{s}_{\sim}:s\in S}$ and a deterministic
-  word automaton $\mathcal{A} = \tuple{Q, \Sigma = \tuple{A\times S}, \delta,
-  q_{0}, \parity}$ exists a \ac{WDTA} $\mathcal{W}$ with an
-  almost-sure (resp.  positive) acceptance measure such that $\mathcal{W}$
-  accepts a tree $t$ if and only if $t$ encodes a strategy such that the
-  measure of accepted paths by $\mathcal{A}$ of the unrollment of the execution
-  of $\mathcal{M}$ under $t$ equals $1$ (resp. is $>0$).
-\end{theorem}
-\begin{proof}
-  The central idea is to define a fitting \ac{WDTA} $\mathcal{W}$ for the
-  combination of $\mathcal{M}$ and $\mathcal{A}$. Thus, we introduce
-  \begin{definition}
-    For a \ac{POMDP} $\mathcal{M}$ and a tree automaton $\mathcal{A}$ with
-    \begin{equation*}
-      \mathcal{M} = \tuple{S,A,\tuple{\tau_{a}}_{a\in A},s_{0},\sim}
-      \text{ and }
-      \mathcal{A} = \tuple{Q,\tuple{A\times S},\Delta,q_{0},\parity}
-    \end{equation*}
-    define
-    \begin{equation*}
-      \mathcal{W} = \tuple{S\times Q, \tuple{s_{0}, q_{0}}, \mathcal{O}, A,
-      \Delta', \parity'}
-    \end{equation*}
-    where $\Delta'(\tuple{s,q}, a) = \set{G^{s,a}_{q}}$ with
-    \begin{equation*}
-      G^{s,a}_{q}(o, \tuple{s', p}) = \begin{cases}
-        \tau_{a}(s, s')&\text{ if }o = \interval{s'}_{\sim}\text{ and }
-        \delta(q,\tuple{a,s}) = p\\
-        0&\text{ otherwise}
-      \end{cases}
-    \end{equation*}
-    and
-    \begin{equation*}
-      \parity'(s,p) = \parity(p).
-    \end{equation*}
-  \end{definition}
-  It remains to show that the accepted language of $\mathcal{W}$ precisely
-  consists of those strategies that unroll $\mathcal{M}$ satisfactory to
-  $\mathcal{A}$. Therefore, let $t$ be an accepted tree of $\mathcal{W}$ and
-  $r$ the corresponding accepting run. By reading $t$ as a tree over the
-  directions $\mathcal{O}$ we can argue that $t$ does indeed describe a
-  strategy which respects the observations in $\mathcal{M}$. For every path
-  $p = \tuple{\tuple{s_{0},q_{0}}, o_{0}}\dots\tuple{\tuple{s_{n},q_{n}}, o_{n}}$
-  we can see that
-  \begin{description}
-    \item[(either)] $q_{0}\dots q_{n}$ is the unique run of $\mathcal{A}$ on
-      the path $\tuple{s_{0}, t(o_{0})}\dots\tuple{s_{n},t(o_{0}\dots o_{n})}$
-      if $o_{i} = \interval{s_{i}}_{\sim}$
-    \item[(or)] $\mu_{r}(\cyl(p)) = 0$
-  \end{description}
-  by definition of the transitions of $\mathcal{W}$. Note that these cases are
-  not mutually exclusive, since a certain valid execution (in terms of
-  $\mathcal{A}$) still can be impossible by the choices of the player and the
-  transitions of $\mathcal{M}$. If $p$ does indeed describe a run of
-  $\mathcal{A}$ on $\tuple{s_{0}, t(o_{0})}\dots\tuple{s_{n},t(o_{0}\dots o_{n})}$
-  we can see that
-  $\mu_{r}(\cyl(p)) = \mu_{t}^{\mathcal{M}}(\cyl(s_{0}\dots s_{n}))$ since the
-  transition probabilities coincide with
-  $\prod_{0\leq i\leq n-1}\tau_{a_{i}}(s_{i}, s_{i+1})$.
-  Furthermore by choice of $\parity'$ the set of accepted paths in $r$ are
-  those which are accepted paths in $\mathcal{A}$. Hence, we obtain that the
-  unique run of $\mathcal{W}$ on any $t$ does indeed induce the measure on the
-  accepted paths that coincide with the probability of the execution of these
-  paths in $\mathcal{M}$ under strategy $t$.
+\subsection{Partially Observable Markov Decision Processes}
 
-  The opposite direction follows by similar arguments. Any strategy $t$ that
-  respects the observations in $\mathcal{M}$ can be interpreted as a tree with
-  directions $\mathcal{O}$ and thus is a viable input for $\mathcal{W}$. Also,
-  any such strategy induces on the set of every prolongation of a path
-  $s_{0}\dots s_{n}$ the probability
-  $\prod_{0\leq i\leq n-1}\tau_{
-    t(\interval{s_{0}}_{\sim}\dots\interval{s_{i}}_{\sim})}(s_{i}, s_{i+1})$.
-  Also, there is one unique run $q_{0}\dots q_{n}$ on the word
-  $\tuple{s_{0},t(\interval{s_{0}}_{\sim})}\dots
-   \tuple{s_{n},t(\interval{s_{0}}_{\sim}\dots\interval{s_{n}}_{\sim})}$ by
-  $\mathcal{A}$ and the run $r$ of $\mathcal{W}$ on $t$ yields by definition of
-  its generators the same measure for $\mu_{r}(\cyl(\tuple{\tuple{s_{0},q_{0}},
-  o_{0}}\dots\tuple{\tuple{s_{n},q_{n}}, o_{n}}))$ where
-  $o_{i}= \interval{s_{i}}_{\sim}$ as $t$ induces for $s_{0}\dots s_{n}$ in
-  $\mathcal{M}$.
-\end{proof}
-This allows for formulation of some synthesis questions regarding \acp{POMDP},
-e.g. synthesis for any LTL-formula, uniform-\ac{PBA},\dots.
-
-\section{Probabilitic Büchi Automata}
 The synthesis for \acp{PBA} is - in our current context - understood as the
 following question:
 \begin{definition}[PBA-Synthesis Question]
-  For a given \ac{MDP} $\mathcal{M}$ where the actions are a finite set $O$ and
-  a \ac{PBA} $\mathcal{A}$ over the alphabet $S_{\mathcal{M}}\times O$ we want
-  to find a strategy that generates for every history
-  $\tuple{s_{0}, o_{0}}\dots\tuple{s_{n-1},o_{n-1}}s_{n}$ an
-  $o_{n}$ such that almost-all generated executions are accepted by
-  $\mathcal{P}$.
+  Given a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} $\mathcal{P}$ with
+  \begin{equation*}
+    \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+  \text{ and }
+    \mathcal{P} = \tuple{Q, q_{0}, S, \delta, F}
+  \end{equation*}
+  exists a strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that 
+  almost-all executions of $\mathcal{A}$ under $s$ are accepted by 
+  $\mathcal{P}$?
   \label{def:synthesis}
 \end{definition}
-Considering a qualitative acceptance condition on $\mathcal{A}$ we can answer
+Considering a qualitative acceptance condition on $\mathcal{P}$ we can answer
 this question positively with
 \fxwarning{can this be strengthened to POMDPs?}
 \begin{theorem}[Qualitative PBA Synthesis]

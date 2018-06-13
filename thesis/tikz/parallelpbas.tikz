@@ -1,0 +1,41 @@
+\tikzset{
+  outline/.style={
+    line width = 2pt
+  },
+  pathline/.style={
+    line width = 1pt,
+    dotted
+  }
+}
+\newcommand{\runtree}[3]{%
+  \node (#1 c) at #2 {};
+  \node[above=2 of #1 c] (#1 t) {};
+  \node[below left=2 and 1 of #1 c] (#1 l) {};
+  \node[below right=2 and 1 of #1 c] (#1 r) {};
+
+  \node[below =0.9 of #1 t] (p1) {};
+  \node[below right=0.8 and 0.3 of p1] (p2) {};
+  \node[below left=0.2 and 0.7 of p2] (p3) {};
+  \node[below right=0.4 and 0.3 of p3] (p4) {};
+  \node[below right=0.8 and 0.05 of p4] (p5) {};
+
+  \draw[outline, shorten > = 0.4cm] (#1 t.center) to (#1 l.center);
+  \draw[outline, shorten > = 0.4cm] (#1 t.center) to (#1 r.center);
+  \draw[outline, dotted] (#1 t.center) to (#1 l.center);
+  \draw[outline, dotted] (#1 t.center) to (#1 r.center);
+
+  \draw[draw=none, fill=#3, fill opacity=0.6]
+    (#1 t.center) -- (#1 l.center) -- (#1 r.center) -- cycle;
+
+  \draw[pathline] (#1 t.center) to (p1.center);
+  \draw[pathline] (p1.center) to (p2.center);
+  \draw[pathline] (p2.center) to (p3.center);
+  \draw[pathline] (p3.center) to (p4.center);
+  \draw[pathline] (p4.center) to (p5.center)
+}
+\begin{tikzpicture}
+  \foreach \counter in {1,...,4}
+    \node[circle, draw, fill=black, inner sep=0.5pt] (d \counter) at (-0.5*\counter,-0.4*\counter) {};
+  \foreach \color [count = \counter from 3] in {blue!70,red,green}
+    \runtree{\counter}{(-\counter,-0.8*\counter)}{\color};
+\end{tikzpicture}
