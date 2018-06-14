@@ -1,12 +1,27 @@
 \input{tikz/pwaruns-util.tikz}
 \begin{tikzpicture}
-  \foreach \color [count = \counter from 1] in {blue!70,red,green}
-    \runtree{\counter}{(-2*\counter,-\y{\counter})}{\color};
-  \begin{scope}[on background layer]
-    \cutplain{1}{t}{3}{p1}{pink!40};
-    \cutplain{1}{p1}{3}{p2}{pink};
-    \cutplain{1}{p2}{3}{p3}{pink!40};
-    \cutplain{1}{p3}{3}{p4}{pink};
-    \cutplain{1}{p4}{3}{p5}{pink};
-  \end{scope}
+  \node[label=135:$(a)$] (left) {
+    \begin{tikzpicture}
+      \foreach \color [count = \counter from 1] in {blue!70,red,green}
+        \runtree{\counter}{(-2*\counter,-\y{\counter})}{\color};
+    \end{tikzpicture}
+  };
+  \node [right=of left, label=135:$(b)$] (right) {
+    \begin{tikzpicture}
+      \foreach \color [count = \counter from 1] in {blue!70,red,green}
+        \runtree{\counter}{(-2*\counter,-\y{\counter})}{\color};
+      \begin{scope}[on background layer]
+        \cutplain{1}{t}{3}{p1}{pink};
+        \cutplain{1}{p1}{3}{p2}{pink!40};
+        \cutplain{1}{p2}{3}{p3}{pink};
+        \cutplain{1}{p3}{3}{p4}{pink!40};
+        \cutplain{1}{p4}{3}{p5}{pink!60};
+      \end{scope}
+    \end{tikzpicture}
+  };
+  \node [below =2 of left.east, label=135:$(c)$] (bottom) {
+    \begin{tikzpicture}
+      \runtree[line width=3.5pt, pink!80, rounded corners]{wdta}{(0,0)}{orange!20};
+    \end{tikzpicture}
+  };
 \end{tikzpicture}

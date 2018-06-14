@@ -1097,10 +1097,25 @@ The concept of \acp{PWA} allows to define an interesting tree language.
   $\mathcal{P}$ holds a $\mu_{B}$-measure of $1$. The idea is to define 
   transitions $\tau_{q}$ for every two $q\in Q$ with $\tau_{q}(d) = q$ for 
   every $d\in D$. And for a state $p$ and a letter $\sigma$ the transition 
-  $\tau_{q}$ is chosen with probability $\delta(p, \sigma, q)$.
+  $\tau_{q}$ is chosen with probability $\delta(p, \sigma, q)$. Then, every run
+  contains one possible execution of $\mathcal{P}$ on every path of the tree.
+  When, translated into the equivalent \ac{WDTA} we obtain transitions of the
+  form
+  \begin{equation*}
+    \tuple{q, \sigma, G}\text{ with }G(p,d) = \delta(q,\sigma, p)\cdot B(d).
+  \end{equation*}
+  Therefore, along one particular path the run-tree of $\mathcal{P}$ unfolds
+  where every movement is scaled with $B(d)$ (see Figure 
+  \ref{fig:pwapbaallpaths} for an illustration).
 \end{example}
 \begin{drawing}
-  \caption{Illustration of \ac{PWA} which simulates \ac{PBA} on all paths.}
+  \caption{Illustration of a \ac{PWA} which simulates a \ac{PBA} on all paths. 
+  In $(a)$ we picture some of the parallel executed runs with one path 
+  particularly marked. On this path every run executes one possible run of the
+  \ac{PBA}; therefore, all runs are interconnected on this path by executing 
+  different state sequences (see $(b)$). When translated into the equivalent
+  \ac{WDTA} along this path the complete run-tree of the associated
+  \ac{PBA} is executed (marked by the colored path in $(c)$).}
   \label{fig:pwapbaallpaths}
   \begin{center}
     \includegraphics{tikz/parallelpbas.pdf}
