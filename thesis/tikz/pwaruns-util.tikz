@@ -1,0 +1,56 @@
+\tikzset{
+  outline/.style={
+    line width = 2pt
+  },
+  pathline/.style={
+    line width = 1pt,
+    dotted
+  }
+}
+\newcommand{\runtree}[3]{%
+  \node (#1 c) at #2 {};
+  \node[above=2 of #1 c] (#1 t) {};
+  \node[below left=2 and 1 of #1 c] (#1 l) {};
+  \node[below right=2 and 1 of #1 c] (#1 r) {};
+
+  \node[below =0.9 of #1 t] (#1 p1) {};
+  \node[below right=0.8 and 0.3 of #1 p1] (#1 p2) {};
+  \node[below left=0.3 and 0.3 of #1 p2] (#1 p3) {};
+  \node[below right=0.4 and 0.3 of #1 p3] (#1 p4) {};
+  \node[below right=0.8 and 0.05 of #1 p4] (#1 p5) {};
+
+  \node (#1 b) at (#1 l-|#1 p5) {};
+
+  \draw[outline, shorten > = 0.4cm] (#1 t.center) to (#1 r.center);
+  \draw[outline, dotted] (#1 t.center) to (#1 r.center);
+
+  \begin{scope}[on background layer]
+    \draw[outline, shorten > = 0.4cm] (#1 t.center) to (#1 l.center);
+    \draw[outline, dotted] (#1 t.center) to (#1 l.center);
+  \end{scope}
+
+  \begin{scope}[on background layer]
+    \draw[draw=none, fill=#3, fill opacity=0.6]
+      (#1 t.center) -- (#1 p1.center) -- (#1 p2.center) -- (#1 p3.center) 
+      -- (#1 p4.center) -- (#1 p5.center) -- (#1 b.center) -- (#1 l.center) 
+      -- cycle;
+  \end{scope}
+  \draw[draw=none, fill=#3, fill opacity=0.6]
+    (#1 t.center) -- (#1 p1.center) -- (#1 p2.center) -- (#1 p3.center) 
+    -- (#1 p4.center) -- (#1 p5.center) -- (#1 b.center) -- (#1 r.center) 
+    -- cycle;
+
+  \draw[pathline] (#1 t.center) to (#1 p1.center);
+  \draw[pathline] (#1 p1.center) to (#1 p2.center);
+  \draw[pathline] (#1 p2.center) to (#1 p3.center);
+  \draw[pathline] (#1 p3.center) to (#1 p4.center);
+  \draw[pathline] (#1 p4.center) to (#1 p5.center)
+}
+\newcommand{\y}[1]{%
+  0.3*#1
+}
+\newcommand{\cutplain}[6][0.6]{%
+  \draw [fill = #6, fill opacity = #1, draw = none]
+    (#2 #3.center) -- (#4 #3.center) -- (#4 #5.center)
+    -- (#2 #5.center) -- cycle;
+}
