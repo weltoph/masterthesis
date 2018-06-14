@@ -532,8 +532,24 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
   \begin{proof}
     We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
     $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
-    \ref{ex:fina}).
-    \fxfatal{to be finished}
+    \ref{ex:fina}). For the sake of obtaining a contradiction we assume that 
+    there is in fact one \ac{PBA} $\mathcal{P}$ which accepts $\mathcal{L}$ 
+    under an almost-sure acceptance. Fundamentally, we observe that by 
+    definition of the transition probabilities for a \ac{PBA} we obtain for any 
+    $u\in\Sigma^{n}$ and $\alpha, \beta\in\cyl(u)$ that
+    \begin{equation}
+      \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
+    \end{equation}
+    This justifies to introduce the notion of $\mu_{u}$ which is only defined
+    on all cylindric sets from a prefix that is of length $\leq\size{u}$. 
+    Additionally, we introduce for one $\alpha\in\Sigma^{\omega}$ and 
+    $F\subseteq Q$ the sequence
+    \begin{equation*}
+      \tuple{a_{n}}_{n\in\mathbb{N}}\text{ with }
+        a_{n} = \sum_{v\in Q^{n}\tuple{Q\setminus F}^{n}}\mu_{\alpha}(\cyl(v)).
+    \end{equation*}
+    This sequence converges for $n\rightarrow\infty$ to 
+    $\mu_{\alpha}(\Acc_{\cobuechi}(F))$.
   \end{proof}
 \end{proof}
 

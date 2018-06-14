@@ -494,6 +494,9 @@ sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
       \end{equation*}
   \end{description}
 \end{definition}
+An illustration of such a game can be found in Figure 
+\ref{fig:treeacceptancegame}. 
+
 \begin{drawing}
   \caption{
     Illustration of $\mathcal{G}(\mathcal{A}, t)$ for $\mathcal{A}$ as
@@ -501,16 +504,18 @@ sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
     $t$ with $t(u) = a$ if and only if $u = 00$. Nodes of player $0$ are 
     circles while player $1$ plays on rectangles. Every triangle is 
     associated with one word $u\in\set{0,1}^{*}$ and labeled with $t(u)$. 
+    Player $0$ may win by moving towards the $t(00)$ subgame, which is easily
+    achievable since player $1$ only has trivial moves up to that point.
   }
   \label{fig:treeacceptancegame}
   \begin{center}
-    \resizebox{0.9\textwidth}{!}{%
+    \resizebox{\textwidth}{!}{%
       \includegraphics{tikz/treeacceptancegame.pdf}%
     }
   \end{center}
 \end{drawing}
-An illustration of such a game can be found in Figure 
-\ref{fig:treeacceptancegame}. The central insight for this game is the 
+
+The central insight for this game is the 
 following lemma which connects the acceptance of $\mathcal{A}$ of $t$ with the
 strategies of player $0$ in $\mathcal{G}(\mathcal{A}, t)$.
 \begin{lemma}
@@ -572,6 +577,7 @@ central idea behind the construction of a dual automata for a given \ac{APTA}.
   checked by the strategies player $1$ may choose against $f_{0}$ (which all 
   loose against the winning strategy $f_{0}$).
 \end{proof}
+
 Notably, Theorem \ref{thm:boreldet}
 solves the aforementioned difficulty with exchanging quantifiers in the 
 semantic of tree automata since if there exists for every strategy of player 
