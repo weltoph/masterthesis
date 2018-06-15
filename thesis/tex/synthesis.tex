@@ -3,7 +3,7 @@
 \section{Open Synthesis}
 
 \section{Strategy Synthesis for \ac{POMDP}}
-
+\subsection{Probabilistic Büchi Automata}
 The synthesis for \acp{PBA} is - in our current context - understood as the
 following question:
 \begin{definition}[PBA-Synthesis Question]
@@ -36,8 +36,8 @@ similarities with the one presented there, the arguments used here are a little
 more involved.
 
 \begin{proof}
-  For the following argument we fix one strategy 
-  $s:\interval{S}_{\sim}^{*}\rightarrow A$ which induces a probability space
+  We fix one strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ which induces a 
+  probability space
   \begin{equation*}
     \tuple{S^{\omega},\mathcal{B}(S), \mu_{s}}.
   \end{equation*}
@@ -47,92 +47,71 @@ more involved.
     \tuple{Q^{\omega},\mathcal{B}(Q), \mu_{\alpha}}.
   \end{equation*}
   The analytical complexity is rooted in the dependency of $\mu_{\alpha}$ from
-  $\alpha$ and therefore, indirectly, from $\mu_{s}$. First of all, we define
+  $\alpha$. We approach this dependency in terms of \emph{Markov-kernels}. We
+  define (analogously to \cite[Definition 8.25]{Klenke})
+  \begin{definition}[Markov-Kernel]
+    For two measurable spaces $\tuple{\Omega_{1},\mathcal{F}_{1}}$ and 
+    $\tuple{\Omega_{2},\mathcal{F}_{2}}$ a function
+    \begin{equation*}
+      K:\Omega_{1}\times\mathcal{F}_{2}\rightarrow\interval{0,1}
+    \end{equation*}
+    is called a Markov-kernel if
+    \begin{enumerate}
+      \item $K(\cdot, A)$ is measurable in $\mathcal{F_{1}}$ for all 
+        $A\in\mathcal{F}_{2}$,
+      \item $K(\omega, \cdot)$ is a probability measure on 
+        $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every $\omega\in\Omega_{1}$.
+    \end{enumerate}
+  \end{definition}
+  We define the following Markov-kernel
   \begin{equation*}
-    f:S^{\omega}\rightarrow\interval{0,1}\text{ with }f(\alpha) = 
-      \mu_{\alpha}(\Acc(F)).
+    K:S^{\omega}\times\mathcal{B}(Q)\rightarrow\interval{0,1}\text{ with }
+      K(\alpha, A) = \mu_{\alpha}(A)
   \end{equation*}
-  Referring to Lemma \ref{lem:almosteverywhere} allows us to state
+  for the measurable spaces $\tuple{S^{\omega},\mathcal{B}(S)}$ and 
+  $\tuple{Q^{\omega},\mathcal{B}(Q)}$. The central inside arises from Lemma 
+  \ref{lem:almosteverywhere} which allows us to state
   \begin{equation*}
-    \int_{\in S^{\omega}}f(\cdot) d\mu_{s} = 1 \text{ iff }
-      \mu_{s}(f^{-1}(1)) = 1,
+    \int_{S^{\omega}}K(\cdot, \Acc(F)) d\mu_{s} 
+    = \int_{\alpha\in S^{\omega}}\mu_{\alpha}(\Acc(F))d\mu_{s} = 1 \text{ iff }
+      \mu_{s}(K(\cdot,\Acc(F))^{-1}(1)) = 1.
   \end{equation*}
-  under the premise that $f$ is indeed measureable. By \cite[]{Bauer} it 
-  suffices to show for every $a\in\mathbb{R}$ 
-  \begin{equation*}
-    F_{a} = \set{\alpha\in S^{\omega}\mid f(\alpha)\leq a}\in\mathcal{B}(S).
-  \end{equation*}
+  This characterises the synthesis question from Definition \ref{def:synthesis}
+  since $\mu_{s}(K(\cdot,\Acc(F))^{-1}(1))$ is the set of executions which are
+  accepted by an almost-sure measure by $\mathcal{P}$. Notably, we can assure 
+  this statement only under the premise that $K(\cdot, \Acc(F))$ is indeed 
+  measurable. This is a direct consequence if $K$ is a Markov-kernel since 
+  $\Acc(F)\in\mathcal{B}(Q)$. We address this condition with the following
   \begin{lemma}
-    For every $a\in\mathbb{R}$ holds that $F_{a}$ as above is in 
-    $\mathcal{B}(S)$.
+    $K$ as defined above is a Markov-kernel.
   \end{lemma}
   \begin{proof}
-    Initially, we focus on a co-Büchi condition $F$ and examine
-    \begin{equation*}
-      g:S^{\omega}\rightarrow\interval{0,1}\text{ with }
-      g(\alpha) = \mu_{\alpha}(\Acc_{\cobuechi}(F)),
-    \end{equation*}
-    since it forms a more concise argument. We claim that for $G_{a}$ 
-    (analogously defined to $F_{a}$)
-    \begin{equation}
-      G_{a} = \bigcap_{i\in\mathbb{N}_{>0}}\bigcup_{n\in\mathbb{N}_{>0}}
-        \bigcap_{m\in\mathbb{N}_{>0}}\cyl(\set{s\in S^{m+n}\mid
-        \sum\limits_{v\in Q^{m}\tuple{Q\setminus F}^{n}}\mu_{s}(\cyl(v))\leq 
-          a+\frac{1}{i}}).
-      \label{eq:Ga}
-    \end{equation}
-    Fundamentally, we observe that by definition of the transition 
-    probabilities for a \ac{PBA} we obtain for any $u\in S^{n}$ and 
-    $\alpha, \beta\in\cyl(u)$ that
-    \begin{equation}
-      \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
-    \end{equation}
-    This justifies using the notion $\mu_{u}$ for all cylindric sets with a
-    common prefix of a length $\leq\size{u}$. Furthermore, we define 
-    $\mu^{p}_{\alpha}$ as the probability measure for the probabilistic process 
-    of a \ac{PBA} which reads $\alpha$ starting in $p\in Q$. Naturally, 
-    $\mu^{q_{0}}_{\alpha}$ coincides with our understanding of $\mu_{\alpha}$. 
-    Then, we may obtain for every 
-    $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$ an associated 
-    sequence
-    \begin{equation*}
-      \tuple{a_{n}}_{n\in\mathbb{N}_{>0}}\text{ with }
-      \sum_{v = v_{1}\dots v_{n}\in Q^{n}}\mu_{\alpha}(\cyl(v))\cdot
-        \mu^{v_{n}}_{\alpha_{n+1}\alpha_{n+2}\dots}(
-          \tuple{Q\setminus F}^{\omega}).
-    \end{equation*}
-    Observably, this sequence converges towards 
-    $\mu_{\alpha}(\Acc_{\cobuechi}(F))$ for increasing $n$ since
-    \begin{equation*}
-      \Acc_{\cobuechi}(F) = \bigcup\limits_{n\in\mathbb{M}}Q^{n}
-        \tuple{Q\setminus F}^{\omega}
-      \text{ and }a_{n} = \mu_{\alpha}(\bigcup\limits_{i = 1}^{n}
-        Q^{i}\tuple{Q\setminus F}^{\omega}).
-    \end{equation*}
-    In Equation \ref{eq:Ga} this is found in the innermost intersection for all
-    prolongations of the prefix $v_{1}\dots v_{m}$. Notably,
-    \begin{equation*}
-      a_{m} = \lim_{n\rightarrow\infty}\sum
-        \limits_{v\in Q^{m}\tuple{Q\setminus F}^{n}}\mu_{\alpha}(\cyl(v))
-    \end{equation*}
-    for $\alpha\in S^{\omega}$ and $\tuple{a_{i}}_{i\in\mathbb{N}}$ as the 
-    associated sequence. Hence, pick $\alpha\in S^{\omega}$ such that 
-    $\mu_{\alpha}(\Acc_{cobuechi})\leq a$ and therefore, for any $\eta > 0$ we
-    may pick $m_{\eta}$ such that $\size{a - a_{m}} < \eta$ for all 
-    $m > m_{\eta}$. Moreover,
-    \begin{equation*}
-      \alpha\in\bigcap_{n\in\mathbb{N}_{>0}}\cyl(\set{s\in S^{m+n}\mid
-        \sum\limits_{v\in Q^{m_{\eta}}\tuple{Q\setminus F}^{n}}\mu_{s}(
-        \cyl(v))\leq a+\frac{1}{i}})
-    \end{equation*}
-    for every $i$ if we set $\eta = \frac{1}{i}$. This implies 
-    $\alpha\in G_{a}$.
+    With $K(\alpha,\cdot) = \mu_{\alpha}$ it is trivial to state that 
+    $K(\alpha,\cdot)$ defines a probability measure for 
+    $\tuple{Q^{\omega},\mathcal{B}(Q)}$.
 
-    On the other hand, we may assume that $\alpha\in S^{\omega}$ is chosen such
-    that $\mu_{\alpha}(\Acc_{\cobuechi}) > a$. Then there is one $\eta > 0$
-    such that $\size{a_{n} - a} > \eta$ for all $n$ chosen large enough. But 
-    this implies that $\alpha$ is for any $m$ eventually not part of the 
-    cylinder of the innermost intersection of Equation \ref{eq:Ga}, yielding 
-    $\alpha\not\in G_{a}$ by all $i$ such that $\frac{1}{i} < \eta$.
+    We refer to \cite[Remark 8.26]{Klenke} to justify that we only check the 
+    second condition for cylindric $A\in\mathcal{B}(Q)$, i.e. $A = \cyl(u)$ for 
+    some $u\in Q^{*}$. Fundamentally, we observe that by definition of the 
+    transition probabilities for a \ac{PBA} we obtain for any $u\in S^{n}$ and 
+    $\alpha, \beta\in\cyl(u)$ that
+    \begin{equation*}
+      \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
+    \end{equation*}
+    This justifies the use of the notion $\mu_{u}$.
+    By \cite[Theorem 9.2]{Bauer} the measurability of $K(\cdot, \cyl(u))$ is
+    implied if for all $a\in\mathbb{R}$
+    \begin{equation*}
+      \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(v))\leq a}\in\mathcal{B}(S).
+    \end{equation*}
+    Observably,
+    \begin{equation*}
+      \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(v))\leq a} = 
+        \bigcup\set{
+          \cyl(u):u\in S^{\size{v}}\text{ and }\mu_{u}(\cyl(v))\leq a
+        }
+    \end{equation*}
+    implies the necessary membership in $\mathcal{B}(S)$ since $S^{\size{v}}$ 
+    is finite.
   \end{proof}
 \end{proof}

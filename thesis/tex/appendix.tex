@@ -1,0 +1,90 @@
+  By \cite[Theorem 9.2]{Bauer} the measurability is implied if for every 
+  $a\in\mathbb{R}$ 
+  \begin{equation*}
+    F_{a} = \set{\alpha\in S^{\omega}\mid 
+      K(\alpha, \Acc(F))\leq a}\in\mathcal{B}(S).
+  \end{equation*}
+  \begin{lemma}
+    For every $a\in\mathbb{R}$ holds that $F_{a}$ as above is in 
+    $\mathcal{B}(S)$.
+  \end{lemma}
+  The proof for this can be obtained as corollary from the argument below that 
+  $K$ indeed is a \emph{Markov-kernel}, but we provide one here nevertheless to 
+  familiarize ourselves with the concept. Additionally, this allows us to 
+  semantically separate the argumentativ steps.
+  \begin{proof}
+    Initially, we focus on a co-Büchi condition $F$ and examine
+    \begin{equation*}
+      g:S^{\omega}\rightarrow\interval{0,1}\text{ with }
+      g(\alpha) = \mu_{\alpha}(\Acc_{\cobuechi}(F)),
+    \end{equation*}
+    since it forms a more concise argument. We claim that for $G_{a}$ 
+    which is defined analogously to $F_{a}$
+    \begin{equation}
+      G_{a} = \bigcap_{i\in\mathbb{N}_{>0}}\bigcup_{n\in\mathbb{N}_{>0}}
+        \bigcap_{m\in\mathbb{N}_{>0}}\cyl(\set{s\in S^{m+n}\mid
+        \sum\limits_{v\in Q^{m}\tuple{Q\setminus F}^{n}}\mu_{s}(\cyl(v))\leq 
+          a+\frac{1}{i}}).
+      \label{eq:Ga}
+    \end{equation}
+    Fundamentally, we observe that by definition of the transition 
+    probabilities for a \ac{PBA} we obtain for any $u\in S^{n}$ and 
+    $\alpha, \beta\in\cyl(u)$ that
+    \begin{equation}
+      \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
+    \end{equation}
+    This justifies using the notion $\mu_{u}$ for all cylindric sets with a
+    common prefix of a length $\leq\size{u}$. Furthermore, we define 
+    $\mu^{p}_{\alpha}$ as the probability measure for the probabilistic process 
+    of a \ac{PBA} which reads $\alpha$ starting in $p\in Q$. Naturally, 
+    $\mu^{q_{0}}_{\alpha}$ coincides with our understanding of $\mu_{\alpha}$. 
+    Then, we may obtain for every 
+    $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$ an associated 
+    sequence
+    \begin{equation*}
+      \tuple{a_{n}}_{n\in\mathbb{N}_{>0}}\text{ with }
+      \sum_{v = v_{1}\dots v_{n}\in Q^{n}}\mu_{\alpha}(\cyl(v))\cdot
+        \mu^{v_{n}}_{\alpha_{n+1}\alpha_{n+2}\dots}(
+          \tuple{Q\setminus F}^{\omega}).
+    \end{equation*}
+    Observably, this sequence converges towards 
+    $\mu_{\alpha}(\Acc_{\cobuechi}(F))$ for increasing $n$ since
+    \begin{equation*}
+      \Acc_{\cobuechi}(F) = \bigcup\limits_{n\in\mathbb{M}}Q^{n}
+        \tuple{Q\setminus F}^{\omega}
+      \text{ and }a_{n} = \mu_{\alpha}(\bigcup\limits_{i = 1}^{n}
+        Q^{i}\tuple{Q\setminus F}^{\omega}).
+    \end{equation*}
+    In Equation \ref{eq:Ga} this is found in the innermost intersection for all
+    prolongations of the prefix $v_{1}\dots v_{m}$. Notably,
+    \begin{equation*}
+      a_{m} = \lim_{n\rightarrow\infty}\sum
+        \limits_{v\in Q^{m}\tuple{Q\setminus F}^{n}}\mu_{\alpha}(\cyl(v))
+    \end{equation*}
+    for $\alpha\in S^{\omega}$ and $\tuple{a_{i}}_{i\in\mathbb{N}}$ as the 
+    associated sequence. Hence, pick $\alpha\in S^{\omega}$ such that 
+    $\mu_{\alpha}(\Acc_{\cobuechi}(F))\leq a$ and therefore, for any $\eta > 0$ 
+    we may pick $m_{\eta}$ such that $\size{a - a_{m}} < \eta$ for all 
+    $m > m_{\eta}$. Moreover,
+    \begin{equation*}
+      \alpha\in\bigcap_{n\in\mathbb{N}_{>0}}\cyl(\set{s\in S^{m+n}\mid
+        \sum\limits_{v\in Q^{m_{\eta}}\tuple{Q\setminus F}^{n}}\mu_{s}(
+        \cyl(v))\leq a+\frac{1}{i}})
+    \end{equation*}
+    for every $i$ if we set $\eta = \frac{1}{i}$. This implies 
+    $\alpha\in G_{a}$.
+    On the other hand, if we assume that $\alpha\in S^{\omega}$ is chosen such
+    that $\mu_{\alpha}(\Acc_{\cobuechi}(F)) > a$. Then there is one $\eta > 0$
+    such that $\size{a_{n} - a} > \eta$ for all $n$ chosen large enough. But 
+    this implies that $\alpha$ is for any $m$ eventually not part of the 
+    cylinder of the innermost intersection of Equation \ref{eq:Ga}, yielding 
+    $\alpha\not\in G_{a}$ by all $i$ such that $\frac{1}{i} < \eta$.
+
+    The measurability of $g$ induces the measurability of $K(\cdot, \Acc(F))$
+    since 
+    \begin{equation*}
+      K(\alpha, \Acc(F)) = 1 - g(\alpha)
+    \end{equation*} 
+    and therefore since the constant function $1$ is measurable so is 
+    $K(\alpha, \Acc(F))$ by \cite[Theorem 9.4]{Bauer}.
+  \end{proof}
