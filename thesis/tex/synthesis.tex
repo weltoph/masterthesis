@@ -1,6 +1,33 @@
 \chapter{Synthesis}
 \label{chapter:synthesis}
-\section{Open Synthesis}
+For the general synthesis question we refer to \cite{Church} and formalize it
+as
+\begin{definition}[Synthesis Question]
+  Given a logical specification  $\varphi(\cdot, \cdot)$ over inputs and 
+  outputs from $I^{\omega}$ and $J^{\omega}$ respectively. The synthesis 
+  problem requires to compute for any such $\varphi$ an algorithm 
+  $S:I^{+}\rightarrow J$ such that for every 
+  $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ and every 
+  $S(\alpha) = S(\alpha_{1})S(\alpha_{1}\alpha_{2})\dots$ satisfies 
+  $\varphi(I, S(I))$ or prove that such an $S$ cannot exist.
+\end{definition}
+Naturally, the complexity of this problem is tightly related to the 
+expressibility of $\varphi$. The comprehensive demand of this question, namely
+to generate for all inputs an associated \enquote{good} output, allows for a
+game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
+the environment as antagonistic and formulate the synthesis question in terms
+of strategies, i.e. one player generates inputs while another player generates
+outputs. The output-player wins if and only if $\varphi$ is satisfied for the
+input- and outputsequences. In the following we present known synthesis results 
+for those $\varphi$ which allow to capture the associated relation as 
+$\omega$-regular language. Subsequently, we pivot towards probabilistic 
+environments and review an approach to synthesis algorithms there which are not
+necessarily completely correct but almost-surely satisfy a specification 
+$\varphi$. At last, we examine probabilistic environments which are modelled as
+\acp{POMDP}.
+
+\subsection{$\omega$-regular Languages}
+
 
 \section{Strategy Synthesis for \ac{POMDP}}
 \subsection{Probabilistic Büchi Automata}
