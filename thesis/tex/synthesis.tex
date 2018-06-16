@@ -1,36 +1,90 @@
 \chapter{Synthesis}
 \label{chapter:synthesis}
 For the general synthesis question we refer to \cite{Church} and formalize it
-as
-\begin{definition}[Synthesis Question]
-  Given a logical specification  $\varphi(\cdot, \cdot)$ over inputs and 
+with 
+\begin{definition}[Synthesis Problem]
+  Given a logical specification  $\phi(\cdot, \cdot)$ over inputs and 
   outputs from $I^{\omega}$ and $J^{\omega}$ respectively. The synthesis 
-  problem requires to compute for any such $\varphi$ an algorithm 
+  problem requires to compute for any such $\phi$ an algorithm 
   $S:I^{+}\rightarrow J$ such that for every 
   $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ and every 
   $S(\alpha) = S(\alpha_{1})S(\alpha_{1}\alpha_{2})\dots$ satisfies 
-  $\varphi(I, S(I))$ or prove that such an $S$ cannot exist.
+  $\phi(I, S(I))$ or prove that such an $S$ cannot exist (cp. the 
+  illustration in Figure \ref{fig:synthesis}).
 \end{definition}
+\begin{drawing}
+  \caption{Illustration of the synthesis question. The aim is to provide an 
+  algorithm which \enquote{synthesises} for any specification a strategy or 
+  proves that there cannot exist a strategy that satisfies the specification.}
+  \label{fig:synthesis}
+  \begin{center}
+    \includegraphics{tikz/synthesis.pdf}
+  \end{center}
+\end{drawing}
 Naturally, the complexity of this problem is tightly related to the 
-expressibility of $\varphi$. The comprehensive demand of this question, namely
+expressibility of $\phi$. The comprehensive demand of this question, namely
 to generate for all inputs an associated \enquote{good} output, allows for a
 game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
 of strategies, i.e. one player generates inputs while another player generates
-outputs. The output-player wins if and only if $\varphi$ is satisfied for the
-input- and outputsequences. In the following we present known synthesis results 
-for those $\varphi$ which allow to capture the associated relation as 
+outputs. The output-player wins if and only if $\phi$ is satisfied for the
+input- and output-sequences. In the following we present known synthesis results 
+for those $\phi$ which allow to capture the associated relation as a
 $\omega$-regular language. Subsequently, we pivot towards probabilistic 
 environments and review an approach to synthesis algorithms there which are not
 necessarily completely correct but almost-surely satisfy a specification 
-$\varphi$. At last, we examine probabilistic environments which are modelled as
-\acp{POMDP}.
+$\phi$. At last, we examine probabilistic environments which are modelled as
+\acp{POMDP}. It is noteworthy that we consider environments by increasing 
+domain knowledge.
 
-\subsection{$\omega$-regular Languages}
-
+\section{$\omega$-regular Languages}
+In the following we consider an $\omega$-regular class of specifications 
+$\phi$ for inputs $I$ and outputs $J$, namely those such that we can define a 
+$\omega$-regular language $\mathcal{L}_{\phi}\subseteq 
+\tuple{J\times I}^{\omega}$ such that
+\begin{equation*}
+  \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+  \text{ iff }
+  \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
+\end{equation*}
+Observably, the output symbol $j_{0}$ is irrelevant but included to ease the 
+technicalities of the following argument. The idea is to use trees to model the
+interaction between input and output symbols. The directions model inputs 
+while symbols represent outputs. Similar to the arguments of the proof of 
+Theorem \ref{thm:POMDPequivWDTA} a tree can therefore be understood as strategy
+and we want to design a \ac{PTA} such that a tree is only accepted if all paths
+are part of $\mathcal{L}_{\phi}$. This can be easily modelled (cp. for example 
+\cite{PathLang}) with
+\begin{definition}[Synthesis \ac{PTA}]
+  For a given \ac{DPA}
+  \begin{equation*}
+    \mathcal{P} = \tuple{Q, q_{0}, J\times I, \delta, \parity}
+  \end{equation*}
+  we define a \ac{PTA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, I, J, \Delta, \parity}
+    \text{ with }
+    \Delta = \set{
+      \tuple{q, j, (\delta(q, \tuple{j, d}))_{i\in I}}
+      \text{ for all }q\in Q,j\in J
+    }.
+  \end{equation*}
+\end{definition}
+Notably, $\mathcal{A}$ executes $\mathcal{P}$ on every path and therefore, if we
+choose $\mathcal{P}$ as the \ac{PTA} which precisely accepts 
+$\mathcal{L}_{\phi}$, we deduce that $\mathcal{A}$ accepts only those strategies 
+$t$ which satisfy $\phi$. Hence, deciding the emptiness concludes the argument 
+to formulate a synthesis algorithm for $\omega$-regular specifications $\phi$ 
+and gives
+\begin{theorem}
+  \cite[Theorem 21, Theorem 22]{AutoInfObj}
+  The synthesis problem for $\omega$-regular specifications $\phi$ can be 
+  decided.
+\end{theorem}
+\fxwarning{maybe elaborate on the calss of $\omega$-regular specifications 
+(LTL, ...)}
 
 \section{Strategy Synthesis for \ac{POMDP}}
-\subsection{Probabilistic Büchi Automata}
 The synthesis for \acp{PBA} is - in our current context - understood as the
 following question:
 \begin{definition}[PBA-Synthesis Question]

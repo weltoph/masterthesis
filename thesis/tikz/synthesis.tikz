@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+  \node [cloud, draw, cloud puffs = 10, cloud puff arc = 120, aspect = 2, 
+    inner ysep = 4pt, align = left, fill = red!50] (environment) at (0,0) 
+    {Environment (antagonistic,\\probabilistic, POMDP)};
+  \node [below = of environment, regular polygon, regular polygon sides = 3, 
+    draw, fill = violet!50] (actor) {Strategy};
+  \node [right = 2 of actor, rectangle, draw, align = left, fill = blue!50] 
+    (specification) {Specification\\($\omega$-regular, PBA)};
+
+   \draw[bend right, shorten >= 5pt, shorten <= 5pt, line width = 2pt, ->] 
+    (environment) to node [left] {Input} (actor);
+   \draw[bend right, shorten >= 5pt, shorten <= 5pt, line width = 2pt, ->] 
+    (actor) to node [right] {Output} (environment);
+   \draw[bend right, shorten >= 5pt, shorten <= 5pt, line width = 2pt, ->]
+    (specification) to node [above] {Synthesis} (actor);
+\end{tikzpicture}
