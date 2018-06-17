@@ -48,13 +48,15 @@ $\omega$-regular language $\mathcal{L}_{\phi}\subseteq
   \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
 \end{equation*}
 Observably, the output symbol $j_{0}$ is irrelevant but included to ease the 
-technicalities of the following argument. The idea is to use trees to model the
-interaction between input and output symbols. The directions model inputs 
-while symbols represent outputs. Similar to the arguments of the proof of 
-Theorem \ref{thm:POMDPequivWDTA} a tree can therefore be understood as strategy
-and we want to design a \ac{PTA} such that a tree is only accepted if all paths
-are part of $\mathcal{L}_{\phi}$. This can be easily modelled (cp. for example 
-\cite{PathLang}) with
+technicalities of the following argument. With the well researched theory of
+tree automata the associated synthesis problem for $\omega$-regular 
+specifications can be solved rather transparently. The idea is to use trees to 
+model the interaction between input and output symbols. The directions of a 
+tree model inputs while the symbols in the tree represent outputs. Similar to 
+the arguments of the proof of Theorem \ref{thm:POMDPequivWDTA} a tree can 
+therefore be understood as strategy and we want to design a \ac{PTA} such that 
+a tree is only accepted if all paths are part of $\mathcal{L}_{\phi}$. This can 
+be easily modelled (cp. \cite[Lemma 15]{AutoInfObj}) with
 \begin{definition}[Synthesis \ac{PTA}]
   For a given \ac{DPA}
   \begin{equation*}
@@ -63,26 +65,30 @@ are part of $\mathcal{L}_{\phi}$. This can be easily modelled (cp. for example
   we define a \ac{PTA}
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, I, J, \Delta, \parity}
-    \text{ with }
-    \Delta = \set{
-      \tuple{q, j, (\delta(q, \tuple{j, d}))_{i\in I}}
-      \text{ for all }q\in Q,j\in J
-    }.
   \end{equation*}
+  where $\Delta$ contains transtitions $\tuple{q, j, (p_{i})_{i\in I}}$ with
+  $p_{i} = \delta(q, \tuple{j, i})$.
 \end{definition}
-Notably, $\mathcal{A}$ executes $\mathcal{P}$ on every path and therefore, if we
-choose $\mathcal{P}$ as the \ac{PTA} which precisely accepts 
-$\mathcal{L}_{\phi}$, we deduce that $\mathcal{A}$ accepts only those strategies 
-$t$ which satisfy $\phi$. Hence, deciding the emptiness concludes the argument 
-to formulate a synthesis algorithm for $\omega$-regular specifications $\phi$ 
-and gives
+Notably, $\mathcal{A}$ executes $\mathcal{P}$ on every path and therefore, if 
+we choose $\mathcal{P}$ as the \ac{PTA} which precisely accepts 
+$\mathcal{L}_{\phi}$, we deduce that $\mathcal{A}$ accepts only those trees 
+that satisfy $\phi$ on all paths. This implies that $\mathcal{A}$ accepts those
+strategies $t$ which satisfy $\phi$. Hence, constructing (see above) and 
+deciding the emptiness (see Theorem \ref{thm:emptinessPTA}) for $\mathcal{A}$ 
+yields the desired synthesis algorithm for $\omega$-regular specifications 
+$\phi$ and gives
 \begin{theorem}
   \cite[Theorem 21, Theorem 22]{AutoInfObj}
   The synthesis problem for $\omega$-regular specifications $\phi$ can be 
   decided.
 \end{theorem}
+This approach suits the game-theoretic interpretation of input- and 
+output-player by identifying the input player with the player that chooses a 
+path while the output player constructs a fitting tree.
 \fxwarning{maybe elaborate on the calss of $\omega$-regular specifications 
 (LTL, ...)}
+
+
 
 \section{Strategy Synthesis for \ac{POMDP}}
 The synthesis for \acp{PBA} is - in our current context - understood as the
