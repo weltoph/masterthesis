@@ -147,6 +147,7 @@ negation we introduce further concepts regarding tree automata which allow to
 present a proof in a natural way.
 
 \subsection{Alternating Tree Automata}
+\label{subsec:ata}
 Up to this point the used automata mirrored the structure of their inputs
 very closely. Word automata generated words of states and tree automata 
 generated trees of states of the same arity of their input trees. This notion 
@@ -449,10 +450,11 @@ positional, i.e.
 
 As mentioned above we use graph games to model the semantics of tree automata.
 Therefore, we define an acceptance game for an automaton and a tree, i.e. an 
-(infinite) graph game where player $0$ constructs a run of the automaton on the
-tree and player $1$ explores the tree and tries to find a path which is
-not accepted. Formally, we restrict ourselves to \ac{APTA} since they are 
-sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
+(infinite) graph game where player $0$ (called \automaton{}) constructs a run 
+of the automaton on the tree and player $1$ explores the tree and tries to find 
+a path which is not accepted (conveniently called \pathfinder{}). Formally, we 
+restrict ourselves to \ac{APTA} since they are sufficiently expressive and 
+define (cp. \cite{treeautosurvey,AltTreeAuto})
 \begin{definition}
   For a \ac{APTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
   and a $D$-ary $\Sigma$-tree $t:D^{*}\rightarrow\Sigma$ we define the graph 
@@ -618,3 +620,8 @@ the automaton
 dual to $\mathcal{A}$ and closes the argument of closure under negation for
 \acp{APTA}. And by Theorem \ref{thm:treesimulation} this suffices to show the
 closure of all tree automata under negation.
+\begin{proposition}
+  Alternating tree automata (and therefore also tree automata) are closed under
+  negation.
+  \label{prop:atanegation}
+\end{proposition}
