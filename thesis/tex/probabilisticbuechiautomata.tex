@@ -114,15 +114,28 @@ defined as
 \end{definition}
 Given an input word $\alpha$ and having fixed a $\sigma$-algebra, namely the
 Borel-algebra over $Q$ which is induced by all cylinders, and the probability 
-for staying in a cylinder for $\alpha$.
-This allows with 
-\cite[Theorem 5.6]{Bauer}\footnote{This theorem is called Carath\'{e}odory's
-extension theorem, cp. \cite[Chapter 2.3.]{RandAutoInfTrees}.} to obtain a 
+for staying in a cylinder for $\alpha$. In order to derive a complete 
+probability measure on $\mathcal{B}(Q)$ from this we quote
+\begin{theorem}[Carath\'{e}odory's Extension Theorem]
+  \cite[Theorem 2.4, Theorem 5.6]{Bauer}
+  For a ground set $\Sigma$ and every collection 
+  $\mathcal{E}\subseteq\Pot(\Sigma)$ that is closed under intersection and
+  which contains a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that 
+  $\cup_{i\in\mathbb{N}}E_{i} = \Sigma$ any $\sigma$-additiv function 
+  $\mu':\mathcal{E}\rightarrow\interval{0, 1}$
+  with $\mu(\emptyset) = 0$ can be uniquely extended to a measure $\mu$ on the 
+  smallest $\sigma$-algebra containting $\mathcal{E}$ (denoted by 
+  $\sigma(\mathcal{E})$). We obtain a measure space
+  \begin{equation*}
+    \tuple{\Sigma, \sigma(\mathcal{E}), \mu}.
+  \end{equation*}
+  \label{thm:measureext}
+\end{theorem}
+Since the cylindric sets do satisfy the conditions on $\mathcal{E}$ we obtain a
 probability space
 \begin{equation*}
   \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}.
 \end{equation*}
-Note that by \cite[Theorem 5.4]{Bauer} this $\mu_{\alpha}$ is unique.
 
 Since we want to define the acceptance of an \ac{PBA} $\mathcal{P}$ of a word
 $\alpha$ in terms of the induced probability of the set 
