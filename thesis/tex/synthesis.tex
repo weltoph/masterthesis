@@ -127,10 +127,11 @@ determine whether $\mathcal{T}$ satisfies $\phi$ almost-surely respectively
 positively. This structural property is connected with \ac{SCC}. These are 
 subsets of nodes $G$ such that there is a path between every two nodes 
 $u,v\in G$ (cp. \cite{Tarjan}). Additionally, a leaf-\ac{SCC} is an \ac{SCC} 
-$S$ such that there is no other \ac{SCC} reachable from any $v\in S$. 
-Intuitively, it is unlikely to not eventually end up in one of these 
-leaf-\acp{SCC} since there is infinitely often the possibility to take a 
-non-zero probability to move into these, hence we state
+$S$ such that there is no other \ac{SCC} reachable from any $v\in S$ (cp. 
+\cite[Bottom-\ac{SCC}]{ComplexProbVerification}). Intuitively, it is unlikely 
+to not eventually end up in one of these leaf-\acp{SCC} since there is 
+infinitely often the possibility to take a non-zero probability to move into 
+these, hence we state
 \begin{lemma}
   \cite[Lemma 1]{SynProbEnv}
   An $J$-labeled $I$-transition-system $\mathcal{T}$ almost-surely (positively)
