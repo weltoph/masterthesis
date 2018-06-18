@@ -211,7 +211,105 @@ can be understood as approach to annotate the transitions of $\mathcal{T}$
 with the probabilities of the environment.
 
 \section{Strategy Synthesis for \ac{POMDP}}
-The synthesis for \acp{PBA} is - in our current context - understood as the
+We move towards synthesis in environments which are explicitly modelled in 
+terms of \acp{MDP} and \acp{POMDP}. Then we formalize the synthesis question 
+with (cp. \cite{QualAnaPOMDP, SimpleStochasticParityGames, 
+ComplexProbVerification})
+\begin{definition}
+  Given a \ac{POMDP} 
+  \begin{equation*}
+    \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+  \end{equation*}
+  and a specification $\phi\subseteq S^{\omega}$ such that 
+  $\phi\in\mathcal{B}(S)$. The qualitative synthesis problem 
+  $\tuple{M, \varphi}$ demands the computation of a strategie 
+  $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\varphi) = 1$.
+\end{definition}
+We already used results formulated for this question, namely Theorem 
+\ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mpdstratsynthesis}. Again,
+we focus on $\omega$-regular $\phi$ (in this case $\phi$ is itself a language
+and is not translated to one). If we additional assume that 
+$\size{\interval{s}_{\sim}} = 1$ for all $s\in S$, i.e. $\mathcal{M}$ 
+degenerates to an \ac{MDP}, similar arguments as for $\epsilon$-environments 
+above may be used. In analogy to 
+\cite[Proposition 4.2.3.]{ComplexProbVerification} we deduce
+\begin{lemma}
+  For any \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
+  \tuple{\tau_{a}}_{a\in A}, \sim}$ and $\omega$-regular 
+  $\phi\subseteq S^{\omega}$ there is an \ac{POMDP} $\mathcal{M'}$ with an 
+  associated Parity-condition $\parity$ such that any strategy $s$ for 
+  $\mathcal{M}$ induces a strategy $s'$ for $\mathcal{M'}$ such that 
+  $\mu_{s}(\phi) = \mu_{s'}(\Acc(\parity))$ and vice versa.
+  \label{lem:POMDPomegareg}
+\end{lemma}
+\begin{proof}
+  For $\phi$ we can obtain a \ac{DPA} 
+  $\mathcal{P} = \tuple{Q, S, q_{0}, \delta, \parity}$ which accepts $\phi$.
+  The deterministic nature of $\mathcal{P}$ is used to obtain the result by
+  constructing
+  \begin{equation*}
+    \mathcal{M'} = \tuple{S\times Q, \tuple{s_{0}, q_{0}}, A, 
+    \tuple{\tau'_{a}}_{a\in A}, \sim', \parity'}
+  \end{equation*}
+  with
+  \begin{align*}
+    &\tau'_{a}(\tuple{s, q}, \tuple{z, p}) = \begin{cases}
+      \tau_{a}(s, z)&\text{if }p = \delta(q,s),\\
+      0&\text{otherwise,}
+    \end{cases}\\
+    &\parity'(\tuple{s,q}) = \parity(q)
+    \text{ and }
+    \tuple{s, q}\sim'\tuple{z, p}\text{ iff }s\sim z.
+  \end{align*}
+  Since $\sim'$ is defined in terms of the first element of every state, we may
+  biject $\interval{s}_{\sim}$ with $\interval{\tuple{s, q}}_{\sim'}$ which 
+  allows to translate strategies from $\mathcal{M}$ to $\mathcal{M'}$ and vice
+  versa and additionally by definition of $\tau_{a}'$ for all $a\in A$ we 
+  obtain for any strategy $s'$ for $\mathcal{M'}$ and its corresponding 
+  strategy $s$ for $\mathcal{M}$ that
+  \begin{equation*}
+    \mu_{s'}(\cyl(\tuple{z_{0}, q_{0}}\dots\tuple{z_{n}, q_{n}})) = 
+    \begin{cases}
+      \mu_{s}(\cyl(z_{0}\dots z_{n}))&\text{for the unique }
+        q_{0}\dots q_{n}\text{ of }\mathcal{P}\text{ on }z,\\
+      0&\text{otherwise.}
+    \end{cases}
+  \end{equation*}
+  We may deduce that the first component of all valid, i.e. not impossible, 
+  plays in $\mathcal{M}'$ uniquely identifies the second component which allows 
+  us to only consider the projection to those \enquote{synchronised} plays 
+  which can easily bijected to plays in $\mathcal{M}$ and $s$ and $s'$ even 
+  induce the same measure on this bijection. We conclude that
+  \begin{equation*}
+    \mu_{s}(\phi) = \mu_{s'}(\Acc(\parity)).
+  \end{equation*}
+\end{proof}
+
+If we actually consider in the argument above that $\mathcal{M}$ is an \ac{MDP} 
+then the product construction can be considered to be an \ac{MDP} as well since 
+the uniqueness of the second component allows to use the same argument. 
+Although the strategies space for $\mathcal{M'}$ are richer, we can only 
+consider the space of possible plays which again corresponds uniquely to plays 
+in $\mathcal{M}$. We obtain
+\begin{corollary}
+  For an initial \ac{MDP} $\mathcal{M}$ one obtains a corrresponding \ac{MDP} 
+  $\mathcal{M}'$ with the same properties as stated in Lemma 
+  \ref{lem:POMDPomegareg}.
+\end{corollary}
+Moreover, if we consider $\phi$ to be recognizable by a \ac{DBA} we obtain by
+the same argument
+\begin{corollary}
+  For a \ac{DBA}-recognizable $\phi$ and a \ac{POMDP} (\ac{MDP}) $\mathcal{M}$
+  the construction from Lemma \ref{lem:POMDPomegareg} yields an \ac{POMDP} 
+  (\ac{MDP}) $\mathcal{M'}$ with an associated Büchi-condition.
+\end{corollary}
+Concludingly, if we consider that associated Büchi- or Parity-conditions on
+\ac{POMDP} induce $\omega$-regular $\phi\subseteq S^{\omega}$ we conclude that
+the two formulations are interchangeable. This allows to conclude that 
+\ac{DBA}-recognizable $\phi$ allow for strategy synthesis in \acp{POMDP} (cp.
+Theorem \ref{thm:pomdpstratsynthesis}) but for $\omega$-regular $\phi$ it is
+undecideable to compute strategies for \acp{POMDP}. In the following we 
+consider $\phi$ which are defined in terms of \acp{PBA}. This induces the 
 following question:
 \begin{definition}[PBA-Synthesis Question]
   Given a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} $\mathcal{P}$ with
@@ -233,7 +331,6 @@ this question positively with
   can be decided.
   \label{thm:pbasynthesis}
 \end{theorem}
-
 Considering a certain restricted class of \acp{MDP}, namely those where for 
 every state ever following state is defined by a probability distribution $B$
 (regardless of the action chosen by the player), then this result can be 
@@ -299,9 +396,10 @@ more involved.
 
     We refer to \cite[Remark 8.26]{Klenke} to justify that we only check the 
     second condition for cylindric $A\in\mathcal{B}(Q)$, i.e. $A = \cyl(u)$ for 
-    some $u\in Q^{*}$. Fundamentally, we observe that by definition of the 
-    transition probabilities for a \ac{PBA} we obtain for any $u\in S^{n}$ and 
-    $\alpha, \beta\in\cyl(u)$ that
+    some $u\in Q^{*}$, since they form a basis of $\mathcal{B}(Q)$ that is 
+    closed under intersection. Fundamentally, we observe that by definition of 
+    the transition probabilities for a \ac{PBA} we obtain for any $u\in S^{n}$ 
+    and $\alpha, \beta\in\cyl(u)$ that
     \begin{equation*}
       \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
     \end{equation*}
@@ -433,3 +531,11 @@ more involved.
   the \ac{POMDP} $\mathcal{M}$ and the \ac{PBA} $\mathcal{P}$. We may use
   Corollary \ref{cor:emptiness} to compute this $s$.
 \end{proof}
+Actually, the usage of \acp{WDTA} is not essential for the argument above. 
+Equivalently Lemma \ref{lem:POMDPomegareg} can be extended towards $\phi$ which
+are defineable by almost-surely accepting \acp{PBA} by the natural product 
+construction where the state component of the \ac{POMDP} defines the 
+observation and a transition from $\tuple{s, q}$ to $\tuple{z, p}$ ($s,z\in S$,
+$q,p\in Q$ is taken by the product probability of moving from $s$ to $z$ in
+the \ac{POMDP} under the current action and moving from $q$ to $p$ in the 
+\ac{PBA} when reading $s$.
