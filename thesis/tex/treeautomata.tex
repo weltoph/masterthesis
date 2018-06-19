@@ -397,7 +397,7 @@ we consider the opponent victorious. This leads to the definition
       \begin{equation*}
         \sigma(v) = \begin{cases}
           0&\text{if }v\in V_{0}\\
-          1&\text{if }v\in V_{1}\\
+          1&\text{if }v\in V_{1}
         \end{cases}\text{ and enforcing }
         v_{i+1} = f_{\sigma(v_{i})}(v_{0}\dots v_{i}).
       \end{equation*}
@@ -495,6 +495,7 @@ define (cp. \cite{treeautosurvey,AltTreeAuto})
         \text{ for one }p_{\bot} < \min\set{\parity(q):q\in Q}.
       \end{equation*}
   \end{description}
+  \label{def:treemembershipgame}
 \end{definition}
 An illustration of such a game can be found in Figure 
 \ref{fig:treeacceptancegame}. 
@@ -625,3 +626,106 @@ closure of all tree automata under negation.
   negation.
   \label{prop:atanegation}
 \end{proposition}
+
+Concludingly, we want to examine the problem of deciding emptiness of tree 
+automata. Again, by the effective transformations between alternating and 
+non-alternating tree automata (Theorem \ref{thm:simulation}) it is sufficient 
+to examine one of those types. We opt for non-alternating tree automata and 
+discuss the reason for this after introducing a game to capture the emptiness
+of tree automata. Formally, we prove
+\begin{theorem}
+  \cite[Theorem 21]{AutoInfObj}
+  The problem if the language of a given \ac{PTA}
+  \begin{equation*}
+    \mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+  \end{equation*}
+  is empty can be decided.
+\end{theorem}
+\begin{proof}
+  The proof we adapt here follows 
+  \cite[Proof of Theorem 23]{ParityGamesPosDet}. The idea is to formulate the
+  emptiness problem as a graph game. This game is similar to the one from
+  Definition \ref{def:treemembershipgame}, but instead of choosing a transition
+  for the corresponding letter in a tree \automaton{} is free to choose any
+  transition (and therefore implicitly a letter). We define
+  \begin{definition}[Emptiness Game]
+    \automaton{} chooses transitions depending on the current state, while
+    \pathfinder{} chooses the direction of a transition is explored. Therefore
+    we define the emptiness game by the following notions.
+    \begin{description}
+      \item [Arena] \automaton{} is assigned the states $Q = V_{0} $ of 
+        $\mathcal{M}$, while \pathfinder{} operates on the transitions 
+        $\Delta = V_{1}$ of $\mathcal{M}$. The edges correlate to the choices
+        both players make, i.e. $E = E_{0}\cup E_{1}$ with
+        \begin{equation*}
+          E_{0} = \set{\tuple{q, \delta}\in Q\times\Delta\mid\delta = 
+            \tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta}
+        \end{equation*}
+        and
+        \begin{equation*}
+          E_{1} = \set{\tuple{\tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}, p}
+            \in\Delta\times Q\mid\text{there is }b\in D
+            \text{ such that }p_{b} = p
+          }.
+        \end{equation*}
+        We obtain with $V = V_{0}\cup V_{1}$ an arena 
+        $\tuple{V, V_{0}, V_{1}, E}$.
+      \item [Winning Condition] \automaton wins the game if the explored path
+        is accepted in terms of $\parity$, hence we define
+        \begin{equation*}
+          \parity'(\Gamma) = \begin{cases}
+            \parity(q)        &\text{if }\Gamma = q\in Q,\\
+            \min\parity(Q) - 1&\text{otherwise}.
+          \end{cases}
+        \end{equation*}
+    \end{description}
+    We define the emptiness game as 
+    $\mathcal{G} = \tuple{V, V_{0}, V_{1}, E, \parity', q_{0}}$.
+  \end{definition}
+  Initially, we observe that for any play 
+  $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ we obtain by definition of $\parity'$
+  that $\max\parity\Inf(q_{0}q_{1}q_{2}\dots) = 
+    \max\parity'\Inf(q_{0}\delta_{0}q_{1}\delta_{1}\dots)$. The central 
+  insight for the emptiness game is formulated in
+  \begin{lemma}
+    \automaton{} has a winning strategy in $\mathcal{G}$ as defined above
+    if and only if the language of $\mathcal{M}$ is not empty.
+  \end{lemma}
+  \begin{proof}
+    Consider a winning strategy $f:V^{*}Q\rightarrow\Delta$ for \automaton{},
+    and an arbitrary riposte $g:V^{*}\Delta\rightarrow Q$ for \pathfinder{}. By
+    the definition of $E_{1}$ we may equivalently define the strategy of 
+    \pathfinder{} in terms of $g:V^{*}\Delta\rightarrow D$. In this form, we 
+    obtain for $f$ an associated tree $t_{f}:D^{*}\rightarrow\Sigma$ by
+    considering for any $u_{0}\dots u_{n}\in D^{*}$ the play 
+    $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ which is consistent with $f$ and the
+    riposte $g$ with $g(q_{0}\delta_{0}\dots q_{i}\delta_{i}) = u_{i}$ for 
+    $0\leq i\leq n$ and arbitrary otherwise. Naturally, we set 
+    $t(u_{0}\dots u_{n}) = \sigma$ for one $\sigma$ such that 
+    $f(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} 
+      = \tuple{q_{n}, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta$. By the 
+    construction of $t$ we see that the choices of $f$ immediately describes a 
+    possible run $r$ on $t$. Since $f$ is winning all paths \pathfinder{} can
+    describe are won by \automaton{} (accepted under $\parity'$) and therefore 
+    all paths of $r$ are accepting in terms of $\parity$, rendering $r$ an
+    accepting run for $t$ of $\mathcal{M}$.
+
+    If we have on the other hand, an accepted tree $t$ of $\mathcal{M}$ with
+    a corresponding run $r$ then \automaton{} simply plays $r$, i.e. we define
+    $f_{r}$ with $f_{r}(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} = r(u)$ for 
+    the $u\in D^{*}$ that corresponds to the choices of \pathfinder{} which led 
+    to the play $q_{0}\delta_{0}\dots q_{n}$. Again, all paths in $r$ are 
+    accepting in terms of $\parity$ rendering all plays consistent with $f_{r}$ 
+    accepted in terms of $\parity'$. Hence, $f_{r}$ is a winning strategy.
+  \end{proof}
+  By Theorem \ref{thm:posdetparity} we even obtain a positional winning 
+  strategy for \automaton{} (if there is any winning strategy). This means that
+  the structure of the obtained tree indeed is - to a certain degree - 
+  simple\footnote{
+    Theorem 23 in \cite{ParityGamesPosDet} calls such a tree $t$ \emph{regular} 
+    which means that the number of isomorphic subtrees in $t$ is finite.
+  } (in a similar sense as ultimatively periodic words for $\omega$-regular
+  languages are obtained from the emptiness test).
+  Moreover, it is possible to compute winning strategies for Parity-games which
+  yields the decision procedure for the emptiness problem of $\mathcal{M}$.
+\end{proof}
