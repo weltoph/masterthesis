@@ -309,20 +309,26 @@ Concludingly, if we consider that associated Büchi- or Parity-conditions on
 the two formulations are interchangeable. This allows to conclude that 
 \ac{DBA}-recognizable $\phi$ allow for strategy synthesis in \acp{POMDP} (cp.
 Theorem \ref{thm:pomdpstratsynthesis}) but for $\omega$-regular $\phi$ it is
-undecideable to compute strategies for \acp{POMDP}.
+undecideable to compute strategies for \acp{POMDP}. Since we can model 
+\acp{POMDP} as \acp{WDTA} (see Theorem \ref{thm:POMDPequivWDTA}) we can 
+construct for a \ac{POMDP} 
+$\mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}$ and an 
+$\omega$-regular $\phi\subseteq S^{\omega}$ which is accepted by \ac{DPA}
+$\mathcal{P} = \tuple{Q, q_{0}, S, \delta, \parity}$ a \ac{WDTA} such that the
+accepted trees are strategies $s$ for which $\mu_{s}(\phi) = 1$ holds. This
+\ac{WDTA} can be obtained by the construction of Theorem 
+\ref{thm:POMDPequivWDTA} applied on $\mathcal{M'}$ from above and associating a 
+Parity-condition which mirrors $\parity_{\mathcal{P}}$ on the $Q_{\mathcal{P}}$
+component. If we want to use this construction to solve the synthesis problem 
+we obtain a cylclic argument since the emptiness check for the obtained 
+\ac{WDTA} is formulated via strategy synthesis for \acp{POMDP}.
 
-The arguments to derive e.g. the decideability of \acp{MDP} with associated
-Büchi-condition presented in \cite{ComplexProbVerification} do follow a similar
-approach to $\epsilon$-environments above by identifying leaf-\acp{SCC} which
-contain an accepting state. Naturally, these \acp{SCC} are dependent on the
-strategies which renders the arguments more involved but conceptually the same
-arguments hold, namely it is almost-sure to end up in an \ac{SCC} and - once 
-arived - it is also almost-sure to see every state in this \ac{SCC} infinitely
-often. \fxfatal{proceed here}
-
-
-In the following we 
-consider $\phi$ which are defined in terms of \acp{PBA}. This induces the 
+In the following we consider $\phi$ which are defined in terms of \acp{PBA}. 
+We observe that \ac{PBA} capture \ac{DBA} by setting every transition function 
+to a Dirac measure on $Q$. Hence, solving the synthesis problem for $\phi$ 
+which can be expressed as languages of almost-surely accepting \acp{PBA} indeed 
+is a proper generalisation of Corollary \ref{cor:POMDPDBA} because the class of 
+these $\phi$ is incomparable with $\omega$-regular languages. We examine the 
 following question:
 \begin{definition}[PBA-Synthesis Question]
   Given a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} $\mathcal{P}$ with
@@ -415,8 +421,8 @@ more involved.
     $A\in\mathcal{B}(Q)$, i.e. $A = \cyl(u)$ for some $u\in Q^{*}$, satisfy 
     this requirement, hence we restrict the following argument to those.
     Fundamentally, we observe that by definition of the transition 
-    probabilities for a \ac{PBA} we obtain for any $u\in S^{n}$ and $\alpha, 
-    \beta\in\cyl(u)$ that
+    probabilities for a \ac{PBA} we obtain a determinism for the run-tree of 
+    $\mathcal{P}$, i.e. for any $u\in S^{n}$ and $\alpha, \beta\in\cyl(u)$ that
     \begin{equation*}
       \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
     \end{equation*}
@@ -441,13 +447,13 @@ more involved.
     Therefore the measurability of $K(\cdot, \cyl(u))$ is
     implied if for all $a\in\mathbb{R}$
     \begin{equation*}
-      \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(v))\leq a}\in\mathcal{B}(S).
+      \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(u))\leq a}\in\mathcal{B}(S).
     \end{equation*}
     Observably,
     \begin{equation*}
-      \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(v))\leq a} = 
+      \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(u))\leq a} = 
         \bigcup\set{
-          \cyl(u):u\in S^{\size{v}}\text{ and }\mu_{u}(\cyl(v))\leq a
+          \cyl(v):u\in S^{\size{u}}\text{ and }\mu_{u}(\cyl(v))\leq a
         }
     \end{equation*}
     implies the necessary membership in $\mathcal{B}(S)$ since $S^{\size{v}}$ 
@@ -526,7 +532,7 @@ more involved.
       \mu_{s}(\cyl(s_{1}\dots s_{n}))\\
     &= \int_{\cyl(s_{1}\dots s_{n})}K(\cdot, \cyl(q_{0}\dots q_{n}))d\mu_{s}.
   \end{align*}
-  This suggests by the uniqueness of $\mu_{s}\otimes K$ and 
+  This suggests by the uniqueness of $\mu_{s}\otimes K$ and the extension of
   $\mu_{r}$ that these coincide (under renaming of the arguments). It is left
   to examine this renaming for $\mu_{r}$ since $\mu_{r}$ is defined on 
   $\mathcal{B}(S\times Q)$ while $\mu_{s}\otimes K$ is defined on 
@@ -565,8 +571,8 @@ more involved.
   the \ac{POMDP} $\mathcal{M}$ and the \ac{PBA} $\mathcal{P}$. We may use
   Corollary \ref{cor:emptiness} to compute this $s$.
 \end{proof}
-Although inspired by the arguments of Theorem \ref{thm:}, the usage of 
-\acp{WDTA} is not essential for the argument above. Equivalently Lemma 
+Although inspired by the arguments of Theorem \ref{thm:PWAasWDTA}, the usage 
+of \acp{WDTA} is not essential for the argument above. Equivalently Lemma 
 \ref{lem:POMDPomegareg} can be extended towards $\phi$ which
 are defineable by almost-surely accepting \acp{PBA} by the natural product 
 construction: we consider a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} 
@@ -591,6 +597,4 @@ The correctness argument is analogously to the argument which involve
 \acp{WDTA} above. In this setup \acp{MDP} are also transformed to \ac{POMDP} 
 since the construction needs to hide the current state of $\mathcal{P}$ and we
 do not have a determinism argument as before since \acp{PBA} have in general
-multiple following states. On the other hand, since \ac{PBA} capture \ac{DBA}
-by setting every transition function to a Dirac measure on $Q$, this indeed is
-a generalisation of Corollary \ref{cor:POMDPDBA}.
+multiple following states. 

@@ -232,13 +232,20 @@ directions $D = \set{0,1}$ with a blueprint $B$ such that
 Given these definitions we explore the theory of \acp{WDTA}.
 
 \subsection{Closure Properties}
-In the following we explore the closure properties of \acp{WDTA} regarding 
-union, intersection and negation. Mainly, we re-iterate ideas for \acp{PBA} and
-alternating tree automata. Also, we examine these properties selective, 
-predominantly focusing on almost-surely accepting models because they prove
-most relevant for the examined use-cases later on. Unsuprisingly, the 
-non-determinism of the model induces closure under union for certain classes in 
-a straightforward manner (as suggested by 
+In the following we explore the closure properties of \acp{WDTA}. We provide
+constructions to obtain closure for union and intersection for \acp{WDTA}, 
+regarding complementation we leave the closure property open since it is not 
+required for our further arguments but we obtain for choiceless \acp{WDTA} that
+there is no closure under complementation regarding almost-sure acceptance of
+Büchi-conditions as a simple corollary from the result to embed \acp{PBA} into
+\acp{WDTA}. Mainly, the presented results are obtained by re-iterating 
+arguments for \acp{PBA} or tree automata. Also, due to the limited scope of
+this thesis we examine these properties selective, predominantly focusing on 
+almost-surely accepting models because they prove most relevant for the 
+examined use-cases later on. 
+
+Unsuprisingly, the non-determinism of the model induces closure under union for 
+certain classes in a straightforward manner (as suggested by 
 \cite[Proposition 14]{RandAutoInfTrees}). 
 \begin{proposition}[Union - uni-directional, unrestricted]
   Uni-directional and unrestricted \acp{WDTA} are closed under union for 
@@ -503,66 +510,6 @@ The details of this argument can be found in
   intersection.
 \end{proposition}
 
-For the negation we initially consider one example:
-\begin{example}
-  We consider $\mathcal{L}$ as the language of all binary $\set{a,b}$-trees 
-  such that there is at least one path without an $a$. It is easy to accept 
-  this language with a \acp{WDTA} by implementing a search of such a path. We 
-  define
-  \begin{equation*}
-    \mathcal{A} = \tuple{
-      \set{q_{s}, q_{f}}, q_{s}, \set{0,1}, \set{a,b}, \Delta, \parity
-    }
-  \end{equation*}
-  with
-  \begin{equation*}
-    \Delta = \set{\tuple{q_{s}, b, G_{d}}:\text{ for }d\in\set{0,1}}\cup
-    \set{
-      \tuple{q_{s}, a, G_{f}},\tuple{q_{f}, a, G_{f}},\tuple{q_{f}, a, G_{f}}
-    }
-  \end{equation*}
-  with
-  \begin{equation*}
-    G_{d}(q, b) = \begin{cases}
-      1&\text{if }b = d\text{ and }q = q_{s},\\
-      0&\text{otherwise},
-    \end{cases}
-    \text{ and }
-    G_{f}(q, d) = \begin{cases}
-      \frac{1}{2}&\text{if }q = q_{f},\\
-      0&\text{otherwise}.
-    \end{cases}
-  \end{equation*}
-  Furthermore, we set
-  \begin{equation*}
-    \parity(q_{s}) = 0\text{ and }\parity(q_{f}) = 1.
-  \end{equation*}
-  The automaton accepts by guessing a path which only contains of $b$ and thus
-  staying within state $q_{s}$ and obtain an accepting run with measure $1$.
-  On the other hand, if any $a$ is observed at any time, the run is deemed to
-  fail, since the weighting shifts to a uniform distribution on state $q_{f}$
-  rendering all weighted paths in the run non-accepting.
-  \label{ex:wdtaapath}
-\end{example}
-This example allows us to argue about the negation, namely we state (as for the
-more restricted environment from \cite[Proposition 15]{RandAutoInfTrees})
-\begin{proposition}
-  The class of languages that are almost-surely accepted by \acp{WDTA} is 
-  \emph{not} closed under negation.
-\end{proposition}
-\begin{proof}
-  Consequently, we consider the language $\mathcal{L}$ from Example 
-  \ref{ex:wdtaapath} and its complement, i.e. the language 
-  $\overline{\mathcal{L}}$ of binary $\set{a,b}$-trees such that every path 
-  contains at least one $a$. We show that $\overline{\mathcal{L}}$ is not 
-  recognizeable by a \ac{WDTA} and the argument is conceptually simple. The 
-  idea is that all paths can wait arbitrarily long to present an $a$. The 
-  automaton on the other hand has to distribute weight into all path to not
-  miss any occurence of an $a$. This constant distributions renders some path
-  negligeable.
-
-  \fxfatal{end proof}
-\end{proof}
 
 \section{Modelling in \aclp{WDTA}}
 We want to motivate the introduction of \acp{WDTA} by showing their strength to
@@ -646,7 +593,13 @@ By the combination of this result and the sufficiency of Parity-conditions to
 express all other acceptance conditions for \acp{WDTA} (Lemma 
 \ref{lem:wdtaparityexpressiveness}) provides the basis to infer the equivalence 
 of \enquote{strong} acceptance conditions for \acp{PBA} (Theorem 
-\ref{thm:probautoequiv}) as a corollary.
+\ref{thm:probautoequiv}) as a corollary. Additionally, considering the 
+equivalence of choiceless Büchi-\acp{WDTA} over words with \acp{PBA} allows to
+use Proposition \ref{prop:pba=1complement} to deduce
+\begin{proposition}
+  The class of languages that can be recognized by choiceless Büchi-\acp{WDTA} 
+  with almost-sure acceptance is not closed under complementation.
+\end{proposition}
 
 Additionally, we can use uni-directional \acp{WDTA} over words to emulate any 
 $\omega$-regular word automaton. Fixing a singleton direction set $D = \set{0}$ 
@@ -1064,6 +1017,7 @@ We proceed by defining an equivalent \ac{WDTA} for a given \ac{PWA}, yielding
 \begin{theorem}[PWA Inclusion]
   For any \ac{PWA} $\mathcal{A}$ exists a choiceless \ac{WDTA} $\mathcal{C}$
   such that the languages of $\mathcal{A}$ and $\mathcal{C}$ are equivalent.
+  \label{thm:PWAasWDTA}
 \end{theorem}
 \begin{proof}
   We provide for a given \ac{PWA} 
@@ -1339,8 +1293,8 @@ measures coincide.
 \subsection{Consequences}
 Modelling \acp{PBA} and probabilistic word automata with stronger acceptance 
 conditions entail immediately undecideability results. Namely, Theorem 
-\ref{thm:} allows to deduce the undecideability of the emptiness 
-problem for \acp{WDTA} with positive accepatance of an associated 
+\ref{thm:pbaaswdta} allows to deduce the undecideability of the emptiness 
+problem for \acp{WDTA} with positive acceptance of an associated 
 Büchi-condition (and therefore also for Rabin-, Parity- and Muller-conditions,
 since these can model Büchi-conditions) and by Corollary 
 \ref{cor:emptinessstrongalmostsureprob} also almost-sure acceptance of strong

@@ -539,17 +539,40 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
   \end{proof}
   And on the other hand we state that
   \begin{lemma}
+    \cite[Theorem 4.4.9 (b)]{Groesser}
     There is a $\omega$-regular language that cannot be accepted by any 
     \ac{PBA} with almost-sure acceptance.
   \end{lemma}
-  \begin{proof}
+  \begin{proof}[Proof Idea]
     We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
     $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
-    \ref{ex:fina}). For the sake of obtaining a contradiction we assume that 
-    there is in fact one \ac{PBA} $\mathcal{P}$ which accepts $\mathcal{L}$ 
-    under an almost-sure acceptance.
+    \ref{ex:fina}). By similar arguments as for \ac{DBA} we can derive the
+    impossibility to accept this language with an almost-sure accepting 
+    \ac{PBA}. To provoke a contradiction we assume the existence of a \ac{PBA}
+    $\mathcal{P} = \tuple{Q, q_{0}, \set{a,b}, \delta, F}$ which accepts 
+    $\mathcal{L}$. W.l.o.g. we can assume that all states in $Q$ are reachable
+    from $q_{0}$ and hence reading $b^{\omega}$ starting in any state must 
+    yield an acceptance measure of $1$ for $\Acc(F)$. Moreover, every state 
+    must allow to read an accepting state with a positive probability after a 
+    sequence of $b$; if we take the maximum of all the lengths of these 
+    sequences $n$ we know that every state must visit with positive probability
+    an accepting state after reading $a^{n}$. This implies that for every state
+    that is probable after a sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, 
+    \dots$) it is probable to read another accepting state within the next 
+    $b^{n}a$ sequence. Therefore, almost all execution paths contain infinitely 
+    many accepting states.
   \end{proof}
 \end{proof}
+The observation that $\set{a,b}^{*}b^{\omega}$ cannot be recognized by a 
+\ac{PBA} with almost-sure acceptance but the set of all words that contain 
+infinitely many $a$ is (since it is \ac{DBA} recognizable and by choosing at
+every point one transition with probability $1$ integrates the behaviour of
+\acp{DBA} into \acp{PBA}) directly entails
+\begin{proposition}
+  The class of languages recognizable with \acp{PBA} with almost-sure 
+  acceptance is not closed under complementation.
+  \label{prop:pba=1complement}
+\end{proposition}
 
 \subsection{Markov Decision Processes}
 In the following we introduce \acp{MDP}, a model of interaction between a 
