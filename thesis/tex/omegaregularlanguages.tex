@@ -20,7 +20,8 @@ structural definition
       We call $\mathcal{A}$ deterministic if for every pair $q\in Q$ and
       $\sigma\in\Sigma$ the set
       $\set{p\in Q\mid\tuple{q,\sigma,p}\in\Delta}$ has at most one
-      element.
+      element. In that case we occasionally substitute the relation $\Delta$ 
+      with a function $\delta:Q\times\Sigma\rightarrow Q$.
   \end{description}
 \end{definition}
 This allows for automata to yield for an input word a corresponding run, i.e.
@@ -78,9 +79,10 @@ acronyms.
 \acuse{DPA}
 
 The theory to these - so called - $\omega$-automata is well
-established. We recall some of the central results and provide proofs since it
-allows us to define auxiliary structures in a simple context which we use later
-on in more involved settings. Our arguments follow, in some condensed and
+established. We recall some of the central results and provide proofs which 
+allow us to define auxiliary structures in a simple context. These structures
+are later used in more elaborate constructions.
+Our arguments follow, in some condensed and
 occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
 \begin{example}
   We consider the language $\mathcal{L}$ as the set of all infinite
@@ -194,30 +196,31 @@ explained and also later on referred to.
           q_{1} = q} = \set{\up(\ell, q):\ell\in\lar(Q)}$.
     \end{description}
   \end{definition}
-  For a word $q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
+  For a word $q_{0}q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
   sequence of elements in $\lar(Q)$ by picking one arbitrary starting value
-  $\ell_{1}$ and successively applying the update operation, i.e.
-  $\ell_{1}\ell_{2}\dots\in\lar(Q)^{\omega}$ with
-  $\ell_{i+1} = \up(\ell_{i},q_{i})$ for all $i>0$. We can now state that
-  $\Inf(q_{1}q_{2}\dots)$ moves to the beginning of the $\lar(Q)$ elements in
-  the associated sequence
+  $\ell_{0}\in\lar(Q)\interval{q_{0}}$ and successively applying the update 
+  operation, i.e. $\ell_{0}\ell_{1}\ell_{2}\dots\in\lar(Q)^{\omega}$ with
+  $\ell_{i+1} = \up(\ell_{i},q_{i+1})$ for all $i\geq 0$. We can now state that
+  $\Inf(q_{0}q_{1}q_{2}\dots)$ moves to the beginning of the $\lar(Q)$ elements 
+  in the associated sequence, formalized in
   \begin{lemma}
     \cite[Lemma 1.21]{AutoLogInfGames}
-    $\Inf(q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit-set of
-    all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely many
-    $i>k$ s.t. the hit-set of $\ell_{i}$ coincides with $F$.
+    $\Inf(q_{0}q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit-set 
+    of all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely 
+    many $i>k$ s.t. the hit-set of $\ell_{i}$ coincides with $F$.
     \label{lem:larhitset}
   \end{lemma}
   This Lemma induces that the sequence of hit-sets stabilises to the set
-  $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller condition
+  $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller-condition
   $\mathcal{F}$ if and only if the hit-sets stabilises to an element of
-  $\mathcal{F}$. This can be captured within a parity condition by associating
-  to $\ell = \interval{p_{1}\dots p_{n},h}$ with hit-set
-  $H = \set{p_{1},\dots,p_{h}}$ a parity condition
+  $\mathcal{F}$. Since this implies that the $\Inf$-set is the biggest occuring 
+  hit-set from one point onwards, this can be captured within a parity 
+  condition by associating to $\ell = \interval{p_{1}\dots p_{n},h}$ with 
+  hit-set $H = \set{p_{1},\dots,p_{h}}$ a parity condition
   \begin{equation*}
     \parity(\ell) = \begin{cases}
-      2\cdot\size{H} &\text{ if }H\in\mathcal{F}\\
-      2\cdot\size{H}-1 &\text{ if }H\notin\mathcal{F}
+      2\cdot\size{H} &\text{if }H\in\mathcal{F},\\
+      2\cdot\size{H}-1 &\text{if }H\notin\mathcal{F}.
     \end{cases}
   \end{equation*}
   Thus, winning hit-sets do have an even and losing hit-sets do have an odd
@@ -256,7 +259,6 @@ explained and also later on referred to.
 \end{proof}
 
 Finally, we state here
-\fxfatal{effective construction for union is not mentioned in reference}
 \begin{theorem}
   \cite[Consequence from Theorem 1.5 and Theorem 1.24]{AutoLogInfGames}
   The $\omega$-regular languages form a Boolean-algebra, i.e. are closed under
@@ -302,9 +304,45 @@ Finally, we state here
   The closure under negation can be expressed very elegantly (cp. 
   \cite[Transformation 1.25.]{AutoLogInfGames}). W.l.o.g. we consider the 
   original automaton to be a \ac{DPA}. By setting a new Parity-condition with
-  $\parity'(q) = \parity(q) + 1$ and keeping the original structure we exchange
-  non-accepting and accepting runs and therefore obtain a structural equivalent 
-  \ac{DPA} that precisely accepts the complement of the original automaton.
+  $\parity'(q) = \parity(q) + 1$ (denoted by $\parity' = \parity + 1$) and 
+  keeping the original structure we exchange non-accepting and accepting runs 
+  and therefore obtain a structural equivalent \ac{DPA} that precisely accepts 
+  the complement of the original automaton.
 \end{proof}
 
+At last, we want to shortly discuss that deciding emptiness for 
+$\omega$-regular languages can be decided by means of graph algorithms. The 
+central idea is to observe that for any \ac{NBA} 
+$\mathcal{A} = \tuple{Q, q_{0}, \Sigma, \Delta, F}$ and an accepting run $\pi$ 
+at least one $f\in F$ has to occur infinitely often in $\pi$.
+It is therefore
+sufficient to examine if the graph
+\begin{equation*}
+  \tuple{Q, E_{\Delta}}\text{ with }
+  E_{\Delta} = \set{
+    \tuple{q, p}\in Q\times Q\mid\text{exists }\sigma\in\Sigma
+      \text{ such that }\tuple{q,\sigma,p}\in\Delta
+  },
+\end{equation*}
+contains an $f\in F$ which is reachable from $q_{0}$ and $f$ itself. Moving 
+from $q_{0}$ to $f$ and then loop in $f$ yields one accepting word (see Figure
+\ref{fig:nbaemptiness}). This allows to state
+\begin{theorem}
+  \cite{DecMethRestArith,EmptinessNBA}
+  Emptiness for a given \ac{NBA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, \Sigma, \Delta, F}
+  \end{equation*}
+  can be decided in time linear to the size of the automaton, i.e. in 
+  $\mathcal{O}(\size{Q}+\size{\Delta})$. If such an \ac{NBA} $\mathcal{A}$
+  accepts at least one word, it also accepts an \emph{ultimatively periodic 
+  word}, i.e. a word of the form $u\cdot v^{\omega}$ for $u, v\in\Sigma^{+}$.
+\end{theorem}
 
+\begin{drawing}
+    \caption{Illustration of an accepting run of an \acp{NBA}.}
+    \label{fig:nbaemptiness}
+    \begin{center}
+      \includegraphics{tikz/nbaemptiness.pdf}
+    \end{center}
+\end{drawing}%

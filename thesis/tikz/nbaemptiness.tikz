@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+  \node[initial left, state] (q0) {$q_{0}$};
+  \node[accepting, state, right=2 of q0] (f) {$f$};
+
+  \draw[->, decorate, 
+    decoration={snake, segment length = 5mm, amplitude = 0.5mm}] 
+    (q0) to node[above] {$u$} (f);
+  \draw[bend right=120, looseness=45, ->, decorate,
+    decoration={snake, segment length = 7mm, amplitude = 1mm}] 
+    (f.80) to node[above] {$v$} (f.100);
+\end{tikzpicture}
