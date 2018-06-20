@@ -681,6 +681,7 @@ of tree automata. Formally, we prove
     \end{description}
     We define the emptiness game as 
     $\mathcal{G} = \tuple{V, V_{0}, V_{1}, E, \parity', q_{0}}$.
+    \label{def:treeemptinessgame}
   \end{definition}
   Initially, we observe that for any play 
   $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ we obtain by definition of $\parity'$
@@ -729,3 +730,46 @@ of tree automata. Formally, we prove
   Moreover, it is possible to compute winning strategies for Parity-games which
   yields the decision procedure for the emptiness problem of $\mathcal{M}$.
 \end{proof}
+Note that we designed this emptiness game in terms of \ac{PTA} rather than 
+\ac{APTA}. This is due to the fact that the choices of \automaton{} must be 
+consistent with an underlying tree (cp. Example \ref{ex:pdaaspomdp}). We 
+illustrate this problem in
+\begin{example}
+  Consider an \ac{APTA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+  \end{equation*}
+  with $Q = \set{q_{0}, q_{a}, q_{b}, \bot}$, $D = \set{0,1}$, 
+  $\Sigma = \set{a, b}$, $\parity(q_{0}) = \parity(q_{b}) = \parity(q_{a}) 
+    = 0$ and $\parity(\bot) = 1$. The conceptual idea is that $q_{b}$ ($q_{a}$) 
+  must move along a path that solely contains of $b$ ($a$) but any occurence of 
+  $a$ ($b$) yields a move to the non-accepting sink-state $\bot$ which 
+  reproduces itself towards all directions (necessarily rendering these paths
+  rejecting). Hence, we add 
+  \begin{equation*}
+    \set{
+      \tuple{q_{\sigma}, \sigma, \delta_{\set{\tuple{q_{\sigma, d}}}}},
+      \tuple{q_{\sigma}, \overline{\sigma}, \delta_{\set{\tuple{\bot, 0}, 
+        \tuple{\bot, 1}}}}:\text{for all }\sigma\in\set{a,b}, d\in\set{0,1}
+    }
+  \end{equation*}
+  to $\Delta$ where $\overline{a} = b$ and $\overline{b} = a$. Initially, 
+  $q_{0}$ dispatches $q_{a}$ and $q_{b}$ in the \emph{same} direction (by 
+  arbitrary choice) $0$, yielding
+  \begin{equation*}
+    \set{
+      \tuple{q_{0}, \sigma, \delta_{\set{\tuple{q_{a}, 0}, \tuple{q_{b}, 0}}}}:
+        \text{for }\sigma\in\set{a, b}
+      }
+  \end{equation*}
+  as part of $\Delta$. Naturally, there is \emph{no} possible accepted tree for 
+  $\mathcal{M}$ since $t(0)$ is either $a$ or $b$ but either choice yields one
+  unsatisfied state $q_{b}$ or $q_{a}$ respectively. On the other hand, if we
+  naively translate the concept of the emptiness game (Definition 
+  \ref{def:treeemptinessgame}) \automaton{} still can win by constructing 
+  different trees depending on the fact if $q_{a}$ or $q_{b}$ is chosen by 
+  \pathfinder{} in the intial step. For \acp{PBA} we addressed this problem 
+  with partial observability and we observe in the following the necessity of
+  this for alternating tree automata which incorporate a weighting for their 
+  paths.
+\end{example}
