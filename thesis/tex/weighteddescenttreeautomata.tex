@@ -1372,6 +1372,12 @@ we state
   $\omega$-regular languages and choiceless \acp{WDTA} to \acp{PBA} (for 
   singleton direction sets) respectively.
 \end{proof}
+This proposition also directly entails that the Simulation Theorem for tree 
+automata (Theorem \ref{thm:simulation}) does not translate to almost-surely
+accepting \acp{WDTA}. This result is disappointing but not surprising since
+we established the correspondance between alternation and partial observability
+and fundamental differences in terms of algorithmic properties between 
+\acp{MDP} and \acp{POMDP} are well established.
 
 For \acp{PBA} we obtained that more expressive acceptance conditions allows to
 move from positive acceptance to almost-sure acceptance. Unfortunately, this 
@@ -1379,7 +1385,7 @@ does not translate to choiceless \acp{WDTA}:
 \begin{proposition}
   There exists a language that is accepted by a choiceless \ac{WDTA} with a
   positive acceptance of a Büchi-condition but which is not accepted by any
-  choiceless \ac{WDTA} with a Parity-condition.
+  choiceless \ac{WDTA} with an almost-sure accepted Parity-condition.
 \end{proposition}
 \begin{proof}
   We define $\mathcal{L}_{\exists a}$ as the language of all trees with
@@ -1510,13 +1516,3 @@ does not translate to choiceless \acp{WDTA}:
   is a proper superset of languages recognizable with choiceless \acp{WDTA}
   with almost-sure acceptance.
 \end{proposition}
-
-It is a very interesting result that alternation in non-weighted tree automata
-does not increase the general expressiveness (see \cite{SimAltTreeAuto}).
-This result does unfortunately not translate unconstraint to the weighted case.
-
-
-\begin{corollary}
-  For Büchi conditions there are deterministic \acp{WDTA} that do not have an
-  equivalent uni-directional \ac{WDTA} with any acceptance measure.
-\end{corollary}
