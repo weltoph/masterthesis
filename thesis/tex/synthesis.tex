@@ -27,21 +27,20 @@ to generate for all inputs an associated \enquote{good} output, allows for a
 game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
 of strategies, i.e. one player generates inputs while another player generates
-outputs. The output-player wins if and only if $\phi$ is satisfied for the
-input- and output-sequences. In the following we present known synthesis results 
-for those $\phi$ which allow to capture the associated relation as a
-$\omega$-regular language. Subsequently, we pivot towards probabilistic 
-environments and review an approach to synthesis algorithms there which are not
-necessarily completely correct but almost-surely satisfy a specification 
-$\phi$. At last, we examine probabilistic environments which are modelled as
-\acp{POMDP}. It is noteworthy that we consider environments by increasing 
-domain knowledge.
+outputs. We call these players \inputp{} and \outputp{} respectively. \outputp 
+wins if and only if $\phi$ is satisfied for the input- and output-sequences. In 
+the following we present known synthesis results for those $\phi$ which allow 
+to capture the associated relation as a $\omega$-regular language. 
+Subsequently, we pivot towards probabilistic environments and review an 
+approach to synthesis algorithms there which are not necessarily surely 
+correct but almost-surely satisfy a specification $\phi$. At last, we examine 
+probabilistic environments which are modelled as \acp{POMDP}. 
 
 \section{$\omega$-regular Languages}
 In the following we consider an $\omega$-regular class of specifications 
 $\phi$ for inputs $I$ and outputs $J$, namely those such that we can define a 
 $\omega$-regular language $\mathcal{L}_{\phi}\subseteq 
-\tuple{J\times I}^{\omega}$ such that
+\tuple{J\times I}^{\omega}$ with
 \begin{equation*}
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
   \text{ iff }
@@ -82,10 +81,9 @@ $\phi$ and gives
   The synthesis problem for $\omega$-regular specifications $\phi$ can be 
   decided.
 \end{theorem}
-This approach suits the game-theoretic interpretation of input- and 
-output-player by identifying the input player with \pathfinder{} while the 
-output player is assigned the role of \automaton{} and constructs a fitting 
-tree.
+This approach suits the game-theoretic interpretation of the synthesis problem
+by identifying \inputp{} with \pathfinder{} while \outputp{} is assigned the 
+role of \automaton{} and constructs a fitting tree.
 \fxwarning{maybe elaborate on the calss of $\omega$-regular specifications 
 (LTL, ...)}
 
