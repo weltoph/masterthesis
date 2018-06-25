@@ -674,14 +674,15 @@ Büchi-, Rabin-, Parity- and Muller-conditions. We can then ask if a player has
 a strategy to positively or almost-surely satisfy the associated condition in
 an \ac{MDP} or \ac{POMDP}. The equality described in Example 
 \ref{ex:pbaaspomdp} directly induces some undecideability results, namely
-\begin{theorem}
+\begin{corollary}
   \cite[Corollary 3 (a)]{DecProblemsForProbAuto}
   \cite[Theorem 5]{QualAnaPOMDP}
   It is undecideable to compute a strategy for a \ac{POMDP} that either 
   positively or almost-surely satisfies a Rabin-, Parity- or Muller-condition.
   Additionally, it is undecideable to compute a strategy for a \ac{POMDP} that
   positively satisfies a Büchi-condition.
-\end{theorem}
+  \label{cor:posstratpomdp}
+\end{corollary}
 \begin{proof}
   Any algorithm to compute a strategy for a \ac{POMDP} that positively 
   satisfies a Büchi-condition immediately solves the emptiness problem for

@@ -33,19 +33,20 @@ the following we present known synthesis results for those $\phi$ which allow
 to capture the associated relation as a $\omega$-regular language. 
 Subsequently, we pivot towards probabilistic environments and review an 
 approach to synthesis algorithms there which are not necessarily surely 
-correct but almost-surely satisfy a specification $\phi$. At last, we examine 
-probabilistic environments which are modelled as \acp{POMDP}. 
+correct but almost-surely satisfy a specification $\phi$. These probabilistic
+environments are eventually modelled as \acp{POMDP}. 
 
-\section{$\omega$-regular Languages}
+\section{Antagonisitic Environments}
 In the following we consider an $\omega$-regular class of specifications 
 $\phi$ for inputs $I$ and outputs $J$, namely those such that we can define a 
 $\omega$-regular language $\mathcal{L}_{\phi}\subseteq 
 \tuple{J\times I}^{\omega}$ with
-\begin{equation*}
+\begin{equation}
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
   \text{ iff }
   \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
-\end{equation*}
+  \label{eq:omegaregularphi}
+\end{equation}
 Observably, the output symbol $j_{0}$ is irrelevant but included to ease the 
 technicalities of the following argument. With the well researched theory of
 tree automata the associated synthesis problem for $\omega$-regular 
@@ -84,9 +85,114 @@ $\phi$ and gives
 This approach suits the game-theoretic interpretation of the synthesis problem
 by identifying \inputp{} with \pathfinder{} while \outputp{} is assigned the 
 role of \automaton{} and constructs a fitting tree.
-\fxwarning{maybe elaborate on the calss of $\omega$-regular specifications 
+\fxwarning{maybe elaborate on the class of $\omega$-regular specifications 
 (LTL, ...)}
 
+In the following we want to consider specifications $\phi$ which are not 
+$\omega$-regular but defineable by almost-surely accepting \acp{PBA}. Thus, in
+analogy to the formulation \ref{eq:omegaregularphi} above we consider $\phi$ 
+such that there is a \ac{PBA} $\mathcal{P}$ which accepts the language 
+$\mathcal{L}_{\mathcal{P}}$ with
+\begin{equation}
+  \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\mathcal{P}}
+  \text{ iff }
+  \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
+\end{equation}
+The approach to this problem is formalized by introducing a new class of graph
+games, called \acp{POSG} (cp. \cite{POSG, PureStratPOSG}). Reconsidering the 
+behavior of \acp{POMDP} we can capture their semantic as a game between two 
+players on the underlying graph of states and edges $\tuple{s_{1}, s_{2}}$ 
+which are induced by non-zero probabilities for the movement from $s_{1}$ to 
+$s_{2}$ for some action of the player as follows: at any point the player 
+provides an action and the opponent chooses one of the associated edges. The 
+player acts \enquote{deterministically} in the sense that for a certain history 
+one specific action $a$ is played while the opponent plays probabilistically 
+(as defined by $\tau_{a}$). \acp{POSG} expand on this notion by introducing a 
+third player. At every position both players independently and simultaniously 
+choose an action and then the third player plays by choosing a successor state 
+probabilistically. Again we allow for restricted observations for both players
+and formalize these notions analogously to \acp{POMDP} but with two players 
+participating in the choices at every state:
+\begin{definition}[\acl{POSG}]
+  A \ac{POSG}-arena $G$ is defined by a set of states $S$ (with an 
+  inital state $s_{0}\in S$), actions for both players (called \eve{} and 
+  \adam{}) $E$ and $A$ respectively, transition probabilities 
+  $\tuple{\tau_{e,a}}_{e\in E, a\in A}$ and equivalence classes $\sim_{E}$ and 
+  $\sim_{A}$ restricting the observations of \eve{} and \adam{} respectively. 
+  We obtain
+  \begin{equation*}
+    G = \tuple{S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, 
+    \sim_{E}, \sim_{A}}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \tau_{e,a}:S\times S\rightarrow\interval{0,1} \text{ s. t. }
+    \tau_{e,a}(s, \cdot)\in\mathcal{D}(S)\text{ for all }a\in A, e\in E.
+  \end{equation*}
+  A strategy for \eve{} (\adam{}) is defined as 
+  $f:\interval{S}_{\sim_{E}}^{*}\rightarrow E$ 
+  ($g:\interval{S}_{\sim_{A}}^{*}\rightarrow A$). For any such pair of 
+  strategies $f$ and $g$ we obtain a probability space
+  \begin{equation*}
+    \tuple{S^{\omega}, \mathcal{B}(S), \mu_{f, g}}.
+  \end{equation*}
+  A \ac{POSG} is defined by an arena $G$ and an associated language
+  $\Acc\subseteq S^{\omega}$ forming $\mathcal{G} = \tuple{G, \Acc}$. Notably,
+  $\mathcal{G}$ is a zero-sum game, i.e. \eve{} tries to obtain a play in 
+  $\Acc$ while \adam{} tries to force plays in $S^{\omega}\setminus\Acc$. In 
+  the following we grammatically refer to \eve{} as female and \adam{} as male.
+\end{definition}
+For any such $\mathcal{G} = \tuple{
+S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, \Acc}$ 
+we can consider various goals for \eve{}, defined by different $\Acc$ and
+positive or almost-sure satisfaction. In similar sense as for graph games we
+consider a strategy $f$ for \eve{} almost-surely (postively) winning if for all
+strategies $g$ of \adam{} we have $\mu_{f,g}(\Acc) = 1$ 
+($\mu_{f,g}(\Acc) > 0$). Note that $\Acc$ has to be Borel to ensure 
+well-definedness but we consider again $\Acc$ defined in finite means by 
+Büchi-, Parity-, Rabin- or Muller-conditions for which this already is 
+established. The natural initial observation that \adam{}'s role can be reduced 
+to oblivion by only granting him a single action allows to capture the notions
+of \acp{POMDP} which entails strong restrictions regarding algorithmic 
+approaches, namely we obtain
+\begin{corollary}
+  \cite{PureStratPOSG, POSG}
+  For a given \ac{POSG} $\mathcal{G} = \tuple{G, \Acc}$ the following problems
+  are undecideable:
+  \begin{itemize}
+    \item Exists a positively winning strategy for \eve{} if $\Acc$ is defined 
+      as Büchi-, Parity-, Rabin- or Muller-condition?
+    \item Exists an almost-surely winning strategy for \eve{} if $\Acc$ is
+      defined as Parity-, Rabin- or Muller-condition?
+  \end{itemize}
+\end{corollary}
+\begin{proof}
+  These are immediate consequences of the negligibility (not in the sense of
+  measurability theory but in the game theoretic sense) of \adam{}'s actions
+  and Theorem \ref{thm:emptinesspospba} (or the respective Corollary 
+  \ref{cor:posstratpomdp}).
+\end{proof}
+Due to these harsh restrictions we focus in the following on almost-surely 
+winning strategies for \eve{} in \ac{POSG} with Büchi-conditions. Additionally,
+we only consider \acp{POSG} where \eve{} and \adam{} are 
+\emph{equally informed}, i.e. $\sim_{E} = \sim_{A}$. In this case
+we obtain the possibility to compute these strategies for \eve{} by
+\begin{theorem}
+  \cite[Theorem 6]{POSG} with the included reference to 
+  \cite[Lemma 4]{DecProblemsForProbAuto} or \cite[Theorem 5.3]{PureStratPOSG}.
+  It is possible to decide if there is a almost-surely winning strategy for 
+  \eve{} in a \ac{POSG} $\mathcal{G} = \tuple{G, F}$ where $F$ is a 
+  Büchi-condition and $\sim_{E} = \sim_{A}$.
+
+  This decision procedure takes time doubly exponential in $\size{S}$.
+\end{theorem}
+Since we rely for the time bound on arguments from \cite{PureStratPOSG} which 
+is not published at the moment of completion of this thesis we re-iterate
+in the following the argumentation to ensure its availability.
+\begin{proof}
+\end{proof}
+
+\section{Stochastic Environments}
 Another approach is introduced in \cite{SynProbEnv} by considering environments
 which do not act antagonistically but probabilistically, i.e. we assume that 
 inputs are generated by a probabilistic process. This motivates the concept of 
@@ -208,7 +314,6 @@ interaction of the actor with the environment is explicitly incorporated but
 can be understood as approach to annotate the transitions of $\mathcal{T}$
 with the probabilities of the environment.
 
-\section{Strategy Synthesis for \ac{POMDP}}
 We move towards synthesis in environments which are explicitly modelled in 
 terms of \acp{MDP} and \acp{POMDP}. Then we formalize the synthesis question 
 with (cp. \cite{QualAnaPOMDP, SimpleStochasticParityGames, 
@@ -306,8 +411,8 @@ Concludingly, if we consider that associated Büchi- or Parity-conditions on
 \ac{POMDP} induce $\omega$-regular $\phi\subseteq S^{\omega}$ we conclude that
 the two formulations are interchangeable. This allows to conclude that 
 \ac{DBA}-recognizable $\phi$ allow for strategy synthesis in \acp{POMDP} (cp.
-Theorem \ref{thm:pomdpstratsynthesis}) but for $\omega$-regular $\phi$ it is
-undecideable to compute strategies for \acp{POMDP}. Since we can model 
+Theorem \ref{thm:pomdpstratsynthesis}) but for general $\omega$-regular $\phi$ 
+it is undecideable to compute strategies for \acp{POMDP}. Since we can model 
 \acp{POMDP} as \acp{WDTA} (see Theorem \ref{thm:POMDPequivWDTA}) we can 
 construct for a \ac{POMDP} 
 $\mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}$ and an 
@@ -340,7 +445,7 @@ following question:
   $\mathcal{P}$?
   \label{def:synthesis}
 \end{definition}
-Considering a qualitative acceptance condition on $\mathcal{P}$ we can answer
+Considering an almost-sure acceptance condition on $\mathcal{P}$ we can answer
 this question positively with
 \begin{theorem}[Qualitative PBA Synthesis]
   The synthesis question of an environment $\mathcal{M}$ and a specification
@@ -424,8 +529,8 @@ more involved.
     \begin{equation*}
       \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
     \end{equation*}
-    This justifies the use of the notion $\mu_{u}$.
-    Regarding measurability of function we introduce
+    This justifies the use of the notion $\mu_{u}$.  Regarding measurability of 
+    function we introduce
     \begin{theorem}
       \cite[Theorem 9.2]{Bauer}
       For a measurable space $\tuple{\Omega, \mathcal{F}}$ and a function 
@@ -442,8 +547,8 @@ more involved.
           $\set{p\in\Omega\mid f(p) \geq a}\in\mathcal{F}$.
       \end{enumerate}
     \end{theorem}
-    Therefore the measurability of $K(\cdot, \cyl(u))$ is
-    implied if for all $a\in\mathbb{R}$
+    Therefore the measurability of $K(\cdot, \cyl(u))$ is implied if for all 
+    $a\in\mathbb{R}$
     \begin{equation*}
       \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(u))\leq a}\in\mathcal{B}(S).
     \end{equation*}
@@ -595,4 +700,4 @@ The correctness argument is analogously to the argument which involve
 \acp{WDTA} above. In this setup \acp{MDP} are also transformed to \ac{POMDP} 
 since the construction needs to hide the current state of $\mathcal{P}$ and we
 do not have a determinism argument as before since \acp{PBA} have in general
-possibly multiple following states. 
+possibly multiple following states.
