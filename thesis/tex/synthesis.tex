@@ -190,6 +190,39 @@ Since we rely for the time bound on arguments from \cite{PureStratPOSG} which
 is not published at the moment of completion of this thesis we re-iterate
 in the following the argumentation to ensure its availability.
 \begin{proof}
+  In the following we consider one \ac{POSG}
+  \begin{equation*}
+    \mathcal{G} = \tuple{S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, A\in A}, 
+      \sim, \Acc}
+  \end{equation*}
+  where $\sim$ defines the equivalence classes for both players. We 
+  additionally, introduce the notion of games with multiple initial locations 
+  as $\mathcal{G}_{B}$ for $B\subseteq S$ such that in an initial step \adam{}
+  may choose any $b\in B$ and subsequently \eve{} and \adam{} compete in the
+  game $\mathcal{G}_{b} = \tuple{S, b, E, A, 
+  \tuple{\tau_{e,a}}_{e\in E, A\in A}, \sim, \Acc}$. Naturally, \eve{} has an 
+  almost-surely (positively) winning strategy in $\mathcal{G}_{B}$ if and only 
+  if \eve{} has an almost-surely (positively) winning strategy in 
+  $\mathcal{G}_{b}$.
+
+  We consider for a moment Reachability-conditions, i.e. for a set
+  $R\subseteq S$ its suffices to visit one element in $R$ to win hence the 
+  associated Reachability-condition is defined as 
+  \begin{equation*}
+    \Acc(R) = \tuple{S\setminus R}^{*}RS^{\omega}.
+  \end{equation*}
+  We introduce an observation about winning games with associated 
+  Reachability-conditions:
+  \begin{proposition}
+    Given $B\subseteq S$ and $R\subseteq S$ such that \eve{} has a positively
+    winning strategy $f$ in $\mathcal{G}_{B}$ equipped with the 
+    Reachability-condition that $R$ induces. Then, there is an $N\in\mathbb{N}$
+    and some probability $\epsilon_{B} > 0$ that bounds from below the 
+    probability of the event that a state in $R$ is visited in 
+    $\mathcal{G}_{B}$ if \eve{} plays $f$.
+  \end{proposition}
+  \begin{proof}
+  \end{proof}
 \end{proof}
 
 \section{Stochastic Environments}
