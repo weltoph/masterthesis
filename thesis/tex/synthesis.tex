@@ -97,6 +97,7 @@ $\mathcal{L}_{\mathcal{P}}$ with
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\mathcal{P}}
   \text{ iff }
   \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
+  \label{eq:pbaregularphi}
 \end{equation}
 The approach to this problem is formalized by introducing a new class of graph
 games, called \acp{POSG} (cp. \cite{POSG, PureStratPOSG}). Reconsidering the 
@@ -187,41 +188,69 @@ we obtain the possibility to compute these strategies for \eve{} by
   This decision procedure takes time doubly exponential in $\size{S}$.
 \end{theorem}
 Since we rely for the time bound on arguments from \cite{PureStratPOSG} which 
-is not published at the moment of completion of this thesis we re-iterate
-in the following the argumentation to ensure its availability.
+is not published at the moment of completion of this thesis we present the 
+necessary argumentation in Appendix \ref{app:POSG} to ensure its availability.
+Nevertheless, we answer the synthesis question imposed by an almost-surely
+accepting \ac{PBA} $\mathcal{P}$ positively for antagonistic environments. The 
+idea is to define a \ac{POSG} in which both players only observe an 
+input-output game while in the \enquote{background} the stoachastic process of
+$\mathcal{P}$ operates and any play is eventually evaluated in terms of 
+$\mathcal{P}$. We obtain
+\begin{theorem}
+  For any \ac{PBA} 
+  \begin{equation*}
+    \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
+  \end{equation*}
+  the synthesis problem imposed by $\phi$ as defined by $\mathcal{P}$ as in
+  \ref{eq:pbaregularphi} can be decided in time doubly exponential in 
+  $\size{I}\cdot \size{Q}\cdot \size{J} + 1$.
+\end{theorem}
 \begin{proof}
-  In the following we consider one \ac{POSG}
-  \begin{equation*}
-    \mathcal{G} = \tuple{S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, A\in A}, 
-      \sim, \Acc}
-  \end{equation*}
-  where $\sim$ defines the equivalence classes for both players. We 
-  additionally, introduce the notion of games with multiple initial locations 
-  as $\mathcal{G}_{B}$ for $B\subseteq S$ such that in an initial step \adam{}
-  may choose any $b\in B$ and subsequently \eve{} and \adam{} compete in the
-  game $\mathcal{G}_{b} = \tuple{S, b, E, A, 
-  \tuple{\tau_{e,a}}_{e\in E, A\in A}, \sim, \Acc}$. Naturally, \eve{} has an 
-  almost-surely (positively) winning strategy in $\mathcal{G}_{B}$ if and only 
-  if \eve{} has an almost-surely (positively) winning strategy in 
-  $\mathcal{G}_{b}$.
-
-  We consider for a moment Reachability-conditions, i.e. for a set
-  $R\subseteq S$ its suffices to visit one element in $R$ to win hence the 
-  associated Reachability-condition is defined as 
-  \begin{equation*}
-    \Acc(R) = \tuple{S\setminus R}^{*}RS^{\omega}.
-  \end{equation*}
-  We introduce an observation about winning games with associated 
-  Reachability-conditions:
-  \begin{proposition}
-    Given $B\subseteq S$ and $R\subseteq S$ such that \eve{} has a positively
-    winning strategy $f$ in $\mathcal{G}_{B}$ equipped with the 
-    Reachability-condition that $R$ induces. Then, there is an $N\in\mathbb{N}$
-    and some probability $\epsilon_{B} > 0$ that bounds from below the 
-    probability of the event that a state in $R$ is visited in 
-    $\mathcal{G}_{B}$ if \eve{} plays $f$.
-  \end{proposition}
+  We define for $\mathcal{P}$ an associated \ac{POSG} such that \eve{} 
+  corresponds with \outputp{} while \adam{} plays the role of \inputp{}:
+  \begin{definition}[\ac{POSG} for $\mathcal{P}$]
+    Set
+    \begin{equation*}
+      \mathcal{G}_{\mathcal{P}} = \tuple{I\times Q\times J\uplus\set{q_{0}}, J,
+        I, \tuple{\tau_{j,i}}_{j\in J,i\in I}, \sim_{E}, \sim_{A}, F}
+    \end{equation*}
+    with
+    \begin{equation*}
+      \sim_{E} = \sim_{E} = \set{\tuple{\tuple{i, q, j}, \tuple{i', q', j'}}\in
+        \tuple{I\times Q\times J}^{2}\mid i = i', j = j'}
+      \text{ and }
+      F = I\times F'\times J.
+    \end{equation*}
+    Moreover, we fix
+    \begin{equation*}
+      \tau_{j',i'}(\tuple{i, q, j}, \tuple{o, p, u}) = \begin{cases}
+        \delta(q, \tuple{i', j'}, p)&\text{if }o = i', u = j',\\
+        0&\text{otherwise},
+      \end{cases}
+    \end{equation*}
+    where $q_{0}$ is treated as $\tuple{i, q_{0}, j}$ for any $i\in I, j\in J$.
+  \end{definition}
+  Central to this proof is the observation that regarding the observations of
+  \eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ is isomorphic to a 
+  deterministic input-output game. This is ensured since for all transitions 
+  $\tau_{j,i}$ holds $\supp(\tau_{j, i}(\tuple{i', q, j'}, \cdot)\subseteq
+  \set{i}\times Q\set{j}$. Hence, the only probabilistic part of any movement
+  is associated with the state component which is observed neither by \eve{} 
+  nor by \adam{}. Indeed, this is integral to the argument as expressed in
+  \begin{lemma}
+    Every two strategies $f$ and $g$ of \eve{} and \adam{} respectively induce
+    one unique $\alpha\in\tuple{I\times J}^{\omega}$ in the first and last 
+    component of the resulting play. Moreover, $\mu_{f,g}$ when restricted to
+    the plays that respect $\alpha$ conincides on the state component with
+    $\mu_{\alpha}$ of $\mathcal{P}$.
+  \end{lemma}
   \begin{proof}
+    The unique $\alpha$ is easily obtained by inductively applying the 
+    observation that $\supp(\tau_{j, i}(\tuple{i', q, j'},\cdot)\subseteq
+    \set{i}\times Q\set{j}$ for all $i'\in I, q\in Q, j'\in J$. Naturally,
+    $\mu_{f,g}$ only carries weighted in the associated sub-algebra of 
+    $\mathcal{B}(I\times Q\times J)$ where the first and last component form
+    $\alpha$. We can ev
   \end{proof}
 \end{proof}
 
