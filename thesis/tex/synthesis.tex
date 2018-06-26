@@ -27,14 +27,24 @@ to generate for all inputs an associated \enquote{good} output, allows for a
 game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
 of strategies, i.e. one player generates inputs while another player generates
-outputs. We call these players \inputp{} and \outputp{} respectively. \outputp 
-wins if and only if $\phi$ is satisfied for the input- and output-sequences. In 
-the following we present known synthesis results for those $\phi$ which allow 
-to capture the associated relation as a $\omega$-regular language. 
-Subsequently, we pivot towards probabilistic environments and review an 
-approach to synthesis algorithms there which are not necessarily surely 
-correct but almost-surely satisfy a specification $\phi$. These probabilistic
-environments are eventually modelled as \acp{POMDP}. 
+outputs. We call these players \inputp{} and \outputp{} respectively. The game
+resolves by \inputp{} choosing sequentially inputs $i_{1}i_{2}\dots$ and 
+\outputp{} reacting by $j_{1}j_{2}\dots$. Thus, a game
+\begin{tabular}{cccc}
+  $i_{1}$ & $i_{2}$ & $i_{3}$ & \dots\\
+  $j_{1}$ & $j_{2}$ & $j_{3}$ & \dots
+\end{tabular}
+forms and \outputp{} wins if and only if 
+$\phi(i_{1}i_{2}\dots,j_{1}j_{2}\dots)$ evaluates to true. Strategies of 
+\outputp{} are usually described as functions $f:I^{+}\rightarrow J$ such that
+\outputp{} plays at position $n>0$ the output-symbol 
+$f(i_{1}\dots i_{n}) = j_{n}$. In this sense we are interested in winning 
+strategies of \outputp{}. In the following we present known synthesis results 
+for those $\phi$ which allow to capture the associated relation as a 
+$\omega$-regular language. Subsequently, we pivot towards probabilistic 
+environments and review an approach to synthesis algorithms there which are not 
+necessarily surely correct but almost-surely satisfy a specification $\phi$. 
+These probabilistic environments are eventually modelled as \acp{POMDP}. 
 
 \section{Antagonisitic Environments}
 In the following we consider an $\omega$-regular class of specifications 
@@ -186,6 +196,7 @@ we obtain the possibility to compute these strategies for \eve{} by
   Büchi-condition and $\sim_{E} = \sim_{A}$.
 
   This decision procedure takes time doubly exponential in $\size{S}$.
+  \label{thm:StratPOSG}
 \end{theorem}
 Since we rely for the time bound on arguments from \cite{PureStratPOSG} which 
 is not published at the moment of completion of this thesis we present the 
@@ -216,12 +227,10 @@ $\mathcal{P}$. We obtain
     \end{equation*}
     with
     \begin{equation*}
-      \sim_{E} = \sim_{E} = \set{\tuple{\tuple{i, q, j}, \tuple{i', q', j'}}\in
-        \tuple{I\times Q\times J}^{2}\mid i = i', j = j'}
-      \text{ and }
-      F = I\times F'\times J.
+      \sim = \sim_{E} = \sim_{E} = \set{\tuple{\tuple{i, q, j}, 
+      \tuple{i', q', j'}}\in \tuple{I\times Q\times J}^{2}\mid i = i', j = j'}
     \end{equation*}
-    Moreover, we fix
+    Moreover, we fix $F = I\times F'\times J$ and
     \begin{equation*}
       \tau_{j',i'}(\tuple{i, q, j}, \tuple{o, p, u}) = \begin{cases}
         \delta(q, \tuple{i', j'}, p)&\text{if }o = i', u = j',\\
@@ -231,28 +240,109 @@ $\mathcal{P}$. We obtain
     where $q_{0}$ is treated as $\tuple{i, q_{0}, j}$ for any $i\in I, j\in J$.
   \end{definition}
   Central to this proof is the observation that regarding the observations of
-  \eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ is isomorphic to a 
-  deterministic input-output game. This is ensured since for all transitions 
-  $\tau_{j,i}$ holds $\supp(\tau_{j, i}(\tuple{i', q, j'}, \cdot)\subseteq
-  \set{i}\times Q\set{j}$. Hence, the only probabilistic part of any movement
-  is associated with the state component which is observed neither by \eve{} 
-  nor by \adam{}. Indeed, this is integral to the argument as expressed in
+  \eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game.
+  Setting $S = I\times Q\times J$ we observe by definition of $~$ we can 
+  partition $S$ into $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
+  where $\interval{\tuple{i, *, o}}_{\sim}$ describes the equivalence class
+  $\set{\tuple{i, q, o}:q\in Q}$. By definition of all $\tau_{j,i}$ we obtain
+  $\supp(\tau_{j,i}(s, \cdot))\subseteq\interval{\tuple{i,*,j}}_{\sim}$. Hence,
+  every strategy for \eve{} (\adam{}) presents as function 
+  $f:\tuple{I\times J}^{*}\rightarrow J$ 
+  ($g:\tuple{I\times J}^{*}\rightarrow I$). The only stochastic process in this
+  game is associated with the state component which is observed neither by 
+  \eve{} nor by \adam{}. By this observation we deduce that any pair of 
+  strategies $f$ and $g$ for \eve{} and \adam{} respectively induce one unique
+  word $\alpha_{f}^{g}\in\tuple{I\times J}^{\omega}$. Moreover, we can consider
+  a sub-algebra of $\mathcal{B}(I\times Q\times J)$ which is induced by 
+  $\alpha_{f}^{g} = \tuple{i_{1}, j_{1}}\tuple{i_{2}, j_{2}}\dots$. Namely, we 
+  define two sets
+  \begin{align*}
+    F &= \bigcap_{k>0}\bigcup_{
+      \substack{
+        p_{1}\dots p_{k}\in Q^{k}\\
+        u_{1}\dots u_{k}\in J^{k}
+      }
+    }\cyl(\tuple{i_{1}, p_{1}, u_{1}}\dots\tuple{i_{k}, p_{k}, u_{k}})\\
+    G &= \bigcap_{k>0}\bigcup_{
+      \substack{
+        p_{1}\dots p_{k}\in Q^{k}\\
+        u_{1}\dots u_{k}\in I^{k}
+      }
+    }\cyl(\tuple{u_{1}, p_{1}, j_{1}}\dots\tuple{u_{k}, p_{k}, j_{k}}).
+  \end{align*}
+  By definition $F$ and $G$ are measurable and those sets in
+  $\mathcal{B}(I\times Q\times J)$ such that the $J$-component respectively the
+  $I$-component agrees with $\alpha_{f}^{g}$. From these sets we obtain the 
+  sub-algebra $F\cap G$. By definition of $\tau_{i, j}$ for all $i\in I, 
+  j\in J$ we deduce that 
+  \begin{equation*}
+    \mu_{f,g}(C) = 0\text{ for all }
+    C\in \mathcal{B}(I\times Q\times J)\setminus\tuple{F\cap G}
+  \end{equation*}
+  because for any element $c\in C$ either the $I$- or $J$-component at some 
+  index $k$ deviates from the $I$- or $J$-component of $\alpha_{f}^{g}$ 
+  respectively. $\tau_{i_{k}, j_{k}}$ causes a probability of $0$ for $c$.
+  The central idea of this proof is formulated in
   \begin{lemma}
-    Every two strategies $f$ and $g$ of \eve{} and \adam{} respectively induce
-    one unique $\alpha\in\tuple{I\times J}^{\omega}$ in the first and last 
-    component of the resulting play. Moreover, $\mu_{f,g}$ when restricted to
-    the plays that respect $\alpha$ conincides on the state component with
-    $\mu_{\alpha}$ of $\mathcal{P}$.
+    Applying element-wise a projection to the $Q$-component for every set in 
+    $F\cap G$ yields a bijection to $\mathcal{B}(Q)$. Additionally, $\mu_{f,g}$ 
+    coincides with $\mu_{\alpha_{f}^{g}}$ w.r.t. to this bijection.
+    \label{lem:fginpba}
   \end{lemma}
   \begin{proof}
-    The unique $\alpha$ is easily obtained by inductively applying the 
-    observation that $\supp(\tau_{j, i}(\tuple{i', q, j'},\cdot)\subseteq
-    \set{i}\times Q\set{j}$ for all $i'\in I, q\in Q, j'\in J$. Naturally,
-    $\mu_{f,g}$ only carries weighted in the associated sub-algebra of 
-    $\mathcal{B}(I\times Q\times J)$ where the first and last component form
-    $\alpha$. We can ev
+    We fix one $p_{1}\dots p_{n}\in Q^{*}$. Observing
+    \begin{align*}
+      \mu_{f, g}&(
+        \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots\tuple{i_{n}, p_{n}, j_{n}})\\
+      &= \tau_{j_{1}, i_{1}}(q_{0}, \tuple{i_{1}, p_{1}, j_{1}})
+        \prod\limits_{1\leq k < n}\tau_{j_{k}, i_{k}}(\tuple{i_{k}, p_{k}, 
+          j_{k}},\tuple{i_{k+1}, p_{k+1}, j_{k+1}})\\
+      &= \delta(q_{0}, \tuple{i_{1}, j_{1}}, p_{1})
+        \prod\limits_{1\leq k < n}\delta(p_{k}, \tuple{i_{k+1}, j_{k+1}}, 
+          p_{k+1})\\
+      &= \mu_{\alpha_{f}^{g}}(\cyl(p_{1}\dots p_{n}))
+    \end{align*}
+    gives the desired equality by unique extension of $\mu_{f, g}$ and 
+    $\mu_{\alpha_{f}^{g}}$.
   \end{proof}
+
+  This leads us into characterising almost-surely winning strategies for \eve{} 
+  in $\mathcal{G}_{\mathcal{P}}$ in
+  \begin{lemma}
+    A strategy $f$ in $\mathcal{G}_{\mathcal{P}}$ is almost-surely winning for
+    \eve{} if and only if $f$ synthesises an algorithm for the associated 
+    specification $\phi_{\mathcal{P}}$.
+  \end{lemma}
+  \begin{proof}
+    Initially, we observe that for a fixed strategy $f$ every input
+    $\beta = \beta_{0}\beta_{1}\dots\in I^{\omega}$ describes one strategy of 
+    \adam{} by setting $g(u) = \beta_{\size{u}}$. On the other hand, we obtain
+    for every possible strategy $g$ one sequence of inputs, namely the 
+    $I$-projection of $\alpha_{f}^{g}$. Hence, the strategy space of \adam{}
+    coincides with all possible input-sequences. 
+    
+    Therefore, given an almost-surely winning strategy $f$ for \eve{} we get 
+    for every $g$ that $\mu_{f,g}(\Acc(F)) = 1$. By Lemma \ref{lem:fginpba} 
+    this implies $\mu_{\alpha_{f}^{g}}(\Acc(F')) = 1$ and therefore 
+    $\alpha_{f}^{g}$ is accepted by $\mathcal{P}$. This means that every 
+    possible input-sequence $\beta$ is met with an output-sequence $\gamma$ 
+    such that $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to true.
+
+    If on the other hand $f$ is not almost-surely for \eve{} there is a riposte 
+    $g$ of \adam{} such that $\mu_{f,g}(\Acc(F)) < 1$ which analogously to the 
+    reasoning above yields that $\mu_{\alpha_{f}^{g}}(\Acc(F')) < 1$ and 
+    therefore the non-acceptance of $\alpha_{f}^{g}$ by $\mathcal{P}$. 
+    Therefore, \adam{} can generate an input-sequence $\beta$ such that \eve{}
+    generates the output-sequence $\gamma$ but 
+    $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to false.
+  \end{proof}
+
+  Using Theorem \ref{thm:StratPOSG} on $\mathcal{G}_{\mathcal{P}}$ gives the
+  desired decision procedure.
 \end{proof}
+This result actually is intriguing in the sense that we consider a 
+probabilistic specification but obtain a deterministic algorithm which shows
+surely desired behavior.
 
 \section{Stochastic Environments}
 Another approach is introduced in \cite{SynProbEnv} by considering environments
