@@ -606,12 +606,11 @@ $\omega$-regular word automaton. Fixing a singleton direction set $D = \set{0}$
 simply allows for one possible probability distribution for the associated 
 blueprint $B$ of a uniformly distributed \acp{WDTA}, i.e.  $B(0) = 1$. Thus, 
 there is for every transition precisely one state which is awarded with the 
-complete probability mass. 
-\fxnote{find reference for dirac distribution}
-Therefore, the acceptance of the \acp{WDTA} is defined by the satisfaction of
-the one path that carries the complete probability mass. The acceptance of this
-path is defined via a $\omega$-regular acceptance set. These observations lead
-naturally to the equivalence of these automata models, i.e.
+complete probability mass. Therefore, the acceptance of the \acp{WDTA} is 
+defined by the satisfaction of the one path that carries the complete 
+probability mass. The acceptance of this path is defined via a $\omega$-regular 
+acceptance set. These observations lead naturally to the equivalence of these 
+automata models, i.e.
 \begin{theorem}
   For a singelton direction set $D$ (w.l.o.g. $D = \set{0}$) the languages of
   trees recognizable with uni-directional \acp{WDTA} with either positive 
@@ -643,7 +642,8 @@ naturally to the equivalence of these automata models, i.e.
   \end{equation*}
   Any run $r$ of $\mathcal{A}$ on a tree $t:\set{0}^{*}\rightarrow\Sigma$ 
   induces a Dirac measure $\mu_{r}$ on $\mathcal{B}(Q\times D)$ for one path 
-  $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$. This means that
+  $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$ (cp. 
+  \cite[Example 1.30]{Klenke} or \cite{POSG}). This means that
   \begin{equation*}
     \mu_{r}(A) = \begin{cases}
       1&\text{if }\alpha_{r}\in A,\\
@@ -1133,13 +1133,13 @@ In the following we want to examine a very interesting observation, namely that
 any run of a \ac{WDTA} effectively is an unrollment of a transition system 
 which is induced by a tree $t$. This behavior appears very similar to the 
 concept of \acp{MDP} where the strategy of the actor unrolls the transition 
-system.  Indeed, we establish a very deep connection between \acp{POMDP}. 
-Initially, we show that \acp{WDTA} can be used to model \acp{POMDP} where trees 
-are interpreted as strategies. Furthermore, we use the mechanism of \acp{POMDP} 
-to establish decideability results for algorithmic questions about \acp{WDTA},
-e.g. deciding emptiness, or respectively deduce undecideability results. This 
-allows us to reveal intriguing connections between tree automata and 
-\acp{POMDP}; for example the fact that alternation in tree automata models 
+system.  Indeed, we establish a very deep connection between \acp{POMDP} and 
+\acp{WDTA}. Initially, we show that \acp{WDTA} can be used to model \acp{POMDP} 
+where trees are interpreted as strategies. Furthermore, we use the mechanism of 
+\acp{POMDP} to establish decideability results for algorithmic questions about 
+\acp{WDTA}, e.g. deciding emptiness, or respectively deduce undecideability 
+results. This allows us to reveal intriguing connections between \acp{WDTA}
+and \acp{POMDP}; for example the fact that alternation in tree automata models 
 partial observability in \acp{MDP}.
 \begin{theorem}
   For every \ac{POMDP} $\mathcal{M}$ exists a choiceless \ac{WDTA}-skeleton 
