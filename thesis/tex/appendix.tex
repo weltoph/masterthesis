@@ -1,34 +1,43 @@
 \chapter{Proof of Theorem \ref{thm:StratPOSG}}
-In the following we consider one \ac{POSG}
+In the following we consider \acp{POSG} in more detail. Initially, we 
+modularise some notions by de-coupling an arena and the objective and initial 
+state of the game. Also we generalize our definition by allowing \eve{} and 
+\adam{} to be differently informed (by $\sim_{E}$ and $\sim_{A}$ respectively):
+We consider an arena
 \begin{equation*}
-  \mathcal{G} = \tuple{S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, A\in A}, 
-    \sim, \Acc}
+  G = \tuple{S, E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}}.
 \end{equation*}
-where $\sim$ defines the equivalence classes for both players. We 
-additionally, introduce the notion of games with multiple initial locations 
-as $\mathcal{G}_{B}$ for $B\subseteq S$ such that in an initial step \adam{}
-may choose any $b\in B$ and subsequently \eve{} and \adam{} compete in the
-game $\mathcal{G}_{b} = \tuple{S, b, E, A, 
-\tuple{\tau_{e,a}}_{e\in E, A\in A}, \sim, \Acc}$. Naturally, \eve{} has an 
-almost-surely (positively) winning strategy in $\mathcal{G}_{B}$ if and only 
-if \eve{} has an almost-surely (positively) winning strategy in 
-$\mathcal{G}_{b}$.
+A \ac{POSG} $\mathcal{G}$ forms by fixing an initial state $s_{0}\in S$ and an 
+objective $\Acc$ and setting $\mathcal{G} = \tuple{G, s_{0}, \Acc}$.  
+Additionally, we introduce the notion of games with multiple initial locations 
+as $\mathcal{G} = \tuple{G, B, \Acc}$ for $B\subseteq S$ such that in an 
+initial step \adam{} may choose any $b\in B$ and subsequently \eve{} and 
+\adam{} compete in the game $\mathcal{G}_{b} = \tuple{G, b, \Acc}$. Naturally, 
+\eve{} has an almost-surely (positively) winning strategy in $\mathcal{G}_{B}$ 
+if and only if she has an almost-surely (positively) winning strategy in 
+$\mathcal{G}_{b}$. In the following we also consider conditions which are 
+evaluated within finitely many steps (in contrast to Muller-, Rabin-, Parity-
+or Büchi-conditions), namely
+\begin{description}
+  \item [Reachability-condition:] for a set $R\subseteq S$ define
+    \begin{equation*}
+      \Acc_{\reach}(R) = \tuple{S\setminus R}^{*}RS^{\omega},
+    \end{equation*}
+  \item [Safety-condition:] for a set $Z\subseteq S$ we define
+    \begin{equation*}
+      \Acc_{\safety}(Z) = Z^{\omega}.
+    \end{equation*}
+\end{description}
 
-We consider for a moment Reachability-conditions, i.e. for a set
-$R\subseteq S$ its suffices to visit one element in $R$ to win hence the 
-associated Reachability-condition is defined as 
-\begin{equation*}
-  \Acc(R) = \tuple{S\setminus R}^{*}RS^{\omega}.
-\end{equation*}
+\section{Finite Steps to Reachability}
 We introduce an observation about winning games with associated 
-Reachability-conditions:
+Reachability-condition:
 \begin{proposition}
   Given $B\subseteq S$ and $R\subseteq S$ such that \eve{} has a positively
-  winning strategy $f$ in $\mathcal{G}_{B}$ equipped with the 
-  Reachability-condition that $R$ induces. Then, there is an $N\in\mathbb{N}$
-  and some probability $\epsilon_{B} > 0$ that bounds from below the 
-  probability of the event that a state in $R$ is visited in 
-  $\mathcal{G}_{B}$ if \eve{} plays $f$.
+  winning strategy $f$ in the Reachability-game $\mathcal{G}=\tuple{G, B, R}$.
+  Then, there is an $N\in\mathbb{N}$ and some probability $\epsilon_{B} > 0$ 
+  that bounds from below the probability of the event that a state in $R$ is 
+  visited in $\mathcal{G}_{B}$ if \eve{} plays $f$.
 \end{proposition}
 \begin{proof}
   We fix the notion $p_{N}^{g_{N}, s}$ as the probability of reaching $R$ in 
@@ -70,14 +79,14 @@ Reachability-conditions:
   Hence, we can assured the existence of $N_{0} > 0$ which bounds the number
   rounds any counter strategy may avoid $R$ in $\mathcal{G}_{B}$. Since there
   are only finitely many choices in a game up to $N_{0}$ rounds starting in
-  any $s\in B$ we may fix these choices as partial strategies of \adam{} as
-  $G_{s,N_{0}}$. Setting 
+  any $s\in B$ we may fix these choices as (partial) strategies of \adam{} in a
+  set $G_{s,N_{0}}$. Setting 
   $\epsilon_{B} = \min\set{p^{g}_{N_{0}}:g\in G_{s, N_{0}}}$ yields the desired 
   result.
 \end{proof}
 
-We introduce the notion of \emph{automaton-compatible} strategies. The 
-automaton such a strategy is ought to be compatible with is a structure
+\section{Automaton-compatible strategies}
+We introduce the notion of \emph{automaton-compatible} strategies. We define
 \begin{equation*}
   \mathcal{T} = \tuple{Q, \Sigma_{E}\times \interval{S}_{\sim_{E}}, q_{0}, 
   q_{s}, \delta, \lambda}
@@ -96,21 +105,21 @@ labelling of the states of $\mathcal{T}$. Additionally, we enforce
 This automaton $\mathcal{T}$ associates with any play $u\in S^{*}$ in 
 $\mathcal{G}$ precisely one $q\in Q$ and moreover, a labelling $\lambda(q)$. 
 Any strategy $f$ of \eve{} is considered compatible with $\mathcal{T}$ if for 
-any play $u\in S^{*}$ \eve{} plays an action from the associated labelling.
-
-We use these automata to document \eve{}'s knowledge, i.e. the states she 
-consideres possible given her observations. In general, this knowledge expands
-beyond the observed equivalence class since the history might render certain 
-states within the current equivalence class impossible to be the current state.
-This induces one special automaton structure: for an initial knowledge we fix
+any play $u\in S^{*}$ \eve{} plays an action from the associated labelling. One
+important automaton is associated with \eve{}'s knowledge of the current 
+situation of the game, i.e. the states she consideres possible given her 
+observations. In general, this knowledge expands beyond the observed 
+equivalence class since the history might render certain states within the 
+current equivalence class impossible to be the current state.
+This induces one special automaton structure $\mathcal{K}$: Knowledge is 
+encoded as sets of states \eve{} considers possible. Fix an initial knowledge 
 $K_{0}\subseteq S$ such that $K_{0}\subseteq\interval{s}_{\sim_{E}}$ for one 
-$s\in S$. For any sequence $u\in \interval{S}_{\sim}^{*}$ we may define the
-current knowledge given \eve{} initially considered $K_{0}$ and observed a 
-sequence of equivalence classes $u$ as $\currK^{K_{0}}_{E}(u)$. Inductively, we
-can define $\currK$ by setting 
-$\currK^{K_{0}}_{E}(\interval{s_{0}}_{\sim}) = K_{0}$ and update at every step
-the knowledge by $\upK_{E}$ which computes the following knowledge given all
-available information: 
+$s\in S$. Inductively, we construct for any sequence 
+$u\in \interval{S}_{\sim_{E}}^{*}$ the current knowledge of \eve{} 
+$\currK^{K_{0}}_{E}$. Initially holds 
+$\currK^{K_{0}}_{E}(\interval{s_{0}}_{\sim_{E}}) = K_{0}$ 
+and at every step the knowledge is updated by $\upK_{E}$ which computes all
+possible results considering the available information: 
 \begin{align*}
   \upK_{E}&(K, e, \interval{s}_{\sim_{E}})\\
   &= \set{
@@ -122,5 +131,95 @@ for the current knowledge $K$, the chosen action $e\in E$ of \eve{} and the
 following observation $\interval{s}_{\sim_{E}}$. Hence, we obtain inductively
 \begin{equation*}
   \currK(u\cdot s) = \upK(\currK(u), e, \interval{s}_{\sim_{E}})
-\end{equation*} where $e$ is the choice of \eve{}'s strategy, i.e. $f(u) = e$ 
-for $f$ being her strategy.
+\end{equation*} 
+where $e = f(u)$ is the choice of \eve{}'s strategy $f$. We define an 
+associated (unlabelled) knowledge-automaton for \eve{} for a fixed initial 
+knowledge $K_{0}$ and loosing knowledge $K_{s}$
+\begin{equation*}
+  \mathcal{T}_{\mathcal{K}} = \tuple{
+    \Pot(S), E\times\interval{S}_{\sim_{E}}, K_{0}, K_{s}, \upK
+  }.
+\end{equation*}
+
+\subsection{Automaton-Game Product}
+For a given automaton
+\begin{equation*}
+  \mathcal{T} = \tuple{Q, \Sigma_{E}\times \interval{S}_{\sim_{E}}, q_{0}, 
+  q_{s}, \delta, \lambda}
+\end{equation*}
+and arena 
+\begin{equation*}
+  G = \tuple{S, E, A, \tuple{\tau_{e, a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}}
+\end{equation*}
+we define a product
+\begin{definition}
+  Given $G$ and $\mathcal{T}$ as above, we define
+  \begin{equation*}
+    G\otimes\mathcal{T} = \tuple{S\times Q, E, A, 
+    \tuple{\tau'_{e, a}}_{e\in E, a\in A}, \sim'_{E}, \sim'_{A}}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \tau'_{e, a}(\tuple{s,q}, \tuple{z,p}) = \begin{cases}
+      \tau_{e, a}(s, z)&\text{if }p = \delta(q, (e,\interval{z}_{\sim_{E}})),\\
+      0&\text{otherwise},
+    \end{cases}
+  \end{equation*}
+  and
+  \begin{center}
+    \begin{tabular}{lll}
+      $\tuple{s, q}\sim'_{E}\tuple{z, p}$& if and only if & $s\sim_{A} z$ and 
+        $q = p$,\\
+      $\tuple{s, q}\sim'_{A}\tuple{z, p}$& if and only if & $s = z, q = p$.
+    \end{tabular}
+  \end{center}
+  Note that $\sim'_{A}$ is the equality relation and therefore \adam{} is not
+  restricted in his observations whatsoever. We say \adam{} is 
+  \emph{perfectly informed}.
+\end{definition}
+We observe the following result:
+\begin{lemma}
+  \eve{} has a $\mathcal{T}$-compatible strategy in the Safety-game
+  $\tuple{G, B, Z}$ if and only if she has a surely winning
+  strategy in the Safety-game 
+  $\tuple{G\otimes\mathcal{T}, B\times\set{q_{0}}, 
+    S\times\tuple{Q\setminus\set{q_{s}}}}$.
+\end{lemma}
+\begin{proof}
+  By the definition of $\mathcal{T}$ any action that is not compatible with 
+  $\lambda$ yields $q_{s}$ as a result. Moreover, $\mathcal{T}$ is of
+  deterministic nature. Any strategy of \eve{} in $\tuple{G, B, Z}$ that is
+  $\mathcal{T}$-compatible can be used equally in 
+  $\tuple{G\otimes\mathcal{T}, B\times\set{q_{0}}, 
+    S\times\tuple{Q\setminus\set{q_{s}}}}$ since by compatibility with 
+  $\mathcal{T}$ a movement to $q_{s}$ is not possible. On the other hand, we 
+  may translate any strategy in $\tuple{G\otimes\mathcal{T}, 
+  B\times\set{q_{0}}, S\times\tuple{Q\setminus\set{q_{s}}}}$ to 
+  $\tuple{G, B, Z}$. Since $S\times\set{q_{s}}$ is avoided this strategy 
+  clearly is $\mathcal{T}$-compatible.
+\end{proof}
+\begin{lemma}
+  \eve{} has a $\mathcal{T}$ compatible positively winning strategy in the
+  Reachability-game $\mathcal{G} = \tuple{G, B, R}$ if and only if she has a
+  positively winning strategy in the reachability game 
+  $\mathcal{G}' = \tuple{G\times\mathcal{T}
+
+\begin{proof}
+  We fix the largest subset $\mathbb{K}$ of knowledges of \eve{} (in the sense
+  of states in the knowledge structure $\mathcal{K}$) and an associated mapping
+  $\lambda:\mathbb{K}\rightarrow\Pot(E)$ such that:
+  \begin{itemize}
+    \item for all $K\in\mathbb{K}$ holds $K\cap\tuple{S\setminus Z}=\emptyset$,
+    \item for all $K\in\mathbb{K}$ it holds that
+      \begin{equation*}
+        \upK_{E}(K, e, \interval{s}_{\sim_{E}})\in
+          \mathbb{K}\setminus\set{\emptyset}
+      \end{equation*}
+      for every $e\in\lambda(K)$.
+  \end{itemize}
+  For every position in $\mathcal{G}$ \eve{} may win if her knowledge is in 
+  $\mathbb{K}$ by choosing actions in $\lambda(K)$ since the knowledge 
+  coincides with all possibly reachable states which is sufficient to compute
+  surely-winning (cp. \cite{AlgorithmsForPOSG}).
+\end{proof}
+
