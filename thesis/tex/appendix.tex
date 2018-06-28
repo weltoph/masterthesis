@@ -184,12 +184,13 @@ We observe the following result:
   strategy in the Safety-game 
   $\tuple{G\otimes\mathcal{T}, B\times\set{q_{0}}, 
     S\times\tuple{Q\setminus\set{q_{s}}}}$.
+  \label{lem:TembeddedG}
 \end{lemma}
 \begin{proof}
   By the definition of $\mathcal{T}$ any action that is not compatible with 
-  $\lambda$ yields $q_{s}$ as a result. Moreover, $\mathcal{T}$ is of
-  deterministic nature. Any strategy of \eve{} in $\tuple{G, B, Z}$ that is
-  $\mathcal{T}$-compatible can be used equally in 
+  $\lambda$ yields $q_{s}$ as a result. Moreover, $\mathcal{T}$ is a
+  deterministic automaton, hence any strategy of \eve{} in $\tuple{G, B, Z}$ 
+  that is $\mathcal{T}$-compatible can be used equally in 
   $\tuple{G\otimes\mathcal{T}, B\times\set{q_{0}}, 
     S\times\tuple{Q\setminus\set{q_{s}}}}$ since by compatibility with 
   $\mathcal{T}$ a movement to $q_{s}$ is not possible. On the other hand, we 
@@ -198,28 +199,67 @@ We observe the following result:
   $\tuple{G, B, Z}$. Since $S\times\set{q_{s}}$ is avoided this strategy 
   clearly is $\mathcal{T}$-compatible.
 \end{proof}
-\begin{lemma}
-  \eve{} has a $\mathcal{T}$ compatible positively winning strategy in the
-  Reachability-game $\mathcal{G} = \tuple{G, B, R}$ if and only if she has a
-  positively winning strategy in the reachability game 
-  $\mathcal{G}' = \tuple{G\times\mathcal{T}
 
+This allows us to deduce for a fixed $\mathcal{T}$
+\begin{theorem}
+  When \adam{} is perfectly informed, one can decide in time polynomial in 
+  $2^{\size{S}}$ and polynomial in $Q$ whether \eve{} has a 
+  $\mathcal{T}$-compatible strategy that is positively winning in the 
+  Reachability-game $\tuple{G, B, R}$. If such a strategy exists, one can 
+  construct one that uses memory of size polynomial in $\size{Q}$ and 
+  exponential in $\size{S}$.
+\end{theorem}
 \begin{proof}
-  We fix the largest subset $\mathbb{K}$ of knowledges of \eve{} (in the sense
-  of states in the knowledge structure $\mathcal{K}$) and an associated mapping
-  $\lambda:\mathbb{K}\rightarrow\Pot(E)$ such that:
+  We consider the knowledges (in the sense of $\mathcal{K}$) of \eve{} in the
+  arena $G\otimes\mathcal{T}$. We observe that the associated 
+  observation-relation $\sim'_{E}$ in $G\otimes\mathcal{T}$ makes the current
+  state transparent to \eve{}. Therefore, it is sufficient to capture the set
+  of states of $G$ that \eve{} considers possible and the unique current state
+  of $\mathcal{T}$. Hence, knowledges can be encoded as elements in 
+  $\Pot(S)\times Q$. We fix the largest subset $\mathbb{K}$ of these knowledges 
+  of \eve{} and an associated mapping $\lambda:\mathbb{K}\rightarrow\Pot(E)$ 
+  such that:
   \begin{itemize}
-    \item for all $K\in\mathbb{K}$ holds $K\cap\tuple{S\setminus Z}=\emptyset$,
+    \item for all $K\in\mathbb{K}$ holds that $K\cap S\times\set{q_{s}} = 
+      \emptyset$, i.e. \eve{} avoids states beyond her Safety-region in 
+      $G\otimes\mathcal{T}$ and
     \item for all $K\in\mathbb{K}$ it holds that
       \begin{equation*}
         \upK_{E}(K, e, \interval{s}_{\sim_{E}})\in
           \mathbb{K}\setminus\set{\emptyset}
       \end{equation*}
-      for every $e\in\lambda(K)$.
+      for every $e\in\lambda(K)$, i.e. actions of \eve{} may not move her 
+      outwards these \enquote{safe} knowledges.
   \end{itemize}
-  For every position in $\mathcal{G}$ \eve{} may win if her knowledge is in 
-  $\mathbb{K}$ by choosing actions in $\lambda(K)$ since the knowledge 
-  coincides with all possibly reachable states which is sufficient to compute
-  surely-winning (cp. \cite{AlgorithmsForPOSG}).
-\end{proof}
+  Merging all elements of $\tuple{\Pot(S)\times Q}\setminus\mathbb{K}$ in 
+  $K_{s}$ allows to obtain the associated automaton $\mathcal{T}_{\mathbb{K}}$
+  with labelling $\lambda$. Considering the knowledge structures is sufficient
+  for Reachability-conditions (cp. \cite{AlgorithmsForPOSG}). Again, we embed 
+  $\mathcal{T}_{\mathbb{K}}$ into the arena and obtain
+  \begin{lemma}
+    \eve{} has a $\mathcal{T}$ compatible positively winning strategy in the
+    Reachability-game $\mathcal{G} = \tuple{G, B, R}$ if and only if she has a
+    positively winning strategy in the Reachability-game $\mathcal{G'} = 
+    \tuple{G\otimes\mathcal{T}_{\mathbb{K}}, B\times\set{K_{0}}, R\times 
+    \tuple{\mathbb{K}\setminus K_{0}}}$. 
 
+    This positively winning strategy in 
+    $\mathcal{G'}$ can be translated to a positively winning strategy in 
+    $\tuple{G, B, R}$ with memory of size 
+    $\mathcal{O}(N\cdot\size{\Pot(S)}\cdot\size{Q})$ where $N$ is the memory
+    size of the positively winning strategy in $\mathcal{G'}$.
+  \end{lemma}
+  \begin{proof}
+    Positively winning in $\mathcal{G'}$ can be restricted to those that 
+    respect the actions given in $\lambda$ regarding the $\mathbb{K}$-component 
+    of the current position. Otherwise this component becomes $K_{s}$ which 
+    traps the play and does not allow to play for the Reachability target 
+    anymore, but by definition of $\mathbb{K}$ and $\lambda$ even loosing plays
+    may respect $\lambda$. By Lemma \ref{lem:TembeddedG} we obtain the 
+    $\mathcal{T}$-compability of the strategy. Simulating 
+    $\mathcal{T}_{\mathbb{K}}$ allows to translate this strategy to the 
+    original game. Conversely, any positively winning $\mathcal{T}$-compatible 
+    strategy in $\tuple{G, B, R}$ induce a corresponding strategy in 
+    $\mathcal{G'}$.
+  \end{proof}
+\end{proof}
