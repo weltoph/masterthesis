@@ -38,6 +38,7 @@ Reachability-condition:
   Then, there is an $N\in\mathbb{N}$ and some probability $\epsilon_{B} > 0$ 
   that bounds from below the probability of the event that a state in $R$ is 
   visited in $\mathcal{G}_{B}$ if \eve{} plays $f$.
+  \label{prop:FiniteSteps}
 \end{proposition}
 \begin{proof}
   We fix the notion $p_{N}^{g_{N}, s}$ as the probability of reaching $R$ in 
@@ -83,6 +84,90 @@ Reachability-condition:
   set $G_{s,N_{0}}$. Setting 
   $\epsilon_{B} = \min\set{p^{g}_{N_{0}}:g\in G_{s, N_{0}}}$ yields the desired 
   result.
+\end{proof}
+
+\section{Perfectly Informed \adam{}}
+We consider a restricted Reachability-condition in $n$-steps, i.e.
+\begin{equation*}
+  \Acc_{\reach}^{n}(R) = \bigcup_{0\leq i\leq n}S^{i}RS^{\omega}.
+\end{equation*}
+We show
+\begin{proposition}
+  For a $K\subseteq S$ such that $K\subseteq\interval{s}_{\sim_{E}}$ for one 
+  $s\in S$ and $n>0$ \eve{} positively wins $\tuple{G, K, 
+  \Acc_{\reach}^{n}(R)}$ if and only if there exists an action $e\in E$ and 
+  $K'\subseteq S$ such that
+  \begin{itemize}
+    \item \eve{} positively wins $\tuple{G, K', \Acc_{\reach}^{n-1}(R)}$,
+    \item for every $s\in K\setminus R$ and $a\in A$ there is $s'\in K'$ such 
+      that $\tau_{a, e}(s, s') > 0$.
+  \end{itemize}
+  \label{prop:PerfInfAdamInd}
+\end{proposition}
+\begin{proof}
+  For the implication consider \eve{}'s positive winning strategy $f$ in 
+  \begin{equation*}
+    \tuple{G, K, \Acc_{\reach}^{n}(R)}.
+  \end{equation*}
+  Regardless of the initial choice $b\in K\setminus R$ of \adam{}, \eve{} 
+  consistently chooses the same $e = f(\interval{b}_{\sim_{E}})$ since 
+  $\interval{b}_{\sim_{E}} = \interval{b}_{\sim_{E}}$ for all $b,b'\in K$. 
+  Naturally, since $f$ is positively winning then there is for every $a\in A$ 
+  one $s_{b}^{a}\in\supp(\tau_{e, a}(b, \cdot))$ such that \eve{} positively 
+  wins $\tuple{G, s_{b}^{a}, \Acc_{\reach}^{n-1}(R)}$ (otherwise \adam{} may 
+  win by choosing $b$, playing $a$ and then the winning riposte in 
+  $\tuple{G, s_{b}^{a}, \Acc_{\reach}^{n-1}(R)}$). We gather
+  \begin{equation*}
+    K' = \bigcup_{a\in A, b\in K}s_{b}^{a}
+  \end{equation*}
+  and obtain the claimed properties for $K'$ and $e$ as above.
+
+  Consider the properties on $K'$ and $e\in E$ satisfied. Hence, for every 
+  initial choice $b\in K$ and $a\in A$ there is a positive probability to move
+  to $K'$. Playing the corresponding winning strategy from $\tuple{G, K', 
+  \Acc_{\reach}^{n-1}(R)}$ after the initial decision $e$ yields a positively
+  winning strategy in the original game.
+\end{proof}
+We use this proposition to prove the following
+\begin{theorem}
+  For a given arena $G$ \eve{} construct
+  \begin{equation*}
+    \mathcal{W}_{0} = \Pot(R)
+  \end{equation*}
+  and
+  \begin{align*}
+    \mathcal{W}_{i + 1} = \{
+      K\in\Pot(S)\mid&\text{for all }k\in K \text{ exists }e\in E, 
+      K'\in\mathcal{W}_{i}\text{ s.t. }\\
+      &\text{ for all }s\in\tuple{\interval{k}_{\sim_{E}}\setminus R}, a\in A
+      \text{ exists }t\in K'\text{ with }\tau_{e, a}(s, t) > 0
+    \},
+  \end{align*}
+  and their limit $\mathcal{W}$. For every non-empty $K\in\Pot(S)$ holds that
+  \eve{} has a positively winning strategy $f$ in the Reachability-game 
+  $\tuple{G, K, R}$ if and only if $K\in\mathcal{W}$. Moreover, it can be 
+  decided in time exponential in $\size{S}$ if such an $f$ exists and if so
+  it can be constructed using $\Pot(S)$ states and reaching $R$ with a positive
+  probability in $\size{\Pot(S)}$ moves.
+  \label{thm:PerfInfAdamReach}
+\end{theorem}
+\begin{proof}
+  Using Proposition \ref{prop:PerfInfAdamInd} we obtain by induction to $n$ 
+  that every non-empty $K\in\Pot(S)$ is part of $\mathcal{W}_{n}$ if and only
+  if \eve{} positively wins $\tuple{G, K, \Acc_{\reach}^{n}(R)}$.
+
+  Conversely, assuming $K\in\mathcal{W}$ we construct a strategy for \eve{} as
+  follows: \eve{} stores $K$ and firstly, identifies the level $n_{K}$ where 
+  $K$ became part of $\mathcal{W}$ and secondly, for every equivalence class in
+  $K$ the set $K'$ which witnessed that $K$ belongs to $\mathcal{W}_{n_{K}}$.
+  Notably, for all these $K'$ holds $n_{K'} < n_{K}$. \eve{} plays the 
+  associated action $e_{K'}$ and updates the memory to $K'$. This strategy 
+  enforces by definition of $K$ and $K'$ a positive probability to move to one 
+  of these $K'$ (depending on the initially observed equivalence class). 
+  Repeating this argument eventually leads to sets $T\in\mathcal{W}_{0}$ since 
+  we decreasingly move through the stages of $\mathcal{W}$. Therefore, the 
+  corresponding strategy enforces a positive probability to end up in $R$ from 
+  where \eve{} may play on arbitrarily.
 \end{proof}
 
 \section{Automaton-compatible strategies}
@@ -208,6 +293,7 @@ This allows us to deduce for a fixed $\mathcal{T}$
   Reachability-game $\tuple{G, B, R}$. If such a strategy exists, one can 
   construct one that uses memory of size polynomial in $\size{Q}$ and 
   exponential in $\size{S}$.
+  \label{thm:PerfInfAdamStrat}
 \end{theorem}
 \begin{proof}
   We consider the knowledges (in the sense of $\mathcal{K}$) of \eve{} in the
@@ -248,6 +334,7 @@ This allows us to deduce for a fixed $\mathcal{T}$
     $\tuple{G, B, R}$ with memory of size 
     $\mathcal{O}(N\cdot\size{\Pot(S)}\cdot\size{Q})$ where $N$ is the memory
     size of the positively winning strategy in $\mathcal{G'}$.
+    \label{lem:AutoCompStrat}
   \end{lemma}
   \begin{proof}
     Positively winning in $\mathcal{G'}$ can be restricted to those that 
@@ -262,4 +349,100 @@ This allows us to deduce for a fixed $\mathcal{T}$
     strategy in $\tuple{G, B, R}$ induce a corresponding strategy in 
     $\mathcal{G'}$.
   \end{proof}
+  We may use Theorem \ref{thm:PerfInfAdamReach} to obtain a strategy for \eve{}
+  in the game $\mathcal{G'}$ from Lemma \ref{lem:AutoCompStrat} since \adam{}
+  is perfectly informed there to obtain the desired result.
 \end{proof}
+
+\section{Better Informed \adam{}}
+Consider an automaton $\mathcal{T}$ as before and an arena $G$ as before but we
+additionally consider $\sim_{A} \subseteq \sim_{E}$, i.e. if \adam{} considers
+two states equal so does \eve{} but not necessarily the other way around. 
+\adam{} is considered \emph{better informed} than \eve{} in such a game. 
+Naturally, this case includes equally informed players, i.e. 
+$\sim_{A} = \sim_{E}$. Assuming \adam{} is better informed that \eve{} allows
+to argue that knowledge of \adam{} is always at least as good as knowledge of
+\eve{}. This leads to
+\begin{theorem}
+  When \adam{} is more informed than \eve{}, one can decide in time polynomial
+  in $2^{2^{\size{S}}}$ and polynomialn in $\size{Q}$ whether \eve{} has a 
+  $\mathcal{T}$-compatible strategy that is positively winning in the 
+  reachability game $\tuple{G, B, R}$. If such a strategy exists, we can 
+  construct one with memory polynomial in $\size{Q}$ and doubly exponential in
+  $\size{S}$.
+\end{theorem}
+\begin{proof}
+  We fix 
+  \begin{equation*}
+    \mathcal{H} = \set{
+      A\in\Pot{S}\mid\text{there exists }s\in S\text{ s.t. }
+       A\subseteq\interval{s}_{\sim_{A}}
+    }
+  \end{equation*}
+  and an associated operator
+  $h: \mathcal{H}\times E\times A\rightarrow\Pot(\mathcal{H})$
+  with 
+  \begin{equation*}
+    h(H, a, e) = \set{
+      H'\cap\interval{s}_{\sim_{A}}:\text{for all }H' = 
+        \bigcup_{s\in H}\supp(\tau_{e,a}(s, \cdot))\text{ and }s\in S
+    }.
+  \end{equation*}
+  From which we define a new arena $G' = \tuple{\mathcal{H}, E, A, 
+  \tuple{\tau'_{e,a}}_{e\in E,a\in A}, \sim'_{E}, \sim'_{A}}$ with
+  \begin{equation*}
+    \tau'_{e,a}(H, H') = \begin{cases}
+      \frac{1}{\size{h(H, e, a)}}&\text{if }H'\in h(H, e, a),\\
+      0&\text{otherwise},
+    \end{cases}
+  \end{equation*}
+  and
+  \begin{center}
+    \begin{tabular}{llll}
+      $H_{1}\sim'_{E} H_{2}$ & if and only if & $s_{1}\sim_{E} s_{2}$ & 
+        for all $s_{1}\in H_{1}, s_{2}\in H_{2}$,\\
+      $H_{1}\sim'_{A} H_{2}$ & if and only if & $H_{1} = H_{2}$. & \\
+    \end{tabular}
+  \end{center}
+  Note that \adam{} is perfectly informed and the equivalence classes of 
+  $\sim'_{E}$ can be identified with equivalence classes of $\sim_{E}$ 
+  since \eve{} is less informed than \adam{} and therefore all elements in any
+  $H\in\mathcal{H}$ are indistinguishable for \eve{}. We define 
+  $\nu(K) = \set{\set{s}:s\in K}$ and obtain
+  \begin{proposition}
+    \eve{} has a positively winning $\mathcal{T}$-compatible strategy in the 
+    Reachability-game $\mathcal{G} = \tuple{G, B, R}$ if and only if she has a 
+    positively winning $\mathcal{T}$-compatible strategy in the 
+    Reachability-game $\mathcal{G'} = \tuple{G', \nu(B), R'}$ with 
+    $R' = \set{H\in\mathcal{H}\mid H\cap R\neq\emptyset}$.
+  \end{proposition}
+  \begin{proof}
+    First, by the observation that we idenfity $H\in\mathcal{H}$ for \eve{} as
+    their associated equivalence classes we conclude that 
+    $\mathcal{T}$-compatibility translates for strategy in both games.
+
+    Consider any positively winning $\mathcal{T}$-compatible strategy $f$ in
+    $\mathcal{G}$. By Proposition \ref{prop:FiniteSteps} we obtain a bound 
+    $N$ and a positive probability $\epsilon_{N}$ such that \eve{} visits $R$
+    in $N$ steps with probability at least $\epsilon_{N}$. We observe that
+    given $f$ \adam{} is informed of \eve{}'s actions and may compute very at
+    every moment $h(H, e, a)$. Moreover, given any strategy of \adam{} for the
+    first $N$ steps in $\mathcal{G'}$ computes precisely the states reachable
+    with positive probability in $\mathcal{G}$ given \eve{} translates $f$ and 
+    \adam{} his strategy. Naturally, one of these states contains a state in
+    $R'$ by the choice of $N$.
+
+    On the other hand, assume $f$ is $\mathcal{T}$-compatible and positively
+    winning in $\mathcal{G'}$. Assuming that there is $g$ in $\mathcal{G}$ to
+    avoid $R$ indefinitely, This strategy may be equally be played in 
+    $\mathcal{G'}$. Here it must not cause a situation where $R'$ is avoided
+    indefinitely since $f$ is assumed to be winning. Nevertheless, the elements 
+    of the states in $\mathcal{G'}$ that are reached with positive probability 
+    coincide with those states in $\mathcal{G}$ that are reached with positive 
+    probability. This contradicts either $f$ positively winning in 
+    $\mathcal{G'}$ or the existence of $g$ in $\mathcal{G}$.
+  \end{proof}
+  Applying Theorem \ref{thm:PerfInfAdamStrat} to this $\mathcal{G'}$ gives the
+  desired results.
+\end{proof}
+
