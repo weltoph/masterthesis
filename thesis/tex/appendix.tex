@@ -370,6 +370,7 @@ to argue that knowledge of \adam{} is always at least as good as knowledge of
   reachability game $\tuple{G, B, R}$. If such a strategy exists, we can 
   construct one with memory polynomial in $\size{Q}$ and doubly exponential in
   $\size{S}$.
+  \label{thm:MoreInfAdamStrat}
 \end{theorem}
 \begin{proof}
   We fix 
@@ -446,3 +447,75 @@ to argue that knowledge of \adam{} is always at least as good as knowledge of
   desired results.
 \end{proof}
 
+\section{Almost-Surely Winning for Büchi-Conditions}
+We move from Reachability-conditions to Büchi-conditions, hence we fix an arena
+\begin{equation*}
+  G = \tuple{S, E, A, \tuple{\tau_{e,a}}_{e\in E,a\in A}, \sim_{E}, \sim_{A}}
+\end{equation*}
+and an associated Büchi-set $F\subseteq S$. For this game we define 
+\emph{almost-surely winning knowledges} for \eve{} $\mathcal{K}^{\top}$, which
+is a collection of subsets $K\subseteq S$ such that every 
+$K\subseteq\interval{s}_{\sim}$ for one $s\in S$ and \eve{} almost-surely wins
+the Büchi-game $\tuple{G, K, F}$. We characterize $\mathcal{K}^{\top}$ as a
+fixpoint of the operator $\Xi:\Pot(\Pot(S))\rightarrow\Pot(\Pot(S))$ where for
+one $\mathcal{K}\subseteq\Pot(S)$ and $K\in\mathcal{K}$ we consider 
+$K\in\Xi(\mathcal{K})$ if \eve{} has a positively winning strategy in the
+\emph{Reachability-}game $\tuple{A, K, F}$ such that her knowledge does never
+leave $\mathcal{K}$. We claim $\mathcal{K}^{\top}$ is the greatest fixpoint of
+$\Xi$ and substantiate this claim with
+\begin{lemma}
+  $\mathcal{K}^{\top}$ indeed is the greatest fixpoint of $\Xi$.
+\end{lemma}
+\begin{proof}
+  For any set of knowledges $\mathcal{K}\subseteq\Pot(S)$ we say some 
+  $K\in\mathcal{K}$ is $\mathcal{K}$-\emph{good} if \eve{} has a positively
+  winning strategy in the Reachability-game $\tuple{G, K, F}$ which constantly
+  produces knowledges of \eve{} which are in $\mathcal{K}$. We proceed in 
+  showing that any $K\in\mathcal{K}^{\top}$ is $\mathcal{K}^{\top}$-good 
+  implying that $\mathcal{K}^{\top}$ is a fixpoint of $\Xi$.
+  \begin{lemma}
+    Fix any $K\in\mathcal{K}^{\top}$ and the associated almost-surely winning
+    strategy $f_{K}$ of \eve{} in the Büchi-game $\tuple{G, K, F}$ with 
+    $e = f_{K}(\interval{k}_{\sim_{E}})$ for any $k\in K$ (by definition of 
+    $\mathcal{K}^{\top}$ all $k\in K$ are of the same equivalence class). Then,
+    for every $a\in A$ and all 
+    $z\in \cup_{o\in K}\supp(\tau_{e,a}(o,\cdot))$ holds
+    \begin{equation*}
+      \upK(K, e, \interval{z}_{\sim_{E}})\in\mathcal{K}^{\top}.
+    \end{equation*}
+  \end{lemma}
+  \begin{proof}
+    Consider one $a\in A$ and $z\in \cup_{o\in K}\supp(\tau_{e,a}(o,\cdot))$
+    as above. Fix $K' = \upK(K, e, \interval{z}_{\sim_{E}})$. Notably, there is
+    a strategy for \adam{} to force the play into $z$ with positive 
+    probability. If \eve{} did not have a almost-surely winning strategy in the
+    Büchi-game $\tuple{G, z, F}$ with initial knowledge $K'$ she would not have
+    an almost-surely winning strategy in $\tuple{G, K, F}$ to begin with. Hence
+    $K'\in\mathcal{K}^{\top}$ and inductively we get that $K$ is 
+    $\mathcal{K}^{\top}$-good since there are only finitely many steps until a 
+    state in $F$ is visited (by Proposition \ref{prop:FiniteSteps}) and all 
+    these steps ensure to stay in $\mathcal{K}^{\top}$ by the argument above.
+  \end{proof}
+  Hence, we established $\mathcal{K}^{\top}$ as fixpoint of $\Xi$ only missing
+  that it is the greatest fixpoint. Fix any other $\mathcal{K}$ with 
+  $\Xi(\mathcal{K}) = \mathcal{K}$ and by definition of $\Xi$ every 
+  $K\in\mathcal{K}$ is $\mathcal{K}$-good and by Proposition 
+  \ref{prop:FiniteSteps} comes with associated $N_{K}$, $\epsilon_{K}$. Set
+  $N = \max\set{N_{K}:K\in\mathcal{K}}$ and 
+  $\epsilon = \min\set{\epsilon_{K}:K\in\mathcal{K}}$. Separating the game into
+  sequences of length $N$ where \eve{} considers her initial knowledge $H$ and
+  plays for $N$ steps with strategy $f_{H}$, then she re-considers her initial
+  knowledge $H'$ and plays for $N$ steps with strategy $f_{H'}$ and so on. This
+  gives a strategy $f$ and we claim $f$ is almost-surely winning in the 
+  Büchi-game $\tuple{G, K, F}$. By definition of $f$ there is a probability of
+  at least $\epsilon$ to visit a state in $F$ all $N$ steps. That states in $F$
+  are almost-surely visited infinitely often is a direct consequence of 
+  Theorem \ref{thm:BorelCantelli}. This entails that $K\in\mathcal{K}^{\top}$
+  concluding the proof.
+\end{proof}
+By obvious monotonicity of $\Xi$ and $\mathcal{K}^{\top}\subseteq\Pot(S)$ we
+reach a fixpoint after at most $2^{\size{S}}$ applications of $\Xi$. Expressing
+that \eve{}'s knowledge consistently agrees with some $\mathcal{K}$ can be done
+by defining an appropiate automaton $\mathcal{T}_{\mathcal{K}}$ with states
+exponential in $S$. Theorem \ref{thm:StratPOSG} follows by using Theorem 
+\ref{thm:MoreInfAdamStrat} to compute all steps of $\Xi$.

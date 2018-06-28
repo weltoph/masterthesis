@@ -542,7 +542,24 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
     There is a $\omega$-regular language that cannot be accepted by any 
     \ac{PBA} with almost-sure acceptance.
   \end{lemma}
-  \begin{proof}[Proof Idea]
+  \begin{proof}
+    We introduce here a common theorem regarding probability spaces.
+    \begin{theorem}[Borel-Cantelli Lemma]
+      For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 
+      $\tuple{A_{i}}_{i>0}$ with $A_{i}\in\mathcal{F}$ and
+      \begin{equation*}
+        \mathcal{A} = \bigcap_{i > 0}\bigcup_{j > m}A_{j}
+      \end{equation*}
+      such that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for all 
+      $i \neq j$ and $i,j > 0$ it holds that $\mu(\mathcal{A}) = 1$ if
+      \begin{equation*}
+        \sum\limits_{i>0}\mu(A_{i}) = \infty.
+      \end{equation*}
+      The property that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for 
+      all $i \neq j$ and $i,j > 0$ is called \emph{independence} of all $A_{i}$
+      for $i > 0$.
+      \label{thm:BorelCantelli}
+    \end{theorem}
     We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
     $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
     \ref{ex:fina}). By similar arguments as for \ac{DBA} we can derive the
@@ -556,10 +573,14 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
     sequence of $b$; if we take the maximum of all the lengths of these 
     sequences $n$ we know that every state must visit with positive probability
     an accepting state after reading $a^{n}$. This implies that for every state
-    that is probable after a sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, 
+    that is possible after a sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, 
     \dots$) it is probable to read another accepting state within the next 
-    $b^{n}a$ sequence. Therefore, almost all execution paths contain infinitely 
-    many accepting states.
+    $b^{n}a$ sequence. Hence, fixing $A_{k}$ as the observation that in the 
+    $k$-th reading of $b^{n}a$ from every state at least once a final state is 
+    visited allows to use Theorem \ref{thm:BorelCantelli} for the sequence 
+    $\tuple{A_{k}}_{k > 0}$ and yields an almost-sure probability for reading
+    infinitely many states in $F$ for runs of $\mathcal{P}$.
+    \fxwarning{is now proof, make bueno}
   \end{proof}
 \end{proof}
 The observation that $\set{a,b}^{*}b^{\omega}$ cannot be recognized by a 
