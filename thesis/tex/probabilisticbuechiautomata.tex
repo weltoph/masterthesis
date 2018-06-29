@@ -31,14 +31,24 @@ $\delta(q,a,p)$. Naturally, any run of $\mathcal{P}$ starts in its initial
 state $q_{0}$ (respectively $\mathcal{P}$ may choose its initial state by a
 given probability distribution $\iota:Q\rightarrow\interval{0,1}$). Considering
 one fixed input word $\alpha$ the \ac{PBA} $\mathcal{P}$ provides a process
-which produces corresponding state sequences with certain probabilities. Its
-acceptance is defined by the notion of how probable the produced state 
+which produces corresponding state sequences with certain probabilities (see
+Figure \ref{fig:pbaruns} for an illustration).
+\begin{drawing}
+  \caption{Illustration of the stochastic process of a \ac{PBA} $\mathcal{P}$
+  with two states $q_{0}, q_{1}$ on a word $\alpha\in\Sigma^{\omega}$ with 
+  transition probabilities defined by $\delta$.}
+  \label{fig:pbaruns}
+  \begin{center}
+    \includegraphics{tikz/pbaruns.pdf}
+  \end{center}
+\end{drawing}
+Its acceptance is defined by the notion of how probable the produced state
 sequences are to satisfy the associated Büchi-condition $F$. The formal
 definition of this intuition requires a little work beforehand.
-Following \cite{Groesser,Bauer}, we fix a set $\Omega$ which is the collection 
+Following \cite{Groesser,Bauer}, we fix a set $\Omega$ which is the collection
 of all possible results, in the context of \acp{PBA} all possible sequences of
-states $Q^{\omega}$ to the input word $\alpha$. 
-For such an $\Omega$ we introduce a \emph{$\sigma$-algebra} which is a 
+states $Q^{\omega}$ to the input word $\alpha$.
+For such an $\Omega$ we introduce a \emph{$\sigma$-algebra} which is a
 collection of subsets of $\Omega$, formally:
 \begin{definition}[$\sigma$-Algebra]
   For a set $\Omega$ we call $\mathcal{F}\subseteq\Pot(\Omega)$ for $\Omega$ a
@@ -135,16 +145,6 @@ Since the cylindric sets do satisfy the conditions on $\mathcal{E}$ we obtain
 \begin{equation*}
   \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}.
 \end{equation*}
-
-\begin{drawing}
-  \caption{Illustration of runs $p, q, b, k \in Q^{\omega}$ of a \ac{PBA} 
-  $\mathcal{P}$ on a word $\alpha = \alpha_{1}\alpha_{2}\dots$ and the induced
-  transition probabilities.}
-  \label{fig:pbaruns}
-  \begin{center}
-    \includegraphics{tikz/pbaruns.pdf}
-  \end{center}
-\end{drawing}
 
 Since we want to define the acceptance of an \ac{PBA} $\mathcal{P}$ of a word
 $\alpha$ in terms of the induced probability of the set 

@@ -1,36 +1,72 @@
-\newcommand{\y}[1]{%
-  0.5*#1
-}
-% usage: \pbarun[state modifier]{identifier}{position}{sequence name}
-\newcommand{\pbarun}[5][]{%
-  \node [#1, #5] (#2 1) at #3 {${#4}_{1}$};
-  \node [#5, below = of #2 1] (#2 2) {${#4}_{2}$};
-  \node [#5, below = of #2 2] (#2 3) {${#4}_{3}$};
-  \node [#5, below = of #2 3] (#2 4) {${#4}_{4}$};
-  \node [#5, below = of #2 4] (#2 5) {${#4}_{5}$};
-  \node [#5, draw = none, fill = none, below = of #2 5] (#2 end) {};
-
-  \draw[->, draw] (#2 1) to node[left] (#2 1-2) {$\delta({#4}_{1}, \alpha_{1}, {#4}_{2})$} (#2 2);
-  \draw[->, draw] (#2 2) to node[left] (#2 2-3) {$\delta({#4}_{1}, \alpha_{2}, {#4}_{2})$} (#2 3);
-  \draw[->, draw] (#2 3) to node[left] (#2 3-4) {$\delta({#4}_{1}, \alpha_{3}, {#4}_{2})$} (#2 4);
-  \draw[->, draw] (#2 4) to node[left] (#2 4-5) {$\delta({#4}_{1}, \alpha_{4}, {#4}_{2})$} (#2 5);
-  \draw[draw, dotted] (#2 5) to (#2 end);
-}
-\begin{tikzpicture}
-  \foreach \seqname [count = \counter from 1] in {p, q, b, k} {
-    \pbarun[initial above]{\seqname}{(3*\counter, 2*\y{\counter})}
-      {\seqname}{minimum width = 1cm, state};
+\tikzset{
+  alphanode/.style = {
+    state, draw = none
   }
-  \node [above = 4 of p 1] (alpha) {$\alpha$};
-  \node [right = 0.3 of alpha] (alpha eq) {$=$};
-  \node [right = 0.3 of alpha eq] (alpha 1) {$\alpha_{1}$};
-  \node [right = 1 of alpha 1] (alpha 2) {$\alpha_{2}$};
-  \node [right = 1 of alpha 2] (alpha 3) {$\alpha_{3}$};
-  \node [right = 1 of alpha 3] (alpha 4) {$\alpha_{4}$};
-  \node [right = 0.1 of alpha 4] (alpha dots) {$\dots$};
+}
+\newcommand{\y}[1]{0.5*#1}
 
-  \draw [->, dotted] (alpha 1) to (p 1-2);
-  \draw [->, dotted] (alpha 1) to (q 1-2);
-  \draw [->, dotted] (alpha 1) to (b 1-2);
-  \draw [->, dotted] (alpha 1) to (k 1-2);
+% usage: \stateseq{name}{pos}{seq}
+\newcommand{\stateseq}[3]{
+  \for \currindex [count = \counter from 0] in #3 {
+    \node (#1 \counter) at ($#2 + \counter*(1,0)$) {$q_{\currindex}$};
+  }
+}
+
+\begin{tikzpicture}
+  \matrix (picture) [
+  ] {
+    \node (tl) {
+      \begin{tikzpicture}
+        \node (label) {$(1)$};
+        \node[below right = 0.5 and 0.5 of label, alphanode, fill = green!20]
+          (alpha 1) {$\alpha_{1}$};
+        \node[right = 0.3 of alpha 1, alphanode] (alpha 2) {$\alpha_{2}$};
+        \node[right = 0.3 of alpha 2, alphanode] (alpha 3) {$\alpha_{3}$};
+        \node[right = 0.3 of alpha 3, alphanode] (alpha dots) {$\dots$};
+
+        \node[below left = 0.5 and 0.15 of alpha 2, state, initial above]
+          (l q 0) {$q_{0}$};
+        \node[below = 1 of l q 0, state] (l s) {$q_{0}$};
+
+        \node[below right = 0.5 and 0.15 of alpha 2, state, initial above]
+          (r q 0) {$q_{0}$};
+        \node[below = 1 of r q 0, state] (r s) {$q_{1}$};
+
+        \draw [->] (l q 0) to
+          node[left] (l t) {$\delta(q_{0}, \alpha_{1}, q_{0})$} (l s);
+        \draw [->] (r q 0) to
+          node[right] (r t) {$\delta(q_{0}, \alpha_{1}, q_{1})$} (r s);
+
+        \draw [->, dotted, bend right] (alpha 1) to (l t);
+        \draw [->, dotted, bend left] (alpha 1) to (r t);
+      \end{tikzpicture}
+    }; &
+    \node (tr) {
+      \begin{tikzpicture}
+        \node (label) {$(2)$};
+        \node[below right = 0.5 and 0.5 of label, alphanode] (alpha 1) 
+          {$\alpha_{1}$};
+        \node[right = 0.3 of alpha 1, alphanode, fill = green!20] (alpha 2) 
+          {$\alpha_{2}$};
+        \node[right = 0.3 of alpha 2, alphanode] (alpha 3) {$\alpha_{3}$};
+        \node[right = 0.3 of alpha 3, alphanode] (alpha dots) {$\dots$};
+
+        \node[below left = 0.5 and 2 of alpha 1, state, initial above]
+          (l l q 0) {$q_{0}$};
+        \node[below = 1 of l l q 0, state] (l l s) {$q_{0}$};
+
+        \node[be= 0.5 and 0.15 of alpha 2, state, initial above]
+          (r q 0) {$q_{0}$};
+        \node[below = 1 of r q 0, state] (r s) {$q_{1}$};
+
+        \draw [->] (l q 0) to
+          node[left] (l t) {$\delta(q_{0}, \alpha_{1}, q_{0})$} (l s);
+        \draw [->] (r q 0) to
+          node[right] (r t) {$\delta(q_{0}, \alpha_{1}, q_{1})$} (r s);
+
+        \draw [->, dotted, bend right] (alpha 1) to (l t);
+        \draw [->, dotted, bend left] (alpha 1) to (r t);
+      \end{tikzpicture}
+    }; \\
+  };
 \end{tikzpicture}
