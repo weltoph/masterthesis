@@ -545,6 +545,7 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
   \begin{proof}
     We introduce here a common theorem regarding probability spaces.
     \begin{theorem}[Borel-Cantelli Lemma]
+      \cite[Theorem 2.7]{Klenke}
       For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 
       $\tuple{A_{i}}_{i>0}$ with $A_{i}\in\mathcal{F}$ and
       \begin{equation*}
@@ -556,8 +557,8 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
         \sum\limits_{i>0}\mu(A_{i}) = \infty.
       \end{equation*}
       The property that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for 
-      all $i \neq j$ and $i,j > 0$ is called \emph{independence} of all $A_{i}$
-      for $i > 0$.
+      all $i \neq j$ and $i,j > 0$ is called pairwise \emph{independence} of 
+      all $A_{i}$ for $i > 0$.
       \label{thm:BorelCantelli}
     \end{theorem}
     We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
@@ -568,19 +569,35 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
     $\mathcal{P} = \tuple{Q, q_{0}, \set{a,b}, \delta, F}$ which accepts 
     $\mathcal{L}$. W.l.o.g. we can assume that all states in $Q$ are reachable
     from $q_{0}$ and hence reading $b^{\omega}$ starting in any state must 
-    yield an acceptance measure of $1$ for $\Acc(F)$. Moreover, every state 
-    must allow to read an accepting state with a positive probability after a 
-    sequence of $b$; if we take the maximum of all the lengths of these 
-    sequences $n$ we know that every state must visit with positive probability
-    an accepting state after reading $a^{n}$. This implies that for every state
-    that is possible after a sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, 
-    \dots$) it is probable to read another accepting state within the next 
-    $b^{n}a$ sequence. Hence, fixing $A_{k}$ as the observation that in the 
-    $k$-th reading of $b^{n}a$ from every state at least once a final state is 
-    visited allows to use Theorem \ref{thm:BorelCantelli} for the sequence 
-    $\tuple{A_{k}}_{k > 0}$ and yields an almost-sure probability for reading
-    infinitely many states in $F$ for runs of $\mathcal{P}$.
-    \fxwarning{is now proof, make bueno}
+    yield an acceptance measure of $1$ for $\Acc(F)$. Moreover, every state $p$ 
+    must allow to read an accepting state with a positive probability 
+    $\epsilon_{p}$ after a sequence of $b^{n_{p}}$; if we take the maximum of 
+    all the lengths of these sequences $n = \max\set{n_{p}:p\in Q}$ we know 
+    that every state must visit with positive probability (at least) 
+    $\epsilon = \min\set{\epsilon_{p}:p\in Q}$ an accepting state after reading 
+    $a^{n}$. This implies that for every state that is possible after a 
+    sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, \dots$) it is probable to 
+    read another accepting state within the next $b^{n}a$ sequence. Hence, 
+    fixing $A_{k}$ as the observation that in the $k$-th reading of $b^{n}a$ 
+    from every state at least once a final state is visited allows to use 
+    Theorem \ref{thm:BorelCantelli} for the sequence $\tuple{A_{k}}_{k > 0}$ 
+    and yields an almost-sure probability for reading infinitely many states in 
+    $F$ for runs of $\mathcal{P}$. Formally, we set
+    \begin{equation*}
+      A_{k} = Q^{\tuple{n + 1}^{k}}\cdot\bigcup_{1\leq i\leq n} Q^{i - 1}F\cdot 
+        Q^{n - i + 1} Q^{\omega},
+    \end{equation*}
+    i.e. the occurence of at least one state $F$ in the $k$-th occurence of 
+    $b^{n}a$. We observe that
+    \begin{equation*}
+      \bigcap_{i > 0}\bigcup_{j > i}A_{j} = \Acc(F),
+    \end{equation*}
+    since there must not be an index from which onwards $F$ never again occurs.
+    The pairwise independence of all $A_{k}$ for $k > 0$ follows from the 
+    history-independence of the probability functions of the individual 
+    states\footnote{This property of history-independence of the probability 
+    distributions is called \emph{Markov}-property (cp. e.g. 
+    \cite[Page 8]{Groesser} or \cite[Chapter 17]{Klenke}).}.
   \end{proof}
 \end{proof}
 The observation that $\set{a,b}^{*}b^{\omega}$ cannot be recognized by a 
@@ -589,6 +606,7 @@ infinitely many $a$ is (since it is \ac{DBA} recognizable and by choosing at
 every point one transition with probability $1$ integrates the behaviour of
 \acp{DBA} into \acp{PBA}) directly entails
 \begin{proposition}
+  \cite[Theorem 4.4.9 (d)]{Groesser}
   The class of languages recognizable with \acp{PBA} with almost-sure 
   acceptance is not closed under complementation.
   \label{prop:pba=1complement}
