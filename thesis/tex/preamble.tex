@@ -248,24 +248,24 @@
 \usepackage{mdframed}
 \mdfsetup{skipabove=2pt, skipbelow=2pt}
 
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}{Proposition}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{corollary}{Corollary}[section]
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 
 \AfterEndEnvironment{theorem}{\noindent\ignorespaces}
 \AfterEndEnvironment{proposition}{\noindent\ignorespaces}
 \AfterEndEnvironment{lemma}{\noindent\ignorespaces}
 \AfterEndEnvironment{corollary}{\noindent\ignorespaces}
 
-\newtheorem{localexample}{Example}[section]
+\newtheorem{localexample}{Example}
 \newenvironment{example}
 {\begin{mdframed}[backgroundcolor=bgex]\begin{localexample}}
 {\end{localexample}\end{mdframed}}
 
 \AfterEndEnvironment{example}{\noindent\ignorespaces}
 
-\newtheorem{localdef}{Definition}[section]
+\newtheorem{localdef}{Definition}
 \newenvironment{definition}[1][]
 {\begin{mdframed}[backgroundcolor=bgdef]\begin{localdef}\ifthenelse{\equal{#1}{}}{}{\emph{\textbf{#1}}:}\leavevmode\\}
 {\end{localdef}\end{mdframed}}
