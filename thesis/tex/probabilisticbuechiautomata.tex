@@ -627,7 +627,8 @@ every point one transition with probability $1$ integrates the behaviour of
 
 \subsection{Markov Decision Processes}
 In the following we introduce \acp{MDP}, a model of interaction between a 
-probabilistic domain and an actor within this domain. The actions of the actor
+probabilistic domain and an actor within this domain. In the following we call
+this actor \eve{} and treat her grammatically as female. The actions of \eve{}
 impact the behavior of the domain and depending on the behavior of the domain
 the actor may adapt her behavior. It shares significant structural similarities
 to \acp{PBA} but allows for a rather different interpretation. Nevertheless, we
@@ -643,10 +644,9 @@ definitions follow \cite{RandAutoInfTrees}:
   auxilliaries:
   \begin{description}
     \item [Plays] We consider all infinite sequences of states
-      (i.e. $S^{\omega}$) that start in $s_{0}$ a valid play. All plays
-      are gathered in $\plays = \set{
-        \alpha\in S^{\omega}\mid \alpha_{0} = s_{0}} = \cyl(s_{0})$.
-    \item [Strategy] We define $\varphi:S^{+}\rightarrow A$ as strategy for
+      that start in $s_{0}$ a valid play. All plays are gathered in
+      $\plays = \set{s_{0}\alpha:\alpha\in S^{\omega}} = \cyl(s_{0})$.
+    \item [Strategy] We define $\varphi:S^{*}\rightarrow A$ as strategy for
       a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
     \item [Initial Distribution] Occasionally, we substitute the initial state
@@ -657,13 +657,22 @@ definitions follow \cite{RandAutoInfTrees}:
   \label{def:mdp}
 \end{definition}
 A strategy $\varphi$ for an \ac{MDP}
-$\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ induces a 
-probability measure $\mu_{\varphi}$ on the Borel-algebra $\mathcal{B}(S)$. 
+$\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ induces a
+probability measure $\mu_{\varphi}$ on the Borel-algebra $\mathcal{B}(S)$.
+Formally, we use the unique extension (in the sense of Theorem
+\ref{thm:measureext}) of the measure $\mu_{\varphi}$ from
+\begin{equation*}
+  \mu_{\varphi}(\cyl(u_{0}\dots u_{n})) = \begin{cases}
+    \tau_{\varphi(\epsilon)}(u_{0}, u_{1})\prod_{1\leq i < n}
+      \tau_{\varphi(u_{1}\dots u_{i})}(u_{i}, u_{i+1})&\text{if }u_{0} =s_{0}\\
+      0&\text{otherwise}.
+  \end{cases}
+\end{equation*}
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
 are induced by a word $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$
 rather than a player. Any \ac{PBA} $\mathcal{P}$ can be interpreted as \ac{MDP}
-and for any $\alpha$ a corresponding strategy 
-$\varphi_{\alpha}:Q^{+}\rightarrow\Sigma$ with 
+and for any $\alpha$ a corresponding strategy
+$\varphi_{\alpha}:Q^{+}\rightarrow\Sigma$ with
 $\varphi_{\alpha}(w) = \alpha_{\size{w}}$ can be defined. On the other hand, do
 strategies for \acp{MDP} allow for an interaction between the player and the
 environment, thus the player might react differently considering which state
@@ -755,8 +764,10 @@ strategies for \acp{MDP} and for almost-sure satisfaction of Büchi-conditions
 in \acp{POMDP}:
 \begin{theorem}
   \cite[Theorem 5]{QualAnaPOMDP}
-  It is possible to compute a strategy for a \ac{POMDP} that almost-surely 
-  satisfies an associated Büchi-condition.
+  It is possible to compute a strategy for a \ac{POMDP} that almost-surely
+  satisfies an associated Büchi-condition. This strategy can be computed in
+  time exponential in the number of states of the \ac{POMDP} and in general
+  cannot be computed in less time.
   \label{thm:pomdpstratsynthesis}
 \end{theorem}
 and
