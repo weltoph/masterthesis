@@ -8,7 +8,7 @@ measuring theory to formally define their semantics. Additionally, these basic
 concepts of measuring theory are re-used later on for more complex
 probabilistic automata models.
 
-A \ac{PBA} essentially is a \ac{NBA} where the non-determinism is solved by a 
+A \ac{PBA} essentially is an \ac{NBA} where the non-determinism is solved by a
 probability distribution. Therefore, we define analogously to 
 \cite{Groesser}
 \begin{definition}[Probabilistic Büchi Automata]
@@ -72,22 +72,30 @@ describes how probable a chosen observation is:
   \begin{enumerate}
     \item $\mu(\Omega) = 1$,
     \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
-      $A_{i}\in\mathcal{F}$ we have $\mu(\cup_{i\in\mathbb{N}}A_{i}) =
-      \sum_{i\in\mathbb{N}}\mu(A_{i})$.
+      $A_{i}\in\mathcal{F}$ and $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we
+      have
+      \begin{equation*}
+        \mu(\mathbb{A}) = \sum_{i\in\mathbb{N}}\mu(A_{i}).
+      \end{equation*}
   \end{enumerate}
-  And we call a triple $\tuple{\Omega,\mathcal{F},\mu}$ a probability space.
-  For any finite or at most countably large set $\Omega$ we can additionally
-  define a
+  We call for such a $\mu$ the triple $\tuple{\Omega,\mathcal{F},\mu}$ a 
+  probability space. For any finite or at most countably large set $\Omega$ we 
+  can additionally define
   \begin{description}
     \item [Probability Distribution] as a function
       $P:\Omega\rightarrow\interval{0,1}$ such that
-      $\sum_{\omega\in\Omega}P(\omega) = 1$. 
+      $\sum_{\omega\in\Omega}P(\omega) = 1$.
+    \item [Support] of a probability distribution $P$ as the set of possible
+      outcomes, i.e.
+      \begin{equation*}
+        \supp(P) = \set{\omega\in\Omega\mid P(\omega) > 0}.
+      \end{equation*}
   \end{description}
 \end{definition}
-Thus, we are interested in a probability space that is induced by the \ac{PBA}
-$\mathcal{P}$ on the base set $Q^{\omega}$ while reading the input word 
-$\alpha$. Fix for every $u\in Q^{*}$ the set 
-$\cyl(u) = \set{u\beta : \beta\in Q^{\omega}}\subseteq Q^{\omega}$, a 
+For a \ac{PBA} $\mathcal{P}$ we are interested in a probability space that is
+induced by the run of $\mathcal{P}$ on the base set $Q^{\omega}$ while reading
+the input word $\alpha$. Fix for every $u\in Q^{*}$ the set
+$\cyl(u) = \set{u\beta : \beta\in Q^{\omega}}\subseteq Q^{\omega}$, a
 \emph{cylinder} as illustrated in Figure \ref{fig:cylinder}.
 \begin{drawing}
   \caption{All infinite sequences of states $\set{q_{1},\dots, q_{k}}$ can be
@@ -101,20 +109,20 @@ $\cyl(u) = \set{u\beta : \beta\in Q^{\omega}}\subseteq Q^{\omega}$, a
   % }
   \end{center}
 \end{drawing}
-By using the transition probabilities of $\mathcal{P}$ we can formulate the 
-probability to stay within a certain cylinder while reading a finite prefix of 
+By using the transition probabilities of $\mathcal{P}$ we can formulate the
+probability to stay within a certain cylinder while reading a finite prefix of
 the input word. Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$.
-First we observe, that all cylinders that are not rooted in $q_{0}$ can be 
+First we observe, that all cylinders that are not rooted in $q_{0}$ can be
 discarded. For any sequence $q_{0}q_{1}\dots q_{n}$ the run of $\mathcal{P}$
 on $\alpha$ stays within $\cyl(q_{0}q_{1}\dots q_{n})$ with the probability to
 move along the path $q_{0}q_{1}\dots q_{n}$ while reading $u_{1}\dots u_{n}$.
 This is the product of the probabilities to move from $q_{i-1}$ to $q_{i}$
-while reading $u_{i}$ for $1\leq i\leq n$; thus 
+while reading $u_{i}$ for $1\leq i\leq n$; thus
 $\prod_{1\leq i\leq n}\delta(q_{i-1},u_{i},q_{i})$. In order to associate with
 the state sequences of $\mathcal{P}$ a probability space we rely on the 
 $\sigma$-algebra which is created by including the sets $\cyl(w)$ for all 
 $w\in Q^{*}$ and closing the set under negation and countably union. This is
-commonly referred to as \emph{Borel}-algebra, cp. 
+commonly referred to as \emph{Borel}-algebra, cp.
 \cite{RandomnessForFree,AlgorithmsForPOSG}, and formally defined as
 \begin{definition}[Borel-algebra on words]
   For a finite set $A$ we call $\mathcal{B}(A)\subseteq\Pot(A^{\omega})$ the 
@@ -127,31 +135,34 @@ for staying in a cylinder for $\alpha$. In order to derive a complete
 probability measure on $\mathcal{B}(Q)$ from this we quote
 \begin{theorem}[Carath\'{e}odory's Extension Theorem]
   \cite[Theorem 2.4, Theorem 5.6]{Bauer}
-  For a ground set $\Sigma$ and every collection 
-  $\mathcal{E}\subseteq\Pot(\Sigma)$ that is closed under intersection and
-  which contains a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that 
-  $\cup_{i\in\mathbb{N}}E_{i} = \Sigma$ any $\sigma$-additiv function 
+  For a ground-set $\Omega$ and every collection
+  $\mathcal{E}\subseteq\Pot(\Omega)$ that is closed under intersection and
+  which contains a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that
+  $\cup_{i\in\mathbb{N}}E_{i} = \Omega$ any $\sigma$-additiv function
   $\mu':\mathcal{E}\rightarrow\interval{0, 1}$
-  with $\mu(\emptyset) = 0$ can be uniquely extended to a measure $\mu$ on the 
-  smallest $\sigma$-algebra containting $\mathcal{E}$ (denoted by 
-  $\sigma(\mathcal{E})$). We obtain a measure space
+  with $\mu'(\emptyset) = 0$ and $\mu'(\Omega) = 1$ can be \emph{uniquely}
+  extended to a probability measure $\mu$ on the smallest $\sigma$-algebra
+  containing $\mathcal{E}$ (denoted by $\sigma(\mathcal{E})$). This entails a
+  probability space
   \begin{equation*}
-    \tuple{\Sigma, \sigma(\mathcal{E}), \mu}.
+    \tuple{\Omega, \sigma(\mathcal{E}), \mu}.
   \end{equation*}
   \label{thm:measureext}
 \end{theorem}
-Since the cylindric sets do satisfy the conditions on $\mathcal{E}$ we obtain 
-(as illustrated in Figure \ref{fig:pbaruns}) a probability space 
+Since the cylindric sets of states do satisfy the conditions on $\mathcal{E}$
+the stochastic process of a \ac{PBA} $\mathcal{P}$ on an input word $\alpha$
+induces a probability space
 \begin{equation*}
   \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}.
 \end{equation*}
-
-Since we want to define the acceptance of an \ac{PBA} $\mathcal{P}$ of a word
-$\alpha$ in terms of the induced probability of the set 
-$\set{\alpha\in Q^{\omega}\mid\alpha\text{ satisfies the Büchi-condition }F}$,
-it is necessary to show that this set is measureable, i.e. Borel. This is known
-from e.g. \cite[Chapter 4.1.1.]{Groesser} but we present a proof here which
-follows \cite[Proposition 6]{RandAutoInfTrees} since this argument can be
+In which the acceptance of $\alpha$ is encoded by the probability of the set
+\begin{equation*}
+  \Acc(F) = \set{
+    \alpha\in Q^{\omega}\mid\alpha\text{ satisfies the Büchi-condition }F}.
+\end{equation*}
+Therefore, it is necessary to show that this set indeed is measureable. This is
+known from e.g. \cite[Chapter 4.1.1.]{Groesser} but we present a proof here
+which follows \cite[Proposition 6]{RandAutoInfTrees} since this argument can be
 easily presented and is re-used later in a more involved context.
 \begin{lemma}[Measurability]
   The set $\Acc(F)$ for a Büchi-condition $F\subseteq Q$ is measurable in 
@@ -160,50 +171,47 @@ easily presented and is re-used later in a more involved context.
 \end{lemma}
 \begin{proof}
   In order to show the measureability of $\Acc(F)$ we formulate it at as
-  Boolean combination of cylinders inducing its membership in the 
+  Boolean combination of cylinders inducing its membership in the
   Borel-algebra by the closure properties of a $\sigma$-algebra.
-  Initially, we start with a co-Büchi condition, i.e. those words which 
-  eventually do not visit a target set $T$ anymore. More precisely, such a 
-  set $T$ defines the accepted language as
+  Initially, we start with a co-Büchi-condition (recall Example \ref{ex:fina}),
+  i.e. those words which eventually do not visit a target set $T$ anymore. More 
+  precisely, such a set $T$ defines the accepted language as
   \begin{equation*}
-    \Acc_{\cobuechi}(T) = \set{\alpha_{0}\alpha_{1}\dots\in Q^{\omega}\mid
-    \text{ there is } i \text{ such that for all } j>i \text{ holds }
-    \alpha_{j}\notin T}.
+    \Acc_{\cobuechi}(T) = Q^{*}\tuple{Q\setminus T}^{\omega}.
   \end{equation*}
   We claim that
-  \begin{equation} 
-    \Acc(T) = \bigcup\limits_{u\in Q^{*}}(
-    \cyl(u)\setminus\bigcup\limits^{v_{0}\dots v_{n}\in\prolong(u)}_{v_{n}\in T}
-    \cyl(v))
+  \begin{equation}
+    \Acc_{\cobuechi}(T) = \bigcup\limits_{u\in Q^{*}}(
+    \cyl(u)\setminus\bigcup\limits_{v\in u\cdot Q^{*}T}\cyl(v))
     \label{eq:measureability}
   \end{equation}
-  which renders $\Acc(T)$ measurable as countable union of measurable sets.
-  For $\beta\in\Acc(T)$ we know that there is eventually no occurence of $T$
-  anymore. This induces that for every finite prefix $u\sqsubseteq\beta$ after 
-  the last occurence of an element in $T$ holds
-  $\beta\notin\bigcup\limits^{v_{0}\dots v_{n}\in\prolong(u)}_{v_{n}\in E}
-  \cyl(v)$ and thus $\beta$ is element of the right hand side of Equation 
-  \ref{eq:measureability}. On the other hand if $\beta\notin\Acc(T)$ we know 
-  that for every finite prefix $u\sqsubseteq\beta$ there is a (finite) 
-  prolongation $u\sqsubseteq v_{0}\dots v_{n}\sqsubseteq\beta$ such that 
-  $v_{n}\in T$, hence $\beta$ is for every such $u$ removed by the cylinder 
-  associated with $v_{0}\dots v_{n}$ since $v_{0}\dots v_{n}\in\prolong(u)$.
-  This yields that $\beta$ is not element of the right hand side of Equation
-  \ref{eq:measureability} which proves the announced equality. 
-  For any Büchi-condition $F\subseteq Q$ we use its duality to the 
-  co-Büchi-condition $T = Q\setminus F$, i.e.
+  which renders $\Acc_{\cobuechi}(T)$ measurable as countable union of 
+  measurable sets. For $\beta\in\Acc_{\cobuechi}(T)$ we know that there is 
+  eventually no occurence of $T$ anymore. This induces that there is one finite
+  prefix $u\sqsubseteq\beta$ such that any prolongation of $u$ in $\beta$ does
+  not contain a state of $T$, hence it holds that
+  $\beta\notin\bigcup\limits_{v\in u\cdot Q^{*}T}\cyl(v)$. Consequently is
+  $\beta$ element of the right hand side of Equation \ref{eq:measureability}.
+  On the other hand if $\beta\notin\Acc_{\cobuechi}(T)$ we know that for every
+  finite prefix $u\sqsubseteq\beta$ there is a (finite) prolongation
+  $u\sqsubseteq v\sqsubseteq\beta$ such that $v\in u\cdot Q^{*}T$. This $v$ 
+  removes $\beta$ from $\cyl(u)$. This gives that $\beta$ is not element of the 
+  right hand side of Equation \ref{eq:measureability} which proves the 
+  announced equality. For any Büchi-condition $F\subseteq Q$ we use its duality 
+  to the co-Büchi-condition $T = Q\setminus F$, i.e.
   \begin{equation*}
-    \Acc_{\buechi}(F) = Q^{\omega}\setminus\Acc_{\cobuechi}(T).
+    \Acc_{\buechi}(F) = Q^{\omega}\setminus\Acc_{\cobuechi}(T),
   \end{equation*}
-  The measureability of $\Acc(F)$ follows by the closure of $\mathcal{B}(Q)$
-  under complementation and the explored measureability of $\Acc(T)$.
+  to obtain the measureability of $\Acc(F)$ by the closure of $\mathcal{B}(Q)$
+  under complementation and the proven measureability of $\Acc_{\cobuechi}(T)$.
 \end{proof}
+
 Since we explicitly defined \acp{PBA} with Büchi-conditions this suffices to
 show their definition to be useful. But it is a natural escalation to consider
-more elaborate acceptance conditions, e.g. Muller-, Parity- or 
+more elaborate acceptance conditions, e.g. Muller-, Parity- or
 Rabin-conditions. We show the measureability of those sets here as well, since
 it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}. Also, we
-note that we introduce, analogously as for $\omega$-regular word automata, 
+note that we introduce, analogously as for $\omega$-regular word automata,
 corresponding acronyms. \acuse{PRA}\acuse{PMA}\acuse{PPA}
 \begin{corollary}
   For a Muller-condition, a Parity-condition and a Rabin-condition
@@ -240,15 +248,14 @@ This finally allows us to define the semantics of a \ac{PBA} $\mathcal{P}$
 formally with
 \begin{definition}[Probabilistic Büchi Automaton - Acceptance]
   A \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ positively 
-  (resp. almost-surely) accepts a word $\alpha\in\Sigma^{\omega}$ if
-  $\mu_{\alpha}(\Acc(F)) > 0$ (resp. $\mu_{\alpha}(\Acc(F))$).
+  (almost-surely) accepts a word $\alpha\in\Sigma^{\omega}$ if
+  $\mu_{\alpha}(\Acc(F)) > 0$ ($\mu_{\alpha}(\Acc(F))$).
 \end{definition}
 This yields two kinds of \acp{PBA} separated by the measure of their accepted 
 runs. We want to provide a small discussion of the theory regarding \acp{PBA}.
-Therefore we discuss an example of a \ac{PBA} from \cite{RecOmeLangProbAuto} 
-which allows us to get a feel for the behavior while also providing a witness 
-to separate the expressiveness of $\omega$-regular languages and languages 
-positively accepted by \acp{PBA}.
+Therefore, we discuss an example of a \ac{PBA} which allows us to get a feel 
+for the behavior while also providing a witness to separate the expressiveness 
+of $\omega$-regular languages and languages positively accepted by \acp{PBA}.
 \begin{drawing}
   \caption{A \ac{PBA} accepting under positive acceptance a 
   non-$\omega$-regular language depicted by the same notions as finite word 
@@ -261,9 +268,9 @@ positively accepted by \acp{PBA}.
   \end{center}
 \end{drawing}
 \begin{example}
-  We examine the \ac{PBA} $\mathcal{P}$ as defined in Figure 
-  \ref{fig:posacceptingpba}. The accepted language is by 
   \cite{RecOmeLangProbAuto}
+  We examine the \ac{PBA} $\mathcal{P}$ as defined in Figure 
+  \ref{fig:posacceptingpba}. The accepted language is 
   \begin{equation*}
     \mathcal{L}_{>0} = \set{a^{k_{1}}ba^{k_{2}}b\dots:k_{i}>0\text{ for all }
     i>0\text{ and } \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) > 0}.
@@ -295,27 +302,28 @@ As mentioned before the \ac{PBA} $\mathcal{P}$ from Example
   \label{lem:posaccpba>omegareg}
 \end{lemma}
 \begin{proof}
-  It is well known that any $\omega$-regular language contains an ultimately
-  periodic word, i.e. a word of the form $u\cdot (v)^{\omega}$ where 
-  $\epsilon\neq v$. We argue that no ultimately periodic word is part of the
-  language. Since any word ending in $a^{\omega}$ is not part of the language
-  (as argued in Example \ref{ex:posacceptingpba}) any ultimatively periodic
-  word that might be part of the language contains at least one $b$ in its
-  period $v$. But this induces that the sequences of $a$ are bound by a natural
-  number $k_{0}$ yielding that for this word
+  From Theorem \ref{thm:nbaemptiness} we know that every $\omega$-regular 
+  language contains an ultimately periodic word. We argue that no ultimately 
+  periodic word is part of the language. Since any word ending in $a^{\omega}$ 
+  is not part of the language (as argued in Example \ref{ex:posacceptingpba}) 
+  any ultimatively periodic word that might be part of the language contains at 
+  least one $b$ in its period $v$. But this induces that the sequences of $a$ 
+  are bound by a natural number $k_{0}$ yielding that for this word
   \begin{equation*}
     \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) \leq
     \underbrace{\prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{0}})}_{
-      \text{infinite product of a constant }c<0} = 0
+      \text{infinite product of a constant }0\leq c<1} = 0
   \end{equation*}
   rendering it not accepted.
 \end{proof}
-Furthermore, we state here without proof
+
+Furthermore, we describe the expressive-wise superiority of positively 
+accepting \acp{PBA} over $\omega$-regular languages by stating
 \begin{lemma}
   \cite[Lemma 5]{RecOmeLangProbAuto} For any \ac{NBA} $\mathcal{A}$ exists a
   \ac{PBA} $\mathcal{P}$ which accepts the same language.
 \end{lemma}
-Which combined yields
+And therefore we conclude with
 \begin{theorem}
   \cite[Theorem 4]{RecOmeLangProbAuto}
   The class of languages that can be accepted by a \ac{PBA} strictly contains
@@ -361,9 +369,7 @@ by a \ac{PBA} forms a Boolean algebra. This is captured in
   $\mu_{\alpha}(\Acc(R))\in\set{0,1}$, but it accepts the same language as
   $\mathcal{P}$. The main idea of its construction is to sample partial runs of 
   the original \ac{PBA} and keeping track of those that are accepting. These 
-  partial runs can be then \enquote{sticked together}\footnote{The idea of 
-  sticking partial runs together is conceptually similar to the proof of 
-  Theorem \ref{thm:omegaregularexp}.}. Therefore we state here
+  partial runs can be then \enquote{sticked together}. Therefore we state here
   \begin{theorem}
     \cite[Theorem 4.3.2]{Groesser}
     For each \ac{PBA} $\mathcal{P}$ there exists a \ac{PRA} $\mathcal{R}$ that 
@@ -376,52 +382,47 @@ by a \ac{PBA} forms a Boolean algebra. This is captured in
   correspondance to Theorem \ref{thm:omegaregularexp} in the
   sense that more expressive acceptance conditions allow for a 
   \enquote{stuctural} difference, which in this case is the acceptance measure
-  (rather than determinsm before). Also, we note that all \enquote{strong} 
-  conditions again coincide but we postpone the proof since it is a corollary 
-  from a later result\footnote{
-    Nevertheless, it makes use of the same concept, namely \acp{LAR}.
-  }.
+  (in contrast to determinsm before). Also, we note that all \enquote{strong}
+  conditions again coincide which is easily obtained by using \acp{LAR} which
+  we prove for a more general model. Nevertheless, we state here
   \begin{theorem}
     The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides under
     positive as well as almost-sure acceptance.
     \label{thm:probautoequiv}
   \end{theorem}
 \end{proof}
+
 The gain in expressiveness for \ac{PBA} with positive acceptance over 
 $\omega$-regular languages is unfortunately accompanied by some undesired 
-effects. Notably, while emptiness for a \ac{NBA} can be decided by means of 
-graph algorithms we have that given a \ac{PBA} $\mathcal{P}$ it is undecideable 
-to find if there is any word positively accepted by $\mathcal{P}$ as stated in
+effects. Notably, while emptiness for a \ac{NBA} can be decided (see Theorem 
+\ref{thm:nbaemptiness}) we have that given a \ac{PBA} $\mathcal{P}$ it is 
+undecideable to find if there is any word positively accepted by $\mathcal{P}$ 
+as stated in
 \begin{theorem}
   \cite[Theorem 2]{DecProblemsForProbAuto}
   The emptiness problem for \ac{PBA} is undecideable.
   \label{thm:emptinesspospba}
 \end{theorem}
-And by Theorem \ref{thm:pbatopra} and Theorem \ref{thm:probautoequiv} we obtain
-the undecideability of emptiness for probabilistic word automata with 
-almost-sure accpetance of more expressiv acceptance conditions and since 
-Büchi-conditions can be emulated also positive acceptance of more expressice
-acceptance conditions:
+By Theorem \ref{thm:pbatopra} and Theorem \ref{thm:probautoequiv} we obtain
+undecideability of emptiness for probabilistic word automata with 
+almost-sure accpetance of more expressiv acceptance conditions. Moreover, since 
+Büchi-conditions can be emulated by Muller-, Rabin- and Parity-conditions we
+get
 \begin{corollary}
-  The emptiness problem for probabilistic word automata with Rabin-, Parity- or
-  Muller-conditions is undecideable for positive and almost-sure acceptance.
+  The emptiness problem for \acp{PRA}, \acp{PPA} and \acp{PMA} is undecideable
+  for positive and almost-sure acceptance.
   \label{cor:emptinessstrongalmostsureprob}
 \end{corollary}
-
-In order to re-gain some desired algorithmic properties of e.g. the emptiness
-problem \cite{DecProblemsForProbAuto} considers almost-sure acceptance. By
-Theorem \ref{thm:pbatopra} we conclude easily that the emptiness problem for
-almost-sure accepting \ac{PRA} (and by Theorem \ref{thm:probautoequiv} also for
-\ac{PPA} and \ac{PMA}) is undecideable. But for Büchi-conditions this is not
-the case as stated in
+This is different for almost-sure acceptance of Büchi-conditions. Notably, we
+have
 \begin{theorem}
   \cite[Theorem 6]{DecProblemsForProbAuto}
   The emptiness problem for \ac{PBA} with almost-sure acceptance is decideable.
   \label{thm:emptinessalmostsurepba}
 \end{theorem}
-Again, we consider an example for a \ac{PBA} with almost-sure acceptance (taken
-from \cite{DecProblemsForProbAuto}.
+Again, we consider an example for a \ac{PBA} with almost-sure acceptance:
 \begin{example}
+ \cite{DecProblemsForProbAuto}
   Let $\mathcal{P}$ be a \ac{PBA} as defined in Figure 
   \ref{fig:almostsureacceptingpba}. The language accepted by $\mathcal{P}$ is
   \begin{equation*}
@@ -512,7 +513,7 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
 \begin{proof}
   The proof separates in both directions of possible inclusions. As noted in
   Figure \ref{fig:almostsureacceptingpba} the defined \ac{PBA} $\mathcal{P}$
-  with almost-surely accepts a non-$\omega$-regular language, hence
+  almost-surely accepts a non-$\omega$-regular language, hence
   \begin{lemma}
     There is a non-$\omega$-regular language that is accepted by any \ac{PBA} 
     with almost-sure acceptance.
@@ -546,14 +547,16 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
     which is a contradiction to Lemma \ref{lem:posaccpba>omegareg}. Therefore, 
     we state that $\mathcal{L}_{=1}$ is not $\omega$-regular.
   \end{proof}
-  And on the other hand we state that
+
+  On the other hand we get
   \begin{lemma}
     \cite[Theorem 4.4.9 (b)]{Groesser}
-    There is a $\omega$-regular language that cannot be accepted by any 
+    There is an $\omega$-regular language that cannot be accepted by any 
     \ac{PBA} with almost-sure acceptance.
   \end{lemma}
   \begin{proof}
-    We introduce here a common theorem regarding probability spaces.
+    This proof requires the introduction of a common theorem regarding 
+    probability spaces, namely
     \begin{theorem}[Borel-Cantelli Lemma]
       \cite[Theorem 2.7]{Klenke}
       For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 

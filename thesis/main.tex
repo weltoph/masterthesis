@@ -22,10 +22,12 @@
 \mainmatter{}
 \input{tex/automata.tex}
 \input{tex/synthesis.tex}
-\backmatter{}
 \printbibliography
 
 \appendix
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 \input{tex/appendix.tex}
+
+\backmatter{}
 
 \end{document}
