@@ -10,8 +10,8 @@ introduce suggested generalizations of \cite{RandAutoInfTrees} by designing
 transitions more expressive by adding individual probability measures for them.
 Furthermore, we incorporate the concept of \emph{alternation} by allowing to 
 send different states on the same path through the tree with individual weight.
-Formally, we define in analogy to clause-functions a notion of a weighted 
-clause function, i.e.
+Formally, we define in analogy to clauses a notion of a weighted clause as
+probability distribution over the set $D\times Q$, i.e.
 \begin{definition}[Generator]
   For a set of states $Q$ and a set of directions $D$ we call a probability
   function on $Q\times D$, i.e. $G: Q\times D\rightarrow [0,1]$ with
@@ -20,8 +20,8 @@ clause function, i.e.
   \end{equation*} 
   a generator over $Q$ and $D$. 
 \end{definition}
-These generators are used to substitute clause-functions in alternating tree
-automata and we obtain the following tree automata:
+These generators are used to substitute clauses in alternating tree
+automata and we obtain the following
 \begin{definition}[Weighted Descent Tree Automata]
   We define a \acl{WDTA} as tuple
   $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}$ where $Q$ is a 
@@ -92,25 +92,47 @@ accordingly. Hence, we state
   Muller-conditions (and therefore also for Parity- or Rabin-conditions) 
   follows analogously to the proof of Corollary \ref{cor:borelAcceptance}.
 \end{proof}
-Also, analogously to alternating tree automata, a run $r$ contains 
-\enquote{marked paths}. These are those paths that actually carry weight. By
-substituting every generator $G$ with a clause-function $\delta_{A_{G}}$ with
-$A_{G} = \set{\tuple{q,d}\in Q\times D\mid G(q,d)>0}$\footnote{This set $A_{G}$
-is commonly referred to as support of $G$, i.e. $\supp(G)$.
-} we obtain these paths in the same manner as $M_{r}$ for runs of alternating
-tree automata, therefore we refer to these elements also as $M_{r}$. By this 
-concept it is easy to see that only those paths in $M_{r}$ actually matter for
-the acceptance of a run, hence we state
+Analogously to marked paths in runs of alternating tree automata runs of
+\acp{WDTA} also are equipped with a notion of marking. Namely, given a run $r$
+of a \ac{WDTA} with states $Q$ and directions $D$ we identify
+\begin{equation*}
+  W_{r} = \set{
+    u\in\tuple{Q\times D}^{*}\mid\mu_{r}(\cyl(u)) > 0
+  }.
+\end{equation*}
+These are those paths that actually carry weight. Is is easy to see that only
+those elements of $r$ in $W_{r}$ actually matter for the weighting of a run, 
+hence we state
 \begin{lemma}
   For a \ac{WDTA} $\mathcal{A}$ and two runs $r_{1}, r_{2}$ on $t$ such that
-  $M_{r_{1}} = M_{r_{2}}$ and for all $u$ such that there is a 
-  $\beta\in M_{r_{1}}$ with $u\sqsubset\beta$ holds $r_{1}(u) = r_{2}(u)$, then
+  $\mu_{r_{1}}(\cyl(u)) = \mu_{r_{2}}(\cyl(u))$ for all $u\in W_{r_{1}}$, then
   $\mu_{r_{1}}$ and $\mu_{r_{2}}$ coincide.
 \end{lemma}
+\begin{proof}
+  Firstly, we observe that for any run $r$ of a \ac{WDTA} with states $Q$ and
+  directions $D$ $\mu_{r}$ induces a probability distribution 
+  $P_{n} = \mu_{r}(\cyl(\cdot))$ over $\tuple{Q\times D}^{n}$ for every 
+  $n\in\mathbb{N}$ and
+  \begin{equation*}
+    W_{r} = \bigcup_{n\in\mathbb{N}}\supp(P_{n}).
+  \end{equation*}
+  Therefore, by inductive reasoning we see that $W_{r_{1}} = W_{r_{2}}$ which
+  we simply call $W$ in the following. We fix
+  $\mathcal{W}\subseteq\tuple{Q\times D}^{\omega}$ as those elements such that
+  all finite prefixes of these elements are part of $W$. Hence for every 
+  element $\alpha\in \tuple{Q\times D}^{\omega}\setminus\mathcal{W}$ there is
+  a finite prefix $a\subseteq\alpha$ such that $P_{\size{a}}(a) = 0$, rendering
+  $\mu_{r_{i}}(\cyl(a)) = 0$ for $i = 1,2$. We therefore deduce that
+  $\mu_{r_{i}}(A) = \mu_{r_{i}}(A\setminus\mathcal{W})$ for $i = 1,2$ and since
+  $\mu_{r_{1}}$ and $\mu_{r_{2}}$ agree on all cylindric sets starting from 
+  elements in $u$ they coincide by uniqueness of extension on the sub-algebra
+  of $\mathcal{B}(Q\times D)$ induced by $\mathcal{W}$, i.e. all sets of 
+  $\mathcal{B}(Q\times D)$ intersected with $\mathcal{W}$.
+\end{proof}
 Effectively the choices of a \acp{WDTA} only matter if they actually are 
-weighted. Therefore, we occasionally refer to $M_{r}$ as the 
+weighted. Therefore, we occasionally refer to $W_{r}$ as the 
 \emph{weighted part} of a run $r$ and implicitly deduce general statements on
-$r$ by arguments on $M_{r}$.
+$r$ by arguments on $W_{r}$.
 
 In the following we often focus on Parity-conditions and motivate this by the
 observation that Parity-conditions are sufficient to express all other 
@@ -156,8 +178,7 @@ and which is an integral part of the omitted proof of Theorem
   and add
   \begin{equation*}
     \set{
-      \tuple{\ell,\sigma,G_{\ell}'}:\text{for every }\ell\in
-        \lar(Q)_{\interval{q}}
+      \tuple{\ell,\sigma,G_{\ell}'}:\text{for every }\ell\in\lar(Q)
     }
   \end{equation*}
   to $\Delta'$. Fix a tree $t$ and we observe that every run $r$ of 
@@ -183,14 +204,15 @@ and which is an integral part of the omitted proof of Theorem
   \end{center}
   with $\ell_{i} = \up(\ell_{i-1}, q_{i})$ for all $i>0$ and state that all 
   other paths in the domain of $r'$ have a measure of $0$ by definition of the
-  generators in $\mathcal{C}$. Thus, in the \enquote{weighted} part of the 
-  domain of $r'$ there is a one-to-one correspondance to elements in the domain
-  of $r$. Specifically, we obtain
+  generators in $\mathcal{C}$. Thus, considering $W_{r'}$ of $r'$ there is a 
+  one-to-one correspondance to elements in $W_{r}$ of $r$. Specifically, we 
+  obtain
   \begin{equation*}
     \mu_{r}(\cyl(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}})) = 
       \mu_{r'}(\cyl(\tuple{\ell_{1},d_{1}}\dots\tuple{\ell_{n},d_{n}}))
   \end{equation*}
-  for the related paths. This allows to conclude with Lemma \ref{lem:larhitset}
+  for the bijected elements of $W_{r}$ and $W_{r'}$. This allows to conclude 
+  with Lemma \ref{lem:larhitset}
   \begin{equation*}
     \mu_{r}(\Acc(\mathcal{F})) = \mu_{r'}(\Acc(\parity)),
   \end{equation*} 
@@ -239,10 +261,9 @@ required for our further arguments but we obtain for choiceless \acp{WDTA} that
 there is no closure under complementation regarding almost-sure acceptance of
 Büchi-conditions as a simple corollary from the result to embed \acp{PBA} into
 \acp{WDTA}. Mainly, the presented results are obtained by re-iterating 
-arguments for \acp{PBA} or tree automata. Also, due to the limited scope of
-this thesis we examine these properties selective, predominantly focusing on 
-almost-surely accepting models because they prove most relevant for the 
-examined use-cases later on. 
+arguments for \acp{PBA} or tree automata. We examine these properties 
+selectively, predominantly focusing on almost-surely accepting models because 
+they prove most relevant for the examined use-cases later on. 
 
 Unsuprisingly, the non-determinism of the model induces closure under union for 
 certain classes in a straightforward manner (as suggested by 
@@ -364,13 +385,12 @@ To this example we additionally introduce
   $t$ holds that $\mu_{r_{p}}(\Acc(F)) = 0$ while $\mu_{r_{q}}(\Acc(F)) = 1$.
 \end{proposition}
 Thus, the \enquote{local} probabilities are relevant for the global measure
-which is similar to \acp{PBA}. But in both arguments the examined models are
-deterministic in the choice of their transitions. Naturally, this rises 
-questions about the benefit to use non-determinism in probabilistic models. As 
-we see later on the usage of non-determinism is not a limiting factor in some 
-examined decision procedures, e.g. for deciding emptiness. Nevertheless, we 
-leave the question for the closure under union for uniformly distributed
-\acp{WDTA} open (cp. also \cite[Remark 12]{RandAutoInfTrees}).
+which is similar to \acp{PBA} (cp. Lemma \ref{lem:measureinpba}). But in both 
+arguments the examined models are deterministic in the choice of their 
+transitions. Naturally, this rises questions about the incluence to use 
+non-determinism in probabilistic models. As we see later the inclusion of 
+non-determinism is a significant source of complexity of the model
+(cp. \cite[Remark 12]{RandAutoInfTrees}).
 
 Regarding intersection we provide a construction to show closure under 
 intersection for \acp{WDTA} under almost-sure acceptance. For positive 
@@ -502,10 +522,9 @@ positive acceptance and almost-sure acceptance which is expressd in
   $\mathcal{C}$ does not accept $t$ positively (almost-surely).
 \end{proof}
 For uni-directional \acp{WDTA} with common blueprint we can relate on the 
-common product construction for intersection to yield an intersection operator.
-The details of this argument can be found in 
-\cite[Proposition 14]{RandAutoInfTrees}.
+common product construction to yield an intersection operator.
 \begin{proposition}
+  \cite[Proposition 14]{RandAutoInfTrees}
   Uni-directional \acp{WDTA} with common blueprint are closed under
   intersection.
 \end{proposition}
@@ -641,9 +660,9 @@ automata models, i.e.
     }.
   \end{equation*}
   Any run $r$ of $\mathcal{A}$ on a tree $t:\set{0}^{*}\rightarrow\Sigma$ 
-  induces a Dirac measure $\mu_{r}$ on $\mathcal{B}(Q\times D)$ for one path 
-  $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$ (cp. 
-  \cite[Example 1.30]{Klenke} or \cite{POSG}). This means that
+  induces a Dirac measure\footnote{cp. \cite[Example 1.30]{Klenke} or 
+  \cite{POSG}} $\mu_{r}$ on $\mathcal{B}(Q\times D)$ for one path 
+  $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$. This means that
   \begin{equation*}
     \mu_{r}(A) = \begin{cases}
       1&\text{if }\alpha_{r}\in A,\\
@@ -781,7 +800,7 @@ discussed. For example
       \mu_{t}(
         \set{
           r\in\Runs_{\mathcal{A}}^{t}\mid
-            \text{ for every }\alpha\in D^{\omega}r(\alpha)\in\Acc(F)
+            r(\alpha)\in\Acc(F)\text{ for every }\alpha\in D^{\omega}
         }
       ),
     \end{equation*}
@@ -862,7 +881,7 @@ Therefore, we formulate
 
   Firstly, to ease the following argument we restrict our attention to
   partial runs that are \enquote{balanced}(as suggested by
-  \cite[Remark 35]{RandAutoInfTrees}, i.e. all paths have the same length.
+  \cite[Remark 35]{RandAutoInfTrees}), i.e. all paths have the same length.
   That this restriction is purely argumentativ is ensured by
   \begin{lemma}
     The $\sigma$-algebra that is generated by all balanced partial runs and the 
@@ -956,7 +975,7 @@ in $\mathcal{R}_{\mathcal{A}}$ by citing
   defined on $\Sigma_{i}$ and measurable in $\mathcal{F}_{i}$ for $i = 1,2$
   respectively.
 \end{lemma} 
-Moreover, we obtain the integrability of $g$ by its boundedness and therefore 
+Moreover, we obtain the integrability of $g$ by its boundness and therefore 
 deduce the measureability of $\set{r\in\Runs\mid\mu_{B}(\Acc(r)) = 1 }$ as 
 $g^{-1}(1)$. This lays the basis for 
 \begin{proposition}
@@ -1151,7 +1170,7 @@ partial observability in \acp{MDP}.
 \begin{proof}
   Let $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$ be a
   \ac{POMDP}. We can extract the possible observations in $\mathcal{M}$ and
-  gather them as $O = \set{\interval{s}_{\sim}\mid:s\in S}$. A strategy for
+  gather them as $O = \set{\interval{s}_{\sim}:s\in S}$. A strategy for
   $\mathcal{M}$ therefore is only dependent on the sequence of observations up
   to the current state of play, i.e. a word in $u\in O^{*}$. Fixing the
   set of directions to $O$ and the alphabet to $A$ we get $O$-ary $A$-trees as
@@ -1214,11 +1233,16 @@ for \acp{POMDP}. Example \ref{ex:pbaaspomdp} introduced the idea to consider
 generated word). We adapt this idea to obtain a comparable equivalence. Namely,
 we construct a \ac{POMDP} for a given \emph{choiceless} \ac{WDTA} such that any 
 run $r$ of \ac{WDTA} is the unrollment of the \ac{POMDP} if the tree is used as 
-strategy. This allows to formulate the emptiness problem of a choiceless 
-\ac{WDTA} as strategy synthesis question for \acp{POMDP}. The choices of the 
-player (i.e.  the strategy) are which letter is used at which position of 
-the tree. Hence, the player effectively constructs with his choices the tree 
-$t$ by providing for every situation the corresponding letter. We define
+strategy. The choicelessness of the \ac{WDTA} ensures to obtain an 
+interchangability of the strategies and trees since the choices of a strategy
+immediately determine the transition probabilities while general \acp{WDTA} 
+allow for a \enquote{second} decision once the letter is chosen, namely which
+transition to take. Nevertheless, this allows to formulate the emptiness 
+problem of a choiceless \ac{WDTA} as computation of a strategy for \acp{POMDP}. 
+The choices of \eve{} (i.e.  the strategy) are which letter is used at which 
+position of the tree. Hence, the player effectively constructs with his choices 
+the tree $t$ by providing for every situation the corresponding letter. We 
+define analogously to \cite[Section 3.5 Emptiness Problem]{RandAutoInfTrees}
 \begin{definition}[Run Building Game]
   For a choiceless \ac{WDTA}-sceleton
   $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta}$ we define the set of 
@@ -1289,17 +1313,28 @@ measures coincide.
   This yields the claimed equality of the generating objects and therefore by
   unique extension the equivalence of $\mu_{t}$ and $\mu_{r}$.
 \end{proof}
+Regarding the choicelessness requirement on the modelled \ac{WDTA} we expand in
+the following the discussion in Example \ref{ex:alternatingtreeemptiness}. We
+use the partial observability of the emptiness game to obtain a consistency of
+the tree \eve{} constructs. Allowing \eve{} to additionally choose a transition
+requires a more complex management of information. The letter of the tree must
+be consistent for all plays that have a common $D$-projection. For the
+transition on the other hand it is necessary to expose the current state (and
+potentially the complete history of the play) to capture the full
+expressibility of \acp{WDTA}. \acp{POMDP} are not equipped to handle these
+multiple information requirements. This renders choiceless \acp{WDTA}
+algorithmically easier to approach while maintaining an interesting measure of
+expressibility.
 
 \subsection{Consequences}
-Modelling \acp{PBA} and probabilistic word automata with stronger acceptance 
-conditions entail immediately undecideability results. Namely, Theorem 
-\ref{thm:pbaaswdta} allows to deduce the undecideability of the emptiness 
-problem for \acp{WDTA} with positive acceptance of an associated 
-Büchi-condition (and therefore also for Rabin-, Parity- and Muller-conditions,
-since these can model Büchi-conditions) and by Corollary 
-\ref{cor:emptinessstrongalmostsureprob} also almost-sure acceptance of strong
-acceptance conditions (alternatively one can use the translation from 
-\acp{POMDP} to \acp{WDTA} as equivalent argument)
+Modelling probabilistic word automata entails immediately undecideability 
+results. Namely, Theorem \ref{thm:pbaaswdta} allows to deduce the 
+undecideability of the emptiness problem even for choiceless \acp{WDTA} with 
+positive acceptance of an associated Büchi-condition (and therefore also for 
+Rabin-, Parity- and Muller-conditions) and by Corollary 
+\ref{cor:emptinessstrongalmostsureprob} also almost-sure acceptance of more 
+expressive acceptance conditions (alternatively one can use the translation 
+from \acp{POMDP} to \acp{WDTA} as equivalent argument)
 \begin{corollary}
   The emptiness problem (even for choiceless) \acp{WDTA} is undecideable for
   positive acceptance of Büchi-, Rabin-, Parity- and Muller-conditions and
@@ -1310,7 +1345,8 @@ computation of strategies which almost-surely satisfy an associated
 Büchi-condition to solve the emptiness problem for choiceless \acp{WDTA}
 \begin{corollary}[Emptiness Almost-Sure Büchi WDTA]
   The emptiness problem for a choiceless \ac{WDTA} with almost-sure acceptance 
-  measure of a Büchi condition is decideable.
+  measure of a Büchi condition is decideable in time exponential in 
+  $\size{Q}\cdot\size{D}$.
   \label{cor:emptiness}
 \end{corollary}
 
@@ -1323,7 +1359,8 @@ and a tree. Hence, we obtain
 \begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
   \cite[Corollary 47]{RandAutoInfTrees}
   The emptiness problem for an uni-directional \ac{WDTA} with almost-sure
-  acceptance measure of a Parity-condition can be decided.
+  acceptance measure of a Büchi- or Parity-condition can be decided in time 
+  polynomial in $\size{Q}\cdot\size{D}$.
 \end{corollary}
 \begin{proof}
   We translate a given uni-directional \ac{WDTA} 
@@ -1373,11 +1410,13 @@ we state
   singleton direction sets) respectively.
 \end{proof}
 This proposition also directly entails that the Simulation Theorem for tree 
-automata (Theorem \ref{thm:simulation}) does not translate to almost-surely
-accepting \acp{WDTA}. This result is disappointing but not surprising since
-we established the correspondance between alternation and partial observability
-and fundamental differences in terms of algorithmic properties between 
-\acp{MDP} and \acp{POMDP} are well established.
+automata (Theorem \ref{thm:treesimulation}) does not translate to almost-surely
+accepting \acp{WDTA} which is disappointing but not surprising since
+we established the correspondance between alternation and partial
+observability. Specifically, by the observation that we can compute strategies 
+for \acp{MDP} with Parity-conditions efficiently while this is undecideable for
+\acp{POMDP} with Parity-conditions already establishes that there is no 
+effective transformation from multi-directional to uni-directional \acp{WDTA}.
 
 For \acp{PBA} we obtained that more expressive acceptance conditions allows to
 move from positive acceptance to almost-sure acceptance. Unfortunately, this 
@@ -1405,7 +1444,7 @@ does not translate to choiceless \acp{WDTA}:
 
   On the other hand we show that there is no choiceless \ac{WDTA} with an
   almost-sure Parity-condition $\parity$ that precisely accepts 
-  $\mathcal{L}_{\exists a}$. For this we prove some lemmas which provide some
+  $\mathcal{L}_{\exists a}$. For this we prove some lemmas which provide
   basic insights in the semantic of runs.
   \begin{lemma}
     For any run $r$ of a \ac{WDTA} $\mathcal{A}$ with a Parity-condition 
@@ -1425,13 +1464,17 @@ does not translate to choiceless \acp{WDTA}:
     $\tuple{Q\times D}^{\omega}$ into $\cyl(v_{i})$ for $1\leq i\leq n$ we can 
     also partition $\Acc\interval{Q}(\parity)$ into $n$ sets 
     $\Acc_{i} = \Acc\interval{Q}(\parity)\cap\cyl(v_{i})$ for $1\leq i\leq n$.
-    Therefore, we state
+    Therefore, we state using the observation that the observation $\Acc_{i}$
+    corresponds to the independent observations to end up in $\cyl(v_{i})$ and
+    satisfy the Parity-condition
     \begin{equation*}
       \mu_{r}(\Acc\interval{Q}(\parity)) = \sum\limits_{1\leq i\leq n}
         \mu_{r}(\Acc_{i}) = \sum\limits_{1\leq i\leq n}
         \mu_{r}(\cyl(v_{i}))\cdot\mu_{r_{v_{i}}}(\Acc\interval{Q}(\parity)).
     \end{equation*}
   \end{proof}
+  This allows to deduce the following observation which is also observed in the
+  proof to Lemma \ref{lem:omegaregnotpba}:
   \begin{lemma}
     A run $r$ of a \ac{WDTA} $\mathcal{A}$ with a Parity-condition $\parity$ on 
     a tree $t$ is almost-sure accepted if and only if for all 
@@ -1482,7 +1525,7 @@ does not translate to choiceless \acp{WDTA}:
   In the following we consider three trees $t_{0}, t_{1}, t_{b}$ where every 
   letter in $t_{i}$ is $b$ except for $t_{i}(i) = a$ for $i = 0,1$ and $t_{b}$ 
   only contains $b$. Assume there is a choiceless \ac{WDTA} $\mathcal{A}$ with 
-  an almost-sure acceptance of a Muller-condition to accept 
+  an almost-sure acceptance of a Parity-condition to accept 
   $\mathcal{L}_{\exists a}$. The fix the unique runs of $\mathcal{A}$ on 
   $t_{0},t_{1}, t_{b}$ as $r_{0}, r_{1}, r_{b}$ respectively. Since 
   $\mathcal{A}$ is choiceless and 
@@ -1510,9 +1553,47 @@ does not translate to choiceless \acp{WDTA}:
   Thus, $r^{b}$ is an accepting run although 
   $t_{b}\notin\mathcal{L}_{\exists a}$.
 \end{proof}
-
-\begin{proposition}
+This directly entails
+\begin{corollary}
   The class of languages recognizable with \acp{WDTA} almost-sure acceptance
   is a proper superset of languages recognizable with choiceless \acp{WDTA}
   with almost-sure acceptance.
-\end{proposition}
+\end{corollary}
+\begin{proof}
+  It is trivial to observe that unrestricted \acp{WDTA} includes the class of 
+  choiceless \acp{WDTA}. For the reverse observation it suffices to show that
+  an unrestricted \ac{WDTA} is capable to recognize $\mathcal{L}_{\exists a}$.
+  This is rather straightforward by using two states $q_{0}, q_{a}$ where 
+  $q_{0}$ is the initial state and changes into the accepting $q_{a}$ after an
+  $a$ is read and distributes this $q_{a}$ uniformly everywhere. On the other
+  hand $q_{0}$ is used to search for the occurence of $a$ by using Dirac 
+  distributions in two transitions which sent $q_{0}$ either in direction $0$
+  or $1$ and the non-determinism to decide which transition to take.
+\end{proof}
+
+The classes of languages accepted by \acp{WDTA} or non-weighted tree automata
+respectively are also incomparable:
+\begin{theorem}
+  The class of languages recognizable with \acp{WDTA} and the class of 
+  languages recognizable with \acp{PTA} are incomparable.
+\end{theorem}
+\begin{proof}
+  First, we observe that there is a language that is recognizable by a 
+  \ac{WDTA} while it is not recognizable by a \ac{PTA}. Consider the language
+  of trees over directions $\set{0,1}$ and the alphabet $\set{a,b}$ such that
+  under uniform weighting of all paths the set of paths that contain infinitely 
+  many $a$ has measure $1$. This language can be accepted by a choiceless
+  uniformly distributed \ac{WDTA} $\mathcal{A}$ with two states $q_{a}, q_{b}$, 
+  where the uniform distribution is defined by the blueprint 
+  $B(0) = B(1) = \frac{1}{2}$ and both states send down $q_{\sigma}$ in both
+  directions when they read $\sigma\in\set{a,b}$. The associated 
+  Büchi-condition $F = \set{q_{a}}$ ensures that $\mathcal{A}$ accepts 
+  precisely the correct language (cp. \cite[Example 7]{RandAutoInfTrees}). 
+  Moreover, it can be shown that there is no \ac{PTA} that accepts this 
+  language leading to
+  \begin{lemma}
+    \cite[Theorem 21]{RandAutoInfTrees}
+    There is a language that is recognizable by a choiceless uniformly 
+    distributed \ac{WDTA} but not by any \ac{PTA}.
+  \end{lemma}
+\end{proof}

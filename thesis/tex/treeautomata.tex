@@ -556,11 +556,14 @@ We obtain for a set of transitions $\Delta$ the \enquote{inverse} $\nabla$ by
   }.
 \end{equation*}
 We use the transitions in $\nabla$ to effectively describe the game 
-$\mathcal{G}(\mathcal{A}, t)$ with exchanged roles of \eve{}
-and \adam{}. \adam{} pro-actively chooses his answers and \eve{} choice of one
-direction corresponds to an implicit choice of a transition, namely the one to 
-which \adam{} answers by this movement. Nevertheless the resulting games can be
-found as plays in $\mathcal{G}(\mathcal{A}, t)$. We construct for a given 
+$\mathcal{G}(\mathcal{A}, t)$ with exchanged roles (in the sense of which 
+\enquote{type} of moves are executed) of \eve{} and \adam{}. \adam{} 
+pro-actively chooses his answers (which is encoded as transition) and \eve{} 
+choice of one direction corresponds to an implicit choice of a transition, 
+namely the one to which \adam{} answers by this movement. Nevertheless the 
+resulting plays can be found as plays in $\mathcal{G}(\mathcal{A}, t)$ where
+\eve{} chooses a transition and \adam{} the corresponding answer. We construct 
+for a given 
 \ac{APTA}
 \begin{equation*}
   \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity},
@@ -572,7 +575,9 @@ the automaton
 Assuming \adam{} does have a winning strategy in $\mathcal{G}(\mathcal{A}, t)$, 
 then \eve{}\footnote{Beware the role-exchange!} has a winning strategy in the 
 game $\mathcal{G}(\mathcal{C}, t)$ since $\parity + 1$ precisely inverts the
-set of accepted paths. Therefore $\mathcal{C}$ is the dual automaton to 
+set of accepted paths. Technically, any run explores all possible plays of 
+\adam{} in $\mathcal{G}(\mathcal{A}, t)$ while the choices of $\eve{}$ induce
+one path in this run. Therefore $\mathcal{C}$ is the dual automaton to 
 $\mathcal{A}$ implying
 \begin{proposition}
   The class of languages of trees accepted by \acp{APTA} is closed under
@@ -580,34 +585,35 @@ $\mathcal{A}$ implying
   \label{prop:atanegation}
 \end{proposition}
 
-Concludingly, we want to examine the problem of deciding emptiness of tree 
-automata. Again, by the effective transformations between alternating and 
-non-alternating tree automata (Theorem \ref{thm:treesimulation}) it is 
-sufficient to examine one of those types. We opt for non-alternating tree 
-automata and discuss the reason for this after introducing a game to capture 
+Concludingly, we want to examine the problem of deciding emptiness of tree
+automata. Again, by the effective transformations between alternating and
+non-alternating tree automata (Theorem \ref{thm:treesimulation}) it is
+sufficient to examine one of those types. We opt for non-alternating tree
+automata and discuss the reason for this after introducing a game to capture
 the emptiness of tree automata. Formally, we prove
 \begin{theorem}
-  \cite[Theorem 21]{AutoInfObj}
+  \cite[Theorem 21]{AutoInfObj} \cite[Theorem 7.25]{AutoLogInfGames}
   The problem if the language of a given \ac{PTA}
   \begin{equation*}
     \mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
   \end{equation*}
-  is empty can be decided.
+  is empty can be decided in time in 
+  $\mathcal{O}(\size{\parity(Q)}^{\size{\parity(Q)}+2}\cdot\size{E})$.
 \end{theorem}
 \begin{proof}
   The proof we adapt here follows 
   \cite[Proof of Theorem 23]{ParityGamesPosDet}. The idea is to formulate the
   emptiness problem as a graph game. This game is similar to the one from
   Definition \ref{def:treemembershipgame}, but instead of choosing a transition
-  for the corresponding letter in a tree \automaton{} is free to choose any
+  for the corresponding letter in a tree \eve{} is free to choose any
   transition (and therefore implicitly a letter). We define
   \begin{definition}[Emptiness Game]
-    \automaton{} chooses transitions depending on the current state, while
-    \pathfinder{} chooses the direction of a transition is explored. Therefore
+    \eve{} chooses transitions depending on the current state, while
+    \adam{} chooses the direction of a transition. Therefore
     we define the emptiness game by the following notions.
     \begin{description}
-      \item [Arena] \automaton{} is assigned the states $Q = V_{0} $ of 
-        $\mathcal{M}$, while \pathfinder{} operates on the transitions 
+      \item [Arena] \eve{} is assigned the states $Q = V_{0}$ of 
+        $\mathcal{M}$, while \adam{} operates on the transitions 
         $\Delta = V_{1}$ of $\mathcal{M}$. The edges correlate to the choices
         both players make, i.e. $E = E_{0}\cup E_{1}$ with
         \begin{equation*}
@@ -623,12 +629,13 @@ the emptiness of tree automata. Formally, we prove
         \end{equation*}
         We obtain with $V = V_{0}\cup V_{1}$ an arena 
         $\tuple{V, V_{0}, V_{1}, E}$.
-      \item [Winning Condition] \automaton wins the game if the explored path
-        is accepted in terms of $\parity$, hence we define
+      \item [Winning Condition] \eve{} wins the game if the explored state 
+        sequence is accepted in terms of $\parity$, hence we define for any
+        $\bot < \min\set{\parity(q):q\in Q}$
         \begin{equation*}
           \parity'(\Gamma) = \begin{cases}
-            \parity(q)        &\text{if }\Gamma = q\in Q,\\
-            \min\parity(Q) - 1&\text{otherwise}.
+            \parity(q) &\text{if }\Gamma = q\in Q,\\
+            \bot       &\text{otherwise}.
           \end{cases}
         \end{equation*}
     \end{description}
@@ -638,18 +645,19 @@ the emptiness of tree automata. Formally, we prove
   \end{definition}
   Initially, we observe that for any play 
   $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ we obtain by definition of $\parity'$
-  that $\max\parity\Inf(q_{0}q_{1}q_{2}\dots) = 
-    \max\parity'\Inf(q_{0}\delta_{0}q_{1}\delta_{1}\dots)$. The central 
-  insight for the emptiness game is formulated in
+  that $\max\set{\parity(q):q\in\Inf(q_{0}q_{1}q_{2}\dots)} = 
+  \max\set{\parity'(\Gamma):\Gamma\in\Inf(
+  q_{0}\delta_{0}q_{1}\delta_{1}\dots)}$. The central insight for the emptiness 
+  game is formulated in
   \begin{lemma}
-    \automaton{} has a winning strategy in $\mathcal{G}$ as defined above
+    \eve{} has a winning strategy in $\mathcal{G}$ as defined above
     if and only if the language of $\mathcal{M}$ is not empty.
   \end{lemma}
   \begin{proof}
-    Consider a winning strategy $f:V^{*}Q\rightarrow\Delta$ for \automaton{},
-    and an arbitrary riposte $g:V^{*}\Delta\rightarrow Q$ for \pathfinder{}. By
+    Consider a winning strategy $f:V^{*}Q\rightarrow\Delta$ for \eve{},
+    and an arbitrary riposte $g:V^{*}\Delta\rightarrow Q$ for \adam{}. By
     the definition of $E_{1}$ we may equivalently define the strategy of 
-    \pathfinder{} in terms of $g:V^{*}\Delta\rightarrow D$. In this form, we 
+    \adam{} in terms of $g:V^{*}\Delta\rightarrow D$. In this form, we 
     obtain for $f$ an associated tree $t_{f}:D^{*}\rightarrow\Sigma$ by
     considering for any $u_{0}\dots u_{n}\in D^{*}$ the play 
     $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ which is consistent with $f$ and the
@@ -659,33 +667,34 @@ the emptiness of tree automata. Formally, we prove
     $f(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} 
       = \tuple{q_{n}, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta$. By the 
     construction of $t$ we see that the choices of $f$ immediately describes a 
-    possible run $r$ on $t$. Since $f$ is winning all paths \pathfinder{} can
-    describe are won by \automaton{} (accepted under $\parity'$) and therefore 
+    possible run $r$ on $t$. Since $f$ is winning all paths \adam{} can
+    describe are won by \eve{} (accepted under $\parity'$) and therefore 
     all paths of $r$ are accepting in terms of $\parity$, rendering $r$ an
     accepting run for $t$ of $\mathcal{M}$.
 
     If we have on the other hand, an accepted tree $t$ of $\mathcal{M}$ with
-    a corresponding run $r$ then \automaton{} simply plays $r$, i.e. we define
-    $f_{r}$ with $f_{r}(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} = r(u)$ for 
-    the $u\in D^{*}$ that corresponds to the choices of \pathfinder{} which led 
+    a corresponding run $r$ then \eve{} simply plays $r$, i.e. we define
+    $f_{r}$ with $f_{r}(q_{1}\delta_{0}\dots q_{n}) = \delta_{n} = r(u)$ for 
+    the $u\in D^{*}$ that corresponds to the choices of \adam{} which led 
     to the play $q_{0}\delta_{0}\dots q_{n}$. Again, all paths in $r$ are 
     accepting in terms of $\parity$ rendering all plays consistent with $f_{r}$ 
     accepted in terms of $\parity'$. Hence, $f_{r}$ is a winning strategy.
   \end{proof}
   By Theorem \ref{thm:posdetparity} we even obtain a positional winning 
-  strategy for \automaton{} (if there is any winning strategy). This means that
+  strategy for \eve{} (if there is any winning strategy). This means that
   the structure of the obtained tree indeed is - to a certain degree - 
   simple\footnote{
     Theorem 23 in \cite{ParityGamesPosDet} calls such a tree $t$ \emph{regular} 
-    which means that the number of isomorphic subtrees in $t$ is finite.
-  } (in a similar sense as ultimatively periodic words for $\omega$-regular
-  languages are obtained from the emptiness test).
-  Moreover, it is possible to compute winning strategies for Parity-games which
-  yields the decision procedure for the emptiness problem of $\mathcal{M}$.
+    which means that the number of isomorphic subtrees in $t$ is finite. This
+    is similar to ultimatively periodic words for $\omega$-regular languages.
+  }. 
+  Moreover, it is possible to compute winning strategies for Parity-games in
+  the stated complexity which yields the decision procedure for the emptiness 
+  problem of $\mathcal{M}$.
 \end{proof}
 Note that we designed this emptiness game in terms of \ac{PTA} rather than 
-\ac{APTA}. This is due to the fact that the choices of \automaton{} must be 
-consistent with an underlying tree (cp. Example \ref{ex:pdaaspomdp}). We 
+\ac{APTA}. This is due to the fact that the choices of \eve{} must be 
+consistent with an underlying tree (cp. Example \ref{ex:pbaasmdp}). We 
 illustrate this problem in
 \begin{example}
   Consider an \ac{APTA}
@@ -701,9 +710,9 @@ illustrate this problem in
   rejecting). Hence, we add 
   \begin{equation*}
     \set{
-      \tuple{q_{\sigma}, \sigma, \delta_{\set{\tuple{q_{\sigma, d}}}}},
-      \tuple{q_{\sigma}, \overline{\sigma}, \delta_{\set{\tuple{\bot, 0}, 
-        \tuple{\bot, 1}}}}:\text{for all }\sigma\in\set{a,b}, d\in\set{0,1}
+      \tuple{q_{\sigma}, \sigma, \set{\tuple{q_{\sigma, d}}}},
+      \tuple{q_{\sigma}, \overline{\sigma}, \set{\tuple{\bot, 0}, 
+        \tuple{\bot, 1}}}:\text{for all }\sigma\in\set{a,b}, d\in\set{0,1}
     }
   \end{equation*}
   to $\Delta$ where $\overline{a} = b$ and $\overline{b} = a$. Initially, 
@@ -711,19 +720,24 @@ illustrate this problem in
   arbitrary choice) $0$, yielding
   \begin{equation*}
     \set{
-      \tuple{q_{0}, \sigma, \delta_{\set{\tuple{q_{a}, 0}, \tuple{q_{b}, 0}}}}:
+      \tuple{q_{0}, \sigma, \set{\tuple{q_{a}, 0}, \tuple{q_{b}, 0}}}:
         \text{for }\sigma\in\set{a, b}
       }
   \end{equation*}
   as part of $\Delta$. Naturally, there is \emph{no} possible accepted tree for 
-  $\mathcal{M}$ since $t(0)$ is either $a$ or $b$ but either choice yields one
+  $\mathcal{M}$ since $t(0)$ is either $a$ or $b$ but each choice leaves one
   unsatisfied state $q_{b}$ or $q_{a}$ respectively. On the other hand, if we
   naively translate the concept of the emptiness game (Definition 
-  \ref{def:treeemptinessgame}) \automaton{} still can win by constructing 
+  \ref{def:treeemptinessgame}) \eve{} still can win by constructing 
   different trees depending on the fact if $q_{a}$ or $q_{b}$ is chosen by 
-  \pathfinder{} in the intial step. For \acp{PBA} we addressed this problem 
-  with partial observability and we observe in the following the necessity of
-  this for alternating tree automata which incorporate a weighting for their 
-  paths.
+  \adam{} in the intial step. For \acp{PBA} we addressed this problem 
+  with partial observability (see Example \ref{ex:pbaaspomdp}). But for 
+  \acp{PBA} \eve{} only has one choice to make, namely one letter for the 
+  current position in the word. Here \eve{} is entitled to two choices: which
+  letter to choose and which transition to take for this letter and the current
+  state. This requires for a dedicated knowledge management for \eve{} because
+  it has to be enforced that \eve{} chooses letters consistent with a tree 
+  structure and notably independent from the current state while the choice
+  of the transition is highly dependent on the current state.
   \label{ex:alternatingtreeemptiness}
 \end{example}
