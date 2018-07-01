@@ -400,7 +400,7 @@ undecideable to find if there is any word positively accepted by $\mathcal{P}$
 as stated in
 \begin{theorem}
   \cite[Theorem 2]{DecProblemsForProbAuto}
-  The emptiness problem for \ac{PBA} is undecideable.
+  The emptiness problem for positively accepting \ac{PBA} is undecideable.
   \label{thm:emptinesspospba}
 \end{theorem}
 By Theorem \ref{thm:pbatopra} and Theorem \ref{thm:probautoequiv} we obtain
@@ -627,11 +627,11 @@ every point one transition with probability $1$ integrates the behaviour of
 
 \subsection{Markov Decision Processes}
 In the following we introduce \acp{MDP}, a model of interaction between a 
-probabilistic domain and an actor within this domain. In the following we call
-this actor \eve{} and treat her grammatically as female. The actions of \eve{}
-impact the behavior of the domain and depending on the behavior of the domain
-the actor may adapt her behavior. It shares significant structural similarities
-to \acp{PBA} but allows for a rather different interpretation. Nevertheless, we
+probabilistic domain and an actor within this domain. We call this actor \eve{} 
+and treat her grammatically as female. The actions of \eve{} impact the 
+behavior of the domain and depending on the behavior of the domain the actor 
+may adapt her behavior. It shares significant structural similarities to 
+\acp{PBA} but allows for a rather different interpretation. Nevertheless, we
 reuse various concepts from \acp{PBA} to define \acp{MDP}. The following 
 definitions follow \cite{RandAutoInfTrees}:
 \begin{definition}[Markov Decision Process]
@@ -644,83 +644,82 @@ definitions follow \cite{RandAutoInfTrees}:
   auxilliaries:
   \begin{description}
     \item [Plays] We consider all infinite sequences of states
-      that start in $s_{0}$ a valid play. All plays are gathered in
-      $\plays = \set{s_{0}\alpha:\alpha\in S^{\omega}} = \cyl(s_{0})$.
-    \item [Strategy] We define $\varphi:S^{*}\rightarrow A$ as strategy for
+      valid plays. All plays implicitly start in $s_{0}$ and are gathered in
+      $\plays = S^{\omega}$.
+    \item [Strategy] We define $f:S^{*}\rightarrow A$ as strategy for
       a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
       giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
-    \item [Initial Distribution] Occasionally, we substitute the initial state
-      $s_{0}$ with an initial probability distribution
-      $\iota_{0}:S\rightarrow[0,1]$ which allows the plays to start in any
-      $s\in S$ such that $\iota_{0}(s) > 0$.
   \end{description}
   \label{def:mdp}
 \end{definition}
-A strategy $\varphi$ for an \ac{MDP}
-$\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}}$ induces a
-probability measure $\mu_{\varphi}$ on the Borel-algebra $\mathcal{B}(S)$.
-Formally, we use the unique extension (in the sense of Theorem
-\ref{thm:measureext}) of the measure $\mu_{\varphi}$ from
+A strategy $f$ for an \ac{MDP} $\mathcal{M} = \tuple{S, A, 
+\tuple{\tau_{a}}_{a\in A}, s_{0}}$ induces a probability measure $\mu_{f}$ on 
+the Borel-algebra $\mathcal{B}(S)$. Formally, we use the unique extension (in 
+the sense of Theorem \ref{thm:measureext}) of the measure $\mu_{f}$ from
 \begin{equation*}
-  \mu_{\varphi}(\cyl(u_{0}\dots u_{n})) = \begin{cases}
-    \tau_{\varphi(\epsilon)}(u_{0}, u_{1})\prod_{1\leq i < n}
-      \tau_{\varphi(u_{1}\dots u_{i})}(u_{i}, u_{i+1})&\text{if }u_{0} =s_{0}\\
-      0&\text{otherwise}.
-  \end{cases}
+  \mu_{f}(\cyl(s_{1}\dots s_{n})) = \tau_{f(\epsilon)}(s_{0}, s_{1})
+    \prod_{1\leq i < n}\tau_{f(s_{1}\dots s_{i})}(s_{i}, s_{i+1}).
 \end{equation*}
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
-are induced by a word $\alpha = \alpha_{1}\alpha_{2}\dots\in\Sigma^{\omega}$
+are induced by a word $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$
 rather than a player. Any \ac{PBA} $\mathcal{P}$ can be interpreted as \ac{MDP}
 and for any $\alpha$ a corresponding strategy
-$\varphi_{\alpha}:Q^{+}\rightarrow\Sigma$ with
+$\varphi_{\alpha}:Q^{*}\rightarrow\Sigma$ with
 $\varphi_{\alpha}(w) = \alpha_{\size{w}}$ can be defined. On the other hand, do
-strategies for \acp{MDP} allow for an interaction between the player and the
-environment, thus the player might react differently considering which state
-she stays in, e.g.
+strategies for \acp{MDP} allow for an interaction between \eve{} and the
+environment, thus \eve{} might react differently considering which state she 
+currently stays in, e.g.
 \begin{example}
   We interpret the \ac{PBA} pictured in Figure \ref{fig:posacceptingpba} as
-  \ac{MDP} $\mathcal{M}$. Furthermore, we challenge the player with the task to
-  visit states in $F$ infinitely often. The player trivially has a strategy 
-  that allows him to satisfy this task by
+  \ac{MDP} $\mathcal{M}$. Furthermore, we challenge \eve{} with the task to
+  visit states in $F$ infinitely often. She trivially has a strategy $f$
+  that allows her to satisfy this task. Initially, she starts in $q_{0}$ and 
+  therefore plays $f(\epsilon) = a$ and in the resulting plays she uses
   \begin{equation*}
-    \varphi(p_{1}\dots p_{n}) = \begin{cases}
+    f(p_{1}\dots p_{n}) = \begin{cases}
       b&\text{if }p_{n} = q_{1},\\
       a&\text{if }p_{n} = q_{0}.
     \end{cases}
   \end{equation*}
-  The player is not restricted as words are to be \enquote{consistent} 
+  \eve{} is not restricted (as words are) to be \enquote{consistent} 
   regarding the length of the play. A word has exactly one letter at each 
-  position while a player may provide different actions (or letters) after
+  position while \eve{} may provide different actions (or letters) after
   the same length of the play depending on the state she currently resides in
-  (or even the current history of the play).
+  (or even the current history of the play). \eve{}'s strategy can therefore be
+  encoded as a tree where the root is her initial move and moving down edges 
+  which are labelled with her observations leads to nodes which contain her 
+  decisions regarding that partial play.
   \label{ex:pbaasmdp}
 \end{example}
-This freedom of the player can be restricted again. Therefore, we define in the
-following \acp{POMDP}. A \ac{POMDP} is a \ac{MDP} $\mathcal{M}$ with an 
-associated equivalence relation $\sim$. The equivalence relation models a 
-restriction of the player to observe the state of $\mathcal{M}$. For every
-$s\in S_{\mathcal{M}}$ we define
-$[s]_{\sim} = \set{r\in S\mid \sim(r,s)}$ and
-$S_{\mathcal{M}}/_{\sim}$ as set of all these equivalence classes. A
+We want to examine \eve{}'s behavior given she does not observe the precise 
+state of the game, but only some information. Conceptually, we color the state
+of the game and only reveal to \eve{} the color of the current state but not 
+the precise state. This leads to the following definition of \acp{POMDP}. A 
+\ac{POMDP} is a \ac{MDP} $\mathcal{M}$ with an associated equivalence relation 
+$\sim$ which relates equally colored states. Hence, the equivalence relation 
+models the restriction of \eve{} to observe the state of $\mathcal{M}$. For 
+every $s\in S_{\mathcal{M}}$ we define its color by its equivalence class 
+regarding $\sim$: $[s]_{\sim} = \set{r\in S\mid r \sim s}$ and
+$\interval{S}_{\sim}$ as set of all these equivalence classes. A
 strategy for a \ac{POMDP} $\tuple{\mathcal{M}, \sim}$ is defined as
-$\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
+$f:(\interval{S}_{\sim})^{*}\rightarrow A$.
 \begin{example}
   Again, consider a \ac{PBA} $\mathcal{P}$ and interpret it as an \ac{MDP}
   $\mathcal{M}$ we observed that every word $\alpha$ induces a corresponding
-  strategy $\varphi_{\alpha}$. But not every strategy induces a word because
+  strategy $f_{\alpha}$. But not every strategy induces a word because
   strategies on $\mathcal{M}$ may choose depending on the state of the play
   different letters for plays of the same length which creates an inconsistency
   with respect to an - hypothetical - associated word (cp. Example 
   \ref{ex:pbaasmdp}). We add to $\mathcal{M}$ an equivalence relation
-  $\sim = S_{\mathcal{M}} \times S_{\mathcal{M}}$ (as suggested in
-  \cite{DecProblemsForProbAuto}), hence there is exactly one equivalence class.
-  Firstly, we observe that $\varphi_{\alpha}$ is still a valid strategy for the
+  $\sim = S \times S$ (as suggested in \cite{DecProblemsForProbAuto}), hence 
+  there is exactly one equivalence class.
+  Firstly, we observe that $f_{\alpha}$ is still a valid strategy for the
   resulting \ac{POMDP} $\mathcal{N} = \tuple{\mathcal{M}, \sim}$. Secondly,
   since there is exactly one equivalence class every strategy for $\mathcal{N}$
   observes at any time only the length of the history. Hence we can provide an
-  equivalent strategy of the form $\varphi:\mathbb{N}\rightarrow \Sigma$. This
+  equivalent strategy of the form $f:\mathbb{N}\rightarrow \Sigma$. This
   in turn means that every strategy in $\mathcal{N}$ induces a word in
-  $\Sigma^{\omega}$ of the form $\varphi(0)\varphi(1)\dots$. Furthermore, the
+  $\Sigma^{\omega}$ of the form $f(0)f(1)\dots$. Furthermore, the
   measure of one strategy and an associated word coincide, i.e. the language of
   $\mathcal{P}$ can be understood as strategy space for $\mathcal{N}$ and vice
   versa. This illustrates an idea which is used to define emptiness games for
@@ -730,10 +729,11 @@ $\varphi:(S_{\mathcal{M}}/_{\sim})^{+}\rightarrow A_{\mathcal{M}}$.
 The definitions of \acp{MDP} and \acp{POMDP} are for now probabilistic 
 transition systems and strategies induce a behavior of such a transition 
 system. To model goals or task for the player to satisfy we again use 
-Büchi-, Rabin-, Parity- and Muller-conditions. We can then ask if a player has
-a strategy to positively or almost-surely satisfy the associated condition in
-an \ac{MDP} or \ac{POMDP}. The equality described in Example 
-\ref{ex:pbaaspomdp} directly induces some undecideability results, namely
+Büchi-, Rabin-, Parity- and Muller-conditions (cp. Example \ref{ex:pbaasmdp}). 
+We can then ask if \eve{} has a strategy to positively or almost-surely satisfy 
+the associated condition in an \ac{MDP} or \ac{POMDP}. The equality described 
+in Example \ref{ex:pbaaspomdp} directly induces some undecideability results, 
+namely
 \begin{corollary}
   \cite[Corollary 3 (a)]{DecProblemsForProbAuto}
   \cite[Theorem 5]{QualAnaPOMDP}
@@ -750,22 +750,20 @@ an \ac{MDP} or \ac{POMDP}. The equality described in Example
   \ref{thm:emptinesspospba}. Furthermore, it is easy to express 
   Büchi-conditions as Parity-, Rabin- or Muller-conditions, rendering the 
   positive acceptance of these conditions in \ac{POMDP} at least as difficult
-  as for Büchi-conditions. 
-  
-  By Theorem \ref{thm:pbatopra} and Theorem \ref{thm:probautoequiv} there is 
-  for any \ac{PBA} an equivalent \ac{PRA}, \ac{PPA} and \ac{PMA} which 
-  almost-surely accepts the same language. Hence again computing a strategy for 
-  the almost-sure satisfaction of Rabin-, Parity- or Muller-conditions for 
-  \acp{POMDP} solves the undecideable emptiness problem for \acp{PBA} with 
-  positive acceptance.
+  as for Büchi-conditions. The same argument holds for almost-sure acceptance
+  of Rabin-, Muller- or Parity-conditions with respect to Corollary 
+  \ref{cor:emptinessstrongalmostsureprob}.
 \end{proof}
+
 On the other hand, there are some positive results regarding computation of 
 strategies for \acp{MDP} and for almost-sure satisfaction of Büchi-conditions
 in \acp{POMDP}:
 \begin{theorem}
   \cite[Theorem 5]{QualAnaPOMDP}
   It is possible to compute a strategy for a \ac{POMDP} that almost-surely
-  satisfies an associated Büchi-condition. This strategy can be computed in
+  satisfies an associated Büchi-condition. 
+
+  This strategy can be computed in
   time exponential in the number of states of the \ac{POMDP} and in general
   cannot be computed in less time.
   \label{thm:pomdpstratsynthesis}
@@ -775,9 +773,13 @@ and
   \cite[Theorem 4.1.7.]{QuanStochParityGames}
   It is possible to compute a strategy for a \ac{MDP} that almost-surely
   satisfies an associated Büchi- or Parity-condition.
-  \label{thm:mdpstratsynthesis}
-\end{theorem} 
-Additionally to the close connection of \acp{POMDP} to probabilistic word 
-automata we make use of these models in the later course to define decision
-procedures for even more elaborate probabilistic automata.
 
+  This can be done in time polynomial in the number of states of the \ac{MDP}.
+  \label{thm:mdpstratsynthesis}
+\end{theorem}
+The problem of obtaining such strategies is explored in more detail in Chapter
+\ref{chapter:synthesis}. For now we are content with the existence of these 
+decision procedures. Additionally, note that Theorem 
+\ref{thm:pomdpstratsynthesis} induces a maximal complexity for deciding the 
+emptiness problem for almost-surely accepting \acp{PBA} (Theorem 
+\ref{thm:emptinessalmostsurepba}).

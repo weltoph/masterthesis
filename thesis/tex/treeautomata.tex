@@ -166,19 +166,12 @@ system.
 Formally, before transitions for tree automata are defined as tuples of the 
 form $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$. This specifically defines for
 every direction one single state to move along this direction. We introduce
-transitions of the form $\tuple{q,\sigma,\delta_{A}}$ where $\delta_{A}$ is a 
-characteristic function of a non-empty subset $A\subseteq D\times Q$ called a
-\emph{clause-function}, i.e.
-\begin{equation*}
-  \delta_{A}:D\times Q\rightarrow\set{0,1}\text{ with }
-  \delta_{A}(a) = \begin{cases}
-    1&\text{if }a\in A,\\
-    0&\text{if }a\notin A.
-  \end{cases}
-\end{equation*}
-Semantically, $\delta_{A}$ sends a copy of $q$ down the direction $d$ for every
-$\tuple{d,q}\in A$. This notion allows us to refine the tree automaton of 
-Example \ref{ex:treeexa}:
+transitions of the form $\tuple{q,\sigma,A}$ where $A$ is a non-empty subset of 
+$A\subseteq D\times Q$ called a \emph{clause}.
+
+Semantically, $A$ describes that a copy of $q$ is sent down the direction $d$ 
+for every $\tuple{d,q}\in A$. This notion allows us to refine the tree 
+automaton of Example \ref{ex:treeexa}:
 \begin{example}
   Recall $\mathcal{A}_{\exists a}$ from Example \ref{ex:treeexa} which
   determines if a tree contains an $a$ with 
@@ -197,15 +190,14 @@ Example \ref{ex:treeexa}:
     automata are equipped with the possibility to render a subtree accepted 
     regardless of its structure. We explicitly do not include this notion, but 
     it is easy to see that this would allow to equivalently define transitions
-    $\tuple{q_{a}, a, \delta_{\top}},\tuple{q_{a}, b, \delta_{\top}},
-    \tuple{q_{s}, a, \delta_{\top}}$ where $\delta_{\top}$ renders the subtree
-    accepted.
+    $\tuple{q_{a}, a, \delta_{\top}},\tuple{q_{a}, b, \top},
+    \tuple{q_{s}, a, \top}$ where $\top$ renders the subtree accepted.
   }
   by dropping the necessity to send a $q_{a}$ along the
-  path that is not chosen, thus including
+  path that is not chosen, thus obtaining
   \begin{equation*}
-    \tuple{q_{s}, b, \delta_{\set{\tuple{0, q_{s}}}}},
-    \tuple{q_{s}, b, \delta_{\set{\tuple{1, q_{s}}}}}.
+    \tuple{q_{s}, b, \set{\tuple{0, q_{s}}}},
+    \tuple{q_{s}, b, \set{\tuple{1, q_{s}}}}.
   \end{equation*}
 \end{example}
 We formally define similar to \cite{SynProbEnv}
@@ -217,33 +209,27 @@ We formally define similar to \cite{SynProbEnv}
     \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
   \end{equation*}
   The semantics of $\mathcal{A}$ is given by a run $r$ of $\mathcal{A}$ on a
-  $D$-ary $\Sigma$-tree $t$. Here $r$ is a $D\times Q$-ary $\nabla$-tree where 
-  $\nabla$ is the set of all clause-functions occuring in $\Delta$ with the 
-  following necessities:
+  $D$-ary $\Sigma$-tree $t$. Here $r$ is a $D\times Q$-ary $\set{0,1}$-tree 
+  with the following neccessities:
   \begin{enumerate}
-    \item $r(\epsilon) = \delta_{A}$ for 
-      $\tuple{q_{0}, t(\epsilon), \delta_{A}}\in\Delta$,
+    \item $r(\epsilon) = 1$,
     \item for every $u = \tuple{d_{1}, q_{1}}\dots\tuple{d_{n}, q_{n}}\in
-      \tuple{D\times Q}^{*}$ with $r(u) = \delta_{A}$ there exists
-      $\tuple{q_{n}, t(d_{1}\dots d_{n}), \delta_{A}}\in\Delta$.
+      \tuple{D\times Q}^{*}$ with $r(u) = 1$ there exists
+      $\tuple{q_{n}, t(d_{1}\dots d_{n}), A}\in\Delta$ such that
+      \begin{equation*}
+        r(u\tuple{d, q}) = 1\text{ if and only if }\tuple{d, q}\in A.
+      \end{equation*}
   \end{enumerate}
-  We consider such a run $r$ accepting if all paths that move along 
-  clause-functions are part of $\Acc$. Formally, we fix for any run $r$ the set 
-  of its \enquote{marked path} as
+  We consider such a run $r$ accepting if the $Q$-component of all paths that 
+  are consistently marked are part of $\Acc$. Formally, we fix for any run $r$ 
+  the set of its \enquote{marked path} as
   \begin{equation*}
-  M_{r} = \set{
-    \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
-    \tuple{D\times Q}^{\omega}\middle|
-    \begin{aligned}
-      &r(\tuple{d_{1}, q_{1}}\dots
-      \tuple{d_{i}, q_{i}})(d_{i+1}, q_{i+1}) = 1&\text{if }i>0\\
-      &r(\epsilon)(d_{1}, q_{1}) = 1&\text{if }i=0
-    \end{aligned}
-    }
+    M_{r} = \set{
+      \rho\in\tuple{D\times Q}^{\omega}\mid r(v) = 1\text{ for all finite }
+        v\sqsubseteq\rho
+    }.
   \end{equation*}
-  and for any $\mathcal{A}$ the set of accepted paths, i.e. those paths such 
-  that a projection on its state-component yields an element in $\Acc$. We 
-  define
+  The set of accepted paths is given by
   \begin{equation*}
     \Acc\interval{Q} = \set{
       \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
@@ -277,10 +263,10 @@ This result and the apparent observation that alternation does not weaken the
 formalism to accept trees allows to translate the closure properties stated in 
 Theorem \ref{thm:treeautoboolean} to alternating tree automata as well. Thus, 
 we obtain that there are effectively constructable transformations for the 
-union, intersection and complement of tree languages accepted by \ac{AMTA}. 
+union, intersection and complement of tree languages accepted by \acp{AMTA}. 
 Nevertheless, we want to present one construction for the closure under 
 intersection because it allows us to relate concepts of \acp{PBA} and of
-alternation.
+alternating tree automata.
 \begin{corollary}
   The class of languages of infinite trees that can be recognized by \acp{AMTA}
   is closed under intersection.
@@ -310,9 +296,9 @@ alternation.
   \begin{equation*}
     \Delta_{\cap} = \set{
       \tuple{q^{i},\sigma,\delta_{A\cup B}}:
-        \tuple{q_{0},\sigma,\delta_{A}}\in\Delta_{1}
+        \tuple{q_{0},\sigma,A}\in\Delta_{1}
       \text{ and }
-        \tuple{p_{0},\sigma,\delta_{B}}\in\Delta_{2}
+        \tuple{p_{0},\sigma,B}\in\Delta_{2}
       \text{ for every }
         \sigma\in\Sigma
     }.
@@ -320,8 +306,8 @@ alternation.
   Thus, we can construct from the resulting run $r$ in $\mathcal{A}_{\cap}$ two
   individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively, e.g.
   for $\mathcal{A}_{1}$ it is the run $r_{1}$ in the $Q$-part of the domain of 
-  $r$ while the initial transition in $r$ uses a $\delta_{A\cup B}$ where 
-  $r_{1}$ uses $\delta_{A}$.
+  $r$ while the initial transition in $r$ uses a $A\cup B$ where $r_{1}$ uses 
+  $A$.
 \end{proof}
 
 While considering the semantics of \acp{PBA} we used a notion of considering 
@@ -330,7 +316,7 @@ the concept of alternation as follows: we can regard any word
 $\alpha\in\Sigma^{\omega}$ as a $\set{0}$-ary $\Sigma$-tree $t_{\alpha}$. Then 
 one \ac{PBA} $\mathcal{P}$ induces a run in a tree-sense by unrolling the state
 sequences of $\mathcal{P}$ around the unary tree $t_{\alpha}$. Hereby, we can
-substitute the clause-functions which have a very absolute semantic (either a
+substitute clauses which have a very absolute semantic (either a
 path is taken or it is not) by a probability distribution. When we gather the
 individual probability distributions of $\mathcal{P}$, that is set 
 $\mathcal{G}$ of all functions of the form 
@@ -346,21 +332,11 @@ Figure \ref{fig:parallelruns} as illustration for the part of the union
 operator of the proof of Theorem \ref{thm:pbaboolalgebra} where the initial 
 separating dispatch is in every direction tuned down by a factor of 
 $\frac{1}{2}$. This intuition is later on re-visited and formally 
-substantiated. In the meantime we introduce the concept of \emph{graph games} 
-to obtain a transformation that constructs the \ac{AMTA} which accepts the 
-negation of the language of a given \ac{AMTA}.
-\fxfatal{find reference for quantor exchange}
-The inherent problem with intersection is the following discrepancy: for an 
-accepted tree there has to be one run such that all its paths are accepted 
-while for every non-accepted tree there is for every run one path that is 
-non-accepting; hence there is an exchange of quantifiers. The semantic of tree
-automata does conceptually rely on the former quantifier order, that is there
-is one run such that all its path are accepted. Therefore, we formulate the 
-acceptance of a tree in terms of a game between two players. One player 
-constructs the run to prove the existance of a valid run while the other play 
-chooses the path along the run to spoil the correctness by finding a 
-non-accepted path. Then we use game theoretic notions to obtain the necessary
-change in the order of quantifiers.
+substantiated. 
+
+In the meantime we introduce the concept of \emph{graph games} 
+to obtain a transformation that constructs the \ac{APTA} which accepts the 
+negation of the language of a given \ac{APTA}.
 
 \subsection{Graph Games}
 Tree automata are closely related to graph games, e.g.
@@ -371,9 +347,9 @@ begins in one node and unfolds by the choices of the players. The player to
 whom the current node $v$ belongs may choose the node $u$ the game proceeds to
 from the set of those nodes connected to $v$. By associating a winning
 condition for one player to the game we can call a game won by this player if
-the played state sequence belongs to her winning condition. In this thesis we
-consider zero-sum games, i.e. if the winning condition of one player is not met
-we consider the opponent victorious. This leads to the definition
+the played state sequence belongs to this winning condition. In the following 
+we focus on zero-sum games, i.e. if the winning condition of one player is not 
+met we consider the opponent victorious. This leads to the definition
 \begin{definition}[Graph Games]
   \begin{description}
     \item [Arena] Let $V$ be a set of nodes which is partioned into $V_{0}$ and
@@ -415,11 +391,14 @@ we consider the opponent victorious. This leads to the definition
       player $\sigma$ has a winning strategy in $\tuple{\mathcal{G}, v}$.
   \end{description}
   As we are already accustomed $\Acc$ is represented in finite ways by using
-  Büchi-, Rabin-, Muller- or Parity-conditions.
+  Büchi-, Rabin-, Muller- or Parity-conditions. In the following we call the 
+  player for whom the acceptance condition $\Acc$ is stated \eve{} (as for 
+  \acp{MDP}) and her opponent \adam{} (in the following we treat \adam{} 
+  grammatically as male).
 \end{definition}
-Given any game $\mathcal{G}$ the question arises that for every node $v$ one of
-the players can ensure her win by playing the correct strategy (regardless of
-the strategy her opponent chooses), i.e.
+Given any game $\mathcal{G}$ the question arises if for every node $v$ either
+\eve{} or \adam{} wins by playing the correct strategy (regardless of
+the strategy of the opponent), i.e. 
 $\mathcal{W}^{\mathcal{G}}_{0}\cup\mathcal{W}^{\mathcal{G}}_{1} = V$. We call
 a game with this property \emph{determined}. There is a fundamental result by
 Martin establishing determinacy for all Borel winning conditions for another 
@@ -433,12 +412,10 @@ that
   determined.
   \label{thm:boreldet}
 \end{theorem}
-This result allows for the aforementioned quantifier exchange since it allows
-to state that if for every strategy of one player the opponent has a winning
-riposte, i.e. the position is \emph{not} in the player's winning region then it
-is in the winning region of the opponent. Hence the opponent has one strategy
-to win against all of the player's strategies. Additionally, for 
-Parity-conditions we even obtain that the corresponding strategies are 
+This means that given for every strategy $f$ of \eve{} \adam{} has a strategy
+$g$ which induces a play not in $\Acc$ \adam{} can find \emph{one} strategy
+$g'$ which is winning against \emph{all} strategies $f'$ of \eve{}.
+For Parity-conditions we even obtain that the corresponding strategies are 
 positional, i.e.
 \begin{theorem}
   \cite[Theorem 6]{ParityGamesPosDet}
@@ -449,12 +426,11 @@ positional, i.e.
 \end{theorem}
 
 As mentioned above we use graph games to model the semantics of tree automata.
-Therefore, we define an acceptance game for an automaton and a tree, i.e. an 
-(infinite) graph game where player $0$ (called \automaton{}) constructs a run 
-of the automaton on the tree and player $1$ explores the tree and tries to find 
-a path which is not accepted (conveniently called \pathfinder{}). Formally, we 
-restrict ourselves to \ac{APTA} since they are sufficiently expressive and 
-define (cp. \cite{treeautosurvey,AltTreeAuto})
+Therefore, we define an acceptance game for an automaton and a tree. In this
+(infinite) graph game \eve{} constructs a run of the automaton on the 
+tree and \adam{} explores this run and tries to find a path which is not 
+accepted. Formally, we restrict ourselves to \ac{APTA} since they are 
+sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
 \begin{definition}
   For a \ac{APTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
   and a $D$-ary $\Sigma$-tree $t:D^{*}\rightarrow\Sigma$ we define the graph 
@@ -462,32 +438,31 @@ define (cp. \cite{treeautosurvey,AltTreeAuto})
   \parity', \tuple{q_{0},\epsilon}}$ with
   \begin{description}
     \item [Arena] 
-      $V_{0} = Q\times D^{*},V_{1} = \nabla\times D^{*}$ where $\nabla$ is 
-      again the set of all clause-functions occuring in $\Delta$ and 
+      $V_{0} = Q\times D^{*}, V_{1} = \Pot(D\times Q)\times D^{*}$ and
       $V = V_{0}\cup V_{1}$,
-    \item [Edges] 
-      the movements of player $0$ are captured by
+    \item [Edges]
+      \eve{} chooses the taken transition which is captured by
       \begin{equation*}
         E_{0} = \set{
-          \tuple{\tuple{q, u},\tuple{\delta_{A}, u}}:\text{ for every }
-          q\in Q,u\in D^{*}\text{ and }\tuple{q, t(u), \delta_{A}}\in\Delta
-        }
-      \end{equation*}
-      and for player $1$ by
-      \begin{equation*}
-        E_{1} = \set{
-          \tuple{\tuple{\delta_{A}, u}, \tuple{q, u\cdot d}}:\text{ for every }
-          \delta_{A}\in\nabla, u\in D^{*}\text{ and }\tuple{q,d}\in A
+          \tuple{\tuple{q, u},\tuple{A, u}}:\text{for all }
+          q\in Q,u\in D^{*}\text{ and }\tuple{q, t(u), A}\in\Delta
         }.
       \end{equation*}
-      Naturally, we set $E = E_{0}\cup E_{1}$,
+      \adam{} on the other hand chooses which element in $A$ is taken, i.e.
+      \begin{equation*}
+        E_{1} = \set{
+          \tuple{\tuple{A, u}, \tuple{q, u\cdot d}}:\text{ for all }
+          A\in\Pot(D\times Q), u\in D^{*}\text{ and }\tuple{q,d}\in A
+        }.
+      \end{equation*}
+      Naturally, we set $E = E_{0}\cup E_{1}$.
     \item [Winning Condition]
       the associated winning condition is the projection of the old 
       condition to the state component for nodes in $V_{0}$, i.e.
       \begin{equation*}
-        \parity'(\tuple{q, u}) = \parity(q),
+        \parity'(\tuple{q, u}) = \parity(q).
       \end{equation*}
-      and nodes in $V_{1}$ should not impact the evaluation of a game directly, 
+      Nodes in $V_{1}$ should not impact the evaluation of a game directly, 
       therefore we set their parities lower than all parities used in 
       $\mathcal{A}$:
       \begin{equation*}
@@ -518,121 +493,99 @@ An illustration of such a game can be found in Figure
   \end{center}
 \end{drawing}
 
-The central insight for this game is the 
-following lemma which connects the acceptance of $\mathcal{A}$ of $t$ with the
-strategies of player $0$ in $\mathcal{G}(\mathcal{A}, t)$.
+The central insight for this game is the following lemma which connects the 
+acceptance of $\mathcal{A}$ of $t$ with the strategies of \eve{} in 
+$\mathcal{G}(\mathcal{A}, t)$.
 \begin{lemma}
   \cite[Lemma 3.1.]{AltTreeAuto}
-  The automaton $\mathcal{A}$ accepts $t$ if and onlay if player $0$ has a 
+  The automaton $\mathcal{A}$ accepts $t$ if and only if \eve{} has a 
   winning strategy in the game $\mathcal{G}(\mathcal{A}, t)$.
   \label{lem:stratacceptance}
 \end{lemma}
 In the following we present one proof for this lemma which reveals the 
 central idea behind the construction of a dual automata for a given \ac{APTA}.
 \begin{proof}
-  We can connect strategies $f_{0}$ for player $0$ with runs $r$ of the 
-  automaton $\mathcal{A}$ on $t$ directly by stating
-  \begin{equation*}
-    f_{0}(\tuple{q_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\dots
-    \tuple{\delta_{A_{n}}, u_{1}\dots u_{n-1}}\tuple{q_{n},u_{1}\dots u_{n}}) =
-    \tuple{\delta_{A_{n}},u_{1}\dots u_{n}}
-  \end{equation*}
-  if and only if 
-  \begin{equation*}
-    r(\tuple{q_{1}, u_{1}}\dots\tuple{q_{n}, u_{n}}) = \delta_{A_{n}}
-  \end{equation*}
-  and additionally $f_{0}(\tuple{q_{0},\epsilon}) =r(\epsilon)=\delta_{A_{0}}$. 
-  As mentioned before we consider player $1$ to choose a \emph{viable} path 
-  through the run and checking this path for its acceptance. Thus, given a 
-  strategy $f_{0}$ associated with a run $r$ we obtain for an additional 
-  riposte $f_{1}$ of player $1$ one element in $M_{r}$ and for one element in 
-  $M_{r}$ one strategy for player $1$. We fix pairs $f_{1}$ and $\alpha = 
-  \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in M_{r}$ such that
-  \begin{equation*}
-    f_{1}(\tuple{p_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\dots
-    \tuple{p_{n-1},u_{1}\dots u_{n-1}}\tuple{\delta_{A_{n}},u_{1}\dots u_{n-1}})
-    = \tuple{p_{n}, u_{1}\dots u_{n}}
-  \end{equation*}
-  if and only if 
-  \begin{equation*}
-    (u_{n} = d_{n}\text{ and }q_{n} = p_{n}).
-  \end{equation*}
-  Notably, the strategy $f_{1}$ also describes situations that may never occur
-  because of the choices of player $0$. Therefore the word $\alpha$ and $f_{1}$
-  are only connected on the paths that are viable due to the choices of both
-  players before. Nevertheless, the combination of two strategies $f_{0},f_{1}$ 
-  gives a play 
-  $\beta = \tuple{p_{0},\epsilon}\tuple{\delta_{A_{0}},\epsilon}\tuple{p_{1}, 
-  u_{1}}\dots\in V^{\omega}$ in $\mathcal{G}(\mathcal{A}, t)$. Additionally,
-  we obtain one associated pair of a run and one path through its domain, 
-  namely $r$ and $\alpha = \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in 
-  M_{r}$. By the choice of parities for states in $V_{1}$ and the connection 
-  between $f_{0}$ and $r$ and $f_{1}$ and $\alpha$ respectively we get that 
-  $\max\set{\parity(p_{i}):i>0} = \max\set{\parity(q_{i}):i>0}$. Hence,
-  $q_{0}q_{1}\dots\in\Acc(\parity')$ if and only if 
-  $p_{0}p_{1}\dots\in\Acc(\parity)$. For an accepting run $r$ we can then state
-  that the associated strategy $f_{0}$ for player $0$ is winning since every
-  possible riposte of player $1$ is associated with one element in $M_{r}$.
-  Every element in $M_{r}$ is accepted in the Parity-condition of $\mathcal{A}$
-  and therefore the resulting play in $\mathcal{G}(\mathcal{A}, t)$. On the 
-  other hand we can state that the associated run $r$ for a winning strategy 
-  $f_{0}$ of player $0$ indeed is accepted since all elements in $M_{r}$ are
-  checked by the strategies player $1$ may choose against $f_{0}$ (which all 
-  loose against the winning strategy $f_{0}$).
+  We can connect strategies $f$ for \eve{} with runs $r$ of the automaton 
+  $\mathcal{A}$ on $t$ directly. Initially, \eve{} starts in state 
+  $\tuple{q_{0}, \epsilon}$ and chooses an initial clause $A$ (by her movement
+  to $\tuple{A, \epsilon}$ which by definition of $E_{0}$ corresponds to a 
+  transition $\tuple{q_{0}, t(\epsilon), A}$. This $A$ can be used to define 
+  the first level of a run $r$ of $\mathcal{A}$ on $t$ by setting 
+  $r(\tuple{q,d}) = 1$ if and only if $\tuple{q,d}\in A$. \adam{} does now 
+  choose which element of $A$ to explore (by moving to $\tuple{q, d}$). This 
+  can be identified by \enquote{moving} to $r(q, d)$. Inductively, \eve{}'s 
+  choices correspond to chosen transitions in $r$ and \adam{} chooses the 
+  precise marked paths to explore. Any combination of strategies $f$ and $g$
+  for \eve{} and \adam{} respectively yields a play which corresponds to one 
+  path in $M_{r}$ for one run $r$ (especially $r$ is induced by $f$ and all
+  possible strategies of \adam{}). \eve{} wins if this chosen path satisfies
+  the Parity-condition on the $Q$-component (notably because the definition of
+  the Parity-condition $\mathcal{G}(\mathcal{A}, t)$ ignores nodes of $V_{1}$).
+  Considering a winning strategy $f$ for \eve{} any opposing strategy of 
+  \adam{} is loosing rendering all elements in the corresponding $M_{r}$ 
+  accepted. On the other hand, if there is no winning strategy $f$ for \eve{}
+  the induced run $r$ and the corresponding $M_{r}$ always contains at least 
+  one not accepted element (which corresponds to the choices \adam{} may take 
+  which lead to \eve{}'s loss).
 \end{proof}
 
-Notably, Theorem \ref{thm:boreldet}
-solves the aforementioned difficulty with exchanging quantifiers in the 
-semantic of tree automata since if there exists for every strategy of player 
-$0$ one successful riposte of player $1$ then player $1$ does have one strategy
-to beat all answers of player $0$. On this basis we can construct the dual 
-automaton by the following argument. With Lemma \ref{lem:stratacceptance} and 
-Theorem \ref{thm:boreldet} we can state that $\mathcal{A}$ does not 
-accept $t$ if and only if player $1$ has a winning strategy in 
-$\mathcal{G}(\mathcal{A},t)$. The idea is to encode this winning strategy in
-the transitions. Thus, given the game is in state $q$ and $t$ carries at the
-current position the letter $\sigma$ for every choice of player $0$,
-$\tuple{q,\sigma,\delta_{A_{1}}},\dots,\tuple{q,\sigma,\delta_{A_{n}}}$, player
-$1$ needs an answer. All these answers are encoded in 
+Notably, Theorem \ref{thm:boreldet} in combination with Lemma
+\ref{lem:stratacceptance} allows to state that $\mathcal{A}$ does not accept
+$t$ if and only if \adam{} has a winning strategy in
+$\mathcal{G}(\mathcal{A},t)$. Constructing a dual automaton to $\mathcal{A}$
+resolves around the idea to encode \adam{}'s strategies in the transitions 
+rather than \eve{}'s. Thus, given the game is in state $q$ and $t$ carries at 
+the current position the letter $\sigma$ \eve{} may choose according to any 
+transition of $\mathcal{A}$ for this situation, namely 
+$\tuple{q,\sigma,A_{1}},\dots,\tuple{q,\sigma,A_{n}}$. 
+\adam{}'s strategy needs to state for every choice of \eve{} one element in the 
+chosen $A_{i}$ for $1\leq i\leq n$ such that he wins the corresponding play. We
+construct \adam{}'s choices as
 \begin{equation*}
-  \Delta_{1} = \set{
-    \tuple{q,\sigma, \delta_{B}}:B = \set{
-      \tuple{p_{1}, d_{1}}\dots\tuple{p_{n},d_{n}}:\tuple{p_{i}, d_{i}}\in 
-        A_{i} \text{ for }1\leq i\leq n
+  R_{q,\sigma} = \set{
+    \set{
+      \tuple{d_{1}, q_{1}},\dots,\tuple{d_{n},q_{n}}\mid
+      \tuple{d_{i}, q_{i}}\in A_{i}\text{ for }1\leq i\leq n
     }
   }.
 \end{equation*}
-Therefore, a run $r$ on $t$ of these transitions explores all possible 
-strategies of player $0$ and the answers of player $1$. Assuming player $1$ 
-does have a winning strategy all the paths in the run are not accepted. In the 
-inversed acceptance condition (again obtained by adding one to every parity), 
-we get that $r$ is accepted if and only if player $1$ has a winning strategy
-in $\mathcal{G}(\mathcal{A}, t)$ which happens if and only if $t$ is not 
-accepted by $\mathcal{A}$. This renders, given
+We obtain for a set of transitions $\Delta$ the \enquote{inverse} $\nabla$ by
 \begin{equation*}
-  \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{0}, \parity},
+  \nabla = \set{
+    \tuple{q, \sigma, B}:q\in Q, \sigma\in\Sigma, B\in R_{q,\sigma}
+  }.
+\end{equation*}
+We use the transitions in $\nabla$ to effectively describe the game 
+$\mathcal{G}(\mathcal{A}, t)$ with exchanged roles of \eve{}
+and \adam{}. \adam{} pro-actively chooses his answers and \eve{} choice of one
+direction corresponds to an implicit choice of a transition, namely the one to 
+which \adam{} answers by this movement. Nevertheless the resulting games can be
+found as plays in $\mathcal{G}(\mathcal{A}, t)$. We construct for a given 
+\ac{APTA}
+\begin{equation*}
+  \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity},
 \end{equation*}
 the automaton
 \begin{equation*}
-  \mathcal{B} = (Q, q_{0}, D, \Sigma, 
-  \underbrace{\Delta_{1}}_{\text{strategy encoding transitions to }\Delta_{0}}, 
-  \parity + 1)
+  \mathcal{C} = (Q, q_{0}, D, \Sigma, \nabla, \parity + 1).
 \end{equation*}
-dual to $\mathcal{A}$ and closes the argument of closure under negation for
-\acp{APTA}. And by Theorem \ref{thm:treesimulation} this suffices to show the
-closure of all tree automata under negation.
+Assuming \adam{} does have a winning strategy in $\mathcal{G}(\mathcal{A}, t)$, 
+then \eve{}\footnote{Beware the role-exchange!} has a winning strategy in the 
+game $\mathcal{G}(\mathcal{C}, t)$ since $\parity + 1$ precisely inverts the
+set of accepted paths. Therefore $\mathcal{C}$ is the dual automaton to 
+$\mathcal{A}$ implying
 \begin{proposition}
-  Alternating tree automata (and therefore also tree automata) are closed under
-  negation.
+  The class of languages of trees accepted by \acp{APTA} is closed under
+  negation. This holds by Theorem \ref{thm:treesimulation} also for \acp{PTA}.
   \label{prop:atanegation}
 \end{proposition}
 
 Concludingly, we want to examine the problem of deciding emptiness of tree 
 automata. Again, by the effective transformations between alternating and 
-non-alternating tree automata (Theorem \ref{thm:simulation}) it is sufficient 
-to examine one of those types. We opt for non-alternating tree automata and 
-discuss the reason for this after introducing a game to capture the emptiness
-of tree automata. Formally, we prove
+non-alternating tree automata (Theorem \ref{thm:treesimulation}) it is 
+sufficient to examine one of those types. We opt for non-alternating tree 
+automata and discuss the reason for this after introducing a game to capture 
+the emptiness of tree automata. Formally, we prove
 \begin{theorem}
   \cite[Theorem 21]{AutoInfObj}
   The problem if the language of a given \ac{PTA}
