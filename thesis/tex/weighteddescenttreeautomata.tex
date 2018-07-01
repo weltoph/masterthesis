@@ -1574,8 +1574,8 @@ This directly entails
 The classes of languages accepted by \acp{WDTA} or non-weighted tree automata
 respectively are also incomparable:
 \begin{theorem}
-  The class of languages recognizable with \acp{WDTA} and the class of 
-  languages recognizable with \acp{PTA} are incomparable.
+  The class of languages recognizable with almost-sure accepting \acp{WDTA} and 
+  the class of languages recognizable with \acp{PTA} are incomparable.
 \end{theorem}
 \begin{proof}
   First, we observe that there is a language that is recognizable by a 
@@ -1596,4 +1596,53 @@ respectively are also incomparable:
     There is a language that is recognizable by a choiceless uniformly 
     distributed \ac{WDTA} but not by any \ac{PTA}.
   \end{lemma}
+
+  On the other hand, we consider the language $\mathcal{L}$ of trees over 
+  directions $\set{0,1}$ and the alphabet $\set{a, b}$ such that every path 
+  contains an $a$. This language can be accepted by a \ac{BTA} with two 
+  states $q_{a}, q_{b}$. Starting in $q_{b}$ it sends down $q_{b}$ states in 
+  all directions if a $b$ is read. If an $a$ is read $q_{b}$ transform to the 
+  sink state $q_{a}$ which is also the accepting state. Hence, if all paths 
+  contain an $a$ eventually all $q_{b}$ transform and the run is accepted. If 
+  there is a path that does not contain an $a$ then on this path only $q_{b}$ 
+  are reproduced in the run rendering it not accepted.
+ 
+  We claim that this language cannot be accepted by a \ac{WDTA} by the 
+  following argument: For the sake of provoking a contradiction assume there is 
+  a \ac{WDTA} $\mathcal{A}$ with associated Parity-condition $\parity$ 
+  almost-surely accepting this language. We introduce the notion of
+  \emph{configurations} $C\subseteq Q$. We call $C$ the configuration
+  of $u = d_{1}\dots d_{n}\in D^{*}$ in a run $r$ if for all 
+  $q_{1},\dots, q_{n}\in Q^{n}$ holds $q_{n}\in C$ if and 
+  only if $\mu_{r}(\cyl(\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})) > 0$.
+  W.l.o.g. we can assume that $\mathcal{A}$ only reaches non-empty 
+  configurations $C = \set{q_{1}, \dots, q_{n}}$ such that there is a tree $t$
+  on which $\mathcal{A}$ may produce an almost-surely accepting run $r$ if 
+  $q_{i}$ is the initial state (for all $1\leq i\leq n$). This is rooted in the
+  fact that every partial tree can be extended such that it is part of 
+  $\mathcal{L}$. It is therefore not possible that every run of $\mathcal{A}$ 
+  produces after finitely many steps configurations that are \enquote{dead} (in
+  the sense of the impossibility to accept anymore). Hence we consider only 
+  those runs such that every reachable configuration can be completed to be 
+  almost-surely accepting. For every $u = d_{1}\dots d_{n}\in D^{*}$ we introduce 
+  the notion of weight in a run $r$
+  \begin{equation*}
+    w_{r}(d_{1}\dots d_{n}) = \sum_{q_{1}\dots q_{n}\in Q^{n}}\mu_{r}(\cyl(
+      \tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})).
+  \end{equation*}
+  We argue that for the tree $t_{b}$ which only contains $b$ any run $r$ of
+  $\mathcal{A}$ must satisfy $w_{r}(u) > 0$ for all $u\in D^{*}$. If this is
+  not the case the subtree rooted at $u$ is not longer explored, producing for 
+  all other $v\in D^{\size{u}}\setminus\set{u}$ starting in $v$ a subtree such 
+  that the configuration in $v$ produces an almost-surely accepting run but 
+  keeping up to $u$ and the subtree of $u$ $a$-free yields an almost-surely 
+  accepting run on a tree which is not part of $\mathcal{L}$. On the other 
+  hand, there has to be increasing sequence $u_{0}\sqsubseteq u_{1}\sqsubseteq 
+  u_{2}\sqsubseteq\dots$ such that $\tuple{w_{r}(u_{i})}_{i > 0}$ converges to
+  $0$. Keeping for this path only $b$ but choosing for all other subtrees trees
+  which render the corresponding configurations almost-surely accepting also 
+  yields an almost-accepting run since the run along these $u_{i}$ (for 
+  increasing $i$ is negligeable) for a tree which is not part of $\mathcal{L}$. 
+  Concludingly, we obtain that $\mathcal{L}$ cannot be accepted by any 
+  \ac{WDTA}.
 \end{proof}
