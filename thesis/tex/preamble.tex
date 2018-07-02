@@ -3,6 +3,9 @@
 
 \usepackage[toc]{appendix}
 
+% \usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+
 % header/footer
 \usepackage{fancyhdr}
 
@@ -284,7 +287,8 @@
 % captions:
 \usepackage{caption}
 \captionsetup{labelfont=bf}
-\captionsetup{labelsep=period}
+\captionsetup{labelsep=space}
+
 
 % bibliography
 \usepackage[style=alphabetic,backend=biber]{biblatex}

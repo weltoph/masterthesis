@@ -1,8 +1,8 @@
 \begin{tikzpicture}[node distance = 3]
-  \node [state] (q2i)                            {$q_{2}^{i}$};
-  \node [state, right = of q2i] (q1i)            {$q_{1}^{i}$};
-  \node [state, below = of q2i, accepting] (q3i) {$q_{3}^{i}$};
-  \node [state] (q0i) at (q3i-|q1i)              {$q_{0}^{i}$};
+  \node [state, fill = red!50] (q2i)                            {$q_{2}^{i}$};
+  \node [state, right = of q2i,fill = blue!50] (q1i)            {$q_{1}^{i}$};
+  \node [state, below = of q2i, accepting, fill = green!50] (q3i) {$q_{3}^{i}$};
+  \node [state, fill = purple!50] (q0i) at (q3i-|q1i)              {$q_{0}^{i}$};
 
   \node [state, initial right, right = 1.5 of q0i] (q0) {$q_{0}$};
 

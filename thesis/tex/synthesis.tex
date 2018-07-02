@@ -248,8 +248,9 @@ $\mathcal{P}$. We obtain
   \end{definition}
   Central to this proof is the observation that regarding the observations of
   \eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game.
-  Setting $S = I\times Q\times J$ we observe by definition of $\sim$ we can 
-  partition $S$ into $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
+  Setting $S = I\times Q\times J$ we observe by definition of $\sim$ that we 
+  can partition $S$ into 
+  $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
   where $\interval{\tuple{i, *, o}}_{\sim}$ describes the equivalence class
   $\set{\tuple{i, q, o}:q\in Q}$. By definition of all $\tau_{j,i}$ we obtain
   $\supp(\tau_{j,i}(s, \cdot))\subseteq\interval{\tuple{i,*,j}}_{\sim}$. Hence,
@@ -257,10 +258,10 @@ $\mathcal{P}$. We obtain
   $f:\tuple{I\times J}^{*}\rightarrow J$ 
   ($g:\tuple{I\times J}^{*}\rightarrow I$). The only stochastic process in this
   game is associated with the state component which is observed neither by 
-  \eve{} nor by \adam{}. By this observation we deduce that any pair of 
+  \eve{} nor by \adam{}. This allows us to deduce that any pair of 
   strategies $f$ and $g$ for \eve{} and \adam{} respectively induce one unique
   word $\alpha_{f}^{g}\in\tuple{I\times J}^{\omega}$. Moreover, we can consider
-  a sub-algebra of $\mathcal{B}(I\times Q\times J)$ which is induced by 
+  a subset of $\mathcal{B}(I\times Q\times J)$ which is induced by 
   $\alpha_{f}^{g} = \tuple{i_{1}, j_{1}}\tuple{i_{2}, j_{2}}\dots$. Namely, we 
   define two sets
   \begin{align*}
@@ -277,11 +278,10 @@ $\mathcal{P}$. We obtain
       }
     }\cyl(\tuple{u_{1}, p_{1}, j_{1}}\dots\tuple{u_{k}, p_{k}, j_{k}}).
   \end{align*}
-  By definition $F$ and $G$ are measurable and those sets in
-  $\mathcal{B}(I\times Q\times J)$ such that the $J$-component respectively the
-  $I$-component agrees with $\alpha_{f}^{g}$. From these sets we obtain the 
-  sub-algebra $F\cap G$. By definition of $\tau_{i, j}$ for all $i\in I, 
-  j\in J$ we deduce that 
+  By definition $F$ and $G$ are those sets in $\mathcal{B}(I\times Q\times J)$ 
+  such that the $J$-component respectively the $I$-component agrees with 
+  $\alpha_{f}^{g}$. From these sets we obtain $F\cap G$.
+  By definition of $\tau_{i, j}$ for all $i\in I, j\in J$ we deduce that 
   \begin{equation*}
     \mu_{f,g}(C) = 0\text{ for all }
     C\in \mathcal{B}(I\times Q\times J)\setminus\tuple{F\cap G}
@@ -297,7 +297,14 @@ $\mathcal{P}$. We obtain
     \label{lem:fginpba}
   \end{lemma}
   \begin{proof}
-    We fix one $p_{1}\dots p_{n}\in Q^{*}$. Observing
+    First, we see that for every $p_{1}\dots p_{n}\in Q^{*}$ there are two 
+    unique sequences $i_{1}\dots i_{n}$ and $j_{1}\dots j_{n}$ such that
+    $\cyl(\tuple{i_{1}, q_{1}, j_{1}}\dots\tuple{i_{n}, q_{n}, j_{n}})\cap 
+    F\cap G$ coincides with 
+    $\cyl(p_{1}\dots p_{n})\times \alpha^{f}\times\alpha_{g}$ where 
+    $\alpha^{f}$ and $\alpha_{g}$ are the projection of $\alpha^{f}_{g}$ to the
+    $I$- and $J$-component respectively. Furthermore, we fix one 
+    $p_{1}\dots p_{n}\in Q^{*}$. Observing
     \begin{align*}
       \mu_{f, g}&(
         \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots\tuple{i_{n}, p_{n}, j_{n}})\\
@@ -339,8 +346,8 @@ $\mathcal{P}$. We obtain
     $g$ of \adam{} such that $\mu_{f,g}(\Acc(F)) < 1$ which analogously to the 
     reasoning above yields that $\mu_{\alpha_{f}^{g}}(\Acc(F')) < 1$ and 
     therefore the non-acceptance of $\alpha_{f}^{g}$ by $\mathcal{P}$. 
-    Therefore, \adam{} can generate an input-sequence $\beta$ such that \eve{}
-    generates the output-sequence $\gamma$ but 
+    This implies that \adam{} can generate an input-sequence $\beta$ such that 
+    \eve{} generates the output-sequence $\gamma$ but 
     $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to false.
   \end{proof}
 
@@ -384,7 +391,13 @@ shows desired behavior. We consider the following
     \ref{fig:synthesispba}. \adam{} and \eve{} only observe the layer they play
     in but never the $Q$-component. On the other hand, regarding the evaluation 
     every state with common $Q$-component is treated equally, hence the 
-    underlaying PBA only observes the colors.
+    underlaying PBA only observes the colors. The local storage of the states
+    of the underlying PBA are dismissed since the stored input value already 
+    uniquely identifies the \enquote{correct} state. Thus, technically we have
+    e.g. $q_{0}^{0}$ and $q_{0}^{0}$ but the choice of \adam{} $e$ only allows
+    movements to $q_{0}^{e}$, hence we dismissed unreachable states. Similarly,
+    we removed the unreachabe $(i, q_{0}, j)$ for the \emph{original} $q_{0}$ 
+    state (not for the $q_{0}^{0}, q_{0}^{1}$ states).
   }
   \label{fig:synthesispbagame}
   \begin{center}
@@ -498,10 +511,7 @@ $\omega$-regular $\phi$. Therefore we obtain
   one parity to store. Note the similarity to the proof of Proposition
   \ref{prop:atanegation} in formulating the desired winning strategy of one 
   player as actual choices which may use the non-determinism of the automaton 
-  while the enemy explores all possible moves. Also, we omit the precise 
-  definition of $\mathcal{A}_{\mathcal{P}}$ here since its rather involved 
-  technicalities do not translate well to the chosen formalism for alternating 
-  automata of this paper.
+  while the enemy explores all possible moves. 
 \end{proof}
 
 This allows us to solve the associated synthesis problem for $\omega$-regular
@@ -529,7 +539,7 @@ ComplexProbVerification})
   $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\varphi) = 1$.
 \end{definition}
 We already used results formulated for this question, namely Theorem 
-\ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mpdstratsynthesis}. Again,
+\ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis}. Again,
 we focus on $\omega$-regular $\phi$ (in this case $\phi$ is itself a language
 and is not translated to one). If we additional assume that 
 $\size{\interval{s}_{\sim}} = 1$ for all $s\in S$, i.e. $\mathcal{M}$ 
@@ -683,7 +693,7 @@ more involved.
     \end{equation*}
     is called a Markov-kernel if
     \begin{enumerate}
-      \item $K(\cdot, A)$ is measurable in $\mathcal{F_{1}}$ for all 
+      \item $K(\cdot, A)$ is measurable in $\mathcal{F}_{1}$ for all 
         $A\in\mathcal{F}_{2}$,
       \item $K(\omega, \cdot)$ is a probability measure on 
         $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every $\omega\in\Omega_{1}$.
