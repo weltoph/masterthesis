@@ -560,10 +560,13 @@ $\mathcal{G}(\mathcal{A}, t)$ with exchanged roles (in the sense of which
 \enquote{type} of moves are executed) of \eve{} and \adam{}. \adam{} 
 pro-actively chooses his answers (which is encoded as transition) and \eve{} 
 choice of one direction corresponds to an implicit choice of a transition, 
-namely the one to which \adam{} answers by this movement. Nevertheless the 
-resulting plays can be found as plays in $\mathcal{G}(\mathcal{A}, t)$ where
-\eve{} chooses a transition and \adam{} the corresponding answer. We construct 
-for a given 
+namely the one to which \adam{} answers by this movement. Considering any 
+transition in $\nabla$ we observe that for every possible choice of \eve{} 
+in parallel one answer of \adam{} is explored. This captures the usage of
+determinacy by exploring all of \adam{}'s option since a winning strategy 
+produces for all choices of \eve{} a winning play, hence choosing the set of 
+answers that are initial for winning plays allows to encode \adam{}'s winning
+strategy. We construct for a given 
 \ac{APTA}
 \begin{equation*}
   \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity},
@@ -598,7 +601,9 @@ the emptiness of tree automata. Formally, we prove
     \mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
   \end{equation*}
   is empty can be decided in time in 
-  $\mathcal{O}(\size{\parity(Q)}^{\size{\parity(Q)}+2}\cdot\size{E})$.
+  $\mathcal{O}(\size{\parity(Q)}\cdot\size{Q\times Q}\cdot\tuple{
+    \frac{\size{Q}}{d}}^{d})$ with 
+  $d = \lfloor \frac{\size{\parity(Q)}}{2} \rfloor$.
 \end{theorem}
 \begin{proof}
   The proof we adapt here follows 

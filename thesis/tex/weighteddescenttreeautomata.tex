@@ -387,7 +387,7 @@ To this example we additionally introduce
 Thus, the \enquote{local} probabilities are relevant for the global measure
 which is similar to \acp{PBA} (cp. Lemma \ref{lem:measureinpba}). But in both 
 arguments the examined models are deterministic in the choice of their 
-transitions. Naturally, this rises questions about the incluence to use 
+transitions. Naturally, this rises questions about the influence to use 
 non-determinism in probabilistic models. As we see later the inclusion of 
 non-determinism is a significant source of complexity of the model
 (cp. \cite[Remark 12]{RandAutoInfTrees}).
@@ -492,21 +492,21 @@ of $1$ to render the new run almost-surely accepted.
 \end{proof}
 \begin{corollary}
   The class of languages that can be recognized by choiceless \acp{WDTA} with
-  almost-sure (positive) acceptance is closed under intersection (union).  
+  almost-sure (positive) acceptance is closed under intersection (union).
 \end{corollary}
-Actually, this results hints at the duality between choiceless \acp{WDTA} with 
+Actually, this results hints at the duality between choiceless \acp{WDTA} with
 positive acceptance and almost-sure acceptance which is expressd in
 \begin{proposition}
   For every choiceless \acp{WDTA}-skeleton (which are the structural components
   but not an acceptance condition) 
   $\mathcal{S} = \tuple{Q, q_{0}, D, \Sigma, \Delta}$ the
-  \ac{WDTA} $\mathcal{A} = \tuple{\mathcal{S}, \parity}$ with positive 
-  (almost-sure) acceptance is dual to the \ac{WDTA} 
+  \ac{WDTA} $\mathcal{A} = \tuple{\mathcal{S}, \parity}$ with positive
+  (almost-sure) acceptance is dual to the \ac{WDTA}
   $\mathcal{C} = \tuple{\mathcal{S}, \parity + 1}$ with almost-sure (positive)
   acceptance.
 \end{proposition}
 \begin{proof}
-  We already argued in the proof of Theorem \ref{thm:omegaregboolean} that 
+  We already argued in the proof of Theorem \ref{thm:omegaregboolean} that
   increasing all parities by one exchanges accepting and non-accepting paths,
   therefore
   \begin{equation*}
@@ -515,8 +515,8 @@ positive acceptance and almost-sure acceptance which is expressd in
     \text{ with }
       \Acc\interval{Q}(\parity)\cap\Acc\interval{Q}(\parity + 1) = \emptyset.
   \end{equation*}
-  Hence, for the unique run $r_{t}$ of $\mathcal{S}$ on every $t$ we obtain 
-  that $\mu_{r_{t}}(\Acc\interval{Q}(\parity)) = 
+  Hence, for the unique run $r_{t}$ of $\mathcal{S}$ on every $t$ we obtain
+  that $\mu_{r_{t}}(\Acc\interval{Q}(\parity)) =
     1 - \mu_{r_{t}}(\Acc\interval{Q}(\parity + 1)$ and therefore we get that
   $\mathcal{A}$ accepts $t$ almost-surely (positively) if and only if
   $\mathcal{C}$ does not accept $t$ positively (almost-surely).
@@ -529,18 +529,17 @@ common product construction to yield an intersection operator.
   intersection.
 \end{proposition}
 
-
 \section{Modelling in \aclp{WDTA}}
 We want to motivate the introduction of \acp{WDTA} by showing their strength to
-model the behaviour of other probabilistic models. 
+model the behaviour of other probabilistic models.
 \subsection{Word Automata}
-Initially, we consider \acp{PBA}. By reducing the directions to a 
+Initially, we consider \acp{PBA}. By reducing the directions to a
 singelton set a tree degenerates to a single path. This path can be interpreted 
-as one word and the run of a \ac{PBA} on that word can be modelled as a run of 
+as one word and the run of a \ac{PBA} on that word can be modelled as a run of
 a \ac{WDTA}:
 \begin{theorem}
   For every \ac{PBA} $\mathcal{P}$ existent an equivalent choiceless \ac{WDTA}
-  $\mathcal{A}$ over a singleton direction set and Büchi-condition and for 
+  $\mathcal{A}$ over a singleton direction set and Büchi-condition and for
   every choiceless \ac{WDTA} $\mathcal{A}$ with a Büchi-condition and a
   singleton direction set exists an equivalent \ac{PBA}.
   \label{thm:pbaaswdta}
@@ -554,9 +553,9 @@ a \ac{WDTA}:
     }\text{ with }G_{q}^{\sigma}(p, 0) = \delta(q,\sigma,p).
   \end{equation*}
   By interpreting words $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$
-  as \enquote{trees} $t_{\alpha}:\set{0}^{*}\rightarrow\Sigma$ with 
-  $t(u) = \alpha_{\size{u}}$ allows us to state that for the unique run 
-  $r_{t_{\alpha}}$ of $\mathcal{A}$ on $t_{\alpha}$ and any 
+  as \enquote{trees} $t_{\alpha}:\set{0}^{*}\rightarrow\Sigma$ with
+  $t(u) = \alpha_{\size{u}}$ allows us to state that for the unique run
+  $r_{t_{\alpha}}$ of $\mathcal{A}$ on $t_{\alpha}$ and any
   $u = \tuple{q_{1}, 0}\dots\tuple{q_{n}, 0}\in\tuple{Q\times D}^{*}$
   \begin{align*}
     \mu_{r}(\cyl(u)) &= G_{q_{0}}^{t_{\alpha}(\epsilon)}(q_{1},0)\cdot
@@ -1569,80 +1568,4 @@ This directly entails
   hand $q_{0}$ is used to search for the occurence of $a$ by using Dirac 
   distributions in two transitions which sent $q_{0}$ either in direction $0$
   or $1$ and the non-determinism to decide which transition to take.
-\end{proof}
-
-The classes of languages accepted by \acp{WDTA} or non-weighted tree automata
-respectively are also incomparable:
-\begin{theorem}
-  The class of languages recognizable with almost-sure accepting \acp{WDTA} and 
-  the class of languages recognizable with \acp{PTA} are incomparable.
-\end{theorem}
-\begin{proof}
-  First, we observe that there is a language that is recognizable by a 
-  \ac{WDTA} while it is not recognizable by a \ac{PTA}. Consider the language
-  of trees over directions $\set{0,1}$ and the alphabet $\set{a,b}$ such that
-  under uniform weighting of all paths the set of paths that contain infinitely 
-  many $a$ has measure $1$. This language can be accepted by a choiceless
-  uniformly distributed \ac{WDTA} $\mathcal{A}$ with two states $q_{a}, q_{b}$, 
-  where the uniform distribution is defined by the blueprint 
-  $B(0) = B(1) = \frac{1}{2}$ and both states send down $q_{\sigma}$ in both
-  directions when they read $\sigma\in\set{a,b}$. The associated 
-  Büchi-condition $F = \set{q_{a}}$ ensures that $\mathcal{A}$ accepts 
-  precisely the correct language (cp. \cite[Example 7]{RandAutoInfTrees}). 
-  Moreover, it can be shown that there is no \ac{PTA} that accepts this 
-  language leading to
-  \begin{lemma}
-    \cite[Theorem 21]{RandAutoInfTrees}
-    There is a language that is recognizable by a choiceless uniformly 
-    distributed \ac{WDTA} but not by any \ac{PTA}.
-  \end{lemma}
-
-  On the other hand, we consider the language $\mathcal{L}$ of trees over 
-  directions $\set{0,1}$ and the alphabet $\set{a, b}$ such that every path 
-  contains an $a$. This language can be accepted by a \ac{BTA} with two 
-  states $q_{a}, q_{b}$. Starting in $q_{b}$ it sends down $q_{b}$ states in 
-  all directions if a $b$ is read. If an $a$ is read $q_{b}$ transform to the 
-  sink state $q_{a}$ which is also the accepting state. Hence, if all paths 
-  contain an $a$ eventually all $q_{b}$ transform and the run is accepted. If 
-  there is a path that does not contain an $a$ then on this path only $q_{b}$ 
-  are reproduced in the run rendering it not accepted.
- 
-  We claim that this language cannot be accepted by a \ac{WDTA} by the 
-  following argument: For the sake of provoking a contradiction assume there is 
-  a \ac{WDTA} $\mathcal{A}$ with associated Parity-condition $\parity$ 
-  almost-surely accepting this language. We introduce the notion of
-  \emph{configurations} $C\subseteq Q$. We call $C$ the configuration
-  of $u = d_{1}\dots d_{n}\in D^{*}$ in a run $r$ if for all 
-  $q_{1},\dots, q_{n}\in Q^{n}$ holds $q_{n}\in C$ if and 
-  only if $\mu_{r}(\cyl(\tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})) > 0$.
-  W.l.o.g. we can assume that $\mathcal{A}$ only reaches non-empty 
-  configurations $C = \set{q_{1}, \dots, q_{n}}$ such that there is a tree $t$
-  on which $\mathcal{A}$ may produce an almost-surely accepting run $r$ if 
-  $q_{i}$ is the initial state (for all $1\leq i\leq n$). This is rooted in the
-  fact that every partial tree can be extended such that it is part of 
-  $\mathcal{L}$. It is therefore not possible that every run of $\mathcal{A}$ 
-  produces after finitely many steps configurations that are \enquote{dead} (in
-  the sense of the impossibility to accept anymore). Hence we consider only 
-  those runs such that every reachable configuration can be completed to be 
-  almost-surely accepting. For every $u = d_{1}\dots d_{n}\in D^{*}$ we introduce 
-  the notion of weight in a run $r$
-  \begin{equation*}
-    w_{r}(d_{1}\dots d_{n}) = \sum_{q_{1}\dots q_{n}\in Q^{n}}\mu_{r}(\cyl(
-      \tuple{q_{1}, d_{1}}\dots\tuple{q_{n}, d_{n}})).
-  \end{equation*}
-  We argue that for the tree $t_{b}$ which only contains $b$ any run $r$ of
-  $\mathcal{A}$ must satisfy $w_{r}(u) > 0$ for all $u\in D^{*}$. If this is
-  not the case the subtree rooted at $u$ is not longer explored, producing for 
-  all other $v\in D^{\size{u}}\setminus\set{u}$ starting in $v$ a subtree such 
-  that the configuration in $v$ produces an almost-surely accepting run but 
-  keeping up to $u$ and the subtree of $u$ $a$-free yields an almost-surely 
-  accepting run on a tree which is not part of $\mathcal{L}$. On the other 
-  hand, there has to be increasing sequence $u_{0}\sqsubseteq u_{1}\sqsubseteq 
-  u_{2}\sqsubseteq\dots$ such that $\tuple{w_{r}(u_{i})}_{i > 0}$ converges to
-  $0$. Keeping for this path only $b$ but choosing for all other subtrees trees
-  which render the corresponding configurations almost-surely accepting also 
-  yields an almost-accepting run since the run along these $u_{i}$ (for 
-  increasing $i$ is negligeable) for a tree which is not part of $\mathcal{L}$. 
-  Concludingly, we obtain that $\mathcal{L}$ cannot be accepted by any 
-  \ac{WDTA}.
 \end{proof}

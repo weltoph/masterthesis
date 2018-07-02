@@ -23,6 +23,14 @@
   \draw[bend right=120, looseness=15, ->] (#1.80) to node[above] {#2} (#1.100)
 }
 
+\newcommand{\loopthick}[2]{
+  \draw[bend right=120, looseness=15, ->, thick] (#1.80) to node[above] {#2} (#1.100)
+}
+
+\newcommand{\loopdotted}[2]{
+  \draw[bend right=120, looseness=15, ->, dotted] (#1.80) to node[above] {#2} (#1.100)
+}
+
 % usage: loopbelow {state} {text}
 \newcommand{\loopbelow}[2]{
   \draw[bend right=120, looseness=15, ->] (#1.260) to node[below] {#2} (#1.280)

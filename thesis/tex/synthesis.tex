@@ -1,7 +1,9 @@
 \chapter{Synthesis}
 \label{chapter:synthesis}
-For the general synthesis question we refer to \cite{Church} and formalize it
-with 
+The synthesis problem is formulated in \cite{Church} as the question if for a 
+given logical formula, we call this specification, we can derive an algorithm
+which behavior is \enquote{good} in the sense of the formula. We formalize this
+question in the following
 \begin{definition}[Synthesis Problem]
   Given a logical specification  $\phi(\cdot, \cdot)$ over inputs and 
   outputs from $I^{\omega}$ and $J^{\omega}$ respectively. The synthesis 
@@ -28,8 +30,8 @@ game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
 of strategies, i.e. one player generates inputs while another player generates
 outputs. We call these players \inputp{} and \outputp{} respectively. The game
-resolves by \inputp{} choosing sequentially inputs $i_{1}i_{2}\dots$ and 
-\outputp{} reacting by $j_{1}j_{2}\dots$. Thus, a game
+unfolds by \inputp{} choosing sequentially inputs $i_{1}i_{2}\dots$ and 
+\outputp{} reacting by $j_{1}j_{2}\dots$. Thus, a play
 \begin{tabular}{cccc}
   $i_{1}$ & $i_{2}$ & $i_{3}$ & \dots\\
   $j_{1}$ & $j_{2}$ & $j_{3}$ & \dots
@@ -44,7 +46,8 @@ for those $\phi$ which allow to capture the associated relation as a
 $\omega$-regular language. Subsequently, we pivot towards probabilistic 
 environments and review an approach to synthesis algorithms there which are not 
 necessarily surely correct but almost-surely satisfy a specification $\phi$. 
-These probabilistic environments are eventually modelled as \acp{POMDP}. 
+At last, we consider probabilistic environments which are modelled as
+\acp{POMDP}.
 
 \section{Antagonisitic Environments}
 In the following we consider an $\omega$-regular class of specifications 
@@ -60,13 +63,15 @@ $\omega$-regular language $\mathcal{L}_{\phi}\subseteq
 Observably, the output symbol $j_{0}$ is irrelevant but included to ease the 
 technicalities of the following argument. With the well researched theory of
 tree automata the associated synthesis problem for $\omega$-regular 
-specifications can be solved rather transparently. The idea is to use trees to 
-model the interaction between input and output symbols. The directions of a 
-tree model inputs while the symbols in the tree represent outputs. Similar to 
-the arguments of the proof of Theorem \ref{thm:POMDPequivWDTA} a tree can 
-therefore be understood as strategy and we want to design a \ac{PTA} such that 
-a tree is only accepted if all paths are part of $\mathcal{L}_{\phi}$. This can 
-be easily modelled (cp. \cite[Lemma 15]{AutoInfObj}) with
+specifications can be solved rather transparently. In fact it is one of the 
+initial motivations to study tree automata \cite{AutoInfObj}. The idea is to 
+use trees to model the interaction between input and output symbols. The 
+directions of a tree model inputs while the symbols in the tree represent 
+outputs. Similar to the arguments of the proof of Theorem 
+\ref{thm:POMDPequivWDTA} a tree can therefore be understood as strategy and we 
+want to design a \ac{PTA} such that a tree is only accepted if all paths are 
+part of $\mathcal{L}_{\phi}$. This can be easily modelled 
+(cp. \cite[Lemma 15]{AutoInfObj}) with
 \begin{definition}[Synthesis \ac{PTA}]
   For a given \ac{DPA}
   \begin{equation*}
@@ -80,7 +85,7 @@ be easily modelled (cp. \cite[Lemma 15]{AutoInfObj}) with
   $p_{i} = \delta(q, \tuple{j, i})$.
 \end{definition}
 Notably, $\mathcal{A}$ executes $\mathcal{P}$ on every path and therefore, if 
-we choose $\mathcal{P}$ as the \ac{PTA} which precisely accepts 
+we choose $\mathcal{P}$ as the \ac{DPA} which precisely accepts 
 $\mathcal{L}_{\phi}$, we deduce that $\mathcal{A}$ accepts only those trees 
 that satisfy $\phi$ on all paths. This implies that $\mathcal{A}$ accepts those
 strategies $t$ which satisfy $\phi$. Hence, constructing (see above) and 
@@ -93,16 +98,19 @@ $\phi$ and gives
   decided.
 \end{theorem}
 This approach suits the game-theoretic interpretation of the synthesis problem
-by identifying \inputp{} with \pathfinder{} while \outputp{} is assigned the 
-role of \automaton{} and constructs a fitting tree.
-\fxwarning{maybe elaborate on the class of $\omega$-regular specifications 
-(LTL, ...)}
+well. Consider the associated emptiness-game to the defined \ac{PTA} 
+$\mathcal{A}$. Observable, $\mathcal{A}$ shows deterministic behavior, hence 
+we can reduce \eve{}'s strategy to the decision which letter to choose rather
+than choosing a transition. Also, \adam{}'s role is always captured by choosing
+a direction the game moves to. Therefore, \eve{}'s and \adam{}'s strategies 
+specify the behavior of \outputp{} and \inputp{} respectively while the 
+\ac{DPA} that is associated with $\phi$ is executed in parallel.
 
 In the following we want to consider specifications $\phi$ which are not 
 $\omega$-regular but defineable by almost-surely accepting \acp{PBA}. Thus, in
-analogy to the formulation \ref{eq:omegaregularphi} above we consider $\phi$ 
-such that there is a \ac{PBA} $\mathcal{P}$ which accepts the language 
-$\mathcal{L}_{\mathcal{P}}$ with
+analogy to the formulation (\ref{eq:omegaregularphi}) above we consider $\phi$ 
+such that there is a \ac{PBA} $\mathcal{P}$ which almost-surely accepts the 
+language $\mathcal{L}_{\mathcal{P}}$ with
 \begin{equation}
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\mathcal{P}}
   \text{ iff }
@@ -114,23 +122,23 @@ games, called \acp{POSG} (cp. \cite{POSG, PureStratPOSG}). Reconsidering the
 behavior of \acp{POMDP} we can capture their semantic as a game between two 
 players on the underlying graph of states and edges $\tuple{s_{1}, s_{2}}$ 
 which are induced by non-zero probabilities for the movement from $s_{1}$ to 
-$s_{2}$ for some action of the player as follows: at any point the player 
-provides an action and the opponent chooses one of the associated edges. The 
-player acts \enquote{deterministically} in the sense that for a certain history 
+$s_{2}$ for some action of \eve{} as follows: at any point she provides an 
+action and the opponent chooses one of the associated edges. \eve{}
+acts \enquote{deterministically} in the sense that for a certain history 
 one specific action $a$ is played while the opponent plays probabilistically 
 (as defined by $\tau_{a}$). \acp{POSG} expand on this notion by introducing a 
-third player. At every position both players independently and simultaniously 
-choose an action and then the third player plays by choosing a successor state 
-probabilistically. Again we allow for restricted observations for both players
-and formalize these notions analogously to \acp{POMDP} but with two players 
+third player (again called \adam{}). At every position both players 
+independently and simultaniously choose an action and then the third player 
+plays by choosing a successor state probabilistically. Again we allow for 
+restricted observations for \eve{} and \adam{} and formalize these notions 
+analogously to \acp{POMDP} but with two players 
 participating in the choices at every state:
 \begin{definition}[\acl{POSG}]
   A \ac{POSG}-arena $G$ is defined by a set of states $S$ (with an 
-  inital state $s_{0}\in S$), actions for both players (called \eve{} and 
-  \adam{}) $E$ and $A$ respectively, transition probabilities 
-  $\tuple{\tau_{e,a}}_{e\in E, a\in A}$ and equivalence classes $\sim_{E}$ and 
-  $\sim_{A}$ restricting the observations of \eve{} and \adam{} respectively. 
-  We obtain
+  inital state $s_{0}\in S$), actions for \eve{} and \adam{} as $E$ and $A$ 
+  respectively, transition probabilities $\tuple{\tau_{e,a}}_{e\in E, a\in A}$ 
+  and equivalence classes $\sim_{E}$ and $\sim_{A}$ restricting the 
+  observations of \eve{} and \adam{} respectively. We obtain
   \begin{equation*}
     G = \tuple{S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, 
     \sim_{E}, \sim_{A}}
@@ -150,8 +158,7 @@ participating in the choices at every state:
   A \ac{POSG} is defined by an arena $G$ and an associated language
   $\Acc\subseteq S^{\omega}$ forming $\mathcal{G} = \tuple{G, \Acc}$. Notably,
   $\mathcal{G}$ is a zero-sum game, i.e. \eve{} tries to obtain a play in 
-  $\Acc$ while \adam{} tries to force plays in $S^{\omega}\setminus\Acc$. In 
-  the following we grammatically refer to \eve{} as female and \adam{} as male.
+  $\Acc$ while \adam{} tries to force plays in $S^{\omega}\setminus\Acc$.
 \end{definition}
 For any such $\mathcal{G} = \tuple{
 S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, \Acc}$ 
@@ -191,7 +198,7 @@ we obtain the possibility to compute these strategies for \eve{} by
 \begin{theorem}
   \cite[Theorem 6]{POSG} with the included reference to 
   \cite[Lemma 4]{DecProblemsForProbAuto} or \cite[Theorem 5.3]{PureStratPOSG}.
-  It is possible to decide if there is a almost-surely winning strategy for 
+  It is possible to decide if there is an almost-surely winning strategy for 
   \eve{} in a \ac{POSG} $\mathcal{G} = \tuple{G, F}$ where $F$ is a 
   Büchi-condition and $\sim_{E} = \sim_{A}$.
 
@@ -208,12 +215,12 @@ input-output game while in the \enquote{background} the stoachastic process of
 $\mathcal{P}$ operates and any play is eventually evaluated in terms of 
 $\mathcal{P}$. We obtain
 \begin{theorem}
-  For any \ac{PBA} 
+  For any almost-surely accepting \ac{PBA} 
   \begin{equation*}
     \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
   \end{equation*}
-  the synthesis problem imposed by $\phi$ as defined by $\mathcal{P}$ as in
-  \ref{eq:pbaregularphi} can be decided in time doubly exponential in 
+  the synthesis problem for the specification $\phi$ imposed by $\mathcal{P}$
+  (as in (\ref{eq:pbaregularphi})) can be decided in time doubly exponential in 
   $\size{I}\cdot \size{Q}\cdot \size{J} + 1$.
 \end{theorem}
 \begin{proof}
@@ -227,7 +234,7 @@ $\mathcal{P}$. We obtain
     \end{equation*}
     with
     \begin{equation*}
-      \sim = \sim_{E} = \sim_{E} = \set{\tuple{\tuple{i, q, j}, 
+      \sim = \sim_{E} = \sim_{A} = \set{\tuple{\tuple{i, q, j}, 
       \tuple{i', q', j'}}\in \tuple{I\times Q\times J}^{2}\mid i = i', j = j'}
     \end{equation*}
     Moreover, we fix $F = I\times F'\times J$ and
@@ -241,7 +248,7 @@ $\mathcal{P}$. We obtain
   \end{definition}
   Central to this proof is the observation that regarding the observations of
   \eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game.
-  Setting $S = I\times Q\times J$ we observe by definition of $~$ we can 
+  Setting $S = I\times Q\times J$ we observe by definition of $\sim$ we can 
   partition $S$ into $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
   where $\interval{\tuple{i, *, o}}_{\sim}$ describes the equivalence class
   $\set{\tuple{i, q, o}:q\in Q}$. By definition of all $\tau_{j,i}$ we obtain
@@ -320,7 +327,7 @@ $\mathcal{P}$. We obtain
     for every possible strategy $g$ one sequence of inputs, namely the 
     $I$-projection of $\alpha_{f}^{g}$. Hence, the strategy space of \adam{}
     coincides with all possible input-sequences. 
-    
+
     Therefore, given an almost-surely winning strategy $f$ for \eve{} we get 
     for every $g$ that $\mu_{f,g}(\Acc(F)) = 1$. By Lemma \ref{lem:fginpba} 
     this implies $\mu_{\alpha_{f}^{g}}(\Acc(F')) = 1$ and therefore 
@@ -342,7 +349,48 @@ $\mathcal{P}$. We obtain
 \end{proof}
 This result actually is intriguing in the sense that we consider a 
 probabilistic specification but obtain a deterministic algorithm which surely 
-shows desired behavior.
+shows desired behavior. We consider the following
+\begin{example}
+  Reconsider the \ac{PBA} examined in Example \ref{ex:almostsureacceptingpba}.
+  We alter this \ac{PBA} slightly to obtain a specification which is defined in
+  terms of an \ac{PBA} by replacing $a$-elements by those occurences where the
+  ouput differs from the last input and $b$-elements by occurences where the 
+  output mirrors the input. The initial output is dismissed (as suggested by
+  (\ref{eq:pbaregularphi})). The resulting almost-surely accepting \ac{PBA} is
+  illustrated in Figure \ref{fig:synthesispba}. And the derived input-output 
+  game is shown in Figure \ref{fig:synthesispbagame}.
+  \label{ex:pbasynthesis}
+\end{example}
+\begin{drawing}
+  \caption{
+    Specification-PBA for Example \ref{ex:pbasynthesis} (based on the PBA 
+    depicted in Figure \ref{fig:almostsureacceptingpba}). Consider 
+    $I = J =\set{0,1}$ where the superscript $i$ represents a storage for every
+    state (realised by using two states, e.g. $q_{0}^{0}$ and $q_{0}^{1}$) 
+    which holds the last read input symbol. The output symbols either mirrors 
+    the stored symbol ($i$) or inverts it ($\overline{i}$), while the input 
+    $i'$ is always stored within the state. Initially, the output is irrelevant 
+    for the transition (indicated by $*$).
+  }
+  \label{fig:synthesispba}
+  \begin{center}
+    \includegraphics{tikz/synthesispba.pdf}
+  \end{center}
+\end{drawing}
+
+\begin{drawing}
+  \caption{
+    Game graph for a POSG that resolves around the PBA defined in Figure 
+    \ref{fig:synthesispba}. \adam{} and \eve{} only observe the layer they play
+    in but never the $Q$-component. On the other hand, regarding the evaluation 
+    every state with common $Q$-component is treated equally, hence the 
+    underlaying PBA only observes the colors.
+  }
+  \label{fig:synthesispbagame}
+  \begin{center}
+    \includegraphics{tikz/synthesispbagame.pdf}
+  \end{center}
+\end{drawing}
 
 \section{Stochastic Environments}
 Another approach is introduced in \cite{SynProbEnv} by considering environments
