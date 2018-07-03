@@ -1,0 +1,748 @@
+\section{Automata on Infinite Trees}
+In Section \ref{sec:wordautomata} it is noted that word automata attach to a
+word a sequence of states. The idea of classic tree automata is to attach
+states to more complex structures, namely trees. For a finite set of
+directions $D$ and a finite alphabet $\Sigma$ we define a $D$-ary $\Sigma$-tree
+$t:D^{*}\rightarrow\Sigma$. A tree automaton produces a tree of states
+which is attached to the input tree, hence a $D$-ary $Q$-tree where $Q$ is the
+set of states. The following introduction conceptually follows 
+\cite[Chapter 8]{AutoLogInfGames}
+\begin{definition}[Tree automaton]
+  Let $Q$ be a finite set of states and $q_{0}\in Q$ be one initial state.
+  Furthermore, let $\Delta$ denote a set of transitions of the form
+  $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}$ where $q\in Q, q_{d}\in Q$ for
+  all $d\in D$ and $\sigma\in\Sigma$. Thus, define a tree automaton
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
+  \end{equation*}
+  And its semantics with the following auxillary notions
+  \begin{description}
+    \item[Run] a run of $\mathcal{A}$ on a $D$-ary $\Sigma$-tree $t$ is a
+      $D$-ary $Q$-tree $r$ such that $r(\epsilon) = q_{0}$ and for every 
+      $u\in D^{*}$ there is one 
+      $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}\in\Delta$ with $r(ud) = q_{d}$,
+    \item[Acceptance Condition] the acceptance condition $\Acc$ is considered
+      to be represented as Büchi-, Parity-, Muller- or Rabin-condition,
+    \item[Projection of a tree] for any $\alpha=\alpha_{1}\alpha_{2}\dots\in
+      D^{\omega}$ and any $D$-ary $\Sigma$-tree $t$ let $t(\alpha)$ denote the 
+      word $\beta = \beta_{0}\beta_{1}\dots\in\Sigma^{\omega}$ such that for 
+      every $i\in\mathbb{N}_{>0}$ holds 
+      $\beta_{i} = t(\alpha_{1}\dots\alpha_{i})$ and $\beta_{0} = t(\epsilon)$.
+  \end{description}
+  $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
+  on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
+\end{definition}
+We introduce as we are already accustomed fitting acronyms, e.g.
+\acuse{PTA}  \acuse{RTA}  \acuse{MTA} \acuse{BTA}, and present an easy example 
+to familiarize ourselves with the notions of tree automata
+\begin{example}
+  Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
+  the $\set{a,b}$ that contain at least one $a$. This language can be accepted 
+  by a tree automaton by non-deterministically choosing a path to an occurence 
+  of an $a$ and rendering every other path accepted. And the chosen path 
+  accepted from the point onwards where an $a$ occured. The corresponding tree 
+  automaton can be described by two states $q_{s}, q_{a}$, where $q_{s}$ is a 
+  state that searches for an $a$ while $q_{a}$ is a state that renders all its 
+  subtrees accepting. $q_{a}$ reproduces itself into all its subtrees, while 
+  $q_{s}$ reproduces itself only in one of its subtrees and 
+  \enquote{dismissing} the other one by sending $q_{a}$ in it. The acceptance 
+  condition is described as a Büchi condition by the set $F = \set{q_{a}}$, 
+  thus, since $q_{a}$ only produces $q_{a}$ in all following subtrees, it can 
+  be also understood as a reachability condition. This yields the tree 
+  automaton
+  \begin{equation*}
+    \mathcal{A}_{\exists a} = \tuple{Q = \set{q_{s}, q_{a}}, q_{s},
+    \Delta ,F = \set{q_{a}}}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta = \set{\tuple{q_{a}, a, q_{a}, q_{a}},\tuple{q_{a}, b, q_{a}, q_{a}},
+      \tuple{q_{s}, b, q_{s}, q_{a}}, \tuple{q_{s}, b, q_{a}, q_{s}},
+      \tuple{q_{s}, a, q_{a}, q_{a}}}.
+  \end{equation*}
+  For all trees in $\mathcal{L}_{\exists a}$ the automaton
+  $\mathcal{A}_{\exists a}$ can produce an accepting run by \enquote{guessing}
+  a path to the occurence of $a$ while every tree accepted by
+  $\mathcal{A}_{\exists a}$ does need to contain an $a$ since otherwise $q_{s}$
+  is never transformed into $q_{a}$ which yields one non-accepting path in any
+  run. Enforcing, that $q_{s}$ always reproduces into both subtrees yields an
+  automaton which recognizes the language of those trees which do have an $a$
+  on every branch. We denote this language as $\mathcal{L}_{\forall a}$.
+  \label{ex:treeexa}
+\end{example}
+It is noteworthy that $\mathcal{A}_{\exists a}$ uses a very simple acceptance
+condition, namely a reachability condition which is emulated by a Büchi
+condition. The following example on the other hand uses a more elaborate
+acceptance condition:
+\begin{example}
+  This example is similiar to e.g.
+  \cite[Exercise 8.3 and the proof of Theorem 8.6]{AutoLogInfGames}.
+  Let $\mathcal{L}_{\not\infty a}$ be the language of all binary trees over the
+  set $\set{a,b}$ that contain on every path only finitely many $a$. Note the
+  similarity to Example \ref{ex:fina} for word automata. This
+  language can be recognized by tree automata with a very easy structure,
+  namely there are two states $q_{a}, q_{b}$ which only are visited if the
+  corresponding letter is read. Thus, we define
+  \begin{equation*}
+    \Delta = \set{
+      \tuple{q_{a}, a, q_{a}, q_{a}},
+      \tuple{q_{b}, a, q_{a}, q_{a}},
+      \tuple{q_{a}, b, q_{b}, q_{b}},
+      \tuple{q_{b}, b, q_{b}, q_{b}}
+    }.
+  \end{equation*}
+  Any Rabin-, Muller- or Parity-condition as described in Example \ref{ex:fina}
+  accepts the correct language since these precisely define the abscence of
+  infinitely many occurences of $q_{a}$.
+
+  For the corresponding \ac{NBA} in Example \ref{ex:fina} we used a structural
+  way to model the abscence of further occurences of $a$ from one point 
+  onwards.  This argument of guessing the moment when no further $a$ appears 
+  cannot be used in the case of trees since every such guess involves the 
+  complete subtree. Considering the tree $t:\set{0,1}*\rightarrow\set{a,b}$ 
+  with $t(w) = a$ if and only if $w = 1^{n}0$ for any $n\in\mathbb{N}_{>0}$ we 
+  see that $t\in\mathcal{L}_{\not\infty a}$, but for all $k\in\mathbb{N}_{>0}$ 
+  the subtree rooted in $1^{k}$ contains an $a$. Thus, there is no point from
+  which this subtree is $a$-free, therefore this idea of guessing such a point 
+  does not translate to tree automata.
+\end{example}
+The difficulties to define a \ac{BTA} to accept $\mathcal{L}_{\not\infty a}$ 
+are inherent to the Büchi-condition. In fact it is possible to show that 
+$\mathcal{L}_{\not\infty a}$ cannot be accepted by any \ac{BTA}, thus 
+separating the expressiveness of tree automata as in
+\begin{theorem}
+  \cite[Corollary 8]{WeakDefRel} cited after
+  \cite[Theorem 8.6]{AutoLogInfGames}.
+  \acp{BTA} are strictly weaker than \ac{MTA} in the sense that there exists 
+  a language recognizable by a \ac{MTA} but not recognizable by a \ac{BTA}.
+\end{theorem}
+This is in contrast to Theorem \ref{thm:omegaregularexp} where we could use the
+non-determinism of an \ac{NBA} to emulate a more expressive acceptance 
+condition, e.g. a Muller-condition. But by the same techniques as for the proof 
+of Theorem \ref{thm:omegaregularexp} for the equivalence of the 
+\enquote{strong} acceptance conditions, namely \acp{LAR}, we can ensure
+\begin{theorem}
+  \cite[Theorem 8.7]{AutoLogInfGames}
+  \acp{MTA}, \acp{RTA} and \acp{PTA} all recognize the same tree languages.
+  \label{thm:treeautoequiv}
+\end{theorem}
+Regarding the closure properties of this class of tree languages it is again
+possible to show its closure under union, intersection and negation. This gives
+\begin{theorem}
+  \cite[Theorem 1.3]{SOTheoAndTrees}
+  \cite[Theorem 1.5]{SOTheoAndTrees}
+  The class of languages that can be accepted by \acp{MTA}, \acp{RTA} and 
+  \acp{PTA} forms a Boolean-algebra. The transformations can be effectively
+  constructed.
+  \label{thm:treeautoboolean}
+\end{theorem}
+We do not state the proof explicitly since the used concepts for union and
+intersection are the same as for the proof Theorem \ref{thm:omegaregboolean},
+namely we can obtain union by constructing an automaton that performs an 
+initial \emph{guess} which input automata is simulated and an automaton for the
+intersection simulates both input automata by a a product construction and uses 
+a Muller-condition which formulates the acceptance of the individual components 
+by their original acceptance conditions. In order to convey the closure under
+negation we introduce further concepts regarding tree automata which allow to
+present a proof in a natural way.
+
+\subsection{Alternating Tree Automata}
+\label{subsec:ata}
+Up to this point the used automata mirrored the structure of their inputs
+very closely. Word automata generated words of states and tree automata 
+generated trees of states of the same arity of their input trees. This notion 
+can be relaxed for tree automata to obtain a new class of tree
+automata, that is \emph{Alternating Tree Automata}. Following 
+\cite{AltTreeAuto} tree automata operate by sending down \enquote{copies} 
+through the different paths. In the classical setting at every branching point 
+every successor is awarded with one copy of a state of the automaton. The 
+aforementioned relaxation lies in the idea to allow at a branching point to 
+award some successor with more than one state while others may not receive even 
+a single one. This concept is also used to define automata that run over 
+transition systems, e.g. \cite[Chapter 9]{AutoLogInfGames} and 
+\cite{SynProbEnv}, where the input tree is the unrollment of the transition 
+system.
+
+Formally, before transitions for tree automata are defined as tuples of the 
+form $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$. This specifically defines for
+every direction one single state to move along this direction. We introduce
+transitions of the form $\tuple{q,\sigma,A}$ where $A$ is a non-empty subset of 
+$A\subseteq D\times Q$ called a \emph{clause}.
+
+Semantically, $A$ describes that a copy of $q$ is sent down the direction $d$ 
+for every $\tuple{d,q}\in A$. This notion allows us to refine the tree 
+automaton of Example \ref{ex:treeexa}:
+\begin{example}
+  Recall $\mathcal{A}_{\exists a}$ from Example \ref{ex:treeexa} which
+  determines if a tree contains an $a$ with 
+  \begin{equation*}
+    \Delta = \set{
+      \tuple{q_{a}, a, q_{a}, q_{a}},
+      \tuple{q_{a}, b, q_{a}, q_{a}},
+      \tuple{q_{s}, a, q_{a}, q_{a}},
+      \tuple{q_{s}, b, q_{s}, q_{a}},
+      \tuple{q_{s}, b, q_{a}, q_{s}}
+    }.
+  \end{equation*}
+  The concept of alternating tree automata allows to formulate the
+  \enquote{searching} part of the run more concisely\footnote{
+    Occasionally, e.g. in \cite[Chapter 9]{AutoLogInfGames}, alternating tree
+    automata are equipped with the possibility to render a subtree accepted 
+    regardless of its structure. We explicitly do not include this notion, but 
+    it is easy to see that this would allow to equivalently define transitions
+    $\tuple{q_{a}, a, \delta_{\top}},\tuple{q_{a}, b, \top},
+    \tuple{q_{s}, a, \top}$ where $\top$ renders the subtree accepted.
+  }
+  by dropping the necessity to send a $q_{a}$ along the
+  path that is not chosen, thus obtaining
+  \begin{equation*}
+    \tuple{q_{s}, b, \set{\tuple{0, q_{s}}}},
+    \tuple{q_{s}, b, \set{\tuple{1, q_{s}}}}.
+  \end{equation*}
+\end{example}
+We formally define similar to \cite{SynProbEnv}
+\begin{definition}[Alternating Tree Automata]
+  For a finite set of states $Q$, one distinct intial state $q_{0}\in Q$, a
+  finite set of directions $D$, a finite alphabet $\Sigma$ and a transition
+  relation $\Delta$ we define 
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
+  \end{equation*}
+  The semantics of $\mathcal{A}$ is given by a run $r$ of $\mathcal{A}$ on a
+  $D$-ary $\Sigma$-tree $t$. Here $r$ is a $D\times Q$-ary $\set{0,1}$-tree 
+  with the following neccessities:
+  \begin{enumerate}
+    \item $r(\epsilon) = 1$,
+    \item for every $u = \tuple{d_{1}, q_{1}}\dots\tuple{d_{n}, q_{n}}\in
+      \tuple{D\times Q}^{*}$ with $r(u) = 1$ there exists
+      $\tuple{q_{n}, t(d_{1}\dots d_{n}), A}\in\Delta$ such that
+      \begin{equation*}
+        r(u\tuple{d, q}) = 1\text{ if and only if }\tuple{d, q}\in A.
+      \end{equation*}
+  \end{enumerate}
+  We consider such a run $r$ accepting if the $Q$-component of all paths that 
+  are consistently marked are part of $\Acc$. Formally, we fix for any run $r$ 
+  the set of its \enquote{marked path} as
+  \begin{equation*}
+    M_{r} = \set{
+      \rho\in\tuple{D\times Q}^{\omega}\mid r(v) = 1\text{ for all finite }
+        v\sqsubseteq\rho
+    }.
+  \end{equation*}
+  The set of accepted paths is given by
+  \begin{equation*}
+    \Acc\interval{Q} = \set{
+      \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+      \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
+    }.
+  \end{equation*}
+  A run $r$ is considered accepting if $M_{r}\subseteq\Acc\interval{Q}$.
+  Again, we consider for $\Acc$ acceptance conditions which are representable
+  as Büchi-, Rabin-, Muller- or Parity-conditions and use according acronyms,
+  namely \acs{ABTA}, \acs{ARTA}, \acs{AMTA}, \acs{APTA} respectively.
+  \acuse{ABTA} \acuse{AMTA} \acuse{ARTA} \acuse{APTA} 
+\end{definition}
+By using the same argument as for Theorem 
+\ref{thm:omegaregularexp} and Theorem \ref{thm:treeautoequiv} we obtain
+\begin{theorem}
+  \ac{ARTA}, \ac{AMTA} and \ac{APTA} recognize the same class of languages.
+  \label{thm:atreeautoequiv}
+\end{theorem}
+Although \emph{alternation} is an extension of the \enquote{classic} tree 
+automata it turns out that it does not increase the expressibility; that is
+for every alternating tree automta there is a classic tree automata which 
+accepts the same language of trees.
+\begin{theorem}[The Simulation Theorem]
+  \cite[Theorem 1.2]{SimAltTreeAuto}
+  There is an effective construction which, when given an \ac{AMTA}, produces 
+  an equivalent \ac{MTA}. Furthermore, given an \ac{ABTA}, there is a way to 
+  effectively construct an equivalent \ac{BTA}.
+  \label{thm:treesimulation}
+\end{theorem}
+This result and the apparent observation that alternation does not weaken the 
+formalism to accept trees allows to translate the closure properties stated in 
+Theorem \ref{thm:treeautoboolean} to alternating tree automata as well. Thus, 
+we obtain that there are effectively constructable transformations for the 
+union, intersection and complement of tree languages accepted by \acp{AMTA}. 
+Nevertheless, we want to present one construction for the closure under 
+intersection because it allows us to relate concepts of \acp{PBA} and of
+alternating tree automata.
+\begin{corollary}
+  The class of languages of infinite trees that can be recognized by \acp{AMTA}
+  is closed under intersection.
+  \label{cor:treeintersection}
+\end{corollary}
+\begin{proof}[Alternative Proof]
+  Given two \acp{AMTA}
+  \begin{equation*}
+    \mathcal{A}_{1} = \tuple{Q, q_{0}, D, \Sigma, \Delta_{1}, \mathcal{F}_{1}}
+      \text{ and }
+    \mathcal{A}_{2} = \tuple{P, p_{0}, D, \Sigma, \Delta_{2}, \mathcal{F}_{2}}
+  \end{equation*}
+  we construct an \ac{AMTA} for their intersection. W.l.o.g. we assume that 
+  $Q\cap P = \emptyset$. The idea is to perform two independent runs on the 
+  tree in parallel. We illustrate this in Figure \ref{fig:parallelruns}. 
+  Formally, it is accomplished by initially dispatching one transition of each 
+  automaton onto the tree. After this initial dispatch both state sets $Q$ and
+  $P$ operate independently on the tree. Hence, we define
+  \begin{equation*}
+    \mathcal{A}_{\cap} = \tuple{
+      Q\cup P\uplus\set{q^{i}}, q^{i}, D, \Sigma, 
+      \Delta_{1}\cup\Delta_{2}\cup\Delta_{\cap}, 
+      \mathcal{F}_{1}\cup\mathcal{F}_{2}
+    }
+  \end{equation*}
+  with
+  \begin{equation*}
+    \Delta_{\cap} = \set{
+      \tuple{q^{i},\sigma,\delta_{A\cup B}}:
+        \tuple{q_{0},\sigma,A}\in\Delta_{1}
+      \text{ and }
+        \tuple{p_{0},\sigma,B}\in\Delta_{2}
+      \text{ for every }
+        \sigma\in\Sigma
+    }.
+  \end{equation*}
+  Thus, we can construct from the resulting run $r$ in $\mathcal{A}_{\cap}$ two
+  individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively, e.g.
+  for $\mathcal{A}_{1}$ it is the run $r_{1}$ in the $Q$-part of the domain of 
+  $r$ while the initial transition in $r$ uses a $A\cup B$ where $r_{1}$ uses 
+  $A$.
+\end{proof}
+
+While considering the semantics of \acp{PBA} we used a notion of considering 
+individual runs and their probabilities. This can be captured very similar to 
+the concept of alternation as follows: we can regard any word 
+$\alpha\in\Sigma^{\omega}$ as a $\set{0}$-ary $\Sigma$-tree $t_{\alpha}$. Then 
+one \ac{PBA} $\mathcal{P}$ induces a run in a tree-sense by unrolling the state
+sequences of $\mathcal{P}$ around the unary tree $t_{\alpha}$. Hereby, we can
+substitute clauses which have a very absolute semantic (either a
+path is taken or it is not) by a probability distribution. When we gather the
+individual probability distributions of $\mathcal{P}$, that is set 
+$\mathcal{G}$ of all functions of the form 
+$G_{\sigma}^{q}:\set{0}\times Q\rightarrow\interval{0,1}$ such that
+$G_{\sigma}^{q}(0, p) = \delta(q,\sigma, p)$. We can model the run of 
+$\mathcal{P}$ as a $\set{0}\times Q$-ary $\mathcal{G}$-tree where the chosen
+$G_{\sigma}^{q}$ one the paths $\tuple{0,q_{1}}\dots\tuple{0,q_{n}}$ are 
+consistent with the current state ($q = q_{n}$) and input symbol 
+($\sigma = t(0^n)$). Therefore, every path corresponds to one state sequence of 
+$\mathcal{P}$ and the visited $G_{\sigma}^{q}$ on the path induce the 
+associated probabilities for the peformed steps. In this sense we can use 
+Figure \ref{fig:parallelruns} as illustration for the part of the union 
+operator of the proof of Theorem \ref{thm:pbaboolalgebra} where the initial 
+separating dispatch is in every direction tuned down by a factor of 
+$\frac{1}{2}$. This intuition is later on re-visited and formally 
+substantiated. 
+
+In the meantime we introduce the concept of \emph{graph games} 
+to obtain a transformation that constructs the \ac{APTA} which accepts the 
+negation of the language of a given \ac{APTA}.
+
+\subsection{Graph Games}
+Tree automata are closely related to graph games, e.g.
+\cite[Chapter 9]{AutoLogInfGames}. Such games are held between two players in
+an \emph{arena}. An arena is a directed graph where the nodes are partioned
+into two sets; each set is associated with one player. A game on such an arena
+begins in one node and unfolds by the choices of the players. The player to
+whom the current node $v$ belongs may choose the node $u$ the game proceeds to
+from the set of those nodes connected to $v$. By associating a winning
+condition for one player to the game we can call a game won by this player if
+the played state sequence belongs to this winning condition. In the following 
+we focus on zero-sum games, i.e. if the winning condition of one player is not 
+met we consider the opponent victorious. This leads to the definition
+\begin{definition}[Graph Games]
+  \begin{description}
+    \item [Arena] Let $V$ be a set of nodes which is partioned into $V_{0}$ and
+      $V_{1}$ and $E\subseteq V\times V$ a set of edges, then we define an
+      arena $\tuple{V, V_{0}, V_{1}, E}$.
+    \item [Game] For an arena $\tuple{V, V_{0}, V_{1}, E}$ we define with a
+      winning condition $\Acc$ and one distinguished initial vertex
+      $v_{0}\in V$ the game
+      $\tuple{\mathcal{G}, v_{0}} = \tuple{V, V_{0}, V_{1}, E, \Acc, v_{0}}$.
+    \item [Play] A play for a game $\tuple{\mathcal{G}, v_{0}} = \tuple{V,
+      V_{0}, V_{1}, E, \Acc}$ is any sequence $v_{0}v_{1}\dots\in
+      V^{\omega}$ which starts in $v_{0}$ and where for every $i > 0$ holds
+      that $v_{i}\in v_{i-1}E$.
+    \item [Strategy] For $\sigma\in\set{0,1}$ we define a strategy
+      $f_{\sigma}: V^{*}V_{\sigma}\rightarrow V$ where for any $w\in V^{*}$ and
+      $v\in V_{\sigma}$ $f_{\sigma}(w\cdot v)\in vE$ (where $vE =
+      \set{u\in V\mid\tuple{v,u}\in E}$). A play is considered winning for
+      player $0$ if it belongs to $\Acc$. Notably it holds that two strategies
+      $f_{0}, f_{1}$ induce a play $v_{0}v_{1}\dots$ by fixing for any $v\in V$
+      the term
+      \begin{equation*}
+        \sigma(v) = \begin{cases}
+          0&\text{if }v\in V_{0}\\
+          1&\text{if }v\in V_{1}
+        \end{cases}\text{ and enforcing }
+        v_{i+1} = f_{\sigma(v_{i})}(v_{0}\dots v_{i}).
+      \end{equation*}
+      If a strategy for player $\sigma$ can equivalently be represented as a
+      function $f:V_{\sigma}\rightarrow V$ (naturally still satisfying that
+      $f(u)\in uE$ for all $u\in V_{\sigma}$) we call this strategy
+      \emph{memoryless} or \emph{positional}.
+    \item [Winning] We say a play $v_{0}v_{1}\dots$ is \emph{consistent} with a
+      strategy $f$ for player $\sigma$ if for every $i$ with
+      $v_{i}\in V_{\sigma}$ holds that $v_{i+1} = f(v_{0}\dots v_{i})$. 
+      A strategy $f$ for player $\sigma$ is called a \emph{winning strategy} if
+      \emph{every} play consistent with $f$ is winning for player $\sigma$.
+      We denote with \emph{winning regions}
+      $\mathcal{W}^{\mathcal{G}}_{\sigma}$ those nodes $v\in V$ such that
+      player $\sigma$ has a winning strategy in $\tuple{\mathcal{G}, v}$.
+  \end{description}
+  As we are already accustomed $\Acc$ is represented in finite ways by using
+  Büchi-, Rabin-, Muller- or Parity-conditions. In the following we call the 
+  player for whom the acceptance condition $\Acc$ is stated \eve{} (as for 
+  \acp{MDP}) and her opponent \adam{} (in the following we treat \adam{} 
+  grammatically as male).
+\end{definition}
+Given any game $\mathcal{G}$ the question arises if for every node $v$ either
+\eve{} or \adam{} wins by playing the correct strategy (regardless of
+the strategy of the opponent), i.e. 
+$\mathcal{W}^{\mathcal{G}}_{0}\cup\mathcal{W}^{\mathcal{G}}_{1} = V$. We call
+a game with this property \emph{determined}. There is a fundamental result by
+Martin establishing determinacy for all Borel winning conditions for another 
+kind of games\footnote{so called Gale-Stewart games} \cite{BorelDeterminacy}. 
+Fortunately, this translates to graph games and allows us to state using Lemma 
+\ref{lem:measureabilityAcceptance} and its Corollary \ref{cor:borelAcceptance}
+that
+\begin{theorem}
+  \cite[Corollary 2.10]{AutoLogInfGames}
+  All graph games with Büchi-, Rabin-, Muller- or Parity-condition are 
+  determined.
+  \label{thm:boreldet}
+\end{theorem}
+This means that given for every strategy $f$ of \eve{} \adam{} has a strategy
+$g$ which induces a play not in $\Acc$ \adam{} can find \emph{one} strategy
+$g'$ which is winning against \emph{all} strategies $f'$ of \eve{}.
+For Parity-conditions we even obtain that the corresponding strategies are 
+positional, i.e.
+\begin{theorem}
+  \cite[Theorem 6]{ParityGamesPosDet}
+  For a graph game with a Parity-condition with finitely many parities both 
+  players have positional winning strategies on their corresponding winning 
+  regions.
+  \label{thm:posdetparity}
+\end{theorem}
+
+As mentioned above we use graph games to model the semantics of tree automata.
+Therefore, we define an acceptance game for an automaton and a tree. In this
+(infinite) graph game \eve{} constructs a run of the automaton on the 
+tree and \adam{} explores this run and tries to find a path which is not 
+accepted. Formally, we restrict ourselves to \ac{APTA} since they are 
+sufficiently expressive and define (cp. \cite{treeautosurvey,AltTreeAuto})
+\begin{definition}
+  For a \ac{APTA} $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}$
+  and a $D$-ary $\Sigma$-tree $t:D^{*}\rightarrow\Sigma$ we define the graph 
+  game $\mathcal{G}(\mathcal{A}, t) = \tuple{V, V_{0}, V_{1}, E, 
+  \parity', \tuple{q_{0},\epsilon}}$ with
+  \begin{description}
+    \item [Arena] 
+      $V_{0} = Q\times D^{*}, V_{1} = \Pot(D\times Q)\times D^{*}$ and
+      $V = V_{0}\cup V_{1}$,
+    \item [Edges]
+      \eve{} chooses the taken transition which is captured by
+      \begin{equation*}
+        E_{0} = \set{
+          \tuple{\tuple{q, u},\tuple{A, u}}:\text{for all }
+          q\in Q,u\in D^{*}\text{ and }\tuple{q, t(u), A}\in\Delta
+        }.
+      \end{equation*}
+      \adam{} on the other hand chooses which element in $A$ is taken, i.e.
+      \begin{equation*}
+        E_{1} = \set{
+          \tuple{\tuple{A, u}, \tuple{q, u\cdot d}}:\text{ for all }
+          A\in\Pot(D\times Q), u\in D^{*}\text{ and }\tuple{q,d}\in A
+        }.
+      \end{equation*}
+      Naturally, we set $E = E_{0}\cup E_{1}$.
+    \item [Winning Condition]
+      the associated winning condition is the projection of the old 
+      condition to the state component for nodes in $V_{0}$, i.e.
+      \begin{equation*}
+        \parity'(\tuple{q, u}) = \parity(q).
+      \end{equation*}
+      Nodes in $V_{1}$ should not impact the evaluation of a game directly, 
+      therefore we set their parities lower than all parities used in 
+      $\mathcal{A}$:
+      \begin{equation*}
+        \parity'(\tuple{\delta_{A}, u}) = p_{\bot}
+        \text{ for one }p_{\bot} < \min\set{\parity(q):q\in Q}.
+      \end{equation*}
+  \end{description}
+  \label{def:treemembershipgame}
+\end{definition}
+An illustration of such a game can be found in Figure 
+\ref{fig:treeacceptancegame}. 
+
+\begin{drawing}
+  \caption{
+    Illustration of $\mathcal{G}(\mathcal{A}, t)$ for $\mathcal{A}$ as
+    defined in Example \ref{ex:treeexa} and a $\set{0,1}$-ary $\set{a,b}$-tree
+    $t$ with $t(u) = a$ if and only if $u = 00$. Nodes of player $0$ are 
+    circles while player $1$ plays on rectangles. Every triangle is 
+    associated with one word $u\in\set{0,1}^{*}$ and labeled with $t(u)$. 
+    Player $0$ may win by moving towards the $t(00)$ subgame, which is easily
+    achievable since player $1$ only has trivial moves up to that point.
+  }
+  \label{fig:treeacceptancegame}
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \includegraphics{tikz/treeacceptancegame.pdf}%
+    }
+  \end{center}
+\end{drawing}
+
+The central insight for this game is the following lemma which connects the 
+acceptance of $\mathcal{A}$ of $t$ with the strategies of \eve{} in 
+$\mathcal{G}(\mathcal{A}, t)$.
+\begin{lemma}
+  \cite[Lemma 3.1.]{AltTreeAuto}
+  The automaton $\mathcal{A}$ accepts $t$ if and only if \eve{} has a 
+  winning strategy in the game $\mathcal{G}(\mathcal{A}, t)$.
+  \label{lem:stratacceptance}
+\end{lemma}
+In the following we present one proof for this lemma which reveals the 
+central idea behind the construction of a dual automata for a given \ac{APTA}.
+\begin{proof}
+  We can connect strategies $f$ for \eve{} with runs $r$ of the automaton 
+  $\mathcal{A}$ on $t$ directly. Initially, \eve{} starts in state 
+  $\tuple{q_{0}, \epsilon}$ and chooses an initial clause $A$ (by her movement
+  to $\tuple{A, \epsilon}$ which by definition of $E_{0}$ corresponds to a 
+  transition $\tuple{q_{0}, t(\epsilon), A}$. This $A$ can be used to define 
+  the first level of a run $r$ of $\mathcal{A}$ on $t$ by setting 
+  $r(\tuple{q,d}) = 1$ if and only if $\tuple{q,d}\in A$. \adam{} does now 
+  choose which element of $A$ to explore (by moving to $\tuple{q, d}$). This 
+  can be identified by \enquote{moving} to $r(q, d)$. Inductively, \eve{}'s 
+  choices correspond to chosen transitions in $r$ and \adam{} chooses the 
+  precise marked paths to explore. Any combination of strategies $f$ and $g$
+  for \eve{} and \adam{} respectively yields a play which corresponds to one 
+  path in $M_{r}$ for one run $r$ (especially $r$ is induced by $f$ and all
+  possible strategies of \adam{}). \eve{} wins if this chosen path satisfies
+  the Parity-condition on the $Q$-component (notably because the definition of
+  the Parity-condition $\mathcal{G}(\mathcal{A}, t)$ ignores nodes of $V_{1}$).
+  Considering a winning strategy $f$ for \eve{} any opposing strategy of 
+  \adam{} is loosing rendering all elements in the corresponding $M_{r}$ 
+  accepted. On the other hand, if there is no winning strategy $f$ for \eve{}
+  the induced run $r$ and the corresponding $M_{r}$ always contains at least 
+  one not accepted element (which corresponds to the choices \adam{} may take 
+  which lead to \eve{}'s loss).
+\end{proof}
+
+Notably, Theorem \ref{thm:boreldet} in combination with Lemma
+\ref{lem:stratacceptance} allows to state that $\mathcal{A}$ does not accept
+$t$ if and only if \adam{} has a winning strategy in
+$\mathcal{G}(\mathcal{A},t)$. Constructing a dual automaton to $\mathcal{A}$
+resolves around the idea to encode \adam{}'s strategies in the transitions 
+rather than \eve{}'s. Thus, given the game is in state $q$ and $t$ carries at 
+the current position the letter $\sigma$ \eve{} may choose according to any 
+transition of $\mathcal{A}$ for this situation, namely 
+$\tuple{q,\sigma,A_{1}},\dots,\tuple{q,\sigma,A_{n}}$. 
+\adam{}'s strategy needs to state for every choice of \eve{} one element in the 
+chosen $A_{i}$ for $1\leq i\leq n$ such that he wins the corresponding play. We
+construct \adam{}'s choices as
+\begin{equation*}
+  R_{q,\sigma} = \set{
+    \set{
+      \tuple{d_{1}, q_{1}},\dots,\tuple{d_{n},q_{n}}\mid
+      \tuple{d_{i}, q_{i}}\in A_{i}\text{ for }1\leq i\leq n
+    }
+  }.
+\end{equation*}
+We obtain for a set of transitions $\Delta$ the \enquote{inverse} $\nabla$ by
+\begin{equation*}
+  \nabla = \set{
+    \tuple{q, \sigma, B}:q\in Q, \sigma\in\Sigma, B\in R_{q,\sigma}
+  }.
+\end{equation*}
+We use the transitions in $\nabla$ to effectively describe the game 
+$\mathcal{G}(\mathcal{A}, t)$ with exchanged roles (in the sense of which 
+\enquote{type} of moves are executed) of \eve{} and \adam{}. \adam{} 
+pro-actively chooses his answers (which is encoded as transition) and \eve{} 
+choice of one direction corresponds to an implicit choice of a transition, 
+namely the one to which \adam{} answers by this movement. Considering any 
+transition in $\nabla$ we observe that for every possible choice of \eve{} 
+in parallel one answer of \adam{} is explored. This captures the usage of
+determinacy by exploring all of \adam{}'s option since a winning strategy 
+produces for all choices of \eve{} a winning play, hence choosing the set of 
+answers that are initial for winning plays allows to encode \adam{}'s winning
+strategy. We construct for a given 
+\ac{APTA}
+\begin{equation*}
+  \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity},
+\end{equation*}
+the automaton
+\begin{equation*}
+  \mathcal{C} = (Q, q_{0}, D, \Sigma, \nabla, \parity + 1).
+\end{equation*}
+Assuming \adam{} does have a winning strategy in $\mathcal{G}(\mathcal{A}, t)$, 
+then \eve{}\footnote{Beware the role-exchange!} has a winning strategy in the 
+game $\mathcal{G}(\mathcal{C}, t)$ since $\parity + 1$ precisely inverts the
+set of accepted paths. Technically, any run explores all possible plays of 
+\adam{} in $\mathcal{G}(\mathcal{A}, t)$ while the choices of $\eve{}$ induce
+one path in this run. Therefore $\mathcal{C}$ is the dual automaton to 
+$\mathcal{A}$ implying
+\begin{proposition}
+  The class of languages of trees accepted by \acp{APTA} is closed under
+  negation. This holds by Theorem \ref{thm:treesimulation} also for \acp{PTA}.
+  \label{prop:atanegation}
+\end{proposition}
+
+Concludingly, we want to examine the problem of deciding emptiness of tree
+automata. Again, by the effective transformations between alternating and
+non-alternating tree automata (Theorem \ref{thm:treesimulation}) it is
+sufficient to examine one of those types. We opt for non-alternating tree
+automata and discuss the reason for this after introducing a game to capture
+the emptiness of tree automata. Formally, we prove
+\begin{theorem}
+  \cite[Theorem 21]{AutoInfObj} \cite[Theorem 7.25]{AutoLogInfGames}
+  The problem if the language of a given \ac{PTA}
+  \begin{equation*}
+    \mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+  \end{equation*}
+  is empty can be decided in time in 
+  $\mathcal{O}(\size{\parity(Q)}\cdot\size{Q\times Q}\cdot\tuple{
+    \frac{\size{Q}}{d}}^{d})$ with 
+  $d = \lfloor \frac{\size{\parity(Q)}}{2} \rfloor$.
+\end{theorem}
+\begin{proof}
+  The proof we adapt here follows 
+  \cite[Proof of Theorem 23]{ParityGamesPosDet}. The idea is to formulate the
+  emptiness problem as a graph game. This game is similar to the one from
+  Definition \ref{def:treemembershipgame}, but instead of choosing a transition
+  for the corresponding letter in a tree \eve{} is free to choose any
+  transition (and therefore implicitly a letter). We define
+  \begin{definition}[Emptiness Game]
+    \eve{} chooses transitions depending on the current state, while
+    \adam{} chooses the direction of a transition. Therefore
+    we define the emptiness game by the following notions.
+    \begin{description}
+      \item [Arena] \eve{} is assigned the states $Q = V_{0}$ of 
+        $\mathcal{M}$, while \adam{} operates on the transitions 
+        $\Delta = V_{1}$ of $\mathcal{M}$. The edges correlate to the choices
+        both players make, i.e. $E = E_{0}\cup E_{1}$ with
+        \begin{equation*}
+          E_{0} = \set{\tuple{q, \delta}\in Q\times\Delta\mid\delta = 
+            \tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta}
+        \end{equation*}
+        and
+        \begin{equation*}
+          E_{1} = \set{\tuple{\tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}, p}
+            \in\Delta\times Q\mid\text{there is }b\in D
+            \text{ such that }p_{b} = p
+          }.
+        \end{equation*}
+        We obtain with $V = V_{0}\cup V_{1}$ an arena 
+        $\tuple{V, V_{0}, V_{1}, E}$.
+      \item [Winning Condition] \eve{} wins the game if the explored state 
+        sequence is accepted in terms of $\parity$, hence we define for any
+        $\bot < \min\set{\parity(q):q\in Q}$
+        \begin{equation*}
+          \parity'(\Gamma) = \begin{cases}
+            \parity(q) &\text{if }\Gamma = q\in Q,\\
+            \bot       &\text{otherwise}.
+          \end{cases}
+        \end{equation*}
+    \end{description}
+    We define the emptiness game as 
+    $\mathcal{G} = \tuple{V, V_{0}, V_{1}, E, \parity', q_{0}}$.
+    \label{def:treeemptinessgame}
+  \end{definition}
+  Initially, we observe that for any play 
+  $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ we obtain by definition of $\parity'$
+  that $\max\set{\parity(q):q\in\Inf(q_{0}q_{1}q_{2}\dots)} = 
+  \max\set{\parity'(\Gamma):\Gamma\in\Inf(
+  q_{0}\delta_{0}q_{1}\delta_{1}\dots)}$. The central insight for the emptiness 
+  game is formulated in
+  \begin{lemma}
+    \eve{} has a winning strategy in $\mathcal{G}$ as defined above
+    if and only if the language of $\mathcal{M}$ is not empty.
+  \end{lemma}
+  \begin{proof}
+    Consider a winning strategy $f:V^{*}Q\rightarrow\Delta$ for \eve{},
+    and an arbitrary riposte $g:V^{*}\Delta\rightarrow Q$ for \adam{}. By
+    the definition of $E_{1}$ we may equivalently define the strategy of 
+    \adam{} in terms of $g:V^{*}\Delta\rightarrow D$. In this form, we 
+    obtain for $f$ an associated tree $t_{f}:D^{*}\rightarrow\Sigma$ by
+    considering for any $u_{0}\dots u_{n}\in D^{*}$ the play 
+    $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ which is consistent with $f$ and the
+    riposte $g$ with $g(q_{0}\delta_{0}\dots q_{i}\delta_{i}) = u_{i}$ for 
+    $0\leq i\leq n$ and arbitrary otherwise. Naturally, we set 
+    $t(u_{0}\dots u_{n}) = \sigma$ for one $\sigma$ such that 
+    $f(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} 
+      = \tuple{q_{n}, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta$. By the 
+    construction of $t$ we see that the choices of $f$ immediately describes a 
+    possible run $r$ on $t$. Since $f$ is winning all paths \adam{} can
+    describe are won by \eve{} (accepted under $\parity'$) and therefore 
+    all paths of $r$ are accepting in terms of $\parity$, rendering $r$ an
+    accepting run for $t$ of $\mathcal{M}$.
+
+    If we have on the other hand, an accepted tree $t$ of $\mathcal{M}$ with
+    a corresponding run $r$ then \eve{} simply plays $r$, i.e. we define
+    $f_{r}$ with $f_{r}(q_{1}\delta_{0}\dots q_{n}) = \delta_{n} = r(u)$ for 
+    the $u\in D^{*}$ that corresponds to the choices of \adam{} which led 
+    to the play $q_{0}\delta_{0}\dots q_{n}$. Again, all paths in $r$ are 
+    accepting in terms of $\parity$ rendering all plays consistent with $f_{r}$ 
+    accepted in terms of $\parity'$. Hence, $f_{r}$ is a winning strategy.
+  \end{proof}
+  By Theorem \ref{thm:posdetparity} we even obtain a positional winning 
+  strategy for \eve{} (if there is any winning strategy). This means that
+  the structure of the obtained tree indeed is - to a certain degree - 
+  simple\footnote{
+    Theorem 23 in \cite{ParityGamesPosDet} calls such a tree $t$ \emph{regular} 
+    which means that the number of isomorphic subtrees in $t$ is finite. This
+    is similar to ultimatively periodic words for $\omega$-regular languages.
+  }. 
+  Moreover, it is possible to compute winning strategies for Parity-games in
+  the stated complexity which yields the decision procedure for the emptiness 
+  problem of $\mathcal{M}$.
+\end{proof}
+Note that we designed this emptiness game in terms of \ac{PTA} rather than 
+\ac{APTA}. This is due to the fact that the choices of \eve{} must be 
+consistent with an underlying tree (cp. Example \ref{ex:pbaasmdp}). We 
+illustrate this problem in
+\begin{example}
+  Consider an \ac{APTA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+  \end{equation*}
+  with $Q = \set{q_{0}, q_{a}, q_{b}, \bot}$, $D = \set{0,1}$, 
+  $\Sigma = \set{a, b}$, $\parity(q_{0}) = \parity(q_{b}) = \parity(q_{a}) 
+    = 0$ and $\parity(\bot) = 1$. The conceptual idea is that $q_{b}$ ($q_{a}$) 
+  must move along a path that solely contains of $b$ ($a$) but any occurence of 
+  $a$ ($b$) yields a move to the non-accepting sink-state $\bot$ which 
+  reproduces itself towards all directions (necessarily rendering these paths
+  rejecting). Hence, we add 
+  \begin{equation*}
+    \set{
+      \tuple{q_{\sigma}, \sigma, \set{\tuple{q_{\sigma, d}}}},
+      \tuple{q_{\sigma}, \overline{\sigma}, \set{\tuple{\bot, 0}, 
+        \tuple{\bot, 1}}}:\text{for all }\sigma\in\set{a,b}, d\in\set{0,1}
+    }
+  \end{equation*}
+  to $\Delta$ where $\overline{a} = b$ and $\overline{b} = a$. Initially, 
+  $q_{0}$ dispatches $q_{a}$ and $q_{b}$ in the \emph{same} direction (by 
+  arbitrary choice) $0$, yielding
+  \begin{equation*}
+    \set{
+      \tuple{q_{0}, \sigma, \set{\tuple{q_{a}, 0}, \tuple{q_{b}, 0}}}:
+        \text{for }\sigma\in\set{a, b}
+      }
+  \end{equation*}
+  as part of $\Delta$. Naturally, there is \emph{no} possible accepted tree for 
+  $\mathcal{M}$ since $t(0)$ is either $a$ or $b$ but each choice leaves one
+  unsatisfied state $q_{b}$ or $q_{a}$ respectively. On the other hand, if we
+  naively translate the concept of the emptiness game (Definition 
+  \ref{def:treeemptinessgame}) \eve{} still can win by constructing 
+  different trees depending on the fact if $q_{a}$ or $q_{b}$ is chosen by 
+  \adam{} in the intial step. For \acp{PBA} we addressed this problem 
+  with partial observability (see Example \ref{ex:pbaaspomdp}). But for 
+  \acp{PBA} \eve{} only has one choice to make, namely one letter for the 
+  current position in the word. Here \eve{} is entitled to two choices: which
+  letter to choose and which transition to take for this letter and the current
+  state. This requires for a dedicated knowledge management for \eve{} because
+  it has to be enforced that \eve{} chooses letters consistent with a tree 
+  structure and notably independent from the current state while the choice
+  of the transition is highly dependent on the current state.
+  \label{ex:alternatingtreeemptiness}
+\end{example}

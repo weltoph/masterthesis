@@ -1,4 +1,3 @@
-\section{Probabilistic Büchi Automata}
 Upon the concept of \acp{NBA} there are approaches to substitute the
 non-deterministic choices by probabilistic ones, e.g.
 \cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}. We begin with
@@ -45,53 +44,7 @@ Figure \ref{fig:pbaruns} for an illustration).
 Its acceptance is defined by the notion of how probable the produced state
 sequences are to satisfy the associated Büchi-condition $F$. The formal
 definition of this intuition requires a little work beforehand.
-Following \cite{Groesser,Bauer}, we fix a set $\Omega$ which is the collection
-of all possible results, in the context of \acp{PBA} all possible sequences of
-states $Q^{\omega}$ to the input word $\alpha$.
-For such an $\Omega$ we introduce a \emph{$\sigma$-algebra} which is a
-collection of subsets of $\Omega$, formally:
-\begin{definition}[$\sigma$-Algebra]
-  For a set $\Omega$ we call $\mathcal{F}\subseteq\Pot(\Omega)$ for $\Omega$ a
-  $\sigma$-algebra if
-  \begin{enumerate}
-    \item $\Omega\in\mathcal{F}$,
-    \item for every $A\in\mathcal{F}$ we have $\tuple{\Omega\setminus A}
-      \in\mathcal{F}$,
-    \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
-      $A_{i}\in\mathcal{F}$ we also have $\tuple{\cup_{i\in\mathbb{N}}A_{i}}\in
-      \mathcal{F}$.
-  \end{enumerate}
-\end{definition}
-A probability space is defined by a set of possible results, a $\sigma$-algebra
-which describes those collection of events we can observe and a function which
-describes how probable a chosen observation is:
-\begin{definition}[Probability Space]
-  For a set $\Omega$ and a $\sigma$-algebra $\mathcal{F}$ for $\Omega$ we
-  define a probability function as $\mu:\mathcal{F}\rightarrow\interval{0,1}$
-  such that
-  \begin{enumerate}
-    \item $\mu(\Omega) = 1$,
-    \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
-      $A_{i}\in\mathcal{F}$ and $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we
-      have
-      \begin{equation*}
-        \mu(\mathbb{A}) = \sum_{i\in\mathbb{N}}\mu(A_{i}).
-      \end{equation*}
-  \end{enumerate}
-  We call for such a $\mu$ the triple $\tuple{\Omega,\mathcal{F},\mu}$ a 
-  probability space. For any finite or at most countably large set $\Omega$ we 
-  can additionally define
-  \begin{description}
-    \item [Probability Distribution] as a function
-      $P:\Omega\rightarrow\interval{0,1}$ such that
-      $\sum_{\omega\in\Omega}P(\omega) = 1$.
-    \item [Support] of a probability distribution $P$ as the set of possible
-      outcomes, i.e.
-      \begin{equation*}
-        \supp(P) = \set{\omega\in\Omega\mid P(\omega) > 0}.
-      \end{equation*}
-  \end{description}
-\end{definition}
+
 For a \ac{PBA} $\mathcal{P}$ we are interested in a probability space that is
 induced by the run of $\mathcal{P}$ on the base set $Q^{\omega}$ while reading
 the input word $\alpha$. Fix for every $u\in Q^{*}$ the set
@@ -124,31 +77,12 @@ $\sigma$-algebra which is created by including the sets $\cyl(w)$ for all
 $w\in Q^{*}$ and closing the set under negation and countably union. This is
 commonly referred to as \emph{Borel}-algebra, cp.
 \cite{RandomnessForFree,AlgorithmsForPOSG}, and formally defined as
-\begin{definition}[Borel-algebra on words]
-  For a finite set $A$ we call $\mathcal{B}(A)\subseteq\Pot(A^{\omega})$ the 
-  smallest $\sigma$-algebra containing $\cyl(w)$ for all $w\in A^{*}$. We call
-  a set $C\subset A^{\omega}$ \emph{Borel} if $C\in\mathcal{B}(A)$.
-\end{definition}
+
 Given an input word $\alpha$ and having fixed a $\sigma$-algebra, namely the
 Borel-algebra over $Q$ which is induced by all cylinders, and the probability 
 for staying in a cylinder for $\alpha$. In order to derive a complete 
 probability measure on $\mathcal{B}(Q)$ from this we quote
-\begin{theorem}[Carath\'{e}odory's Extension Theorem]
-  \cite[Theorem 2.4, Theorem 5.6]{Bauer}
-  For a ground-set $\Omega$ and every collection
-  $\mathcal{E}\subseteq\Pot(\Omega)$ that is closed under intersection and
-  which contains a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that
-  $\cup_{i\in\mathbb{N}}E_{i} = \Omega$ any $\sigma$-additiv function
-  $\mu':\mathcal{E}\rightarrow\interval{0, 1}$
-  with $\mu'(\emptyset) = 0$ and $\mu'(\Omega) = 1$ can be \emph{uniquely}
-  extended to a probability measure $\mu$ on the smallest $\sigma$-algebra
-  containing $\mathcal{E}$ (denoted by $\sigma(\mathcal{E})$). This entails a
-  probability space
-  \begin{equation*}
-    \tuple{\Omega, \sigma(\mathcal{E}), \mu}.
-  \end{equation*}
-  \label{thm:measureext}
-\end{theorem}
+
 Since the cylindric sets of states do satisfy the conditions on $\mathcal{E}$
 the stochastic process of a \ac{PBA} $\mathcal{P}$ on an input word $\alpha$
 induces a probability space
@@ -556,25 +490,6 @@ accepted by a \ac{PBA} with almost-sure acceptance we find that
     \label{lem:omegaregnotpba}
   \end{lemma}
   \begin{proof}
-    This proof requires the introduction of a common theorem regarding 
-    probability spaces, namely
-    \begin{theorem}[Borel-Cantelli Lemma]
-      \cite[Theorem 2.7]{Klenke}
-      For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 
-      $\tuple{A_{i}}_{i>0}$ with $A_{i}\in\mathcal{F}$ and
-      \begin{equation*}
-        \mathcal{A} = \bigcap_{i > 0}\bigcup_{j > m}A_{j}
-      \end{equation*}
-      such that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for all 
-      $i \neq j$ and $i,j > 0$ it holds that $\mu(\mathcal{A}) = 1$ if
-      \begin{equation*}
-        \sum\limits_{i>0}\mu(A_{i}) = \infty.
-      \end{equation*}
-      The property that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for 
-      all $i \neq j$ and $i,j > 0$ is called pairwise \emph{independence} of 
-      all $A_{i}$ for $i > 0$.
-      \label{thm:BorelCantelli}
-    \end{theorem}
     We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
     $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
     \ref{ex:fina}). By similar arguments as for \ac{DBA} we can derive the

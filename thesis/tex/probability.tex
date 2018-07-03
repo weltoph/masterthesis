@@ -1,0 +1,296 @@
+In the following we introduce the basic notions of probability theory on which
+we rely in this thesis. We introduce these concepts in a concise fashion and
+refer the interested reader to \cite{Klenke} and \cite{Bauer}.
+For a given ground-set $\Omega$ we introduce a $\sigma$-algebra as a collection
+of sets closed under countable union and negation. Formally, we fix
+\begin{definition}[$\sigma$-Algebra]
+  For a set $\Omega$ we call $\mathcal{F}\subseteq\Pot(\Omega)$ for $\Omega$ a
+  $\sigma$-algebra if
+  \begin{enumerate}
+    \item $\Omega\in\mathcal{F}$,
+    \item for every $A\in\mathcal{F}$ we have $\tuple{\Omega\setminus A}
+      \in\mathcal{F}$,
+    \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
+      $A_{i}\in\mathcal{F}$ we also have $\tuple{\cup_{i\in\mathbb{N}}A_{i}}\in
+      \mathcal{F}$.
+  \end{enumerate}
+\end{definition}
+A probability space is defined by a set of possible results, a $\sigma$-algebra
+which describes those collection of events we can observe and a function which
+describes how probable a chosen observation is:
+\begin{definition}[Probability Space]
+  For a set $\Omega$ and a $\sigma$-algebra $\mathcal{F}$ for $\Omega$ we
+  define a probability function as $\mu:\mathcal{F}\rightarrow\interval{0,1}$
+  such that
+  \begin{enumerate}
+    \item $\mu(\Omega) = 1$,
+    \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
+      $A_{i}\in\mathcal{F}$ and $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we
+      have
+      \begin{equation*}
+        \mu(\mathbb{A}) = \sum_{i\in\mathbb{N}}\mu(A_{i}).
+      \end{equation*}
+  \end{enumerate}
+  We call for such a $\mu$ the triple $\tuple{\Omega,\mathcal{F},\mu}$ a 
+  probability space and $\tuple{\Omega, \mathcal{F}}$ a measurable space. For
+  any finite $A$ we can additionally define
+  \begin{description}
+    \item [Probability Distribution] as a function
+      $P:A\rightarrow\interval{0,1}$ such that
+      $\sum_{\omega\in A}P(\omega) = 1$.
+    \item [Support] of a probability distribution $P$ as the set of possible
+      outcomes, i.e.
+      \begin{equation*}
+        \supp(P) = \set{\omega\in A\mid P(\omega) > 0}.
+      \end{equation*}
+    \item [Distribution Set] the set of probability distributions over $A$ as
+      $\mathcal{D}(A)$.
+    \item [Dirac distribution / measure] as a special probability distribution 
+      $P_{a}\in\mathcal{D}(A)$ or probability measure $\mu_{a}$ for every 
+      $a\in A$ such that (cp. \cite[Example 1.30]{Klenke} or \cite{POSG})
+      \begin{equation*}
+        P(\omega) = \begin{cases}
+          1&\text{if }\omega = a,\\
+          0&\text{otherwise},
+        \end{cases}
+        \text{ or }
+        \mu(B) = \begin{cases}
+          1&\text{if }a\in B,\\
+          0&\text{otherwise}.
+        \end{cases}
+      \end{equation*}
+  \end{description}
+\end{definition}
+
+The following notions are standard for systems that show probabilistic 
+movements through a finite state space (cp. 
+\cite{RandomnessForFree,AlgorithmsForPOSG}). We introduce cylindric sets over 
+words. Consider a finite alphabet $A$ and for any $u\in A^{*}$ we introduce the 
+cylinder of $u$ by all infinite words in $A^{\omega}$ that respect $u$ as 
+prefix. Formally, we get
+\begin{equation*}
+  \cyl(u) = u\cdot A^{\omega}.
+\end{equation*}
+Based upon these cylindric sets we construct the smallest $\sigma$-algebra
+containing all these sets  as \emph{Borel}-algebra (denoted by 
+$\mathcal{B}(A)$). We can obtain $\mathcal{B}(A)$ by including all cylindric 
+sets and consider the transitive closure under negation and countably union of 
+this set. This is defined as
+\begin{definition}[Borel-algebra]
+  For a finite set $A$ we call $\mathcal{B}(A)\subseteq\Pot(A^{\omega})$ the 
+  smallest $\sigma$-algebra containing $\cyl(w)$ for all $w\in A^{*}$. We call
+  a set $C\subset A^{\omega}$ \emph{Borel} if $C\in\mathcal{B}(A)$.
+  \label{def:borelalgebra}
+\end{definition}
+
+In order to obtain a probability measure on a $\sigma$-algebra it suffices to
+declare the measure for a sufficiently rich family of elements which induce the
+measure on the complete $\sigma$-algebra. We quote for this
+\begin{theorem}[Carath\'{e}odory's Extension Theorem]
+  \cite[Theorem 2.4, Theorem 5.6]{Bauer}
+  For a ground-set $\Omega$ and every collection
+  $\mathcal{E}\subseteq\Pot(\Omega)$ that is closed under intersection and
+  which contains a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that
+  $\cup_{i\in\mathbb{N}}E_{i} = \Omega$ any $\sigma$-additiv function
+  $\mu':\mathcal{E}\rightarrow\interval{0, 1}$
+  with $\mu'(\emptyset) = 0$ and $\mu'(\Omega) = 1$ can be \emph{uniquely}
+  extended to a probability measure $\mu$ on the smallest $\sigma$-algebra
+  containing $\mathcal{E}$ (denoted by $\sigma(\mathcal{E})$). This entails a
+  probability space
+  \begin{equation*}
+    \tuple{\Omega, \sigma(\mathcal{E}), \mu}.
+  \end{equation*}
+  \label{thm:measureext}
+\end{theorem}
+
+The following theorem is used to formalize the intuition that sufficiently
+probable events happen again and again if an infinite amount of time passes.
+\begin{theorem}[Borel-Cantelli Lemma]
+  \cite[Theorem 2.7]{Klenke}
+  For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 
+  $\tuple{A_{i}}_{i>0}$ with $A_{i}\in\mathcal{F}$ and
+  \begin{equation*}
+    \mathcal{A} = \bigcap_{i > 0}\bigcup_{j > m}A_{j}
+  \end{equation*}
+  such that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for all 
+  $i \neq j$ and $i,j > 0$ it holds that $\mu(\mathcal{A}) = 1$ if
+  \begin{equation*}
+    \sum\limits_{i>0}\mu(A_{i}) = \infty.
+  \end{equation*}
+  The property that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for 
+  all $i \neq j$ and $i,j > 0$ is called \emph{pairwise independence} of 
+  all $A_{i}$ for $i > 0$.
+  \label{thm:BorelCantelli}
+\end{theorem}
+
+Moreover, we discuss measurable and integrable functions with helpful related
+results \cite[Chapter 7]{Bauer}.
+\begin{definition}[Measurable Function]
+  For two measurable spaces $\tuple{\Omega_{1}, \mathcal{F}_{1}}$, 
+  $\tuple{\Omega_{2}, \mathcal{F}_{2}}$ we call a function 
+  $f:\Omega_{1}\rightarrow\Omega_{2}$ $\mathcal{F}_{1}$-$\mathcal{F}_{2}$ 
+  measurable if
+  \begin{equation*}
+    f^{-1}(A) = \set{\omega\in\Omega_{1}\mid f(\omega)\in A}\in\mathcal{F}_{1}
+    \text{ for all }A\in\mathcal{F}_{2}.
+  \end{equation*}
+\end{definition}
+We consider particularly measurable function from a measurement space 
+$\tuple{\Omega, \mathcal{F}}$ to the measurment space
+$\tuple{\interval{0,1}, \mathcal{A}}$ where $\mathcal{A}$ is the smallest
+$\sigma$-algebra which contains all intervals $[0, a)$ for any 
+$a\in\interval{0,1}$ (cp. \cite[Chapter 4, Chapter 6]{Bauer}). These functions
+are called numerical functions and we quote the following helpful
+\begin{theorem}
+  \cite[Theorem 9.2]{Bauer}
+  For a measurable space $\tuple{\Omega, \mathcal{F}}$ and a numerical 
+  function $f:\Omega\rightarrow\interval{0,1}$ the 
+  $\mathcal{F}$-measurability of $f$ is equivalent to one of the following 
+  conditions
+  \begin{enumerate}
+    \item for all $a\in\interval{0,1}$ holds 
+      $\set{p\in\Omega\mid f(p) < a}\in\mathcal{F}$,
+    \item for all $a\in\interval{0,1}$ holds 
+      $\set{p\in\Omega\mid f(p) \leq a}\in\mathcal{F}$,
+    \item for all $a\in\interval{0,1}$ holds 
+      $\set{p\in\Omega\mid f(p) > a}\in\mathcal{F}$,
+    \item for all $a\in\interval{0,1}$ holds 
+      $\set{p\in\Omega\mid f(p) \geq a}\in\mathcal{F}$.
+  \end{enumerate}
+\end{theorem}
+Moreover, we obtain for all numerical functions the following
+\begin{theorem}
+  \cite[Theorem 11.6]{Bauer}
+  For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a numerical 
+  $\mathcal{F}$-measurable function $f:\Omega\rightarrow\interval{0,1}$ the
+  integral
+  \begin{equation*}
+    \int_{\omega\in\Omega}f(\omega)d\mu(\omega)
+  \end{equation*}
+  is well-defined in the usual sense.
+\end{theorem}
+And additionally the following helpful
+\begin{lemma}
+  \cite[Lemma 40]{RandAutoInfTrees} Let $\tuple{\Omega,\mathcal{F},\mu}$ be
+  a probability space and $f$ a measureable function from $\Omega$ to
+  $\interval{0,1}$, then $\int_{\Omega}f d\mu = 1$ if and only if 
+  $\mu(f^{-1}(1)) = 1$,
+  \label{lem:almosteverywhere}
+\end{lemma}
+
+We occasionally use product spaces which are defined as follows 
+\cite[Chapter 22]{Bauer}:
+\begin{definition}[Product Space]
+  For two measurable spaces $\tuple{\Omega_{1}, \mathcal{F}_{1}}$ and 
+  $\tuple{\Omega_{2}, \mathcal{F}_{2}}$ we fix
+  \begin{equation*}
+    \Omega = \Omega_{1}\times\Omega_{2}
+  \end{equation*}
+  and consider
+  \begin{equation*}
+    p_{i}:\Omega\rightarrow\Omega_{i}\text{ with }
+      p_{i}(\tuple{\omega_{1}, \omega_{2}} = \omega_{i}\text{ for }i = 1,2.
+  \end{equation*}
+  The smalles $\sigma$-algebra $\mathcal{F}$ such that $p_{1}, p_{2}$ are 
+  $\mathcal{F}$-$\mathcal{F_{1}}$, $\mathcal{F}$-$\mathcal{F_{2}}$ measurable 
+  respectively is called product of the $\sigma$-algebras $\mathcal{F}_{1}$ and
+  $\mathcal{F}_{2}$ denoted by
+  \begin{equation*}
+    \mathcal{F} = \mathcal{F}_{1}\otimes\mathcal{F}_{2}.
+  \end{equation*}
+\end{definition}
+We obtain for product algebras that it is sufficient to examine generating
+families of sets, namely
+\begin{theorem}
+  \cite[Theorem 22.1]{Bauer}
+  Given two collections $\mathcal{E}_{1}$ and $\mathcal{E}_{2}$ which 
+  generate $\sigma$-algebras $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ for 
+  ground-sets $\Omega_{1}$ and $\Omega_{2}$ respectively such that there are
+  sequences $\tuple{E^{i}_{j}}_{j\in\mathbb{N}}$ respectively with 
+  $E^{i}_{j}\in\mathcal{E}_{i}$ for $i = 1,2$ and $j\in\mathbb{N}$. Then the
+  product $\sigma$-algebra $\mathcal{F}_{1}\otimes\mathcal{F}_{2}$ is 
+  generated by $E_{1}\times E_{2}$ for all pairs $E_{1}\in\mathcal{E}_{1}$ 
+  and $E_{2}\in\mathcal{E}_{2}$. 
+  \label{thm:productgen}
+\end{theorem}
+Moreover
+\begin{lemma}
+  \cite[Lemma 23.2, Theorem 23.3]{Bauer}
+  For two probability spaces 
+  \begin{equation*}
+    \tuple{\Omega_{1}, \mathcal{F}_{1}, \mu_{1}}\text{ and }
+    \tuple{\Omega_{2}, \mathcal{F}_{2}, \mu_{2}}
+  \end{equation*}
+  holds that for every $Q\in\mathcal{F}_{1}\otimes\mathcal{F}_{2}$ the 
+  functions
+  \begin{equation*}
+    \omega_{i}\mapsto\mu_{3-i}(\set{\omega_{3-i}\in\Omega_{3-i}\mid
+      \tuple{\omega_{i}, \omega_{3-i}}\in Q})
+    \text{ for }i = 1,2
+  \end{equation*}
+  defined on $\Omega_{i}$ and measurable in $\mathcal{F}_{i}$ for $i = 1,2$
+  respectively. Moreover, there is a unique measure $\pi$ (denoted by 
+  $\mu_{1}\otimes\mu_{2}$) for the measurable space 
+  $\tuple{\Omega_{1}\times\Omega_{2}, \mathcal{F}_{1}\otimes\mathcal{F}_{2}}$ 
+  with 
+  \begin{equation*}
+    \pi(A_{1}\times A_{2}) = \mu_{1}(A_{1})\cdot\mu_{2}(A_{2}).
+  \end{equation*}
+\end{lemma} 
+Also, for these product spaces and measurable functions we have
+\begin{theorem}[Tonelli's Theorem]
+  \cite[Theorem 23.6]{Bauer}
+  For two probability spaces $\tuple{\Sigma_{i}, \mathcal{F}_{i}, \mu_{i}}$ 
+  ($i = 1,2$) and a $\mathcal{F}_{1}\otimes\mathcal{F}_{2}$-measureable 
+  function $f:\Sigma_{1}\times\Sigma_{2}\rightarrow\interval{0,1}$ then
+  we obtain measurability in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ 
+  respectively of
+  \begin{equation*}
+    \omega_{1}\mapsto\int_{\Omega_{2}} f(\omega_{1},\cdot)d\mu_{1}
+    \text{ and }
+    \omega_{2}\mapsto\int_{\Omega_{1}} f(\omega_{2},\cdot)d\mu_{2}.
+  \end{equation*}
+  Additionally, it holds that
+  \begin{equation*}
+    \int f d(\mu_{1}\otimes\mu_{2}) 
+    = \int_{\omega_{1}\in\Omega_{1}}(\int_{\Omega_{2}} f(\omega_{1},\cdot)
+      d\mu_{2})d\mu_{1}
+    = \int_{\omega_{2}\in\Omega_{2}}(\int_{\Omega_{1}} f(\omega_{2},\cdot)
+      d\mu_{1})d\mu_{2}.
+  \end{equation*}
+  \label{thm:tonelli}
+\end{theorem}
+
+Moving away from measurable functions we consider a more involved way to relay
+two measurable spaces in the means of \cite[Definition 8.25]{Klenke}
+\begin{definition}[Markov-Kernel]
+  For two measurable spaces $\tuple{\Omega_{1},\mathcal{F}_{1}}$ and 
+  $\tuple{\Omega_{2},\mathcal{F}_{2}}$ a function
+  \begin{equation*}
+    K:\Omega_{1}\times\mathcal{F}_{2}\rightarrow\interval{0,1}
+  \end{equation*}
+  is called a Markov-kernel if
+  \begin{enumerate}
+    \item $K(\cdot, A)$ is measurable in $\mathcal{F}_{1}$ for all 
+      $A\in\mathcal{F}_{2}$,
+    \item $K(\omega, \cdot)$ is a probability measure on 
+      $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every $\omega\in\Omega_{1}$.
+  \end{enumerate}
+\end{definition}
+Moreover, \cite[Remark 8.26]{Klenke} states if a collection $\mathcal{E}$ that 
+is closed under intersection and contains a sequence of sets 
+$\tuple{E_{i}}_{i\in\mathbb{N}}$ such that 
+$\cup_{i\in\mathbb{N}}E_{i} = \Omega_{2}$ exists then it suffices to check 
+the second condition only for all $A\in\mathcal{E}$. Concludingly, we have
+\begin{theorem}
+  \cite[Korollar 14.23]{Klenke}
+  For a probability space $\tuple{\Omega_{1}, \mathcal{F}_{1}, \mu}$, a
+  measurable space $\tuple{\Omega_{2}, \mathcal{F}_{2}}$ and a Markov-kernel
+  $K:\Omega_{1}\times\mathcal{F}_{2}$ there exists a unique probability 
+  measure $\mu\otimes K$ on $\tuple{\Omega_{1}\times \Omega_{2}, 
+  \mathcal{F}_{1}\times\mathcal{F}_{2}}$ with
+  \begin{equation*}
+    \mu\otimes K(A_{1}, A_{2}) = \int_{\omega\in A_{1}} K(\omega, A_{2})d\mu
+    \text{ for all }A_{1}\in\mathcal{F}_{1}, A_{2}\in\mathcal{F}_{2}.
+  \end{equation*}
+\end{theorem}
