@@ -25,7 +25,7 @@ question in the following
 \end{drawing}
 Naturally, the complexity of this problem is tightly related to the 
 expressibility of $\phi$. The comprehensive demand of this question, namely
-to generate for all inputs an associated \enquote{good} output, allows for a
+to generate for all inputs a \enquote{good} output, allows for a
 game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
 of strategies, i.e. one player generates inputs while another player generates
@@ -448,7 +448,8 @@ $S$ such that there is no other \ac{SCC} reachable from any $v\in S$ (cp.
 \cite[Bottom-\ac{SCC}]{ComplexProbVerification}). Intuitively, it is unlikely 
 to not eventually end up in one of these leaf-\acp{SCC} since there is 
 infinitely often the possibility to take a non-zero probability to move into 
-these, hence we state
+these and the Borel-Cantelli lemma (Theorem \ref{thm:BorelCantelli}) applies,
+hence we state
 \begin{lemma}
   \cite[Lemma 1]{SynProbEnv}
   An $J$-labeled $I$-transition-system $\mathcal{T}$ almost-surely (positively)
@@ -475,7 +476,7 @@ $\omega$-regular $\phi$. Therefore we obtain
   $n\cdot\lceil 2 + \frac{c}{2}\rceil + 1$ states.
   \label{thm:probenvsynthesis}
 \end{theorem}
-\begin{proof}[Sketch]
+\begin{proof}[Proof-Sketch]
   The main argument for this proof is that the search for the leaf-\acp{SCC} 
   can be understood as a two-player-game. One player plays for acceptance 
   (called \acceptor{}) while the other tries to spoil the correctness of the 
@@ -495,10 +496,10 @@ $\omega$-regular $\phi$. Therefore we obtain
   phase the chosen priority is also stored in the state. While operating in the
   first phase $\mathcal{A}_{\mathcal{P}}$ dispatches in all directions 
   first-phase states, representing possible choices of \spoiler{} and also in
-  one direction a second-phase state; that is a state which only dispatches a
-  second phase state into one direction, representing the possible choices of
+  one direction a second-phase state; that is a second phase state which is 
+  only dispatched into one direction, representing the choice of
   \acceptor{}. This second-phase state may at any point transform to a 
-  third-phase state and by this encodes the (even) priority of the current 
+  third-phase state and store the (even) priority of the current 
   state of $\mathcal{P}$ in the state of $\mathcal{A}_{\mathcal{P}}$. This 
   third-phase state again dispatches in all directions and as soon as one state 
   with a higher parity than the stored one appears, moves to a 
@@ -513,21 +514,19 @@ $\omega$-regular $\phi$. Therefore we obtain
   player as actual choices which may use the non-determinism of the automaton 
   while the enemy explores all possible moves. 
 \end{proof}
-
 This allows us to solve the associated synthesis problem for $\omega$-regular
-specifications and $\epsilon$-environments. In the following we consider 
-environments that are modelled as \acp{MDP} or \acp{POMDP} and try to synthesis
-for a given specification a strategy to almost-surely or positively satisfy 
-this specification. This approach is conceptually different to 
-$\epsilon$-environments since concrete probabilities are given and also the 
-interaction of the actor with the environment is explicitly incorporated but 
-can be understood as approach to annotate the transitions of $\mathcal{T}$
-with the probabilities of the environment.
+specifications and $\epsilon$-environments. By solving emptiness for a 
+\acp{APTA}.
 
-We move towards synthesis in environments which are explicitly modelled in 
-terms of \acp{MDP} and \acp{POMDP}. Then we formalize the synthesis question 
-with (cp. \cite{QualAnaPOMDP, SimpleStochasticParityGames, 
-ComplexProbVerification})
+On the other hand we consider in the following environments that are modelled 
+as \acp{MDP} or \acp{POMDP} and try to synthesis for a given specification a 
+strategy to almost-surely or positively satisfy this specification. This 
+approach is conceptually different to $\epsilon$-environments since concrete 
+probabilities are given and also the interaction of the actor with the 
+environment is explicitly incorporated but can be understood as approach to 
+annotate the transitions of $\mathcal{T}$ with the probabilities of the 
+environment. We formalize the synthesis question with (cp. 
+\cite{QualAnaPOMDP,SimpleStochasticParityGames,ComplexProbVerification})
 \begin{definition}
   Given a \ac{POMDP} 
   \begin{equation*}
@@ -541,11 +540,12 @@ ComplexProbVerification})
 We already used results formulated for this question, namely Theorem 
 \ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis}. Again,
 we focus on $\omega$-regular $\phi$ (in this case $\phi$ is itself a language
-and is not translated to one). If we additional assume that 
-$\size{\interval{s}_{\sim}} = 1$ for all $s\in S$, i.e. $\mathcal{M}$ 
-degenerates to an \ac{MDP}, similar arguments as for $\epsilon$-environments 
-above may be used. In analogy to 
-\cite[Proposition 4.2.3.]{ComplexProbVerification} we deduce
+and is not translated to one). Note that the formulation in Theorem 
+\ref{thmpomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis} use 
+acceptance conditions directly onto the states of the \ac{POMDP} and \ac{MDP}
+respectively. Initially, we observe that this is not a real restriction:
+In analogy to the constructions in
+\cite{ComplexProbVerification,MDPandRegEvents} we deduce
 \begin{lemma}
   For any \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
   \tuple{\tau_{a}}_{a\in A}, \sim}$ and $\omega$-regular 
@@ -609,7 +609,7 @@ in $\mathcal{M}$. We obtain
   $\mathcal{M}'$ with the same properties as stated in Lemma 
   \ref{lem:POMDPomegareg}.
 \end{corollary}
-Moreover, if we consider $\phi$ to be recognizable by a \ac{DBA} we obtain by
+Moreover, if we consider $\phi$ to be recognizable by a \ac{DBA} we state by
 the same argument
 \begin{corollary}
   For a \ac{DBA}-recognizable $\phi$ and a \ac{POMDP} (\ac{MDP}) $\mathcal{M}$
@@ -617,32 +617,29 @@ the same argument
   (\ac{MDP}) $\mathcal{M'}$ with an associated Büchi-condition.
   \label{cor:POMDPDBA}
 \end{corollary}
-Concludingly, if we consider that associated Büchi- or Parity-conditions on
-\ac{POMDP} induce $\omega$-regular $\phi\subseteq S^{\omega}$ we conclude that
-the two formulations are interchangeable. This allows to conclude that 
+Concludingly, since associated Büchi- or Parity-conditions on
+\ac{POMDP} induce $\omega$-regular $\phi\subseteq S^{\omega}$, namely
+\begin{equation*}
+  \phi = 
+  \begin{cases}
+    \Acc(F)&\text{for a Büchi-condition }F,\\
+    \Acc(\parity)&\text{for a Parity-condition}\parity,
+  \end{cases}
+\end{equation*} 
+we may consider the two formulations interchangeable. This allows to state that 
 \ac{DBA}-recognizable $\phi$ allow for strategy synthesis in \acp{POMDP} (cp.
 Theorem \ref{thm:pomdpstratsynthesis}) but for general $\omega$-regular $\phi$ 
-it is undecideable to compute strategies for \acp{POMDP}. Since we can model 
-\acp{POMDP} as \acp{WDTA} (see Theorem \ref{thm:POMDPequivWDTA}) we can 
-construct for a \ac{POMDP} 
-$\mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}$ and an 
-$\omega$-regular $\phi\subseteq S^{\omega}$ which is accepted by \ac{DPA}
-$\mathcal{P} = \tuple{Q, q_{0}, S, \delta, \parity}$ a \ac{WDTA} such that the
-accepted trees are strategies $s$ for which $\mu_{s}(\phi) = 1$ holds. This
-\ac{WDTA} can be obtained by the construction of Theorem 
-\ref{thm:POMDPequivWDTA} applied on $\mathcal{M'}$ from above and associating a 
-Parity-condition which mirrors $\parity_{\mathcal{P}}$ on the $Q_{\mathcal{P}}$
-component. If we want to use this construction to solve the synthesis problem 
-we obtain a cylclic argument since the emptiness check for the obtained 
-\ac{WDTA} is formulated via strategy synthesis for \acp{POMDP}.
+it is undecideable to compute strategies for \acp{POMDP}. 
 
-In the following we consider $\phi$ which are defined in terms of \acp{PBA}. 
-We observe that \ac{PBA} capture \ac{DBA} by setting every transition function 
-to a Dirac measure on $Q$. Hence, solving the synthesis problem for $\phi$ 
-which can be expressed as languages of almost-surely accepting \acp{PBA} indeed 
-is a proper generalisation of Corollary \ref{cor:POMDPDBA} because the class of 
-these $\phi$ is incomparable with $\omega$-regular languages. We examine the 
-following question:
+In the following we again examine $\phi$ which are defined in terms of 
+\acp{PBA}. We observe that \ac{PBA} capture \ac{DBA} by setting every 
+transition function to a Dirac measure on $Q$. Hence, solving the synthesis 
+problem for $\phi$ which can be expressed as languages of almost-surely 
+accepting \acp{PBA} arguably is a generalisation of Corollary 
+\ref{cor:POMDPDBA} because the class of these $\phi$ is incomparable with 
+$\omega$-regular languages. We say arguably because we effectively prove this
+by reduction to \acp{POMDP} with associated Büchi-conditions. Nevertheless, we 
+examine the following question:
 \begin{definition}[PBA-Synthesis Question]
   Given a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} $\mathcal{P}$ with
   \begin{equation*}
@@ -651,12 +648,11 @@ following question:
     \mathcal{P} = \tuple{Q, q_{0}, S, \delta, F}
   \end{equation*}
   exists a strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that 
-  almost-all executions of $\mathcal{A}$ under $s$ are accepted by 
-  $\mathcal{P}$?
-  \label{def:synthesis}
+  almost-all executions of $\mathcal{A}$ under $s$ are almost-surely accepted 
+  by $\mathcal{P}$?
+  \label{def:pbastratsynthesis}
 \end{definition}
-Considering an almost-sure acceptance condition on $\mathcal{P}$ we can answer
-this question positively with
+And we answer this question positively, hence proving
 \begin{theorem}[Qualitative PBA Synthesis]
   The synthesis question of an environment $\mathcal{M}$ and a specification
   provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance measure
@@ -667,9 +663,23 @@ Considering a certain restricted class of \acp{MDP}, namely those where for
 every state ever following state is defined by a probability distribution $B$
 (regardless of the action chosen by the player), then this result can be 
 derived as a corollary from the construction examined in Example 
-\ref{ex:pwapbaallpaths}. Although the following construction bears structural
-similarities with the one presented there, the arguments used here are a little 
-more involved.
+\ref{ex:pwapbaallpaths}. Considering this example but with a context-sensitive
+weighting of the paths (in contrast to the current restrictive notion) allows 
+to consider a movement downwards a direction as movement of an \ac{MDP} 
+$\mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}}$. If we set the
+directions as the set $S$ and consider a path weighting function such that
+given the current position is reached by $s_{1}$ and the letter $a$ is read 
+then the movement downwards $s_{2}$ is weighted by $\tau_{a}(s_{1}, s_{2})$ 
+where the inital movement corresponds to $\tau_{a}(s_{0}, \cdot)$. Then, using
+the idea of Example \ref{ex:pwapbaallpaths} we construct a \ac{PWA} that 
+executes a \ac{PBA} $\mathcal{P}$ on the weighted paths reading the directions
+rather than the letters. Conceptually, translating this to a \ac{WDTA} yields
+that every path $s_{1}\rightarrow s_{2}\rightarrow\dots$ is associated with the
+run-tree of $\mathcal{P}$ reading $s_{0}s_{1}s_{2}\dots$ with the probability
+of the underlying strategy (encoded by the tree). Building upon this idea we
+design the following argumentation which bears structural similarities with the 
+one presented for the modelling of \acp{PWA} by \acp{WDTA} (cp. Theorem 
+\ref{thm:PWAasWDTA}), but in a more involved form.
 
 \begin{proof}
   We fix one strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ which induces a 
@@ -712,7 +722,8 @@ more involved.
     = \int_{\alpha\in S^{\omega}}\mu_{\alpha}(\Acc(F))d\mu_{s} = 1 \text{ iff }
       \mu_{s}(K(\cdot,\Acc(F))^{-1}(1)) = 1.
   \end{equation*}
-  This characterises the synthesis question from Definition \ref{def:synthesis}
+  This characterises the synthesis question from Definition 
+  \ref{def:pbastratsynthesis}
   since $\mu_{s}(K(\cdot,\Acc(F))^{-1}(1))$ is the set of executions which are
   accepted by an almost-sure measure by $\mathcal{P}$. Notably, we can assure 
   this statement only under the premise that $K(\cdot, \Acc(F))$ is indeed 
