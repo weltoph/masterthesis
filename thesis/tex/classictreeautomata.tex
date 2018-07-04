@@ -32,24 +32,25 @@ set of states. The following introduction conceptually follows
   $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
   on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
 \end{definition}
-We introduce as we are already accustomed fitting acronyms, e.g.
-\acuse{PTA}  \acuse{RTA}  \acuse{MTA} \acuse{BTA}, and present an easy example 
+We introduce as we are already accustomed fitting acronyms, e.g. \ac{PTA},
+\acuse{RTA}  \acuse{MTA} \acuse{BTA} and present an easy example 
 to familiarize ourselves with the notions of tree automata
 \begin{example}
   Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
-  the $\set{a,b}$ that contain at least one $a$. This language can be accepted 
-  by a tree automaton by non-deterministically choosing a path to an occurence 
-  of an $a$ and rendering every other path accepted. And the chosen path 
-  accepted from the point onwards where an $a$ occured. The corresponding tree 
-  automaton can be described by two states $q_{s}, q_{a}$, where $q_{s}$ is a 
-  state that searches for an $a$ while $q_{a}$ is a state that renders all its 
-  subtrees accepting. $q_{a}$ reproduces itself into all its subtrees, while 
-  $q_{s}$ reproduces itself only in one of its subtrees and 
-  \enquote{dismissing} the other one by sending $q_{a}$ in it. The acceptance 
-  condition is described as a Büchi condition by the set $F = \set{q_{a}}$, 
-  thus, since $q_{a}$ only produces $q_{a}$ in all following subtrees, it can 
-  be also understood as a reachability condition. This yields the tree 
-  automaton
+  $\set{a,b}$, i.e. $\set{0,1}$-ary $\set{a,b}$-trees, that contain at least 
+  one $a$. This language can be accepted by a tree automaton by 
+  non-deterministically choosing a path to an occurence of an $a$ and rendering 
+  every other path accepted. And the chosen path accepted from the point 
+  onwards where an $a$ occured. The corresponding tree automaton can be 
+  described by two states $q_{s}, q_{a}$, where $q_{s}$ is a state that 
+  searches for an $a$ while $q_{a}$ is a state that renders all its subtrees 
+  accepting. $q_{a}$ reproduces itself into all its subtrees, while $q_{s}$ 
+  reproduces itself only in one of its subtrees and \enquote{dismissing} the 
+  other one by sending $q_{a}$ in it. The acceptance condition is described as 
+  a Büchi condition by the set $F = \set{q_{a}}$, thus, since $q_{a}$ only 
+  produces $q_{a}$ in all following subtrees, it can be also understood as a 
+  Reachability-condition, i.e. a condition which is satisfied as soon as one
+  desired element occurs. This yields the tree automaton
   \begin{equation*}
     \mathcal{A}_{\exists a} = \tuple{Q = \set{q_{s}, q_{a}}, q_{s},
     \Delta ,F = \set{q_{a}}}
@@ -71,8 +72,8 @@ to familiarize ourselves with the notions of tree automata
   \label{ex:treeexa}
 \end{example}
 It is noteworthy that $\mathcal{A}_{\exists a}$ uses a very simple acceptance
-condition, namely a reachability condition which is emulated by a Büchi
-condition. The following example on the other hand uses a more elaborate
+condition, namely a Reachability-condition which is emulated by a 
+Büchi-condition. The following example on the other hand uses a more elaborate
 acceptance condition:
 \begin{example}
   This example is similiar to e.g.
@@ -99,7 +100,7 @@ acceptance condition:
   way to model the abscence of further occurences of $a$ from one point 
   onwards.  This argument of guessing the moment when no further $a$ appears 
   cannot be used in the case of trees since every such guess involves the 
-  complete subtree. Considering the tree $t:\set{0,1}*\rightarrow\set{a,b}$ 
+  complete subtree. Considering the tree $t:\set{0,1}^{*}\rightarrow\set{a,b}$ 
   with $t(w) = a$ if and only if $w = 1^{n}0$ for any $n\in\mathbb{N}_{>0}$ we 
   see that $t\in\mathcal{L}_{\not\infty a}$, but for all $k\in\mathbb{N}_{>0}$ 
   the subtree rooted in $1^{k}$ contains an $a$. Thus, there is no point from
@@ -137,14 +138,15 @@ possible to show its closure under union, intersection and negation. This gives
   \label{thm:treeautoboolean}
 \end{theorem}
 We do not state the proof explicitly since the used concepts for union and
-intersection are the same as for the proof Theorem \ref{thm:omegaregboolean},
-namely we can obtain union by constructing an automaton that performs an 
-initial \emph{guess} which input automata is simulated and an automaton for the
-intersection simulates both input automata by a a product construction and uses 
-a Muller-condition which formulates the acceptance of the individual components 
-by their original acceptance conditions. In order to convey the closure under
-negation we introduce further concepts regarding tree automata which allow to
-present a proof in a natural way.
+intersection are the same as for the proof of Theorem 
+\ref{thm:omegaregboolean}, namely we can obtain union by constructing an 
+automaton that performs an initial \emph{guess} which input automata is 
+simulated and an automaton for the intersection simulates both input automata 
+by a a product construction and uses a Muller-condition which formulates the 
+acceptance of the individual components by their original acceptance 
+conditions. In order to convey the closure under negation we introduce further 
+concepts regarding tree automata which allow to present a proof in a natural 
+way.
 
 \subsection{Alternating Tree Automata}
 \label{subsec:ata}
@@ -222,7 +224,7 @@ We formally define similar to \cite{SynProbEnv}
   \end{enumerate}
   We consider such a run $r$ accepting if the $Q$-component of all paths that 
   are consistently marked are part of $\Acc$. Formally, we fix for any run $r$ 
-  the set of its \enquote{marked path} as
+  the set of its marked path as
   \begin{equation*}
     M_{r} = \set{
       \rho\in\tuple{D\times Q}^{\omega}\mid r(v) = 1\text{ for all finite }
@@ -249,7 +251,7 @@ By using the same argument as for Theorem
   \label{thm:atreeautoequiv}
 \end{theorem}
 Although \emph{alternation} is an extension of the \enquote{classic} tree 
-automata it turns out that it does not increase the expressibility; that is
+automata it turns out that it does not increase the expressiveness; that is
 for every alternating tree automta there is a classic tree automata which 
 accepts the same language of trees.
 \begin{theorem}[The Simulation Theorem]
@@ -593,7 +595,92 @@ automata. Again, by the effective transformations between alternating and
 non-alternating tree automata (Theorem \ref{thm:treesimulation}) it is
 sufficient to examine one of those types. We opt for non-alternating tree
 automata and discuss the reason for this after introducing a game to capture
-the emptiness of tree automata. Formally, we prove
+the emptiness of tree automata. Formally, we follow 
+\cite[Proof of Theorem 23]{ParityGamesPosDet} when considering for a given
+\ac{PTA}
+\begin{equation*}
+  \mathcal{M} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+\end{equation*}
+the following graph game
+\begin{definition}[Emptiness Game]
+  \eve{} chooses transitions depending on the current state, while
+  \adam{} chooses the direction of a transition. Therefore
+  we define the emptiness game by the following notions.
+  \begin{description}
+    \item [Arena] \eve{} is assigned the states $Q = V_{0}$ of 
+      $\mathcal{M}$, while \adam{} operates on the transitions 
+      $\Delta = V_{1}$ of $\mathcal{M}$. The edges correlate to the choices
+      both players make, i.e. $E = E_{0}\cup E_{1}$ with
+      \begin{equation*}
+        E_{0} = \set{\tuple{q, \delta}\in Q\times\Delta\mid\delta = 
+          \tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta}
+      \end{equation*}
+      and
+      \begin{equation*}
+        E_{1} = \set{\tuple{\tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}, p}
+          \in\Delta\times Q\mid\text{there is }b\in D
+          \text{ such that }p_{b} = p
+        }.
+      \end{equation*}
+      We obtain with $V = V_{0}\cup V_{1}$ an arena 
+      $\tuple{V, V_{0}, V_{1}, E}$.
+    \item [Winning Condition] \eve{} wins the game if the explored state 
+      sequence is accepted in terms of $\parity$, hence we define for any
+      $\bot < \min\set{\parity(q):q\in Q}$
+      \begin{equation*}
+        \parity'(\Gamma) = \begin{cases}
+          \parity(q) &\text{if }\Gamma = q\in Q,\\
+          \bot       &\text{otherwise}.
+        \end{cases}
+      \end{equation*}
+  \end{description}
+  We define the emptiness game as 
+  $\mathcal{G} = \tuple{V, V_{0}, V_{1}, E, \parity', q_{0}}$.
+  \label{def:treeemptinessgame}
+\end{definition}
+This game is similar to the one from Definition \ref{def:treemembershipgame}, 
+but instead of choosing a transition for the corresponding letter in a tree 
+\eve{} is free to choose any transition (and therefore implicitly a letter).
+The central insight for the emptiness game is formulated in
+\begin{lemma}
+  \eve{} has a winning strategy in $\mathcal{G}$ as defined above
+  if and only if the language of $\mathcal{M}$ is not empty.
+  \label{lem:evewinningemptiness}
+\end{lemma}
+\begin{proof}
+  Initially, we observe that for any play $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ 
+  we obtain by definition of $\parity'$ that $\max\set{\parity(q):q\in\Inf(
+  q_{0}q_{1}q_{2}\dots)} = \max\set{\parity'(\Gamma):\Gamma\in\Inf(
+  q_{0}\delta_{0}q_{1}\delta_{1}\dots)}$.
+
+  Consider a winning strategy $f:V^{*}Q\rightarrow\Delta$ for \eve{},
+  and an arbitrary riposte $g:V^{*}\Delta\rightarrow Q$ for \adam{}. By
+  the definition of $E_{1}$ we may equivalently define the strategy of 
+  \adam{} in terms of $g:V^{*}\Delta\rightarrow D$. In this form, we 
+  obtain for $f$ an associated tree $t_{f}:D^{*}\rightarrow\Sigma$ by
+  considering for any $u_{0}\dots u_{n}\in D^{*}$ the play 
+  $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ which is consistent with $f$ and the
+  riposte $g$ with $g(q_{0}\delta_{0}\dots q_{i}\delta_{i}) = u_{i}$ for 
+  $0\leq i\leq n$ and arbitrary otherwise. Naturally, we set 
+  $t(u_{0}\dots u_{n}) = \sigma$ for one $\sigma$ such that 
+  $f(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} 
+    = \tuple{q_{n}, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta$. By the 
+  construction of $t$ we see that the choices of $f$ immediately describes a 
+  possible run $r$ on $t$. Since $f$ is winning all paths \adam{} can
+  describe are won by \eve{} (accepted under $\parity'$) and therefore 
+  all paths of $r$ are accepting in terms of $\parity$, rendering $r$ an
+  accepting run for $t$ of $\mathcal{M}$.
+
+  If we have on the other hand, an accepted tree $t$ of $\mathcal{M}$ with
+  a corresponding run $r$ then \eve{} simply plays $r$, i.e. we define
+  $f_{r}$ with $f_{r}(q_{1}\delta_{0}\dots q_{n}) = \delta_{n} = r(u)$ for 
+  the $u\in D^{*}$ that corresponds to the choices of \adam{} which led 
+  to the play $q_{0}\delta_{0}\dots q_{n}$. Again, all paths in $r$ are 
+  accepting in terms of $\parity$ rendering all plays consistent with $f_{r}$ 
+  accepted in terms of $\parity'$. Hence, $f_{r}$ is a winning strategy.
+\end{proof}
+
+This lemma directly allows us to state
 \begin{theorem}
   \cite[Theorem 21]{AutoInfObj} \cite[Theorem 7.25]{AutoLogInfGames}
   The problem if the language of a given \ac{PTA}
@@ -606,97 +693,19 @@ the emptiness of tree automata. Formally, we prove
   $d = \lfloor \frac{\size{\parity(Q)}}{2} \rfloor$.
 \end{theorem}
 \begin{proof}
-  The proof we adapt here follows 
-  \cite[Proof of Theorem 23]{ParityGamesPosDet}. The idea is to formulate the
-  emptiness problem as a graph game. This game is similar to the one from
-  Definition \ref{def:treemembershipgame}, but instead of choosing a transition
-  for the corresponding letter in a tree \eve{} is free to choose any
-  transition (and therefore implicitly a letter). We define
-  \begin{definition}[Emptiness Game]
-    \eve{} chooses transitions depending on the current state, while
-    \adam{} chooses the direction of a transition. Therefore
-    we define the emptiness game by the following notions.
-    \begin{description}
-      \item [Arena] \eve{} is assigned the states $Q = V_{0}$ of 
-        $\mathcal{M}$, while \adam{} operates on the transitions 
-        $\Delta = V_{1}$ of $\mathcal{M}$. The edges correlate to the choices
-        both players make, i.e. $E = E_{0}\cup E_{1}$ with
-        \begin{equation*}
-          E_{0} = \set{\tuple{q, \delta}\in Q\times\Delta\mid\delta = 
-            \tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta}
-        \end{equation*}
-        and
-        \begin{equation*}
-          E_{1} = \set{\tuple{\tuple{q, \sigma, \tuple{p_{d}}_{d\in D}}, p}
-            \in\Delta\times Q\mid\text{there is }b\in D
-            \text{ such that }p_{b} = p
-          }.
-        \end{equation*}
-        We obtain with $V = V_{0}\cup V_{1}$ an arena 
-        $\tuple{V, V_{0}, V_{1}, E}$.
-      \item [Winning Condition] \eve{} wins the game if the explored state 
-        sequence is accepted in terms of $\parity$, hence we define for any
-        $\bot < \min\set{\parity(q):q\in Q}$
-        \begin{equation*}
-          \parity'(\Gamma) = \begin{cases}
-            \parity(q) &\text{if }\Gamma = q\in Q,\\
-            \bot       &\text{otherwise}.
-          \end{cases}
-        \end{equation*}
-    \end{description}
-    We define the emptiness game as 
-    $\mathcal{G} = \tuple{V, V_{0}, V_{1}, E, \parity', q_{0}}$.
-    \label{def:treeemptinessgame}
-  \end{definition}
-  Initially, we observe that for any play 
-  $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ we obtain by definition of $\parity'$
-  that $\max\set{\parity(q):q\in\Inf(q_{0}q_{1}q_{2}\dots)} = 
-  \max\set{\parity'(\Gamma):\Gamma\in\Inf(
-  q_{0}\delta_{0}q_{1}\delta_{1}\dots)}$. The central insight for the emptiness 
-  game is formulated in
-  \begin{lemma}
-    \eve{} has a winning strategy in $\mathcal{G}$ as defined above
-    if and only if the language of $\mathcal{M}$ is not empty.
-  \end{lemma}
-  \begin{proof}
-    Consider a winning strategy $f:V^{*}Q\rightarrow\Delta$ for \eve{},
-    and an arbitrary riposte $g:V^{*}\Delta\rightarrow Q$ for \adam{}. By
-    the definition of $E_{1}$ we may equivalently define the strategy of 
-    \adam{} in terms of $g:V^{*}\Delta\rightarrow D$. In this form, we 
-    obtain for $f$ an associated tree $t_{f}:D^{*}\rightarrow\Sigma$ by
-    considering for any $u_{0}\dots u_{n}\in D^{*}$ the play 
-    $q_{0}\delta_{0}q_{1}\delta_{1}\dots$ which is consistent with $f$ and the
-    riposte $g$ with $g(q_{0}\delta_{0}\dots q_{i}\delta_{i}) = u_{i}$ for 
-    $0\leq i\leq n$ and arbitrary otherwise. Naturally, we set 
-    $t(u_{0}\dots u_{n}) = \sigma$ for one $\sigma$ such that 
-    $f(q_{0}\delta_{0}\dots q_{n}) = \delta_{n} 
-      = \tuple{q_{n}, \sigma, \tuple{p_{d}}_{d\in D}}\in\Delta$. By the 
-    construction of $t$ we see that the choices of $f$ immediately describes a 
-    possible run $r$ on $t$. Since $f$ is winning all paths \adam{} can
-    describe are won by \eve{} (accepted under $\parity'$) and therefore 
-    all paths of $r$ are accepting in terms of $\parity$, rendering $r$ an
-    accepting run for $t$ of $\mathcal{M}$.
-
-    If we have on the other hand, an accepted tree $t$ of $\mathcal{M}$ with
-    a corresponding run $r$ then \eve{} simply plays $r$, i.e. we define
-    $f_{r}$ with $f_{r}(q_{1}\delta_{0}\dots q_{n}) = \delta_{n} = r(u)$ for 
-    the $u\in D^{*}$ that corresponds to the choices of \adam{} which led 
-    to the play $q_{0}\delta_{0}\dots q_{n}$. Again, all paths in $r$ are 
-    accepting in terms of $\parity$ rendering all plays consistent with $f_{r}$ 
-    accepted in terms of $\parity'$. Hence, $f_{r}$ is a winning strategy.
-  \end{proof}
-  By Theorem \ref{thm:posdetparity} we even obtain a positional winning 
-  strategy for \eve{} (if there is any winning strategy). This means that
-  the structure of the obtained tree indeed is - to a certain degree - 
-  simple\footnote{
-    Theorem 23 in \cite{ParityGamesPosDet} calls such a tree $t$ \emph{regular} 
-    which means that the number of isomorphic subtrees in $t$ is finite. This
-    is similar to ultimatively periodic words for $\omega$-regular languages.
-  }. 
-  Moreover, it is possible to compute winning strategies for Parity-games in
-  the stated complexity which yields the decision procedure for the emptiness 
-  problem of $\mathcal{M}$.
+  The stated complexity relates to the complexity of computing winning regions
+  in parity games. Using Lemma \ref{lem:evewinningemptiness} directly induces
+  the statement.
 \end{proof}
+
+By Theorem \ref{thm:posdetparity} we even obtain a positional winning strategy 
+for \eve{} (if there is any winning strategy). This means that the structure of 
+the obtained tree indeed is - to a certain degree - simple\footnote{
+  Theorem 23 in \cite{ParityGamesPosDet} calls such a tree $t$ \emph{regular} 
+  which means that the number of isomorphic subtrees in $t$ is finite. This
+  is similar to ultimatively periodic words for $\omega$-regular languages.
+}.
+
 Note that we designed this emptiness game in terms of \ac{PTA} rather than 
 \ac{APTA}. This is due to the fact that the choices of \eve{} must be 
 consistent with an underlying tree (cp. Example \ref{ex:pbaasmdp}). We 

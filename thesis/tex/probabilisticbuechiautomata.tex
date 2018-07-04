@@ -2,36 +2,29 @@ Upon the concept of \acp{NBA} there are approaches to substitute the
 non-deterministic choices by probabilistic ones, e.g.
 \cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}. We begin with
 a formal introduction of an automaton model which makes use of this idea,
-called \aclp{PBA}. Then we proceed by introducing the necessary concept of
-measuring theory to formally define their semantics. Additionally, these basic
-concepts of measuring theory are re-used later on for more complex
-probabilistic automata models.
+called \acp{PBA}.
 
 A \ac{PBA} essentially is an \ac{NBA} where the non-determinism is solved by a
 probability distribution. Therefore, we define analogously to 
 \cite{Groesser}
 \begin{definition}[Probabilistic Büchi Automata]
-  A \acl{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
+  A \ac{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
   tuple $\tuple{Q, \Sigma, \delta, q_{0}, F}$ where $Q$ is a finite state set,
   $q_{0}\in Q$ the initial state,
     $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$
   a transition probability function such that for all pairs $q\in Q$ and
-  $\sigma\in\Sigma$ we have $\sum_{p\in Q}\delta(q,\sigma,p)\in\set{0,1}$
+  $\sigma\in\Sigma$ we have $\sum_{p\in Q}\delta(q,\sigma,p) = 1$
   and $F\subseteq Q$ is the set of final states.
 \end{definition}
-Note that this definition may also be altered to allow initial distributions
-rather than one initial state \cite{RecOmeLangProbAuto}. Conceptually, a
-\ac{PBA} $\mathcal{P}$ processes an input word similarly as other word automata
-by sequentially reading the letters of the input word and moving along its
-states. Provided the current state is $q$ and the next letter of the input word 
-is $a$ then $\mathcal{P}$ consults $\delta$ to determine its next state,
-specifically $\mathcal{P}$ chooses a state $p$ by the probability
+Conceptually, a \ac{PBA} $\mathcal{P}$ processes an input word similarly as 
+other word automata by sequentially reading the letters of the input word and 
+moving along its states. Provided the current state is $q$ and the next letter 
+of the input word is $a$ then $\mathcal{P}$ consults $\delta$ to determine its 
+next state, specifically $\mathcal{P}$ chooses a state $p$ by the probability
 $\delta(q,a,p)$. Naturally, any run of $\mathcal{P}$ starts in its initial
-state $q_{0}$ (respectively $\mathcal{P}$ may choose its initial state by a
-given probability distribution $\iota:Q\rightarrow\interval{0,1}$). Considering
-one fixed input word $\alpha$ the \ac{PBA} $\mathcal{P}$ provides a process
-which produces corresponding state sequences with certain probabilities (see
-Figure \ref{fig:pbaruns} for an illustration).
+state $q_{0}$. Considering one fixed input word $\alpha$ the \ac{PBA} 
+$\mathcal{P}$ provides a process which produces corresponding state sequences 
+with certain probabilities (see Figure \ref{fig:pbaruns} for an illustration).
 \begin{drawing}
   \caption{Illustration of the stochastic process of a \ac{PBA} $\mathcal{P}$
   with two states $q_{0}, q_{1}$ on a word $\alpha\in\Sigma^{\omega}$ with
@@ -42,14 +35,13 @@ Figure \ref{fig:pbaruns} for an illustration).
   \end{center}
 \end{drawing}
 Its acceptance is defined by the notion of how probable the produced state
-sequences are to satisfy the associated Büchi-condition $F$. The formal
-definition of this intuition requires a little work beforehand.
-
-For a \ac{PBA} $\mathcal{P}$ we are interested in a probability space that is
-induced by the run of $\mathcal{P}$ on the base set $Q^{\omega}$ while reading
-the input word $\alpha$. Fix for every $u\in Q^{*}$ the set
-$\cyl(u) = \set{u\beta : \beta\in Q^{\omega}}\subseteq Q^{\omega}$, a
-\emph{cylinder} as illustrated in Figure \ref{fig:cylinder}.
+sequences are to satisfy the associated Büchi-condition $F$. For a \ac{PBA} 
+$\mathcal{P} = \tuple{Q, q_{0}, \delta, F}$ we are interested in a probability 
+space that is induced by the run of $\mathcal{P}$ on the base set $Q^{\omega}$ 
+while reading the input word $\alpha$. For the cylindric sets $\cyl(u)$ for any
+$u\in Q^{*}$ (see Figure \ref{fig:cylinder} for an illustration) we obtain the
+probability to stay within this cylinder while reading a finite prefix of the
+input word.
 \begin{drawing}
   \caption{All infinite sequences of states $\set{q_{1},\dots, q_{k}}$ can be
   organised in a tree. In this tree the set $\cyl(u_{1}\dots u_{n})$ are all 
@@ -62,30 +54,17 @@ $\cyl(u) = \set{u\beta : \beta\in Q^{\omega}}\subseteq Q^{\omega}$, a
   % }
   \end{center}
 \end{drawing}
-By using the transition probabilities of $\mathcal{P}$ we can formulate the
-probability to stay within a certain cylinder while reading a finite prefix of
-the input word. Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$.
-First we observe, that all cylinders that are not rooted in $q_{0}$ can be
-discarded. For any sequence $q_{0}q_{1}\dots q_{n}$ the run of $\mathcal{P}$
-on $\alpha$ stays within $\cyl(q_{0}q_{1}\dots q_{n})$ with the probability to
+Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$. First we 
+For any sequence $q_{1}q_{2}\dots q_{n}$ the run of $\mathcal{P}$
+on $\alpha$ stays within $\cyl(q_{1}\dots q_{n})$ with the probability to
 move along the path $q_{0}q_{1}\dots q_{n}$ while reading $u_{1}\dots u_{n}$.
 This is the product of the probabilities to move from $q_{i-1}$ to $q_{i}$
-while reading $u_{i}$ for $1\leq i\leq n$; thus
-$\prod_{1\leq i\leq n}\delta(q_{i-1},u_{i},q_{i})$. In order to associate with
-the state sequences of $\mathcal{P}$ a probability space we rely on the 
-$\sigma$-algebra which is created by including the sets $\cyl(w)$ for all 
-$w\in Q^{*}$ and closing the set under negation and countably union. This is
-commonly referred to as \emph{Borel}-algebra, cp.
-\cite{RandomnessForFree,AlgorithmsForPOSG}, and formally defined as
+while reading $u_{i}$ for $1\leq i\leq n$; thus 
+$\prod_{1\leq i\leq n}\delta(q_{i-1},u_{i},q_{i})$. 
 
-Given an input word $\alpha$ and having fixed a $\sigma$-algebra, namely the
-Borel-algebra over $Q$ which is induced by all cylinders, and the probability 
-for staying in a cylinder for $\alpha$. In order to derive a complete 
-probability measure on $\mathcal{B}(Q)$ from this we quote
-
-Since the cylindric sets of states do satisfy the conditions on $\mathcal{E}$
-the stochastic process of a \ac{PBA} $\mathcal{P}$ on an input word $\alpha$
-induces a probability space
+Given an input word $\alpha$ and using the Borel-algebra $\mathcal{B}(Q)$ and 
+the probability for staying in a cylinder for $\alpha$ allows to use Theorem
+\ref{thm:measureext} to fix a probability space
 \begin{equation*}
   \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}.
 \end{equation*}
@@ -318,7 +297,8 @@ by a \ac{PBA} forms a Boolean algebra. This is captured in
   \enquote{stuctural} difference, which in this case is the acceptance measure
   (in contrast to determinsm before). Also, we note that all \enquote{strong}
   conditions again coincide which is easily obtained by using \acp{LAR} which
-  we prove for a more general model. Nevertheless, we state here
+  we prove for a more general model in Chapter \ref{chapter:treeautomata}.
+  Nevertheless, we state here
   \begin{theorem}
     The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides under
     positive as well as almost-sure acceptance.
@@ -437,103 +417,109 @@ this sequence non-accepting in $\mathcal{P}$ while $\lambda_{2}$ renders it
 accepting (as described in \cite{DecProblemsForProbAuto}).
 
 Regarding the relationship of $\omega$-regularity to languages which are 
-accepted by a \ac{PBA} with almost-sure acceptance we find that
+accepted by a \ac{PBA} with almost-sure acceptance we find that both classes
+are incomparable. We examine both directions of possible inclusions. Firstly,
+as noted in Figure \ref{fig:almostsureacceptingpba} the defined \ac{PBA} 
+$\mathcal{P}$ almost-surely accepts a non-$\omega$-regular language, hence
+\begin{lemma}
+  There is a non-$\omega$-regular language that is accepted by any \ac{PBA} 
+  with almost-sure acceptance.
+  \label{lem:pbanotomegareg}
+\end{lemma}
+\begin{proof}
+  As expected, we use the language $\mathcal{L}_{=1}$ from Example 
+  \ref{ex:almostsureacceptingpba} to witness this claim. In Example 
+  \ref{ex:almostsureacceptingpba} we already mentioned the 
+  \enquote{almost duality} of this language to $\mathcal{L}_{>0}$ from Example
+  \ref{ex:posacceptingpba}. By defining
+  \begin{equation*}
+    \mathcal{L}_{\omega} = \set{
+      \alpha_{1}\alpha_{2}\dots\in\set{a,b}^{\omega}\middle|
+      \text{s.t. }
+      \begin{aligned}
+        &\alpha_{1} = b&\text{or }\\
+        &\alpha_{i} = \alpha_{i+1} = b&\text{for one }i>0\text{ or }\\
+        &\alpha_{i} = \alpha_{i+1} = \dots = b&\text{for one }i>0\text{ holds}
+      \end{aligned}
+    },
+  \end{equation*}
+  we can state that $\set{a,b}^{\omega}\setminus\mathcal{L}_{>0} = 
+    \mathcal{L}_{=1}\cup\mathcal{L}_{\omega}$.  $\mathcal{L}_{\omega}$ can be 
+  separated into its individual parts where each part is $\omega$-regular and 
+  so is $\mathcal{L}_{\omega}$ by closure under union for $\omega$-regular 
+  languages. Thus, assuming $\mathcal{L}_{=1}$ $\omega$-regularity renders 
+  $\mathcal{L}_{=1}\cup\mathcal{L}_{\omega}$ $\omega$-regular and by closure 
+  under complement of $\omega$-regular languages also $\mathcal{L}_{>0}$ 
+  which is a contradiction to Lemma \ref{lem:posaccpba>omegareg}. Therefore, 
+  we state that $\mathcal{L}_{=1}$ is not $\omega$-regular.
+\end{proof}
+
+On the other hand, we get
+\begin{lemma}
+  \cite[Theorem 4.4.9 (b)]{Groesser}
+  There is an $\omega$-regular language that cannot be accepted by any 
+  \ac{PBA} with almost-sure acceptance.
+  \label{lem:omegaregnotpba}
+\end{lemma}
+\begin{proof}
+  We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
+  $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
+  \ref{ex:fina}). By similar arguments as for \ac{DBA} we can derive the
+  impossibility to accept this language with an almost-sure accepting 
+  \ac{PBA}. To provoke a contradiction we assume the existence of a \ac{PBA}
+  $\mathcal{P} = \tuple{Q, q_{0}, \set{a,b}, \delta, F}$ which accepts 
+  $\mathcal{L}$. W.l.o.g. we can assume that all states in $Q$ are reachable
+  from $q_{0}$ and hence reading $b^{\omega}$ starting in any state must 
+  yield an acceptance measure of $1$ for $\Acc(F)$. Moreover, every state $p$ 
+  must allow to read an accepting state with a positive probability 
+  $\epsilon_{p}$ after a sequence of $b^{n_{p}}$; if we take the maximum of 
+  all the lengths of these sequences $n = \max\set{n_{p}:p\in Q}$ we know 
+  that every state must visit with positive probability (at least) 
+  $\epsilon = \min\set{\epsilon_{p}:p\in Q}$ an accepting state after reading 
+  $a^{n}$. This implies that for every state that is possible after a 
+  sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, \dots$) it is probable to 
+  read another accepting state within the next $b^{n}a$ sequence. Hence, 
+  fixing $A_{k}$ as the observation that in the $k$-th reading of $b^{n}a$ 
+  from every state at least once a final state is visited allows to use 
+  Theorem \ref{thm:BorelCantelli} for the sequence $\tuple{A_{k}}_{k > 0}$ 
+  and yields an almost-sure probability for reading infinitely many states in 
+  $F$ for runs of $\mathcal{P}$. Formally, we set
+  \begin{equation*}
+    A_{k} = Q^{\tuple{n + 1}^{k}}\cdot\bigcup_{1\leq i\leq n} Q^{i - 1}F\cdot 
+      Q^{n - i + 1} Q^{\omega},
+  \end{equation*}
+  i.e. the occurence of at least one state $F$ in the $k$-th occurence of 
+  $b^{n}a$. We observe that
+  \begin{equation*}
+    \bigcap_{i > 0}\bigcup_{j > i}A_{j} = \Acc(F),
+  \end{equation*}
+  since there must not be an index from which onwards $F$ never again occurs.
+  The pairwise independence of all $A_{k}$ for $k > 0$ follows from the 
+  history-independence of the probability functions of the individual 
+  states\footnote{This property of history-independence of the probability 
+  distributions is called \emph{Markov}-property (cp. e.g. 
+  \cite[Page 8]{Groesser} or \cite[Chapter 17]{Klenke}).}.
+\end{proof}
+
+And by combination of Lemma \ref{lem:omegaregnotpba} and Lemma 
+\ref{lem:pbanotomegareg} we get
 \begin{theorem}
   \cite[Theorem 4, (b), (c)]{DecProblemsForProbAuto}
   The classes of $\omega$-regular languages and languages accepted by a 
   \ac{PBA} with almost-sure acceptance are incomparable.
   \label{thm:regalmostsureincomparable}
 \end{theorem}
-\begin{proof}
-  The proof separates in both directions of possible inclusions. As noted in
-  Figure \ref{fig:almostsureacceptingpba} the defined \ac{PBA} $\mathcal{P}$
-  almost-surely accepts a non-$\omega$-regular language, hence
-  \begin{lemma}
-    There is a non-$\omega$-regular language that is accepted by any \ac{PBA} 
-    with almost-sure acceptance.
-  \end{lemma}
-  \begin{proof}
-    As expected, we use the language $\mathcal{L}_{=1}$ from Example 
-    \ref{ex:almostsureacceptingpba} to witness this claim. In Example 
-    \ref{ex:almostsureacceptingpba} we already mentioned the 
-    \enquote{almost duality} of this language to $\mathcal{L}_{>0}$ from 
-    Example \ref{ex:posacceptingpba}. By defining
-    \begin{equation*}
-      \mathcal{L}_{\omega} = \set{
-        \alpha_{1}\alpha_{2}\dots\in\set{a,b}^{\omega}\middle|
-        \text{s.t. }
-        \begin{aligned}
-          &\alpha_{1} = b&\text{or }\\
-          &\alpha_{i} = \alpha_{i+1} = b&\text{for one }i>0\text{ or }\\
-          &\alpha_{i} = \alpha_{i+1} = \dots = b&\text{for one }i>0\text{ holds}
-        \end{aligned}
-      },
-    \end{equation*}
-    we can state that 
-    $\set{a,b}^{\omega}\setminus\mathcal{L}_{>0} = 
-      \mathcal{L}_{=1}\cup\mathcal{L}_{\omega}$.
-    $\mathcal{L}_{\omega}$ can be separated into its individual parts where 
-    each part is $\omega$-regular and so is $\mathcal{L}_{\omega}$ by closure 
-    under union for $\omega$-regular languages. Thus, assuming 
-    $\mathcal{L}_{=1}$ $\omega$-regularity renders 
-    $\mathcal{L}_{=1}\cup\mathcal{L}_{\omega}$ $\omega$-regular and by closure 
-    under complement of $\omega$-regular languages also $\mathcal{L}_{>0}$ 
-    which is a contradiction to Lemma \ref{lem:posaccpba>omegareg}. Therefore, 
-    we state that $\mathcal{L}_{=1}$ is not $\omega$-regular.
-  \end{proof}
 
-  On the other hand we get
-  \begin{lemma}
-    \cite[Theorem 4.4.9 (b)]{Groesser}
-    There is an $\omega$-regular language that cannot be accepted by any 
-    \ac{PBA} with almost-sure acceptance.
-    \label{lem:omegaregnotpba}
-  \end{lemma}
-  \begin{proof}
-    We examine the $\omega$-regular language $\mathcal{L}$ over the alphabet
-    $\set{a,b}$ of those words that contain only finitely many $a$ (cp. Example
-    \ref{ex:fina}). By similar arguments as for \ac{DBA} we can derive the
-    impossibility to accept this language with an almost-sure accepting 
-    \ac{PBA}. To provoke a contradiction we assume the existence of a \ac{PBA}
-    $\mathcal{P} = \tuple{Q, q_{0}, \set{a,b}, \delta, F}$ which accepts 
-    $\mathcal{L}$. W.l.o.g. we can assume that all states in $Q$ are reachable
-    from $q_{0}$ and hence reading $b^{\omega}$ starting in any state must 
-    yield an acceptance measure of $1$ for $\Acc(F)$. Moreover, every state $p$ 
-    must allow to read an accepting state with a positive probability 
-    $\epsilon_{p}$ after a sequence of $b^{n_{p}}$; if we take the maximum of 
-    all the lengths of these sequences $n = \max\set{n_{p}:p\in Q}$ we know 
-    that every state must visit with positive probability (at least) 
-    $\epsilon = \min\set{\epsilon_{p}:p\in Q}$ an accepting state after reading 
-    $a^{n}$. This implies that for every state that is possible after a 
-    sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, \dots$) it is probable to 
-    read another accepting state within the next $b^{n}a$ sequence. Hence, 
-    fixing $A_{k}$ as the observation that in the $k$-th reading of $b^{n}a$ 
-    from every state at least once a final state is visited allows to use 
-    Theorem \ref{thm:BorelCantelli} for the sequence $\tuple{A_{k}}_{k > 0}$ 
-    and yields an almost-sure probability for reading infinitely many states in 
-    $F$ for runs of $\mathcal{P}$. Formally, we set
-    \begin{equation*}
-      A_{k} = Q^{\tuple{n + 1}^{k}}\cdot\bigcup_{1\leq i\leq n} Q^{i - 1}F\cdot 
-        Q^{n - i + 1} Q^{\omega},
-    \end{equation*}
-    i.e. the occurence of at least one state $F$ in the $k$-th occurence of 
-    $b^{n}a$. We observe that
-    \begin{equation*}
-      \bigcap_{i > 0}\bigcup_{j > i}A_{j} = \Acc(F),
-    \end{equation*}
-    since there must not be an index from which onwards $F$ never again occurs.
-    The pairwise independence of all $A_{k}$ for $k > 0$ follows from the 
-    history-independence of the probability functions of the individual 
-    states\footnote{This property of history-independence of the probability 
-    distributions is called \emph{Markov}-property (cp. e.g. 
-    \cite[Page 8]{Groesser} or \cite[Chapter 17]{Klenke}).}.
-  \end{proof}
-\end{proof}
-The observation that $\set{a,b}^{*}b^{\omega}$ cannot be recognized by a 
-\ac{PBA} with almost-sure acceptance but the set of all words that contain 
-infinitely many $a$ is (since it is \ac{DBA} recognizable and by choosing at
-every point one transition with probability $1$ integrates the behaviour of
-\acp{DBA} into \acp{PBA}) directly entails
+Considering this theorem and that using Dirac distributions at every state 
+emulate determinstic choices the following result is transparent:
+\begin{proposition}
+  \cite[Proof of Theorem 4.4.9 (d)]{Groesser}
+  The class of languages recognizable by \acp{PBA} with almost-sure acceptance
+  strictly includes the class of languages recognizable by \acp{DBA}.
+\end{proposition}
+This entails by the observation that $\set{a,b}^{*}b^{\omega}$ cannot be 
+recognized by a \ac{PBA} with almost-sure acceptance but the set of all words 
+that contain infinitely many $a$ is (since it is \ac{DBA} recognizable)
 \begin{proposition}
   \cite[Theorem 4.4.9 (d)]{Groesser}
   The class of languages recognizable with \acp{PBA} with almost-sure 
@@ -545,7 +531,7 @@ every point one transition with probability $1$ integrates the behaviour of
 In the following we introduce \acp{MDP}, a model of interaction between a 
 probabilistic domain and an actor within this domain. We call this actor \eve{} 
 and treat her grammatically as female. The actions of \eve{} impact the 
-behavior of the domain and depending on the behavior of the domain the actor 
+behavior of the domain and depending on the behavior of the domain she
 may adapt her behavior. It shares significant structural similarities to 
 \acp{PBA} but allows for a rather different interpretation. Nevertheless, we
 reuse various concepts from \acp{PBA} to define \acp{MDP}. The following 
@@ -581,7 +567,7 @@ are induced by a word $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$
 rather than a player. Any \ac{PBA} $\mathcal{P}$ can be interpreted as \ac{MDP}
 and for any $\alpha$ a corresponding strategy
 $\varphi_{\alpha}:Q^{*}\rightarrow\Sigma$ with
-$\varphi_{\alpha}(w) = \alpha_{\size{w}}$ can be defined. On the other hand, do
+$\varphi_{\alpha}(w) = \alpha_{\size{w}}$ can be defined. On the other hand,
 strategies for \acp{MDP} allow for an interaction between \eve{} and the
 environment, thus \eve{} might react differently considering which state she 
 currently stays in, e.g.

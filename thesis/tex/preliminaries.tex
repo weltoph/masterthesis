@@ -28,3 +28,21 @@ we define
 \end{equation*}
 and for a finite word $u\in A^{*}$ we allow the notation
 $u\cdot\mathcal{L}_{2}$ to express $\set{u}\cdot\mathcal{L}_{2}$.
+
+Considering a function $f:A\rightarrow B$ we allow to implicitly lift $f$ to
+sets and finite and infinite words by elementwise application, namely
+\begin{center}
+  \begin{tabular}{lp{0.5cm}l}
+    for $C\subseteq A$ & & $f(C) = \set{f(c) : c\in C}\subseteq B$ \\
+    for $u = a_{1}\dots a_{n}\in A^{*}$ & & $f(u) = f(a_{1})
+    \dots f(a_{n}) \in B^{*}$ \\
+  for $\alpha\in\alpha_{1}\alpha_{2}\dots\in A^{\omega}$
+    & & $f(\alpha) = f(\alpha_{1})f(\alpha_{2})\dots\in B^{\omega}$.\\
+  \end{tabular}
+\end{center}
+Additionally, we allow to lift a function $f:A^{*}\rightarrow B$ to infinite
+words such that
+\begin{equation*}
+  f(\alpha_{1}\alpha_{2}\alpha_{3}\dots) = f(\alpha_{1})f(
+    \alpha_{1}\alpha_{2})f(\alpha_{1}\alpha_{2}\alpha_{3})\dots.
+\end{equation*}

@@ -138,131 +138,130 @@ following
   $\omega$-regular languages. \acp{DBA} are strictly less expressive.
   \label{thm:omegaregularexp}
 \end{theorem}
-The following proof is incomplete but allows us to introduce common concepts
-and arguments for automata which are also valuable in more involved contexts
-but easier to explain here.
-\begin{proof}
-  Firstly, we provide an argument to show that \acp{DBA} are less expressive.
-  Consider again $\mathcal{L}$ from Example \ref{ex:fina} and the following
-  argument: the deterministic nature of any \ac{DBA} $\mathcal{A}$ yields one
-  possible run for every word of $\mathcal{A}$. This means that words with
-  common finite prefixes share common finite prefixes of their individual runs.
-  Assume to have one \ac{DBA} $\mathcal{A}$ which accepts $\mathcal{L}$ and
-  consider the following family of words with common prefixes of increasing 
-  length
+In the following we present parts of the proof of this theorem. Mainly, we
+introduce and discuss common concepts and arguments for automata which are also 
+valuable in more involved contexts.
+
+Firstly, we provide an argument to show that \acp{DBA} are less expressive.
+Consider again $\mathcal{L}$ from Example \ref{ex:fina} and the following
+argument: the deterministic nature of any \ac{DBA} $\mathcal{A}$ yields one
+possible run for every word of $\mathcal{A}$. This means that words with
+common finite prefixes share common finite prefixes of their individual runs.
+Assume to have one \ac{DBA} $\mathcal{A}$ which accepts $\mathcal{L}$ and
+consider the following family of words with common prefixes of increasing 
+length
+\begin{equation*}
+  b^{\omega}, b^{n_{0}}ab^{\omega}, b^{n_{0}}ab^{n_{1}}ab^{\omega}, \dots
+\end{equation*}
+where every $n_{i}$ is chosen such that the unique run in $\mathcal{A}$
+just visited a state in $F$ (which needs to happen since every element of
+this word-family is in $\mathcal{L}$ and therefore accepted by
+$\mathcal{A}$). Thus, by iterating \enquote{sliding in} $a$ after a visit in
+$F$ we construct a word which is accepted but contains infinitely many $a$
+contradicting that $\mathcal{A}$ actually recognizes $\mathcal{L}$.
+
+Secondly, we argue that Muller-, Rabin- and Parity-conditions are
+equally expressive. Therefore, we initially consider that all deterministic
+automata are non-deterministic automata which do not use their
+non-determinism. Furthermore it is easy to see, that Rabin- and
+Parity-conditions are captured by Muller-conditions by enumerating all
+$\Inf$-sets that satisfy the corresponding conditions. In a second step we
+show that \acp{NMA} can be translated to \acp{NPA} as well as \acp{NRA}. This
+translation makes use of the following construct:
+\begin{definition}[Latest Appearance Record]
+  For a finite state set $Q$ define the set of permutations of elements in
+  $Q$ as $\perm(Q)\subseteq Q^{\size{Q}}$ and
   \begin{equation*}
-    b^{\omega}, b^{n_{0}}ab^{\omega}, b^{n_{0}}ab^{n_{1}}ab^{\omega}, \dots
+    \lar(Q) = \set{\interval{w,h}\mid w\in\perm(Q)\text{ and }1\leq
+    h\leq\size{Q}}
   \end{equation*}
-  where every $n_{i}$ is chosen such that the unique run in $\mathcal{A}$
-  just visited a state in $F$ (which needs to happen since every element of
-  this word-family is in $\mathcal{L}$ and therefore accepted by
-  $\mathcal{A}$). Thus, by iterating \enquote{sliding in} $a$ after a visit in
-  $F$ we construct a word which is accepted but contains infinitely many $a$
-  contradicting that $\mathcal{A}$ actually recognizes $\mathcal{L}$.
-
-  Secondly, we argue that Muller-, Rabin- and Parity-conditions are
-  equally expressive. Therefore, we initially consider that all deterministic
-  automata are non-deterministic automata which do not use their
-  non-determinism. Furthermore it is easy to see, that Rabin- and
-  Parity-conditions are captured by Muller-conditions by enumerating all
-  $\Inf$-sets that satisfy the corresponding conditions. In a second step we
-  show that \acp{NMA} can be translated to \acp{NPA} as well as \acp{NRA}. This
-  translation makes use of the following construct:
-  \begin{definition}[Latest Appearance Record]
-    For a finite state set $Q$ define the set of permutations of elements in
-    $Q$ as $\perm(Q)\subseteq Q^{\size{Q}}$ and
-    \begin{equation*}
-      \lar(Q) = \set{\interval{w,h}\mid w\in\perm(Q)\text{ and }1\leq
-      h\leq\size{Q}}
-    \end{equation*}
-    Additionally we define an update function
-    $\up:\lar(Q)\times Q\rightarrow\lar(Q)$ with
-    \begin{equation*}
-      \up(\interval{q_{1}\dots q_{n},h}, q)
-      = \interval{qq_{1}\dots q_{i-1}q_{i+1}\dots q_{n},i}
-      \text{ for the unique }i\text{ s.t. }q=q_{i}
-    \end{equation*}
-    and conclude with auxillary definitions of
-    \begin{description}
-      \item [Hit-set] for $\ell = \interval{q_{1}\dots q_{n},h}$ we call
-        $\set{q_{1},\dots,q_{h}}$ the hit-set of $\ell$,
-      \item [State partition] the states of $\lar(Q)$ can be partitioned into
-        those elements that resulted from an update by $\up(\cdot, q)$ for
-        every $q\in Q$. We define
-        $\lar(Q)\interval{q} = \set{\interval{q_{1}\dots q_{n}}\in\lar(Q)\mid
-          q_{1} = q} = \set{\up(\ell, q):\ell\in\lar(Q)}$.
-    \end{description}
-  \end{definition}
-  For a word $q_{0}q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
-  sequence of elements in $\lar(Q)$ by picking one arbitrary starting value
-  $\ell_{0}\in\lar(Q)\interval{q_{0}}$ and successively applying the update
-  operation, i.e. $\ell_{0}\ell_{1}\ell_{2}\dots\in\lar(Q)^{\omega}$ with
-  $\ell_{i+1} = \up(\ell_{i},q_{i+1})$ for all $i\geq 0$. We can now state that
-  $\Inf(q_{0}q_{1}q_{2}\dots)$ moves to the beginning of the $\lar(Q)$ elements 
-  in the associated sequence, formalized in
-  \begin{lemma}
-    \cite[Lemma 1.21]{AutoLogInfGames}
-    $\Inf(q_{0}q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit-set 
-    of all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely 
-    many $i>k$ s.t. the hit-set of $\ell_{i}$ coincides with $F$.
-    \label{lem:larhitset}
-  \end{lemma}
-  This Lemma induces that the sequence of hit-sets stabilises to the set
-  $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller-condition
-  $\mathcal{F}$ if and only if the hit-sets stabilises to an element of
-  $\mathcal{F}$. Since this implies that the $\Inf$-set is the biggest occuring 
-  hit-set from one point onwards, this can be captured within a parity
-  condition by associating to $\ell = \interval{p_{1}\dots p_{n},h}$ with
-  hit-set $H = \set{p_{1},\dots,p_{h}}$ a parity condition
+  Additionally we define an update function
+  $\up:\lar(Q)\times Q\rightarrow\lar(Q)$ with
   \begin{equation*}
-    \parity(\ell) = \begin{cases}
-      2\cdot\size{H} &\text{if }H\in\mathcal{F},\\
-      2\cdot\size{H}-1 &\text{if }H\notin\mathcal{F}.
-    \end{cases}
+    \up(\interval{q_{1}\dots q_{n},h}, q)
+    = \interval{qq_{1}\dots q_{i-1}q_{i+1}\dots q_{n},i}
+    \text{ for the unique }i\text{ s.t. }q=q_{i}
   \end{equation*}
-  Thus, winning (losing) hit-sets do have an even (odd) parity and notably the
-  highest parity value is even if and only if
-  $\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$. Therefore, we can define a \ac{NPA}
-  that has as state set the elements $\lar(Q)$ and mirrors the transitions of
-  the original \ac{NMA} through the application of the update function, i.e.
-  for every $\tuple{q, a, p}$ there is a corresponding
-  $\tuple{\ell_{q}, a, \up(\ell_{q}, p)}$ for every $\ell_{q}\in\lar(Q)$ that
-  is produced by $\up(\cdot,q)$. Every run in the \ac{NPA} can be translated
-  back to a run in the original \ac{NMA} and vice versa and by Lemma
-  \ref{lem:larhitset} and the definition of $\parity$ we obtain the acceptance
-  equivalence of both runs. We close this argument by stating that
-  any Parity-condition can be expressed by a Rabin-condition as follows:
-  we define for every occuring even parity $k\in\parity(Q)$ a pair
-  $\tuple{E_{k}, F_{k}}$ where $F_{k} = \parity^{-1}(k)$ and
-  $E_{k} = \cup_{p>k}\parity^{-1}(p)$; hence, an accepting run regarding the
-  Parity-condition satisfies the pair associated with the highest parity and
-  on the other hand, any run that is accepting by the Rabin-condition, namely
-  by the pair $\tuple{E_{k}, F_{k}}$, has  $k$ as the highest parity which is
-  the even witness rendering the run accepting.
+  and conclude with auxillary definitions of
+  \begin{description}
+    \item [Hit-set] for $\ell = \interval{q_{1}\dots q_{n},h}$ we call
+      $\set{q_{1},\dots,q_{h}}$ the hit-set of $\ell$,
+    \item [State partition] the states of $\lar(Q)$ can be partitioned into
+      those elements that resulted from an update by $\up(\cdot, q)$ for
+      every $q\in Q$. We define
+      $\lar(Q)\interval{q} = \set{\interval{q_{1}\dots q_{n}}\in\lar(Q)\mid
+        q_{1} = q} = \set{\up(\ell, q):\ell\in\lar(Q)}$.
+  \end{description}
+\end{definition}
+For a word $q_{0}q_{1}q_{2}\dots\in Q^{\omega}$ we can obtain one associated
+sequence of elements in $\lar(Q)$ by picking one arbitrary starting value
+$\ell_{0}\in\lar(Q)\interval{q_{0}}$ and successively applying the update
+operation, i.e. $\ell_{0}\ell_{1}\ell_{2}\dots\in\lar(Q)^{\omega}$ with
+$\ell_{i+1} = \up(\ell_{i},q_{i+1})$ for all $i\geq 0$. We can now state that
+$\Inf(q_{0}q_{1}q_{2}\dots)$ moves to the beginning of the $\lar(Q)$ elements 
+in the associated sequence, formalized in
+\begin{lemma}
+  \cite[Lemma 1.21]{AutoLogInfGames}
+  $\Inf(q_{0}q_{1}q_{2}\dots) = F$ if and only if from one $k>0$ the hit-set 
+  of all $\ell_{i}$ for $i>k$ is a subset of $F$ and there are infinitely 
+  many $i>k$ s.t. the hit-set of $\ell_{i}$ coincides with $F$.
+  \label{lem:larhitset}
+\end{lemma}
+This Lemma induces that the sequence of hit-sets stabilises to the set
+$\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller-condition
+$\mathcal{F}$ if and only if the hit-sets stabilises to an element of
+$\mathcal{F}$. Since this implies that the $\Inf$-set is the biggest occuring 
+hit-set from one point onwards, this can be captured within a parity
+condition by associating to $\ell = \interval{p_{1}\dots p_{n},h}$ with
+hit-set $H = \set{p_{1},\dots,p_{h}}$ a parity condition
+\begin{equation*}
+  \parity(\ell) = \begin{cases}
+    2\cdot\size{H} &\text{if }H\in\mathcal{F},\\
+    2\cdot\size{H}-1 &\text{if }H\notin\mathcal{F}.
+  \end{cases}
+\end{equation*}
+Thus, winning (losing) hit-sets do have an even (odd) parity and notably the
+highest parity value is even if and only if
+$\Inf(q_{1}q_{2}\dots)\in\mathcal{F}$. Therefore, we can define a \ac{NPA}
+that has as state set the elements $\lar(Q)$ and mirrors the transitions of
+the original \ac{NMA} through the application of the update function, i.e.
+for every $\tuple{q, a, p}$ there is a corresponding
+$\tuple{\ell_{q}, a, \up(\ell_{q}, p)}$ for every $\ell_{q}\in\lar(Q)$ that
+is produced by $\up(\cdot,q)$. Every run in the \ac{NPA} can be translated
+back to a run in the original \ac{NMA} and vice versa and by Lemma
+\ref{lem:larhitset} and the definition of $\parity$ we obtain the acceptance
+equivalence of both runs. We close this argument by stating that
+any Parity-condition can be expressed by a Rabin-condition as follows:
+we define for every occuring even parity $k\in\parity(Q)$ a pair
+$\tuple{E_{k}, F_{k}}$ where $F_{k} = \parity^{-1}(k)$ and
+$E_{k} = \cup_{p>k}\parity^{-1}(p)$; hence, an accepting run regarding the
+Parity-condition satisfies the pair associated with the highest parity and
+on the other hand, any run that is accepting by the Rabin-condition, namely
+by the pair $\tuple{E_{k}, F_{k}}$, has  $k$ as the highest parity which is
+the even witness rendering the run accepting.
 
-  Thirdly, we conclude by stating (without proof) two results. Firstly, that
-  there is for every \acp{NMA} an equivalent \ac{NBA} and the other way around
-  (this is actually very easy since Muller-conditions as well as Rabin- and
-  Parity-conditions can emulate Büchi-conditions):
-  \begin{theorem}
-    \cite[Theorem 1.10]{AutoLogInfGames}
-    For every \acp{NBA} exists an equivalent \ac{NMA} and for every \acp{NMA}
-    exists an equivalent \ac{NBA}.
-  \end{theorem}
-  Secondly, we also avoid the lengthy technicalities of determinization of an
-  \ac{NBA} by simply stating
-  \begin{theorem}
-    \cite[Theorem 3.6]{AutoLogInfGames}
-    \cite[Section 3.2]{NonDetBuechiToDetParity}
-    \cite[Theorem 6]{OptBoundsAutoTrans}
-    For every \acp{NBA} $\mathcal{A}$ exists an equivalent \ac{DPA}
-    $\mathcal{P}$.
+Thirdly, we conclude by stating (without proof) two results. Firstly, that
+there is for every \acp{NMA} an equivalent \ac{NBA} and the other way around
+(this is actually very easy since Muller-conditions as well as Rabin- and
+Parity-conditions can emulate Büchi-conditions):
+\begin{theorem}
+  \cite[Theorem 1.10]{AutoLogInfGames}
+  For every \acp{NBA} exists an equivalent \ac{NMA} and for every \acp{NMA}
+  exists an equivalent \ac{NBA}.
+\end{theorem}
+Secondly, we also avoid the lengthy technicalities of determinization of an
+\ac{NBA} by simply stating
+\begin{theorem}
+  \cite[Theorem 3.6]{AutoLogInfGames}
+  \cite[Section 3.2]{NonDetBuechiToDetParity}
+  \cite[Theorem 6]{OptBoundsAutoTrans}
+  For every \acp{NBA} $\mathcal{A}$ exists an equivalent \ac{DPA}
+  $\mathcal{P}$.
 
-    Given that $\mathcal{A}$ has $n$ states then $\mathcal{P}$ can be
-    constructed with $n^{2\cdot n + 2}$ states. There are $\mathcal{A}$
-    such that $\mathcal{P}$ needs states in the magnitude of $n!$.
-  \end{theorem}
-\end{proof}
+  Given that $\mathcal{A}$ has $n$ states then $\mathcal{P}$ can be
+  constructed with $n^{2\cdot n + 2}$ states. There are $\mathcal{A}$
+  such that $\mathcal{P}$ needs states in the magnitude of $n!$.
+\end{theorem}
 Intuitively, we observe that determinism is only a real restriction for
 Büchi-conditions, but that constructing deterministic automata can be very
 costly.
@@ -318,9 +317,10 @@ languages the following
   $\parity' = \parity + 1$) and keeping the original structure we exchange
   non-accepting and accepting runs and therefore obtain a structural equivalent
   \ac{DPA} that precisely accepts the complement of the original automaton.
+  These two operations can be chained to obtain an intersection operator.
 \end{proof}
 
-At last, we want to shortly discuss that deciding emptiness for
+At last, we want to shortly present that deciding emptiness for
 $\omega$-regular languages can be decided by means of graph algorithms. The
 central idea is to observe that for any \ac{NBA}
 $\mathcal{A} = \tuple{Q, q_{0}, \Sigma, \Delta, F}$ and an accepting run $\pi$
@@ -342,10 +342,12 @@ from $q_{0}$ to $f$ and then loop in $f$ yields one accepting word (see Figure
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, \Sigma, \Delta, F}
   \end{equation*}
-  can be decided in time linear to the size of the automaton, i.e. in
-  $\mathcal{O}(\size{Q}+\size{\Delta})$. If such an \ac{NBA} $\mathcal{A}$
-  accepts at least one word, it also accepts an \emph{ultimatively periodic
-  word}, i.e. a word of the form $u\cdot v^{\omega}$ for $u, v\in\Sigma^{+}$.
+  can be decided. 
+
+  It is possible to compute in time linear to the size of the automaton, i.e.
+  in $\mathcal{O}(\size{Q}+\size{\Delta})$, if an \ac{NBA} accepts a word. If
+  so $\mathcal{A}$ also accepts an \emph{ultimatively periodic word}, i.e. a
+  word of the form $u\cdot v^{\omega}$ for $u, v\in\Sigma^{+}$.
   \label{thm:nbaemptiness}
 \end{theorem}
 
