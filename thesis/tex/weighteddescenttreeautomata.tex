@@ -1,7 +1,7 @@
 \section{Weighted Descent Tree Automata}
 The basis of the tree automata we want to present in this section is given in
 \cite{RandAutoInfTrees}. There non-deterministic tree automata are equipped 
-with an alternative semantic, namely the runs are equipped with a uniform 
+with an alternative semantics, namely the runs are equipped with a uniform 
 probability measure at each branching point and the run is considered 
 accepted if the measure of those paths that satisfy an associated condition
 (e.g. Büchi- or Parity-condition) have a certain measure. As for \acp{PBA} this
@@ -48,7 +48,7 @@ automata and we obtain the following
       there is $\tuple{q_{n}, t(d_{1}\dots d_{n}), G}\in\Delta$.
   \end{enumerate}
 \end{definition}
-Analogously to the semantic of \acp{PBA} or a strategy in a \ac{MDP} a run 
+Analogously to the semantics of \acp{PBA} or a strategy in a \ac{MDP} a run 
 induces a probability measure on $\mathcal{B}(Q\times D)$ by fixing the measure
 of cylinders by 
 \begin{equation*}
@@ -369,7 +369,7 @@ introduce the following example:
   since only those paths that contain infinitely often an $a$ do have 
   infinitely often a weighted occurence of $q_{a}$; thus, the run of 
   $\mathcal{A}$ mirrors the input tree $t$ and the language $\mathcal{L}$ is
-  defined analogously to the semantic of \acp{WDTA}. Note that $\mathcal{A}$
+  defined analogously to the semantics of \acp{WDTA}. Note that $\mathcal{A}$
   respects a blueprint $B(0) = B(1) = \frac{1}{2}$ and can therefore be 
   considered uniformly distributed.
   \label{ex:udwdta}
@@ -722,7 +722,7 @@ One run of such an automaton $\mathcal{A}$ on a tree $t:D\rightarrow\Sigma$ is
 differently defined than runs for \acp{WDTA} since the run does not need to
 encode the weighting of paths through the run. Nevertheless, forgetting about 
 the distribution $\delta$ for now, we can use the formalism of \acp{WDTA} to 
-define the semantic of one run by defining for every pair $q\in Q$ and 
+define the semantics of one run by defining for every pair $q\in Q$ and 
 $\sigma\in\Sigma$ a set of transitions of the form $\tuple{q,\sigma,G_{\tau}}$
 for every $\tau$ with $\delta(q,\sigma,\tau)>0$ where
 \begin{equation*}
@@ -956,7 +956,7 @@ basis for
   We derive the following equivalences:
   \begin{align*}
     \mathcal{A}\text{ accepts }t
-     &\text{ iff }\mu_{t}(g^{-1}(1)) = 1&\text{semantic of }\mathcal{A}\\
+     &\text{ iff }\mu_{t}(g^{-1}(1)) = 1&\text{semantics of }\mathcal{A}\\
     &\text{ iff }\int_{\Runs} g d\mu_{t} = 1
      &\text{Lemma \ref{lem:almosteverywhere}}\\
     &\text{ iff }\int_{\Runs}\int_{\Paths} f_{\mathcal{A}} d\mu_{B} d\mu_{t}
@@ -1237,11 +1237,11 @@ measures coincide.
     \mu_{t}(\cyl(u)) &= \tau_{t(\epsilon)}(q_{0}, \tuple{q_{1}, d_{1}})\cdot
       \prod\limits_{1\leq i < n}\tau_{t(d_{1}\dots d_{i})}(
         \tuple{q_{i}, d_{1}}, \tuple{q_{i+1}, d_{i+1}})&
-          \text{semantic of }\mathcal{M}\\
+          \text{semantics of }\mathcal{M}\\
     &= G_{t(\epsilon)}^{q_{0}}(q_{1}, d_{1})\cdot\prod\limits_{1\leq i < n}
       G_{t(d_{1}\dots d_{i})}^{q_{i}}(q_{i+1}, d_{i+1})&
           \text{definition of }\tuple{\tau_{\sigma}}_{\sigma\in\Sigma}\\
-    &= \mu_{r}(\cyl(u))&\text{semantic of }\mathcal{S}.
+    &= \mu_{r}(\cyl(u))&\text{semantics of }\mathcal{S}.
   \end{align*}
   This yields the claimed equality of the generating objects and therefore by
   unique extension the equivalence of $\mu_{t}$ and $\mu_{r}$.
