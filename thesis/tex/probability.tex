@@ -25,11 +25,12 @@ describes how probable a chosen observation is:
   \begin{enumerate}
     \item $\mu(\Omega) = 1$,
     \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
-      $A_{i}\in\mathcal{F}$ and $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we
-      have
+      $A_{i}\in\mathcal{F}$ for all $i\in\mathbb{N}$ and 
+      $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we have
       \begin{equation*}
         \mu(\mathbb{A}) = \sum_{i\in\mathbb{N}}\mu(A_{i}).
       \end{equation*}
+      We call this property $\sigma$-additivity.
   \end{enumerate}
   We call for such a $\mu$ the triple $\tuple{\Omega,\mathcal{F},\mu}$ a 
   probability space and $\tuple{\Omega, \mathcal{F}}$ a measurable space. For
@@ -61,6 +62,46 @@ describes how probable a chosen observation is:
       \end{equation*}
   \end{description}
 \end{definition}
+In order to obtain a probability measure on a $\sigma$-algebra it suffices to
+declare the measure for a sufficiently rich family of elements which induce the
+measure on the complete $\sigma$-algebra. We quote for this
+\begin{theorem}[Carath\'{e}odory's Extension Theorem]
+  \cite[Theorem 2.4, Theorem 5.6]{Bauer}
+  For a ground-set $\Omega$ and every collection
+  $\mathcal{E}\subseteq\Pot(\Omega)$ that is closed under intersection and
+  which contains $\emptyset$ and a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ 
+  such that $\cup_{i\in\mathbb{N}}E_{i} = \Omega$ any $\sigma$-additiv function
+  $\mu':\mathcal{E}\rightarrow\interval{0, 1}$
+  with $\mu'(\emptyset) = 0$ and $\mu'(\Omega) = 1$ can be \emph{uniquely}
+  extended to a probability measure $\mu$ on the smallest $\sigma$-algebra
+  containing $\mathcal{E}$ (denoted by $\sigma(\mathcal{E})$). This entails a
+  probability space
+  \begin{equation*}
+    \tuple{\Omega, \sigma(\mathcal{E}), \mu}.
+  \end{equation*}
+  \label{thm:measureext}
+\end{theorem}
+
+The following theorem is used to formalize the intuition that sufficiently
+probable events happen again and again if an infinite amount of time passes.
+\fxwarning{find reference for pairwise independence}
+\begin{theorem}[Borel-Cantelli Lemma]
+  \cite[Theorem 2.7]{Klenke}
+  For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 
+  $\tuple{A_{i}}_{i>0}$ with $A_{i}\in\mathcal{F}$ and
+  \begin{equation*}
+    \mathcal{A} = \bigcap_{i > 0}\bigcup_{j > m}A_{j}
+  \end{equation*}
+  such that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for all 
+  $i \neq j$ and $i,j > 0$ it holds that $\mu(\mathcal{A}) = 1$ if
+  \begin{equation*}
+    \sum\limits_{i>0}\mu(A_{i}) = \infty.
+  \end{equation*}
+  The property that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for 
+  all $i \neq j$ and $i,j > 0$ is called \emph{pairwise independence} of 
+  all $A_{i}$ for $i > 0$.
+  \label{thm:BorelCantelli}
+\end{theorem}
 
 The following notions are standard for systems that show probabilistic 
 movements through a finite state space (cp. 
@@ -82,49 +123,12 @@ this set. This is defined as
   a set $C\subset A^{\omega}$ \emph{Borel} if $C\in\mathcal{B}(A)$.
   \label{def:borelalgebra}
 \end{definition}
+Note that the collection of all cylindric sets $\mathcal{E}$ over a finite set
+$A$ together with $\emptyset$ satisfy the conditions for the family in Theorem
+\ref{thm:measureext}.
 
-In order to obtain a probability measure on a $\sigma$-algebra it suffices to
-declare the measure for a sufficiently rich family of elements which induce the
-measure on the complete $\sigma$-algebra. We quote for this
-\begin{theorem}[Carath\'{e}odory's Extension Theorem]
-  \cite[Theorem 2.4, Theorem 5.6]{Bauer}
-  For a ground-set $\Omega$ and every collection
-  $\mathcal{E}\subseteq\Pot(\Omega)$ that is closed under intersection and
-  which contains a sequence $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that
-  $\cup_{i\in\mathbb{N}}E_{i} = \Omega$ any $\sigma$-additiv function
-  $\mu':\mathcal{E}\rightarrow\interval{0, 1}$
-  with $\mu'(\emptyset) = 0$ and $\mu'(\Omega) = 1$ can be \emph{uniquely}
-  extended to a probability measure $\mu$ on the smallest $\sigma$-algebra
-  containing $\mathcal{E}$ (denoted by $\sigma(\mathcal{E})$). This entails a
-  probability space
-  \begin{equation*}
-    \tuple{\Omega, \sigma(\mathcal{E}), \mu}.
-  \end{equation*}
-  \label{thm:measureext}
-\end{theorem}
-
-The following theorem is used to formalize the intuition that sufficiently
-probable events happen again and again if an infinite amount of time passes.
-\begin{theorem}[Borel-Cantelli Lemma]
-  \cite[Theorem 2.7]{Klenke}
-  For a probability space $\tuple{\Omega, \mathcal{F}, \mu}$ and a sequence 
-  $\tuple{A_{i}}_{i>0}$ with $A_{i}\in\mathcal{F}$ and
-  \begin{equation*}
-    \mathcal{A} = \bigcap_{i > 0}\bigcup_{j > m}A_{j}
-  \end{equation*}
-  such that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for all 
-  $i \neq j$ and $i,j > 0$ it holds that $\mu(\mathcal{A}) = 1$ if
-  \begin{equation*}
-    \sum\limits_{i>0}\mu(A_{i}) = \infty.
-  \end{equation*}
-  The property that $\mu(A_{i}\cap A_{j}) = \mu(A_{i})\cdot\mu(A_{j})$ for 
-  all $i \neq j$ and $i,j > 0$ is called \emph{pairwise independence} of 
-  all $A_{i}$ for $i > 0$.
-  \label{thm:BorelCantelli}
-\end{theorem}
-
-Moreover, we discuss measurable and integrable functions with helpful related
-results \cite[Chapter 7]{Bauer}.
+Additionally, we discuss measurable and integrable functions with helpful 
+related results \cite[Chapter 7]{Bauer}.
 \begin{definition}[Measurable Function]
   For two measurable spaces $\tuple{\Omega_{1}, \mathcal{F}_{1}}$, 
   $\tuple{\Omega_{2}, \mathcal{F}_{2}}$ we call a function 
@@ -169,7 +173,7 @@ Moreover, we obtain for all numerical functions the following
   \end{equation*}
   is well-defined in the usual sense.
 \end{theorem}
-And additionally the following helpful
+And additionally
 \begin{lemma}
   \cite[Lemma 40]{RandAutoInfTrees} Let $\tuple{\Omega,\mathcal{F},\mu}$ be
   a probability space and $f$ a measureable function from $\Omega$ to
@@ -207,13 +211,48 @@ families of sets, namely
   generate $\sigma$-algebras $\mathcal{F}_{1}$ and $\mathcal{F}_{2}$ for 
   ground-sets $\Omega_{1}$ and $\Omega_{2}$ respectively such that there are
   sequences $\tuple{E^{i}_{j}}_{j\in\mathbb{N}}$ respectively with 
-  $E^{i}_{j}\in\mathcal{E}_{i}$ for $i = 1,2$ and $j\in\mathbb{N}$. Then the
-  product $\sigma$-algebra $\mathcal{F}_{1}\otimes\mathcal{F}_{2}$ is 
-  generated by $E_{1}\times E_{2}$ for all pairs $E_{1}\in\mathcal{E}_{1}$ 
-  and $E_{2}\in\mathcal{E}_{2}$. 
+  $E^{i}_{j}\in\mathcal{E}_{i}$ for $i = 1,2$ and $j\in\mathbb{N}$ and 
+  $\Omega_{i} = \cup_{j\in\mathbb{N}}E_{j}^{i}$. Then the product 
+  $\sigma$-algebra $\mathcal{F}_{1}\otimes\mathcal{F}_{2}$ is generated by 
+  $E_{1}\times E_{2}$ for all pairs $E_{1}\in\mathcal{E}_{1}$ and 
+  $E_{2}\in\mathcal{E}_{2}$. 
   \label{thm:productgen}
 \end{theorem}
-Moreover
+Consider here again the Borel-algebra generated by cylindric sets for two 
+finite alphabets $A$ and $B$, i.e. $\mathcal{B}(A)$ and $\mathcal{B}(B)$ 
+respectively. We state and prove
+\begin{lemma}
+  $\mathcal{B}(A\times B)$ and $\mathcal{B}(A)\otimes\mathcal{B}(B)$ are 
+  equivalent up to renaming.
+\end{lemma}
+\begin{proof}
+  From Theorem \ref{thm:productgen} we know that 
+  $\mathcal{B}(A)\otimes\mathcal{B}(B)$ is generated by $\cyl(u)\times\cyl(v)$ 
+  for all $u\in A^{*}$ and $v\in B^{*}$. We show that we may 
+  \enquote{balance} these generating sets (cp. Lemma \ref{lem:balancedruns}). 
+  W.l.o.g. we assume $\size{u} < \size{v}$. From $m = \size{v} - \size{u}$ we 
+  generate the set $E = \set{u\cdot y:y\in A^{m}}$. Since $A$ is finite so is 
+  $E$ and we may use the generating sets $\cyl(u')\times\cyl(v)$ for all 
+  $u'\in E$ to obtain the same set as $\cyl(u)\times\cyl(v)$. Hence, we may 
+  restrict our generating sets to balanced cylindric sets. 
+
+  We consider the bijection
+  \begin{equation*}
+    b:A^{\omega}\times B^{\omega}\rightarrow\tuple{A\times B}^{\omega}
+    \text{ with }b(\alpha_{1}\alpha_{2}\dots, \beta_{1}\beta_{2}\dots) = 
+      \tuple{\alpha_{1}, \beta_{1}}\tuple{\alpha_{2}, \beta_{2}}\dots
+  \end{equation*}
+  and fix two words $u = a_{1}\dots a_{n}\in A^{*}$ and 
+  $v = b_{1}\dots b_{n}\in B^{*}$. Observing, 
+  \begin{equation*}
+    b(\cyl(u)\times\cyl(v)) = \cyl(\tuple{a_{1}, b_{1}}\dots
+      \tuple{a_{n}, b_{n}})
+  \end{equation*} 
+  allows us to deduce the annotated equivalence by Theorem \ref{thm:productgen} 
+  under renaming $b$.
+\end{proof}
+
+Moreover regarding probability measures in product spaces we have
 \begin{lemma}
   \cite[Lemma 23.2, Theorem 23.3]{Bauer}
   For two probability spaces 
@@ -281,7 +320,7 @@ Moreover, \cite[Remark 8.26]{Klenke} states if a collection $\mathcal{E}$ that
 is closed under intersection and contains a sequence of sets 
 $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that 
 $\cup_{i\in\mathbb{N}}E_{i} = \Omega_{2}$ exists then it suffices to check 
-the second condition only for all $A\in\mathcal{E}$. Concludingly, we have
+the second condition only for all $A\in\mathcal{E}$. Concludingly, we also have
 \begin{theorem}
   \cite[Korollar 14.23]{Klenke}
   For a probability space $\tuple{\Omega_{1}, \mathcal{F}_{1}, \mu}$, a
