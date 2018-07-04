@@ -32,16 +32,18 @@ of strategies, i.e. one player generates inputs while another player generates
 outputs. We call these players \inputp{} and \outputp{} respectively. The game
 unfolds by \inputp{} choosing sequentially inputs $i_{1}i_{2}\dots$ and 
 \outputp{} reacting by $j_{1}j_{2}\dots$. Thus, a play
-\begin{tabular}{cccc}
-  $i_{1}$ & $i_{2}$ & $i_{3}$ & \dots\\
-  $j_{1}$ & $j_{2}$ & $j_{3}$ & \dots
-\end{tabular}
+\begin{center}
+  \begin{tabular}{cccc}
+    $i_{1}$ & $i_{2}$ & $i_{3}$ & \dots\\
+    $j_{1}$ & $j_{2}$ & $j_{3}$ & \dots
+  \end{tabular}
+\end{center}
 forms and \outputp{} wins if and only if 
 $\phi(i_{1}i_{2}\dots,j_{1}j_{2}\dots)$ evaluates to true. Strategies of 
 \outputp{} are usually described as functions $f:I^{+}\rightarrow J$ such that
 \outputp{} plays at position $n>0$ the output-symbol 
 $f(i_{1}\dots i_{n}) = j_{n}$. In this sense we are interested in winning 
-strategies of \outputp{}. In the following we present known synthesis results 
+strategies of \outputp{}. Following, we present known synthesis results 
 for those $\phi$ which allow to capture the associated relation as a 
 $\omega$-regular language. Subsequently, we pivot towards probabilistic 
 environments and review an approach to synthesis algorithms there which are not 
@@ -96,6 +98,15 @@ $\phi$ and gives
   \cite[Theorem 21, Theorem 22]{AutoInfObj}
   The synthesis problem for $\omega$-regular specifications $\phi$ can be 
   decided.
+
+  If a strategy exists and $\phi$ is captured by a \ac{DPA} 
+  \begin{equation*}
+    \mathcal{P} = \tuple{Q, q_{0}, J\times I, \delta, \parity}
+  \end{equation*}
+  then we can compute such a strategy in time in 
+  $\mathcal{O}(\size{\parity(Q)}\cdot\size{Q\times Q}\cdot\tuple{
+    \frac{\size{Q}}{d}}^{d})$ with 
+  $d = \lfloor \frac{\size{\parity(Q)}}{2} \rfloor$.
 \end{theorem}
 This approach suits the game-theoretic interpretation of the synthesis problem
 well. Consider the associated emptiness-game to the defined \ac{PTA} 
@@ -213,144 +224,149 @@ accepting \ac{PBA} $\mathcal{P}$ positively for antagonistic environments. The
 idea is to define a \ac{POSG} in which both players only observe an 
 input-output game while in the \enquote{background} the stoachastic process of
 $\mathcal{P}$ operates and any play is eventually evaluated in terms of 
-$\mathcal{P}$. We obtain
+$\mathcal{P}$. Fix
+\begin{equation*}
+  \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
+\end{equation*}
+and define
+\begin{definition}[\ac{POSG} for $\mathcal{P}$]
+  Set
+  \begin{equation*}
+    \mathcal{G}_{\mathcal{P}} = \tuple{I\times Q\times J\uplus\set{q_{0}}, J,
+      I, \tuple{\tau_{j,i}}_{j\in J,i\in I}, \sim_{E}, \sim_{A}, F}
+  \end{equation*}
+  with
+  \begin{equation*}
+    \sim = \sim_{E} = \sim_{A} = \set{\tuple{\tuple{i, q, j}, 
+    \tuple{i', q', j'}}\in \tuple{I\times Q\times J}^{2}\mid i = i', j = j'}
+  \end{equation*}
+  Moreover, we fix $F = I\times F'\times J$ and
+  \begin{equation*}
+    \tau_{j',i'}(\tuple{i, q, j}, \tuple{o, p, u}) = \begin{cases}
+      \delta(q, \tuple{i', j'}, p)&\text{if }o = i', u = j',\\
+      0&\text{otherwise},
+    \end{cases}
+  \end{equation*}
+  where $q_{0}$ is treated as $\tuple{i, q_{0}, j}$ for any $i\in I, j\in J$.
+\end{definition}
+Here \eve{} corresponds with \outputp{} while \adam{} plays the role of 
+\inputp{}. One central observation is that regarding the observations of \eve{} 
+and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game. Setting 
+$S = I\times Q\times J$ we observe by definition of $\sim$ that we can 
+partition $S$ into $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
+where $\interval{\tuple{i, *, o}}_{\sim}$ describes the equivalence class
+$\set{\tuple{i, q, o}:q\in Q}$. By definition of all $\tau_{j,i}$ we obtain
+$\supp(\tau_{j,i}(s, \cdot))\subseteq\interval{\tuple{i,*,j}}_{\sim}$. Hence,
+every strategy for \eve{} (\adam{}) presents as function 
+$f:\tuple{I\times J}^{*}\rightarrow J$ 
+($g:\tuple{I\times J}^{*}\rightarrow I$). The only stochastic process in this
+game is associated with the state component which is observed neither by 
+\eve{} nor by \adam{}. This allows us to deduce that any pair of 
+strategies $f$ and $g$ for \eve{} and \adam{} respectively induce one unique
+word $\alpha_{f}^{g}\in\tuple{I\times J}^{\omega}$. Moreover, we can consider
+a subset of $\mathcal{B}(I\times Q\times J)$ which is induced by 
+$\alpha_{f}^{g} = \tuple{i_{1}, j_{1}}\tuple{i_{2}, j_{2}}\dots$. Namely, we 
+define two sets
+\begin{align*}
+  F &= \bigcap_{k>0}\bigcup_{
+    \substack{
+      p_{1}\dots p_{k}\in Q^{k}\\
+      u_{1}\dots u_{k}\in J^{k}
+    }
+  }\cyl(\tuple{i_{1}, p_{1}, u_{1}}\dots\tuple{i_{k}, p_{k}, u_{k}})\\
+  G &= \bigcap_{k>0}\bigcup_{
+    \substack{
+      p_{1}\dots p_{k}\in Q^{k}\\
+      u_{1}\dots u_{k}\in I^{k}
+    }
+  }\cyl(\tuple{u_{1}, p_{1}, j_{1}}\dots\tuple{u_{k}, p_{k}, j_{k}}).
+\end{align*}
+By definition $F$ and $G$ are those sets in $\mathcal{B}(I\times Q\times J)$ 
+such that the $J$-component respectively the $I$-component agrees with 
+$\alpha_{f}^{g}$. From these sets we obtain $F\cap G$.
+By definition of $\tau_{i, j}$ for all $i\in I, j\in J$ we deduce that 
+\begin{equation*}
+  \mu_{f,g}(C) = 0\text{ for all }
+  C\in \mathcal{B}(I\times Q\times J)\setminus\tuple{F\cap G}
+\end{equation*}
+because for any element $c\in C$ either the $I$- or $J$-component at some 
+index $k$ deviates from the $I$- or $J$-component of $\alpha_{f}^{g}$ 
+respectively. $\tau_{i_{k}, j_{k}}$ causes a probability of $0$ for $c$.
+The central idea of this proof is formulated in
+\begin{lemma}
+  Applying element-wise a projection to the $Q$-component for every set in 
+  $F\cap G$ yields a bijection to $\mathcal{B}(Q)$. Additionally, $\mu_{f,g}$ 
+  coincides with $\mu_{\alpha_{f}^{g}}$ w.r.t. to this bijection.
+  \label{lem:fginpba}
+\end{lemma}
+\begin{proof}
+  First, we see that for every $p_{1}\dots p_{n}\in Q^{*}$ there are two 
+  unique sequences $i_{1}\dots i_{n}$ and $j_{1}\dots j_{n}$ such that
+  $\cyl(\tuple{i_{1}, q_{1}, j_{1}}\dots\tuple{i_{n}, q_{n}, j_{n}})\cap 
+  F\cap G$ coincides with 
+  $\cyl(p_{1}\dots p_{n})\times \alpha^{f}\times\alpha_{g}$ where 
+  $\alpha^{f}$ and $\alpha_{g}$ are the projection of $\alpha^{f}_{g}$ to the
+  $I$- and $J$-component respectively. Furthermore, we fix one 
+  $p_{1}\dots p_{n}\in Q^{*}$. Observing
+  \begin{align*}
+    \mu_{f, g}&(
+      \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots\tuple{i_{n}, p_{n}, j_{n}})\\
+    &= \tau_{j_{1}, i_{1}}(q_{0}, \tuple{i_{1}, p_{1}, j_{1}})
+      \prod\limits_{1\leq k < n}\tau_{j_{k}, i_{k}}(\tuple{i_{k}, p_{k}, 
+        j_{k}},\tuple{i_{k+1}, p_{k+1}, j_{k+1}})\\
+    &= \delta(q_{0}, \tuple{i_{1}, j_{1}}, p_{1})
+      \prod\limits_{1\leq k < n}\delta(p_{k}, \tuple{i_{k+1}, j_{k+1}}, 
+        p_{k+1})\\
+    &= \mu_{\alpha_{f}^{g}}(\cyl(p_{1}\dots p_{n}))
+  \end{align*}
+  gives the desired equality by unique extension of $\mu_{f, g}$ and 
+  $\mu_{\alpha_{f}^{g}}$.
+\end{proof}
+
+This leads us into characterising almost-surely winning strategies for \eve{} 
+in $\mathcal{G}_{\mathcal{P}}$ in
+\begin{lemma}
+  A strategy $f$ in $\mathcal{G}_{\mathcal{P}}$ is almost-surely winning for
+  \eve{} if and only if $f$ synthesises an algorithm for the associated 
+  specification $\phi_{\mathcal{P}}$.
+\end{lemma}
+\begin{proof}
+  Initially, we observe that for a fixed strategy $f$ every input
+  $\beta = \beta_{0}\beta_{1}\dots\in I^{\omega}$ describes one strategy of 
+  \adam{} by setting $g(u) = \beta_{\size{u}}$. On the other hand, we obtain
+  for every possible strategy $g$ one sequence of inputs, namely the 
+  $I$-projection of $\alpha_{f}^{g}$. Hence, the strategy space of \adam{}
+  coincides with all possible input-sequences. 
+
+  Therefore, given an almost-surely winning strategy $f$ for \eve{} we get 
+  for every $g$ that $\mu_{f,g}(\Acc(F)) = 1$. By Lemma \ref{lem:fginpba} 
+  this implies $\mu_{\alpha_{f}^{g}}(\Acc(F')) = 1$ and therefore 
+  $\alpha_{f}^{g}$ is accepted by $\mathcal{P}$. This means that every 
+  possible input-sequence $\beta$ is met with an output-sequence $\gamma$ 
+  such that $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to true.
+
+  If on the other hand $f$ is not almost-surely for \eve{} there is a riposte 
+  $g$ of \adam{} such that $\mu_{f,g}(\Acc(F)) < 1$ which analogously to the 
+  reasoning above yields that $\mu_{\alpha_{f}^{g}}(\Acc(F')) < 1$ and 
+  therefore the non-acceptance of $\alpha_{f}^{g}$ by $\mathcal{P}$. 
+  This implies that \adam{} can generate an input-sequence $\beta$ such that 
+  \eve{} generates the output-sequence $\gamma$ but 
+  $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to false.
+\end{proof}
+
+By this characterisation of winning strategies of \eve{} in 
+$\mathcal{G}_{\mathcal{P}}$ we immediately may conclude
 \begin{theorem}
   For any almost-surely accepting \ac{PBA} 
   \begin{equation*}
     \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
   \end{equation*}
   the synthesis problem for the specification $\phi$ imposed by $\mathcal{P}$
-  (as in (\ref{eq:pbaregularphi})) can be decided in time doubly exponential in 
+  (as in (\ref{eq:pbaregularphi})) can be decided. If a strategy exists it can 
+  be computed in time doubly exponential in 
   $\size{I}\cdot \size{Q}\cdot \size{J} + 1$.
 \end{theorem}
 \begin{proof}
-  We define for $\mathcal{P}$ an associated \ac{POSG} such that \eve{} 
-  corresponds with \outputp{} while \adam{} plays the role of \inputp{}:
-  \begin{definition}[\ac{POSG} for $\mathcal{P}$]
-    Set
-    \begin{equation*}
-      \mathcal{G}_{\mathcal{P}} = \tuple{I\times Q\times J\uplus\set{q_{0}}, J,
-        I, \tuple{\tau_{j,i}}_{j\in J,i\in I}, \sim_{E}, \sim_{A}, F}
-    \end{equation*}
-    with
-    \begin{equation*}
-      \sim = \sim_{E} = \sim_{A} = \set{\tuple{\tuple{i, q, j}, 
-      \tuple{i', q', j'}}\in \tuple{I\times Q\times J}^{2}\mid i = i', j = j'}
-    \end{equation*}
-    Moreover, we fix $F = I\times F'\times J$ and
-    \begin{equation*}
-      \tau_{j',i'}(\tuple{i, q, j}, \tuple{o, p, u}) = \begin{cases}
-        \delta(q, \tuple{i', j'}, p)&\text{if }o = i', u = j',\\
-        0&\text{otherwise},
-      \end{cases}
-    \end{equation*}
-    where $q_{0}$ is treated as $\tuple{i, q_{0}, j}$ for any $i\in I, j\in J$.
-  \end{definition}
-  Central to this proof is the observation that regarding the observations of
-  \eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game.
-  Setting $S = I\times Q\times J$ we observe by definition of $\sim$ that we 
-  can partition $S$ into 
-  $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
-  where $\interval{\tuple{i, *, o}}_{\sim}$ describes the equivalence class
-  $\set{\tuple{i, q, o}:q\in Q}$. By definition of all $\tau_{j,i}$ we obtain
-  $\supp(\tau_{j,i}(s, \cdot))\subseteq\interval{\tuple{i,*,j}}_{\sim}$. Hence,
-  every strategy for \eve{} (\adam{}) presents as function 
-  $f:\tuple{I\times J}^{*}\rightarrow J$ 
-  ($g:\tuple{I\times J}^{*}\rightarrow I$). The only stochastic process in this
-  game is associated with the state component which is observed neither by 
-  \eve{} nor by \adam{}. This allows us to deduce that any pair of 
-  strategies $f$ and $g$ for \eve{} and \adam{} respectively induce one unique
-  word $\alpha_{f}^{g}\in\tuple{I\times J}^{\omega}$. Moreover, we can consider
-  a subset of $\mathcal{B}(I\times Q\times J)$ which is induced by 
-  $\alpha_{f}^{g} = \tuple{i_{1}, j_{1}}\tuple{i_{2}, j_{2}}\dots$. Namely, we 
-  define two sets
-  \begin{align*}
-    F &= \bigcap_{k>0}\bigcup_{
-      \substack{
-        p_{1}\dots p_{k}\in Q^{k}\\
-        u_{1}\dots u_{k}\in J^{k}
-      }
-    }\cyl(\tuple{i_{1}, p_{1}, u_{1}}\dots\tuple{i_{k}, p_{k}, u_{k}})\\
-    G &= \bigcap_{k>0}\bigcup_{
-      \substack{
-        p_{1}\dots p_{k}\in Q^{k}\\
-        u_{1}\dots u_{k}\in I^{k}
-      }
-    }\cyl(\tuple{u_{1}, p_{1}, j_{1}}\dots\tuple{u_{k}, p_{k}, j_{k}}).
-  \end{align*}
-  By definition $F$ and $G$ are those sets in $\mathcal{B}(I\times Q\times J)$ 
-  such that the $J$-component respectively the $I$-component agrees with 
-  $\alpha_{f}^{g}$. From these sets we obtain $F\cap G$.
-  By definition of $\tau_{i, j}$ for all $i\in I, j\in J$ we deduce that 
-  \begin{equation*}
-    \mu_{f,g}(C) = 0\text{ for all }
-    C\in \mathcal{B}(I\times Q\times J)\setminus\tuple{F\cap G}
-  \end{equation*}
-  because for any element $c\in C$ either the $I$- or $J$-component at some 
-  index $k$ deviates from the $I$- or $J$-component of $\alpha_{f}^{g}$ 
-  respectively. $\tau_{i_{k}, j_{k}}$ causes a probability of $0$ for $c$.
-  The central idea of this proof is formulated in
-  \begin{lemma}
-    Applying element-wise a projection to the $Q$-component for every set in 
-    $F\cap G$ yields a bijection to $\mathcal{B}(Q)$. Additionally, $\mu_{f,g}$ 
-    coincides with $\mu_{\alpha_{f}^{g}}$ w.r.t. to this bijection.
-    \label{lem:fginpba}
-  \end{lemma}
-  \begin{proof}
-    First, we see that for every $p_{1}\dots p_{n}\in Q^{*}$ there are two 
-    unique sequences $i_{1}\dots i_{n}$ and $j_{1}\dots j_{n}$ such that
-    $\cyl(\tuple{i_{1}, q_{1}, j_{1}}\dots\tuple{i_{n}, q_{n}, j_{n}})\cap 
-    F\cap G$ coincides with 
-    $\cyl(p_{1}\dots p_{n})\times \alpha^{f}\times\alpha_{g}$ where 
-    $\alpha^{f}$ and $\alpha_{g}$ are the projection of $\alpha^{f}_{g}$ to the
-    $I$- and $J$-component respectively. Furthermore, we fix one 
-    $p_{1}\dots p_{n}\in Q^{*}$. Observing
-    \begin{align*}
-      \mu_{f, g}&(
-        \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots\tuple{i_{n}, p_{n}, j_{n}})\\
-      &= \tau_{j_{1}, i_{1}}(q_{0}, \tuple{i_{1}, p_{1}, j_{1}})
-        \prod\limits_{1\leq k < n}\tau_{j_{k}, i_{k}}(\tuple{i_{k}, p_{k}, 
-          j_{k}},\tuple{i_{k+1}, p_{k+1}, j_{k+1}})\\
-      &= \delta(q_{0}, \tuple{i_{1}, j_{1}}, p_{1})
-        \prod\limits_{1\leq k < n}\delta(p_{k}, \tuple{i_{k+1}, j_{k+1}}, 
-          p_{k+1})\\
-      &= \mu_{\alpha_{f}^{g}}(\cyl(p_{1}\dots p_{n}))
-    \end{align*}
-    gives the desired equality by unique extension of $\mu_{f, g}$ and 
-    $\mu_{\alpha_{f}^{g}}$.
-  \end{proof}
-
-  This leads us into characterising almost-surely winning strategies for \eve{} 
-  in $\mathcal{G}_{\mathcal{P}}$ in
-  \begin{lemma}
-    A strategy $f$ in $\mathcal{G}_{\mathcal{P}}$ is almost-surely winning for
-    \eve{} if and only if $f$ synthesises an algorithm for the associated 
-    specification $\phi_{\mathcal{P}}$.
-  \end{lemma}
-  \begin{proof}
-    Initially, we observe that for a fixed strategy $f$ every input
-    $\beta = \beta_{0}\beta_{1}\dots\in I^{\omega}$ describes one strategy of 
-    \adam{} by setting $g(u) = \beta_{\size{u}}$. On the other hand, we obtain
-    for every possible strategy $g$ one sequence of inputs, namely the 
-    $I$-projection of $\alpha_{f}^{g}$. Hence, the strategy space of \adam{}
-    coincides with all possible input-sequences. 
-
-    Therefore, given an almost-surely winning strategy $f$ for \eve{} we get 
-    for every $g$ that $\mu_{f,g}(\Acc(F)) = 1$. By Lemma \ref{lem:fginpba} 
-    this implies $\mu_{\alpha_{f}^{g}}(\Acc(F')) = 1$ and therefore 
-    $\alpha_{f}^{g}$ is accepted by $\mathcal{P}$. This means that every 
-    possible input-sequence $\beta$ is met with an output-sequence $\gamma$ 
-    such that $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to true.
-
-    If on the other hand $f$ is not almost-surely for \eve{} there is a riposte 
-    $g$ of \adam{} such that $\mu_{f,g}(\Acc(F)) < 1$ which analogously to the 
-    reasoning above yields that $\mu_{\alpha_{f}^{g}}(\Acc(F')) < 1$ and 
-    therefore the non-acceptance of $\alpha_{f}^{g}$ by $\mathcal{P}$. 
-    This implies that \adam{} can generate an input-sequence $\beta$ such that 
-    \eve{} generates the output-sequence $\gamma$ but 
-    $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to false.
-  \end{proof}
-
   Using Theorem \ref{thm:StratPOSG} on $\mathcal{G}_{\mathcal{P}}$ gives the
   desired decision procedure.
 \end{proof}
@@ -652,33 +668,27 @@ examine the following question:
   by $\mathcal{P}$?
   \label{def:pbastratsynthesis}
 \end{definition}
-And we answer this question positively, hence proving
-\begin{theorem}[Qualitative PBA Synthesis]
-  The synthesis question of an environment $\mathcal{M}$ and a specification
-  provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance measure
-  can be decided.
-  \label{thm:pbasynthesis}
-\end{theorem}
-Considering a certain restricted class of \acp{MDP}, namely those where for 
-every state ever following state is defined by a probability distribution $B$
-(regardless of the action chosen by the player), then this result can be 
-derived as a corollary from the construction examined in Example 
-\ref{ex:pwapbaallpaths}. Considering this example but with a context-sensitive
-weighting of the paths (in contrast to the current restrictive notion) allows 
-to consider a movement downwards a direction as movement of an \ac{MDP} 
-$\mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}}$. If we set the
-directions as the set $S$ and consider a path weighting function such that
-given the current position is reached by $s_{1}$ and the letter $a$ is read 
-then the movement downwards $s_{2}$ is weighted by $\tau_{a}(s_{1}, s_{2})$ 
-where the inital movement corresponds to $\tau_{a}(s_{0}, \cdot)$. Then, using
-the idea of Example \ref{ex:pwapbaallpaths} we construct a \ac{PWA} that 
-executes a \ac{PBA} $\mathcal{P}$ on the weighted paths reading the directions
-rather than the letters. Conceptually, translating this to a \ac{WDTA} yields
-that every path $s_{1}\rightarrow s_{2}\rightarrow\dots$ is associated with the
-run-tree of $\mathcal{P}$ reading $s_{0}s_{1}s_{2}\dots$ with the probability
-of the underlying strategy (encoded by the tree). Building upon this idea we
-design the following argumentation which bears structural similarities with the 
-one presented for the modelling of \acp{PWA} by \acp{WDTA} (cp. Theorem 
+And we answer this question positively. Considering a certain restricted class 
+of \acp{MDP}, namely those where for every state ever following state is 
+defined by a probability distribution $B$ (regardless of the action chosen by 
+the player), then this result can be derived as a corollary from the 
+construction examined in Example \ref{ex:pwapbaallpaths}. Considering this 
+example but with a context-sensitive weighting of the paths (in contrast to 
+the current restrictive notion) allows to consider a movement downwards a 
+direction as movement of an \ac{MDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
+\tuple{\tau_{a}}_{a\in A}}$. If we set the directions as the set $S$ and 
+consider a path weighting function such that given the current position is 
+reached by $s_{1}$ and the letter $a$ is read then the movement downwards 
+$s_{2}$ is weighted by $\tau_{a}(s_{1}, s_{2})$ where the inital movement 
+corresponds to $\tau_{a}(s_{0}, \cdot)$. Then, using the idea of Example 
+\ref{ex:pwapbaallpaths} we construct a \ac{PWA} that executes a \ac{PBA} 
+$\mathcal{P}$ on the weighted paths reading the directions rather than the 
+letters. Conceptually, translating this to a \ac{WDTA} yields that every path 
+$s_{1}\rightarrow s_{2}\rightarrow\dots$ is associated with the run-tree of 
+$\mathcal{P}$ reading $s_{0}s_{1}s_{2}\dots$ with the probability of the 
+underlying strategy (encoded by the tree). Building upon this idea we design 
+the following argumentation which bears structural similarities with the one 
+presented for the modelling of \acp{PWA} by \acp{WDTA} (cp. Theorem 
 \ref{thm:PWAasWDTA}), but in a more involved form.
 
 We fix one strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ which induces a 
@@ -810,21 +820,24 @@ $\tuple{s_{0}, q_{0}}\dots\tuple{s_{n}, q_{n}}\in\tuple{S\times Q}^{*}$
   &= \int_{\cyl(s_{1}\dots s_{n})}K(\cdot, \cyl(q_{0}\dots q_{n}))d\mu_{s}.
 \end{align*}
 This suggests by the uniqueness of $\mu_{s}\otimes K$ and the extension of
-$\mu_{r}$ that these coincide (under renaming of the arguments). It is left
-to examine this renaming for $\mu_{r}$ since $\mu_{r}$ is defined on 
-$\mathcal{B}(S\times Q)$ while $\mu_{s}\otimes K$ is defined on 
-$\mathcal{B}(S)\times\mathcal{B}(Q)$.
-Concludingly, we can observe for the acceptance meausure of 
-$\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ 
+$\mu_{r}$ that these coincide (under renaming of the arguments as allowed by
+Lemma \ref{lem:borelinterleaving}). Concludingly, we can observe for the 
+acceptance meausure of $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$
 \begin{equation*}
-  \mu_{r}(\Acc\interval{Q}(S\times F))  
+  \mu_{r}(\Acc\interval{Q}(S\times F))
   = \mu_{s}\otimes K(S^{\omega}, \Acc(F))
   = \int_{\alpha\in S^{\omega}}\mu_{\alpha}(\Acc(F)) d\mu_{s}.
 \end{equation*}
 This allows us to state that $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ 
 accepts $s$ if and only if $s$ is a solution to the synthesis question for 
 the \ac{POMDP} $\mathcal{M}$ and the \ac{PBA} $\mathcal{P}$. We may use
-Corollary \ref{cor:emptiness} to compute this $s$.
+Corollary \ref{cor:emptiness} to compute this $s$ and therefore prove
+\begin{theorem}[Qualitative PBA Synthesis]
+  The synthesis question of an environment $\mathcal{M}$ and a specification
+  provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance measure
+  can be decided.
+  \label{thm:pbasynthesis}
+\end{theorem}
 
 Although inspired by the arguments of Theorem \ref{thm:PWAasWDTA}, the usage 
 of \acp{WDTA} is not essential for the argument above. Equivalently Lemma 
@@ -854,8 +867,13 @@ since the construction needs to hide the current state of $\mathcal{P}$ and we
 do not have a determinism argument as before since \acp{PBA} have in general
 possibly multiple following states. Nevertheless, this yields a \ac{POMDP} with
 states $S' = Q\times S$ and allows to compute the corresponding $s$ in
-time exponential of $\size{S'}$ rather than in time exponential in 
-$\size{S}\times\size{Q}\times\size{\interval{S}_{\sim}}$. Additionally, this
-formulation allows to use stochastic strategies, i.e. strategies which do not
-yield an action but a probability distribution over all actions. 
-\fxfatal{expand on probabilistic strategies}
+time exponential of $\size{S'}$. Effectively, we get
+\begin{corollary}
+  If a strategy for the qualitative synthesis problem for a \ac{POMDP} with
+  states $S$ and a specification in form of an almost-surely accepting \ac{PBA} 
+  with states $Q$ exists it can be computed in time exponential in 
+  $\size{Q\times S}$.
+\end{corollary}
+This is a notable improvement over the argument resolving around \acp{WDTA}
+since the associated time complexity there is exponential in
+$\size{S}\times\size{Q}\times\size{\interval{S}_{\sim}}$.
