@@ -12,7 +12,8 @@ $\mathcal{L}_{1}$ and $\mathcal{L}_{2}$ we introduce
     u\cdot v: u\in\mathcal{L}_{1}, v\in\mathcal{L}_{2}}\subseteq A^{*}
 \end{equation*}
 and for a word $u$ and a language $\mathcal{L}$ we consider 
-$u\cdot\mathcal{L}$ to be equivalent to $\set{u}\cdot\mathcal{L}$.
+$u\cdot\mathcal{L}$ to be equivalent to $\set{u}\cdot\mathcal{L}$. If the 
+semantics is still clear we might omit $\cdot$ in these expressions.
 
 Infinite words over $A$ are similarly defined as finite words but requiring a
 countable index sequence $\tuple{i_{k}}_{k\in\mathbb{N}}$. We denote with 
@@ -27,7 +28,22 @@ we define
   \subseteq A^{\omega}
 \end{equation*}
 and for a finite word $u\in A^{*}$ we allow the notation
-$u\cdot\mathcal{L}_{2}$ to express $\set{u}\cdot\mathcal{L}_{2}$.
+$u\cdot\mathcal{L}_{2}$ to express $\set{u}\cdot\mathcal{L}_{2}$. In general we
+use the convention to use latin letters to label finite words while greek 
+letters are used for infinite words.
+
+For two finite words $u, v\in A^{*}$ we denote with $\sqsubseteq$ the prefix 
+relation, i.e.
+\begin{equation*}
+  u\sqsubseteq v \text{ if and only if there is }u'\in A^{*}\text{ such that }
+    u\cdot u' = v.
+\end{equation*}
+We also use $\sqsubseteq$ for the notion that a finite word is a prefix of an
+infinite word. Hence, for $u\in A^{*}$ and $\alpha\in A^{\omega}$ we define
+\begin{equation*}
+  u\sqsubseteq\alpha\text{ if and only if there is }\beta\in A^{\omega}
+    \text{ such that }u\beta = \alpha.
+\end{equation*}
 
 Considering a function $f:A\rightarrow B$ we allow to implicitly lift $f$ to
 sets and finite and infinite words by elementwise application, namely

@@ -1,0 +1,49 @@
+\tikzset{
+  decideable/.style = {
+    draw,
+    rectangle,
+    fill = green!50
+  },
+  bdecideable/.style = {
+    draw,
+    rectangle,
+    fill = purple!50
+  },
+  undecideable/.style = {
+    draw,
+    rectangle,
+    fill = red!50
+  }
+}
+\begin{tikzpicture}
+  \node [undecideable, label = {10:$\cup$}] (unr>0) at (0,0) 
+    {Unrestricted $>0$};
+  \node [undecideable, label = {10:$\cup$}, below right = 1 and 0.1 of unr>0]
+    (cl>0) {Choiceless $>0$};
+  \node [decideable, label = {10:$\cup$}, below left = 1 and 0.1 of unr>0]
+    (unid>0) {Uni-directional $>0$};
+  \node [decideable, label = {10:$\cup$}, below = 1 of unid>0] (ud>0)
+    {Uniformly distributed $>0$};
+
+  \node [undecideable, label = {10:$\cup, \cap$}, rectangle, 
+    below = 5 of unr>0] (unr1) {Unrestricted $=1$};
+  \node [bdecideable, label = {10:$\cap, \cancel{\neg}$},
+    below right = 1 and 0.1 of unr1] (cl1) {Choiceless $=1$};
+  \node [decideable, label = {10:$\cup$}, below left = 1 and 0.1 of unr1]
+    (unid1) {Uni-directional $=1$};
+  \node [decideable, label = {10:$\cup, \cap$}, below = 1 of unid1] (ud1)
+    {Uniformly distributed $=1$};
+
+  \draw[->] (ud>0) to node [rotate=90, yshift = 0.2cm] {$\subseteq$} (unid>0);
+  \draw[->] (unid>0) to node [above] {$\subseteq$} (unr>0);
+  \draw[->] (cl>0) to node [above] {$\supseteq$} (unr>0);
+
+  \draw[->] (ud1) to node [rotate=90, yshift = 0.2cm] {$\subseteq$} (unid1);
+  \draw[->] (unid1) to node [above] {$\subseteq$} (unr1);
+  \draw[->] (cl1) to node [above] {$\varsupsetneq$} (unr1);
+
+  \draw[bend right] (cl1) to node [rotate = -90, yshift = 0.3cm] 
+    {$B\nsubseteq P$} (cl>0);
+  \draw[bend right] (cl1) to node [left] {dual} (cl>0);
+
+\end{tikzpicture}

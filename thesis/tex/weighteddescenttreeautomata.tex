@@ -332,16 +332,27 @@ certain classes in a straightforward manner (as suggested by
   uni-directionality and even a common blueprint of $\mathcal{A}_{1}$ and 
   $\mathcal{A}_{2}$ since transition are simply mirrored.
 \end{proof}
+
 \begin{corollary}
   The class of uniformly distributed \acp{WDTA} with a fixed blueprint $B$ is 
   closed under union.
 \end{corollary}
+
+We can use the aforementioned equivalence of uniformly distributed \acp{WDTA} 
+with the model introduced in \cite{RandAutoInfTrees} to carry over the follwing
+results:
+\begin{proposition}
+  \cite[Proposition 14, Proposition 15]{RandAutoInfTrees}
+  Uniformly distributed \acp{WDTA} with common blueprint and almost-sure 
+  acceptance are closed under intersection but not under complement.
+\end{proposition}
 The natural question arises if this closure persists for the complete class of 
-uniformly distributed \acp{WDTA}. Considering this question we examine the
+uniformly distributed \acp{WDTA}. Although we do not present immediate results,
+we discuss this question in the following. Therefore, we examine the
 relevance of the local probabilities regarding the resulting measure. For 
 \acp{PBA} we already established with Lemma \ref{lem:measureinpba} and its 
-consequences that the choice of the transition probabilities does matter. In 
-this context we discuss some results from \cite{RandAutoInfTrees}. Firstly, we 
+consequences that the choice of the transition probabilities matters. In this 
+context we discuss some results from \cite{RandAutoInfTrees}. Firstly, we 
 introduce the following example:
 \begin{example}
   \cite[Example 7]{RandAutoInfTrees}
@@ -387,7 +398,7 @@ To this example we additionally introduce
 Thus, the \enquote{local} probabilities are relevant for the global measure
 which is similar to \acp{PBA} (cp. Lemma \ref{lem:measureinpba}). But in both 
 arguments the examined models are deterministic in the choice of their 
-transitions. Naturally, this rises questions about the influence to use 
+transitions. Naturally, this raises questions about the influence to use 
 non-determinism in probabilistic models. As we see later the inclusion of 
 non-determinism is a significant source of complexity of the model
 (cp. \cite[Remark 12]{RandAutoInfTrees}).
@@ -521,13 +532,7 @@ positive acceptance and almost-sure acceptance which is expressd in
   $\mathcal{A}$ accepts $t$ almost-surely (positively) if and only if
   $\mathcal{C}$ does not accept $t$ positively (almost-surely).
 \end{proof}
-For uni-directional \acp{WDTA} with common blueprint we can relate on the 
-common product construction to yield an intersection operator.
-\begin{proposition}
-  \cite[Proposition 14]{RandAutoInfTrees}
-  Uni-directional \acp{WDTA} with common blueprint are closed under
-  intersection.
-\end{proposition}
+
 
 \section{Modelling in \aclp{WDTA}}
 We want to motivate the introduction of \acp{WDTA} by showing their strength to
@@ -1291,9 +1296,10 @@ observability is not necessary to ensure the interchangeability of a strategy
 and a tree. Hence, we obtain
 \begin{corollary}[Emptiness Almost-Sure Uni-Directional WDTA]
   \cite[Corollary 47]{RandAutoInfTrees}
-  The emptiness problem for an uni-directional \ac{WDTA} with almost-sure
-  acceptance measure of a Büchi- or Parity-condition can be decided in time 
-  polynomial in $\size{Q}\cdot\size{D}$.
+  The emptiness problem for an uni-directional \ac{WDTA} with almost-sure or
+  positive acceptance measure of a Büchi- or Parity-condition can be decided.
+  If a tree exists it can be computed in time polynomial in 
+  $\size{Q}\cdot\size{D}$.
 \end{corollary}
 \begin{proof}
   We translate a given uni-directional \ac{WDTA} 
@@ -1321,7 +1327,7 @@ and a tree. Hence, we obtain
   strategy $s$ with $s(u) = r(u)$ for all $u\in \tuple{Q\times D}^{*}$. 
   Concludingly, using Theorem \ref{thm:mdpstratsynthesis} on this $\mathcal{M}$
   and the Parity-condition $\parity$ (applied to the state component of the 
-  states in $\mathcal{M}$) yields the postulated decision procedure.
+  states in $\mathcal{M}$) yields the postulated algorithm.
 \end{proof}
 
 Furthermore, we use the modelling of different automata in \acp{WDTA} to 
@@ -1489,8 +1495,8 @@ Using these insights allows us to deduce
 This directly entails
 \begin{corollary}
   The class of languages recognizable with \acp{WDTA} almost-sure acceptance
-  is a proper superset of languages recognizable with choiceless \acp{WDTA}
-  with almost-sure acceptance.
+  strictly contains the class of languages recognizable with choiceless 
+  \acp{WDTA} with almost-sure acceptance.
 \end{corollary}
 \begin{proof}
   It is trivial to observe that unrestricted \acp{WDTA} includes the class of 
@@ -1503,3 +1509,26 @@ This directly entails
   distributions in two transitions which sent $q_{0}$ either in direction $0$
   or $1$ and the non-determinism to decide which transition to take.
 \end{proof}
+
+Concludingly, we summarize our results on \acp{WDTA} in Figure 
+\ref{fig:wdtamap}.
+\begin{drawing}
+  \caption{
+    A \enquote{map} of the presented results for \acp{WDTA}. Arrows marked with 
+    inclusion symbols are used to illustrate increasing of expressiveness from 
+    the beginning to the end of the arrow (the equality symbol is striked out
+    if it is a proven strict generalisation). Annotated $\cap$, $\cup$ and 
+    $\neg$ stand for closure under intersection, union and complement 
+    respectively. Naturally, a striked out version of one operater shows the 
+    proven lack of closure under it. Additionally, we used $B\nsubseteq P$ to 
+    state that a model restricted to a Büchi-condition is not included in a 
+    model with access to Parity-conditions. Colors encode decidability results 
+    for the emptiness problem: red illustrates undecidability, green 
+    decidability and purple decidability for Büchi- but undecidability for 
+    Parity-conditions.
+  }
+  \label{fig:wdtamap}
+  \begin{center}
+    \includegraphics{tikz/wdtamap.pdf}
+  \end{center}
+\end{drawing}
