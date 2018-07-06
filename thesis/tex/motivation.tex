@@ -1,0 +1,40 @@
+Relying on finite structures, called automata, to parse and classify finite and
+infinite objects, e.g. words and trees, is well established \cite{LangAutoLog,%
+AutoInfObj}. Automata on words and trees usually operate in a absolute fashion,
+i.e. from the current internal state of the automaton and the input the
+automaton proceeds into another state by some rule. These rules can be
+categorized to be deterministic or non-deterministic where deterministic rules
+uniquely identify one successor state from the current internal state and the
+read input while non-deterministic rules allow to choose from multiple possible
+successor states exactly one. The source of these choices is conceived from
+some omniscient oracle which provides the correct choice if one exists. Some
+research focuses on making the participation of the oracle more transparent.
+Either by finding equivalent deterministic automata
+\cite{NonDetBuechiToDetParity} or by considering probabilistic behavior of the
+oracle \cite{RandAutoInfTrees,RecOmeLangProbAuto} introducing probabilistic
+automata.
+
+Moreover, probabilistic behavior has proven invaluable for the analysis of
+various domains, e.g. decision making \cite{ActingOptimallyInPOSD} or modelling
+environments systems reside in \cite{PrinciplesOfMC}. Given such a model of a
+probabilistic environment it is a common task to determine how well a certain
+actor behaves \cite{PrinciplesOfMC} or construct a behavior which meets certain
+demands \cite{SynProbEnv,QuanStochParityGames}. Additionally, an actor may show
+probabilistic behavior as well \cite{RandomnessForFree}. Connections between
+models of probabilistic environments and probabilistic automata are already
+established \cite{DecProblemsForProbAuto}.
+
+Thirdly, depending on the environment it is reasonable to restrict the
+information an actor may observe. This concept of \emph{incomplete or partial
+information} is incorporated in models for environments \cite{QualAnaPOMDP} and
+connected to certain structural properties of automata 
+\cite{ChurchsProblemRevisited}.
+
+In this thesis we discuss approaches around the theory of automata to tackle
+the \emph{synthesis problem}. The synthesis problem is generally understood as
+the task to derive from a given specification a behavior which satisfy this
+specification \cite{Church}. If a probabilistic behavior for the environment is
+assumed this satisfaction relation usually is relaxed to account for the
+probable the situations \cite{SynProbEnv,PrincinplesOfMC,QualAnaPOMDP}. Useful
+approaches to solutions for synthesis problems are developed around automata
+theory \cite{ChurchsProblemRevisited,SynProbEnv,AutoInfObj}.
