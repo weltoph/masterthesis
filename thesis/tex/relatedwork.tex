@@ -1,0 +1,47 @@
+Relaxing the notion of acceptance for word automata on infinite words is a
+relatively recent approach \cite{PBAcoin,Groesser,RecOmeLangProbAuto,%
+DecProblemsForProbAuto}. Nevertheless, it is translated to trees in
+\cite{RandAutoInfTrees,QualTreeLang} in two different ways. On the one hand, a
+weighting in form of probabilities on paths is considered and, on the other
+hand, also it is examined to choose transitions probabilistically which is
+semantically closer to the approach of probabilistic word automata. Relaxation
+on the cardinality of accepting paths in runs of tree automata is also proposed
+in \cite{CardinalsForTreePaths} by considering runs accepting if the
+cardinality of accepted paths exceeds or deceeds a given cardinal number. The
+required argumentation presents in a more logic-based and set-theoretical
+framework.
+
+Furthermore, notions of imperfect information are broadly applied in different
+settings. Used in graph games partial observability lifts the computation of
+winning regions even for simple winning conditions, e.g. Safety-conditions,
+into exponential complexity \cite{PowerOfImperfectInformation}. Also, partial
+observability is very prominently used in \aclp*{MDP} \cite{RandomnessForFree,%
+ActingOptimallyInPOSD, QualAnaPOMDP} but entails harsh consequences on the
+analysis, e.g. computing almost-surely winning strategies for Parity-objectives
+becomes undecidable for partial observability while there are polynomial
+solutions in the case of complete information \cite{QualAnaPOMDP,%
+QuanStochParityGames}. This entails interesting consequences for our model of
+tree automata since we are able to pinpoint a structural property of
+alternation in \aclp*{WDTA} that precisely corresponds with partial
+observability and therefore translates these results into our automata model.
+This is also suggested in \cite{ChurchsProblemRevisited} where alternating tree
+automata are used to model information that are inaccessible for the actor, but
+still are part of the specification.
+
+Moreover, considering probabilistic automata as representation for the
+specification of a synthesis problem is not yet widely adopted. Logics that
+incorporate quantification for a probability, e.g. \textsc{PCTL}, state the
+probability of the the considered environment to satisfy a condition and do not
+use stoachastic behavior inherently to the specification \cite{PrinciplesOfMC}.
+Using probabilistic automata as specification is explored for timed models
+\cite{VerificationAndControl} or as concise representation of $\omega$-regular
+properties \cite{PBAforLTLSafety}. To the best of our knowledge we pioneer in
+the approach to use the incomparable expressibility of almost-surely accepting
+\aclp*{PBA} to $\omega$-regular languages for specifications of synthesis
+problems. Actually, the solution for qualitative strategy synthesis in
+\aclp*{POMDP} for a specification given as almost-surely accepting \aclp*{PBA}
+fits well to the approach in \cite{RandomnessForFree} where reductions are
+examined that allow to remove probabilistic behavior for strategies or
+transitions in a graph by deterministic behavior giving the associated
+randomness for \enquote{free}. In this sense we allow for \enquote{free}
+randomness in the specification considering \aclp*{POMDP}.
