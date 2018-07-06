@@ -28,13 +28,20 @@ Thirdly, depending on the environment it is reasonable to restrict the
 information an actor may observe. This concept of \emph{incomplete or partial
 information} is incorporated in models for environments \cite{QualAnaPOMDP} and
 connected to certain structural properties of automata 
-\cite{ChurchsProblemRevisited}.
+\cite{ChurchsProblemRevisited}, namely alternation.
 
 In this thesis we discuss approaches around the theory of automata to tackle
 the \emph{synthesis problem}. The synthesis problem is generally understood as
 the task to derive from a given specification a behavior which satisfy this
 specification \cite{Church}. If a probabilistic behavior for the environment is
 assumed this satisfaction relation usually is relaxed to account for the
-probable the situations \cite{SynProbEnv,PrincinplesOfMC,QualAnaPOMDP}. Useful
+probable the situations \cite{SynProbEnv,PrinciplesOfMC,QualAnaPOMDP}. Useful
 approaches to solutions for synthesis problems are developed around automata
-theory \cite{ChurchsProblemRevisited,SynProbEnv,AutoInfObj}.
+theory in particular by expressing the specification as language of an
+automata, determinising this automata and exectuing it in parallel on all paths
+of a tree \cite{ChurchsProblemRevisited,SynProbEnv,AutoInfObj,%
+ParityGamesPosDet}. We try to translate these approaches to probabilistic
+automata for words and trees. Therefore, we incorporate alternation into tree
+automata with probabilistic behavior and examine the resulting model and its
+implications on the synthesis problem for probabilistic environments with
+special consideration of specifications in form of probabilistic word automata.
