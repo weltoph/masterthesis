@@ -3,7 +3,8 @@ relatively recent approach \cite{PBAcoin,Groesser,RecOmeLangProbAuto,%
 DecProblemsForProbAuto}. Valuation of runs of automata is also used for
 weighted automata \cite{MaxSumSemanticsWeightedAutomata} and explored in the
 context of qualitative satisfaction rather than absolute correctness
-\cite{DecWeightedAutomata}.
+\cite{DecWeightedAutomata} which is also the basis for synthesis results in
+stochastic environments \cite{HighQualSynStochEnv}.
 
 The probabilistic approach is translated to trees in \cite{RandAutoInfTrees,%
 QualTreeLang} in two different ways. On the one hand, a weighting in form of
@@ -24,9 +25,9 @@ ActingOptimallyInPOSD, QualAnaPOMDP} but entails harsh consequences on the
 analysis, e.g. computing almost-surely winning strategies for Parity-objectives
 becomes undecidable for partial observability while there are polynomial
 solutions in the case of complete information \cite{QualAnaPOMDP,%
-QuanStochParityGames}. This entails interesting consequences for our model of
-tree automata since we are able to pinpoint a structural property of
-alternation in \aclp*{WDTA} that precisely corresponds with partial
+QuanStochParityGames, ContrSynProbSys}. This entails interesting consequences
+for our model of tree automata since we are able to pinpoint a structural
+property of alternation in \aclp*{WDTA} that precisely corresponds with partial
 observability and therefore translates these results into our automata model.
 This is also suggested in \cite{ChurchsProblemRevisited} where alternating tree
 automata are used to model information that are inaccessible for the actor, but

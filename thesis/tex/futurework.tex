@@ -3,42 +3,69 @@ all its facets in the limited scope of this thesis. For various restricted and
 the unrestricted classes there are open questions about closure properties and
 expressiveness.
 
-We want to raise the question here what happens if the non-deterministic
-choices for \acp{WDTA} are considered in the context of simulating \acp{PBA}.
-We propose to consider \acp{PBA} which may choose (depending on the current
-input letter) a probability distribution which is used to determine their next
-move. This model subsumes $\omega$-regular languages by using the
-non-determinism to choose from Dirac distributions and includes the properties
-of \acp{PBA} as they are. Designing a game to capture acceptance can be done
-similar to the games in Definition \ref{def:acceptancegame} as \ac{MDP} where
-the decisions of \eve{} constructs the run on the given input word $\alpha$.
-Unfortunately, it is not immediate to obtain an emptiness game from this
-construction as it is for tree automata because of the problems of information
-management explained in Example \ref{ex:alternatingtreeemptiness}: \eve{} needs
-to construct a consistent word but depending on the current state might choose
-different transitions. Regarding this question we refer to
-\cite{AlgorithmsForPOSG} where it is noted that once a strategy for one player
-is fixed the other player might consider a \ac{POSG} as \ac{POMDP} allowing to
-only consider non-randomised strategies \cite{RandomnessForFree}. But in
-general randomised strategies in \ac{POSG} are stronger than non-randomised
-strategies.
+We want to examine the non-deterministic choices of \acp{WDTA}. Considering a
+given tree $t$, then we can adapt Definition \ref{def:acceptancegame} to design
+an acceptance game as \ac{MDP} with states $Q\times D^{*}$ where \eve{} decides
+which transitions to take. Unfortunately, it is not immediate to obtain an
+emptiness game from this construction as it is explained in Example
+\ref{ex:alternatingtreeemptiness}. Giving \eve{} control of the tree and the
+run entails that she must construct a consistent tree but depending on the
+current state might choose different transitions. This induces requirements on
+the observations of \eve{} which are not fitting the concept of partial
+observability as discussed in this thesis. Therefore, we propose to consider
+co-operative \acp{POSG} where e.g. \eve{} constructs the tree while \adam{}
+complementarily builds an associated tree. The game is won for both players if
+almost-surely or positively the acceptance condition of the associated
+\ac{WDTA} is satisfied. This approach allows to use the different observations
+for both players to obtain a consistent tree and a run for this tree which
+utilizes the complete expressiveness of \acp{WDTA}. Additionally, we want to
+note the following: for zero-sum \ac{POSG} once a strategy for one player is
+fixed the other player might consider the game as \ac{POMDP}
+\cite{AlgorithmsForPOSG}. For such a \ac{POMDP} non-randomised strategies are
+as powerful as randomised strategies but for zero-sum \ac{POSG} even for
+Büchi-conditions this is no longer true \cite{RandomnessForFree}. This argument
+might be interesting since it is unclear how to obtain an associated tree from
+a randomised strategy (given this argument translates to co-operative
+\ac{POSG}).
 
-Also, since non-determinism is sufficient to use
-Büchi-conditions for all $\omega$-regular languages this raises the questions
-if this holds in the probabilistic case as well.
-Analogously to \cite[Theorem 1.10]{AutoLogInfGames} we obtain an equivalent
-\ac{NBA} for a given \ac{NPA} by introducing for every winning parity a copy of
-the automaton which lacks transitions to higher odd parities and marking in
-this copy the states with the associated winning partiy as Büchi-states. Hence,
-the \ac{NBA} guesses the moment from which on no higher odd parity is visited
-anymore and moves into the \enquote{correct} copy. An immediate translation of
-this construction to the probabilistic case does not work. Since the
-probability of loosing runs in a probabilistic word automaton with
-Parity-condition and almost-sure acceptance might diminish constantly for a
-winning run but every non-deterministic choice in the Büchi-automaton has to
-occur after finitely many steps still leaving a measurable set of non-accepting
-runs behind. The supremum of accepting-runs over all these decisions is $1$ but
-there is not necessarily one single run with this almost-sure measure. In
-\cite{RandAutoInfTrees} the \emph{value} of a tree is defined in terms of this
-supremum notion.
+It is also possible to use non-deterministic choices in other probabilistic
+automata, e.g. \acp{PBA}. This yields an automaton which upon reading a
+letter chooses non-deterministically a probability distribution which
+determines its next state. This model subsumes $\omega$-regular languages by
+using the non-determinism to choose from Dirac distributions (for both positive
+and almost-sure semantics) and includes the properties of \acp{PBA} with
+positive or almost-sure semantics respectively. Initially, since
+non-determinism is sufficient to use Büchi-conditions for all $\omega$-regular
+languages this raises the questions if this holds in the probabilistic case as
+well. Analogously to \cite[Theorem 1.10]{AutoLogInfGames} we obtain an
+equivalent \ac{NBA} for a given \ac{NPA} by introducing for every winning
+parity a copy of the automaton which lacks transitions to higher odd parities
+and marking in this copy the states with the associated winning partiy as
+Büchi-states. Hence, the \ac{NBA} guesses the moment from which on no higher
+odd parity is visited anymore and moves into the \enquote{correct} copy. An
+immediate translation of this construction to the probabilistic case does not
+work for the almost-sure case: the probability of loosing runs in a
+probabilistic word automaton with Parity-condition and almost-sure acceptance
+might diminish constantly for a winning run. Nevertheless, a movement into one
+of the copies for a winning parity occurs after finitely many steps. Therefore,
+there might be no situation after finitely many steps for such a movement which
+does not allow for a measurable set of \enquote{failing} runs. In
+\cite{RandAutoInfTrees} the \emph{value} of a tree $t$ in an automaton
+$\mathcal{A}$ is defined as the supremum of the measure of all accepting paths
+over all possible runs of $\mathcal{A}$ for $t$. This notion can be used here
+as well and our construction suggests that the value of $\alpha$ is $1$ in the
+Büchi-automaton if and only if it is accepted by the original probabilistic
+automaton with Parity-condition.
 
+Concludingly, we expect interesting results on the topic of \acp{WDTA} from
+further investigation of co-operative \ac{POSG} which might be used as
+emptiness games for \acp{WDTA}. Also, the further study of \acp{WDTA} might
+reveal new connections to \acp{POSG} as well. Additionally, we propose to
+consider automata with non-determistic as well as probabilistic choices.
+
+Moreover, considering the presented synthesis results it is a natural way next
+step to develop a logic to express the specification which can be translated to
+almost-surely accepting \acp{PBA}. This is an important step since constructing
+almost-surely accepting \acp{PBA} for languages directly is rather complex and
+therefore unpractical. A first step for probabilistic word automata with
+Muller-conditions is taken in \cite{ProbAutoProbLog}.
