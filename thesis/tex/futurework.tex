@@ -1,0 +1,44 @@
+Naturally, the complex theory of \acp{WDTA} cannot be thoroughly explored in
+all its facets in the limited scope of this thesis. For various restricted and
+the unrestricted classes there are open questions about closure properties and
+expressiveness.
+
+We want to raise the question here what happens if the non-deterministic
+choices for \acp{WDTA} are considered in the context of simulating \acp{PBA}.
+We propose to consider \acp{PBA} which may choose (depending on the current
+input letter) a probability distribution which is used to determine their next
+move. This model subsumes $\omega$-regular languages by using the
+non-determinism to choose from Dirac distributions and includes the properties
+of \acp{PBA} as they are. Designing a game to capture acceptance can be done
+similar to the games in Definition \ref{def:acceptancegame} as \ac{MDP} where
+the decisions of \eve{} constructs the run on the given input word $\alpha$.
+Unfortunately, it is not immediate to obtain an emptiness game from this
+construction as it is for tree automata because of the problems of information
+management explained in Example \ref{ex:alternatingtreeemptiness}: \eve{} needs
+to construct a consistent word but depending on the current state might choose
+different transitions. Regarding this question we refer to
+\cite{AlgorithmsForPOSG} where it is noted that once a strategy for one player
+is fixed the other player might consider a \ac{POSG} as \ac{POMDP} allowing to
+only consider non-randomised strategies \cite{RandomnessForFree}. But in
+general randomised strategies in \ac{POSG} are stronger than non-randomised
+strategies.
+
+Also, since non-determinism is sufficient to use
+Büchi-conditions for all $\omega$-regular languages this raises the questions
+if this holds in the probabilistic case as well.
+Analogously to \cite[Theorem 1.10]{AutoLogInfGames} we obtain an equivalent
+\ac{NBA} for a given \ac{NPA} by introducing for every winning parity a copy of
+the automaton which lacks transitions to higher odd parities and marking in
+this copy the states with the associated winning partiy as Büchi-states. Hence,
+the \ac{NBA} guesses the moment from which on no higher odd parity is visited
+anymore and moves into the \enquote{correct} copy. An immediate translation of
+this construction to the probabilistic case does not work. Since the
+probability of loosing runs in a probabilistic word automaton with
+Parity-condition and almost-sure acceptance might diminish constantly for a
+winning run but every non-deterministic choice in the Büchi-automaton has to
+occur after finitely many steps still leaving a measurable set of non-accepting
+runs behind. The supremum of accepting-runs over all these decisions is $1$ but
+there is not necessarily one single run with this almost-sure measure. In
+\cite{RandAutoInfTrees} the \emph{value} of a tree is defined in terms of this
+supremum notion.
+
