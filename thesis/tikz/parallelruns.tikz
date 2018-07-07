@@ -1,0 +1,27 @@
+\newcommand{\y}[1]{0.8*#1}
+\begin{tikzpicture}
+  \node (q0) at (1.2, 2) {$q_{0}$};
+
+  \foreach \name [count = \counter from 1] in {rl, rr} {
+    \node (\name) at (\counter, \y{\counter}) {};
+  }
+
+  \node [below left = 4 and 1.5 of rl] (ll)  {};
+  \node [below right= 4 and 1.5 of rl] (lr)  {};
+
+  \node [below left = 4 and 1.5 of rr] (rll) {};
+  \node [below right= 4 and 1.5 of rr] (rrr) {};
+
+  \draw (q0) to (rl.center);
+  \draw (q0) to (rr.center);
+
+  \draw (rl.center) to (ll.center);
+  \draw (rl.center) to (lr.center);
+  \fill [red!50] (rl.center) -- (ll.center) -- (lr.center) -- cycle;
+
+  \begin{scope}[on background layer]
+    \draw (rr.center) to (rll.center);
+    \draw (rr.center) to (rrr.center);
+    \fill [blue!50] (rr.center) -- (rll.center) -- (rrr.center) -- cycle;
+  \end{scope}
+\end{tikzpicture}
