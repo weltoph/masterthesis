@@ -1,9 +1,10 @@
-\documentclass[twoside, a4paper, fontsize=12pt, draft]{scrbook}
+\documentclass[twoside, a4paper, fontsize=12pt, abstract=on, draft]{scrreprt}
 \input{tex/preamble.tex}
 
 \title{Automata-theoretic Synthesis for Probablistic Environments}
 \author{Christoph Welzel}
 \date{\today}
+
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\footrulewidth}{1pt}
@@ -15,11 +16,11 @@
 
 \begin{document}
 \maketitle
-\frontmatter{}
+% \frontmatter{}
 \listoffixmes{}
-% \input{tex/abstract.tex}
+\input{tex/abstract.tex}
 \tableofcontents
-\mainmatter{}
+% \mainmatter{}
 
 \input{tex/introduction.tex}
 
@@ -33,10 +34,11 @@
 
 \printbibliography
 
+% \backmatter{}
+
 \appendix
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 \input{tex/appendix.tex}
 
-\backmatter{}
 
 \end{document}
