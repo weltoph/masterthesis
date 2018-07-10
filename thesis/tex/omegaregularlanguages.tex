@@ -1,6 +1,6 @@
 \label{sec:wordautomata}
-Following \cite{LangAutoLog} (resp. \cite[Chapter 1]{AutoLogInfGames} for the
-Parity-condition below) we introduce word automata with the following
+Following \cite{LangAutoLog} (respectively \cite[Chapter 1]{AutoLogInfGames}
+for the Parity-condition below) we introduce word automata with the following
 structural definition
 \begin{definition}[Word Automaton]
   We define a word automaton as
@@ -60,24 +60,22 @@ following conditions:
   to the accepted language. If necessary we use subscripts to $\Acc$ to make 
   the interpretation of its argument clear.
 \end{definition}\fxfatal{find fitting reference for prefix-independence}
-Note that by the nature of these acceptance conditions, namely that acceptance
-solely depends on those states that occur infinitely often, the acceptance is
-at any moment determined by the \enquote{future}. We call this
-\emph{prefix-independence} and formerly capture this by stating that every
+Note that for these acceptance conditions acceptance solely depends on those
+states that occur infinitely often. Hence, the acceptance is at any moment
+determined by the \enquote{future}. We call this \emph{prefix-independence} and
+formally capture this by stating that every
 $\alpha = \alpha_{1}\alpha_{2}\dots\in\Acc(\Gamma)$ implies that for any $i>0$
 also $\alpha_{i}\alpha_{i+1}\dots\in\Acc(\Gamma)$ (again we let $\Gamma$ be a
 meta variable, ranging over the described finite representations of acceptance
 conditions). We categorize word automata by their acceptance condition and if
-they are deterministic. Thus, we call - for example - a word automaton
-$\mathcal{A}$ equipped with a Büchi-condition a \ac{NBA} or respectively
-\ac{DBA} if $\mathcal{A}$ is deterministic. And analogously we obtain word
-automata for Muller-, Rabin- and Parity-conditions and corresponding
-acronyms. 
-\acuse{NMA}\acuse{DMA}\acuse{NRA}\acuse{DRA}\acuse{NSA}\acuse{DSA}\acuse{NPA}
-\acuse{DPA}
+they are deterministic. For example we call a word automaton $\mathcal{A}$
+equipped with a Büchi-condition a \ac{NBA} or respectively \ac{DBA} if
+$\mathcal{A}$ is deterministic. And analogously we obtain word automata for
+Muller-, Rabin- and Parity-conditions as
+\ac{NMA}, \ac{DMA}, \ac{NRA}, \ac{DRA}, \ac{NPA} and \ac{DPA}.
 
-The theory to these - so called - $\omega$-automata is well
-established. In the following we recall some of the central results and 
+The theory to these word automata, which we call $\omega$-regular automata, is
+well established. In the following we recall some of the central results and
 selectively provide proofs. Our arguments follow, in some condensed and
 occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
 \begin{example}
@@ -113,8 +111,9 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   It is noteworthy that all these conditions are essentially modelling the
   abscence of a state. This is occasionally done by defining a set of states
   that must only be visited finitely often. Such an acceptance condition is
-  called a co-Büchi-condition with $F = \set{q_{a}}$ and describes the inverse
-  of a Büchi-condition.
+  called a \emph{co-Büchi-condition} with $F = \set{q_{a}}$ and describes the
+  inverse of a Büchi-condition; that is the lack of occurences of elements in
+  $F$ from one point onwards.
 
   Note that on the other hand we used a structural way to model this negative
   restriction for $\mathcal{A}$.
@@ -124,8 +123,8 @@ occasionally less formal form, \cite[Chapter 1]{AutoLogInfGames}. We start with
   \caption{In (a) an \ac{NBA} is illustrated which accepts the language of
   words with finitely many $a$. The states of the Büchi-condition $F$ are
   marked by doubling the outline, i.e. $F = \set{q_{F}}$.
-  In (b) a deterministic automaton is defined which simply moves to $q_{a}$
-  (resp. $q_{b}$) if an $a$ (resp. $b$) is read (starting in $q_{a}$).}
+  In (b) a deterministic automaton is defined which starting in $q_{a}$ simply
+  moves to $q_{a}$ ($q_{b}$) if an $a$ ($b$) is read.}
   \label{fig:finaautomata}
   \resizebox{\textwidth}{!}{\includegraphics{tikz/fina-automaton.pdf}}
 \end{drawing}
@@ -166,7 +165,7 @@ automata are non-deterministic automata which do not use their
 non-determinism. Furthermore it is easy to see, that Rabin- and
 Parity-conditions are captured by Muller-conditions by enumerating all
 $\Inf$-sets that satisfy the corresponding conditions. In a second step we
-show that \acp{NMA} can be translated to \acp{NPA} as well as \acp{NRA}. This
+show that we can translate \acp{NMA} to \acp{NPA} as well as \acp{NRA}. This
 translation makes use of the following construct:
 \begin{definition}[Latest Appearance Record]
   For a finite state set $Q$ define the set of permutations of elements in
@@ -242,7 +241,7 @@ the even witness rendering the run accepting.
 
 Thirdly, we conclude by stating (without proof) two results. Firstly, that
 there is for every \acp{NMA} an equivalent \ac{NBA} and the other way around
-(this is actually very easy since Muller-conditions as well as Rabin- and
+(this is actually easy since Muller-conditions as well as Rabin- and
 Parity-conditions can emulate Büchi-conditions):
 \begin{theorem}
   \cite[Theorem 1.10]{AutoLogInfGames}
@@ -276,13 +275,13 @@ languages the following
   \label{thm:omegaregboolean}
 \end{theorem}
 \begin{proof}
-  The proof consist of operations that take two (respectively one) word
-  automata and construct a word automaton that accepts the union, intersection
-  or respectively the negation. Beginning with the union, we make use of
-  non-determinism such that the resulting automaton guesses at the beginning in
-  which language the word is and simulates the \enquote{correct} automaton. The 
-  closure under intersection makes use of a natural product construction,
-  namely
+  For this proof we give operations that take two (respectively one) word
+  automata and construct a word automaton that accepts the union or
+  intersection (or respectively the negation). Beginning with the union, we
+  make use of non-determinism such that the resulting automaton guesses at the
+  beginning in which language the word is and simulates the \enquote{correct}
+  automaton. The closure under intersection is obtained by a natural product
+  construction, namely
   \begin{definition}
     For $\mathcal{A}_{1} = \tuple{Q, \Sigma, q_{0}, \Delta}$ and
     $\mathcal{A}_{2} = \tuple{P, \Sigma, p_{0}, \nabla}$ we define
@@ -352,7 +351,7 @@ from $q_{0}$ to $f$ and then loop in $f$ yields one accepting word (see Figure
 \end{theorem}
 
 \begin{drawing}
-    \caption{Illustration of an accepting run of an \acp{NBA}.}
+    \caption{Illustration of an accepting run of an \ac{NBA}.}
     \label{fig:nbaemptiness}
     \begin{center}
       \includegraphics{tikz/nbaemptiness.pdf}

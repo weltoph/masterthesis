@@ -1,12 +1,8 @@
-Upon the concept of \acp{NBA} there are approaches to substitute the
-non-deterministic choices by probabilistic ones, e.g.
-\cite{RecOmeLangProbAuto,DecProblemsForProbAuto,Groesser}. We begin with
-a formal introduction of an automaton model which makes use of this idea,
-called \acp{PBA}.
-
-A \ac{PBA} essentially is an \ac{NBA} where the non-determinism is solved by a
-probability distribution. Therefore, we define analogously to 
-\cite{Groesser}
+Replacing non-deterministic choices by probabilistic ones in \acp{NBA} yields
+a new class of word automata, namely \aclp{PBA} (cp. \cite{RecOmeLangProbAuto,%
+DecProblemsForProbAuto,Groesser}). A \ac{PBA} essentially is an \ac{NBA} where
+the non-deterministic oracle acts probabilistically. Therefore, we define
+analogously to \cite{Groesser}
 \begin{definition}[Probabilistic Büchi Automata]
   A \ac{PBA} $\mathcal{A}$ over a finite alphabet $\Sigma$ is defined by a
   tuple $\tuple{Q, \Sigma, \delta, q_{0}, F}$ where $Q$ is a finite state set,
@@ -20,7 +16,7 @@ Conceptually, a \ac{PBA} $\mathcal{P}$ processes an input word similarly as
 other word automata by sequentially reading the letters of the input word and 
 moving along its states. Provided the current state is $q$ and the next letter 
 of the input word is $a$ then $\mathcal{P}$ consults $\delta$ to determine its 
-next state, specifically $\mathcal{P}$ chooses a state $p$ by the probability
+next state. Specifically, $\mathcal{P}$ chooses a state $p$ with probability
 $\delta(q,a,p)$. Naturally, any run of $\mathcal{P}$ starts in its initial
 state $q_{0}$. Considering one fixed input word $\alpha$ the \ac{PBA} 
 $\mathcal{P}$ provides a process which produces corresponding state sequences 
@@ -54,12 +50,12 @@ input word.
   % }
   \end{center}
 \end{drawing}
-Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$. First we 
+Let $v = u_{0}\dots u_{n}$ be such a finite prefix of $\alpha$.
 For any sequence $q_{1}q_{2}\dots q_{n}$ the run of $\mathcal{P}$
 on $\alpha$ stays within $\cyl(q_{1}\dots q_{n})$ with the probability to
 move along the path $q_{0}q_{1}\dots q_{n}$ while reading $u_{1}\dots u_{n}$.
 This is the product of the probabilities to move from $q_{i-1}$ to $q_{i}$
-while reading $u_{i}$ for $1\leq i\leq n$; thus 
+while reading $u_{i}$ for $1\leq i\leq n$: 
 $\prod_{1\leq i\leq n}\delta(q_{i-1},u_{i},q_{i})$. 
 
 Given an input word $\alpha$ and using the Borel-algebra $\mathcal{B}(Q)$ and 
@@ -103,10 +99,11 @@ easily presented and is re-used later in a more involved context.
   eventually no occurence of $T$ anymore. This induces that there is one finite
   prefix $u\sqsubseteq\beta$ such that any prolongation of $u$ in $\beta$ does
   not contain a state of $T$, hence it holds that
-  $\beta\notin\bigcup\limits_{v\in u\cdot Q^{*}T}\cyl(v)$. Consequently is
-  $\beta$ element of the right hand side of Equation \ref{eq:measureability}.
-  On the other hand if $\beta\notin\Acc_{\cobuechi}(T)$ we know that for every
-  finite prefix $u\sqsubseteq\beta$ there is a (finite) prolongation
+  $\beta\notin\bigcup\limits_{v\in u\cdot Q^{*}T}\cyl(v)$. Consequently, 
+  $\beta$ is element of the right hand side of Equation
+  \ref{eq:measureability}. On the other hand if
+  $\beta\notin\Acc_{\cobuechi}(T)$ we know that for every finite prefix
+  $u\sqsubseteq\beta$ there is a (finite) prolongation
   $u\sqsubseteq v\sqsubseteq\beta$ such that $v\in u\cdot Q^{*}T$. This $v$ 
   removes $\beta$ from $\cyl(u)$. This gives that $\beta$ is not element of the 
   right hand side of Equation \ref{eq:measureability} which proves the 
@@ -123,9 +120,7 @@ Since we explicitly defined \acp{PBA} with Büchi-conditions this suffices to
 show their definition to be useful. But it is a natural escalation to consider
 more elaborate acceptance conditions, e.g. Muller-, Parity- or
 Rabin-conditions. We show the measureability of those sets here as well, since
-it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}. Also, we
-note that we introduce, analogously as for $\omega$-regular word automata,
-corresponding acronyms. \acuse{PRA}\acuse{PMA}\acuse{PPA}
+it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}.
 \begin{corollary}
   For a Muller-condition, a Parity-condition and a Rabin-condition
   defined by $\mathcal{F}\subseteq\Pot(Q)$, $\parity$, 
@@ -162,17 +157,20 @@ formally with
 \begin{definition}[Probabilistic Büchi Automaton - Acceptance]
   A \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ positively 
   (almost-surely) accepts a word $\alpha\in\Sigma^{\omega}$ if
-  $\mu_{\alpha}(\Acc(F)) > 0$ ($\mu_{\alpha}(\Acc(F))$).
+  $\mu_{\alpha}(\Acc(F)) > 0$ ($\mu_{\alpha}(\Acc(F)) = 1$).
 \end{definition}
-This yields two kinds of \acp{PBA} separated by the measure of their accepted 
-runs. We want to provide a small discussion of the theory regarding \acp{PBA}.
-Therefore, we discuss an example of a \ac{PBA} which allows us to get a feel 
-for the behavior while also providing a witness to separate the expressiveness 
-of $\omega$-regular languages and languages positively accepted by \acp{PBA}.
+With Corollary \ref{cor:borelAcceptance} we may define analogously
+\ac{PPA}, \ac{PMA} and \ac{PRA}. All probabilistic word automata can be
+separated into positively and almost-surely accepting. We want to provide a
+small discussion of the theory regarding \acp{PBA}. Therefore, we present an
+example of a \ac{PBA} which allows us to get a feel for the behavior while also
+providing a witness to separate the expressiveness of $\omega$-regular
+languages and languages positively accepted by \acp{PBA}.
 \begin{drawing}
-  \caption{A \ac{PBA} accepting under positive acceptance a 
-  non-$\omega$-regular language depicted by the same notions as finite word 
-  automata before.}
+  \caption{A \ac{PBA} accepting under positive acceptance a
+  non-$\omega$-regular language depicted by the same notions as finite word
+  automata before. Omitted transitions (for example a $b$-transition from state
+  $q_{0}$) implicitly lead to a non-accepting sink state.}
   \label{fig:posacceptingpba}
   \begin{center}
     \resizebox{0.35\textwidth}{!}{%
@@ -202,8 +200,9 @@ of $\omega$-regular languages and languages positively accepted by \acp{PBA}.
   mass in order to not let it diminish too fast.
   \label{ex:posacceptingpba}
 \end{example}
-As mentioned before the \ac{PBA} $\mathcal{P}$ from Example 
-\ref{ex:posacceptingpba} is not $\omega$-regular giving
+As stated by the caption in Figure \ref{fig:posacceptingpba} the \ac{PBA}
+$\mathcal{P}$ from Example \ref{ex:posacceptingpba} accepts a not
+$\omega$-regular language. This gives
 \begin{lemma}
   Follows from the proof of \cite[Theorem 4]{RecOmeLangProbAuto}.
   The language
@@ -225,18 +224,19 @@ As mentioned before the \ac{PBA} $\mathcal{P}$ from Example
   \begin{equation*}
     \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) \leq
     \underbrace{\prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{0}})}_{
-      \text{infinite product of a constant }0\leq c<1} = 0
+      \text{infinite product of a constant }0\leq c<1} = 0.
   \end{equation*}
-  rendering it not accepted.
+  Hence, every ultimatively periodic word is not accepted by $\mathcal{P}$
+  rendering its language not $\omega$-regular.
 \end{proof}
 
-Furthermore, we describe the expressive-wise superiority of positively 
-accepting \acp{PBA} over $\omega$-regular languages by stating
+Furthermore, we quote
 \begin{lemma}
   \cite[Lemma 5]{RecOmeLangProbAuto} For any \ac{NBA} $\mathcal{A}$ exists a
   \ac{PBA} $\mathcal{P}$ which accepts the same language.
 \end{lemma}
-And therefore we conclude with
+And therefore we may conclude that positively accepting \acp{PBA} are more
+expressive than $\omega$-regular automata:
 \begin{theorem}
   \cite[Theorem 4]{RecOmeLangProbAuto}
   The class of languages that can be accepted by a \ac{PBA} strictly contains
@@ -272,17 +272,18 @@ by a \ac{PBA} forms a Boolean algebra. This is captured in
   resulting $\mathcal{P}$ accepts $\alpha$ with a probability
   $\frac{1}{2}\cdot\mu^{1}_{\alpha}(\Acc(F^{1})) + 
   \frac{1}{2}\cdot\mu^{2}_{\alpha}(\Acc(F^{2}))$ which is greater than $0$ if
-  and only if one of the probabilities is greater than $0$.
+  and only if at least one of the probabilities is greater than $0$.
 
   Complementation requires a rather involved operation which we do not present 
-  here; but we mention an intermediate construction, namely a \ac{PRA} 
-  $\mathcal{R}$ associated with a \ac{PBA} $\mathcal{P}$. The 
-  interesting aspect of $\mathcal{R}$ is that it induces a binary probability 
-  measure on its acceptance condition, i.e. for its Rabin-condition $R$ we have
-  $\mu_{\alpha}(\Acc(R))\in\set{0,1}$, but it accepts the same language as
-  $\mathcal{P}$. The main idea of its construction is to sample partial runs of 
-  the original \ac{PBA} and keeping track of those that are accepting. These 
-  partial runs can be then \enquote{sticked together}. Therefore we state here
+  here. Nevertheless, we mention an intermediate step: for every \ac{PBA}
+  $\mathcal{P}$ we can construct a \ac{PRA} $\mathcal{R}$ such that
+  $\mathcal{R}$ acceptes the same languages as $\mathcal{P}$. Moreover,
+  $\mathcal{R}$ induces a binary probability measure on its acceptance
+  condition, i.e. for its Rabin-condition $R$ we have
+  $\mu_{\alpha}(\Acc(R))\in\set{0,1}$. The main idea of its construction is to
+  sample partial runs of the original \ac{PBA} and keeping track of those that
+  are accepting. These partial runs can be then \enquote{glued together}.
+  Therefore, we state here
   \begin{theorem}
     \cite[Theorem 4.3.2]{Groesser}
     For each \ac{PBA} $\mathcal{P}$ there exists a \ac{PRA} $\mathcal{R}$ that 
@@ -300,8 +301,8 @@ by a \ac{PBA} forms a Boolean algebra. This is captured in
   we prove for a more general model in Chapter \ref{chapter:treeautomata}.
   Nevertheless, we state here
   \begin{theorem}
-    The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides under
-    positive as well as almost-sure acceptance.
+    The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides for
+    positive (almost-sure) acceptance measure.
     \label{thm:probautoequiv}
   \end{theorem}
 \end{proof}
@@ -310,8 +311,7 @@ The gain in expressiveness for \ac{PBA} with positive acceptance over
 $\omega$-regular languages is unfortunately accompanied by some undesired 
 effects. Notably, while emptiness for a \ac{NBA} can be decided (see Theorem 
 \ref{thm:nbaemptiness}) we have that given a \ac{PBA} $\mathcal{P}$ it is 
-undecideable to find if there is any word positively accepted by $\mathcal{P}$ 
-as stated in
+undecideable to find if there is any word positively accepted by $\mathcal{P}$.
 \begin{theorem}
   \cite[Theorem 2]{DecProblemsForProbAuto}
   The emptiness problem for positively accepting \ac{PBA} is undecideable.
@@ -327,8 +327,8 @@ get
   for positive and almost-sure acceptance.
   \label{cor:emptinessstrongalmostsureprob}
 \end{corollary}
-This is different for almost-sure acceptance of Büchi-conditions. Notably, we
-have
+However, this is different for almost-sure acceptance of Büchi-conditions.
+Notably, we have
 \begin{theorem}
   \cite[Theorem 6]{DecProblemsForProbAuto}
   The emptiness problem for \ac{PBA} with almost-sure acceptance is decideable.
@@ -365,8 +365,8 @@ Again, we consider an example for a \ac{PBA} with almost-sure acceptance:
   $c_{m}\cdot p_{m}$ and $\sigma$-additivity of a probability measure that the 
   probability of non-accepting runs is
   \begin{equation*}
-    \sum_{i > 0} p_{m}\text{, and therefore }
-    \sum_{i > 0} p_{m} = 0\text{ iff }\prod\limits_{i>0}(1-\lambda^{k_{i}}) =0.
+    \sum_{m > 0} p_{m}\text{, and therefore }
+    \sum_{m > 0} p_{m} = 0\text{ iff }\prod\limits_{i>0}(1-\lambda^{k_{i}}) =0.
   \end{equation*}
   In order to accept almost-surely the set of non-accepting runs needs to be
   \emph{negligible}, i.e. carrying a probability of $0$.  Thus, indeed 
@@ -476,7 +476,7 @@ On the other hand, we get
   all the lengths of these sequences $n = \max\set{n_{p}:p\in Q}$ we know 
   that every state must visit with positive probability (at least) 
   $\epsilon = \min\set{\epsilon_{p}:p\in Q}$ an accepting state after reading 
-  $a^{n}$. This implies that for every state that is possible after a 
+  $b^{n}$. This implies that for every state that is possible after a 
   sequence $\tuple{b^{n}a}^{k}$ (for $k = 1, 2, \dots$) it is probable to 
   read another accepting state within the next $b^{n}a$ sequence. Hence, 
   fixing $A_{k}$ as the observation that in the $k$-th reading of $b^{n}a$ 
@@ -542,15 +542,14 @@ definitions follow \cite{RandAutoInfTrees}:
   and $A$ a set of actions. Given an action $a\in A$ the corresponding
   transition function $\tau_{a}:S\times S\rightarrow \interval{0,1}$ satisfies
   for every $q\in S$ that $\sum_{p\in S}\tau_{a}\tuple{q,p} = 1$.
-  $s_{0}$ is the initial state. Additionally we define a few helpful
-  auxilliaries:
+  $s_{0}$ is the initial state. Additionally, we define a few helpful
+  auxillary notions:
   \begin{description}
     \item [Plays] We consider all infinite sequences of states
       valid plays. All plays implicitly start in $s_{0}$ and are gathered in
       $\plays = S^{\omega}$.
     \item [Strategy] We define $f:S^{*}\rightarrow A$ as strategy for
-      a \ac{MDP}. Such a strategy models interaction with a \ac{MDP} by
-      giving a specific $a\in A$ to which the \ac{MDP} reacts by $\tau_{a}$.
+      a \ac{MDP}. 
   \end{description}
   \label{def:mdp}
 \end{definition}
@@ -565,12 +564,12 @@ the sense of Theorem \ref{thm:measureext}) of the measure $\mu_{f}$ from
 \acp{PBA} can be interpreted as \acp{MDP} where the decisions in every state
 are induced by a word $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$
 rather than a player. Any \ac{PBA} $\mathcal{P}$ can be interpreted as \ac{MDP}
-and for any $\alpha$ a corresponding strategy
+and for any $\alpha$ we can define a corresponding strategy
 $\varphi_{\alpha}:Q^{*}\rightarrow\Sigma$ with
-$\varphi_{\alpha}(w) = \alpha_{\size{w}}$ can be defined. On the other hand,
-strategies for \acp{MDP} allow for an interaction between \eve{} and the
-environment, thus \eve{} might react differently considering which state she 
-currently stays in, e.g.
+$\varphi_{\alpha}(w) = \alpha_{\size{w}}$. On the other hand, strategies for
+\acp{MDP} allow for a more refined interaction between \eve{} and the
+environment. Notably, \eve{} might react for plays of equal length differently
+based on which state she currently resides in, e.g.
 \begin{example}
   We interpret the \ac{PBA} pictured in Figure \ref{fig:posacceptingpba} as
   \ac{MDP} $\mathcal{M}$. Furthermore, we challenge \eve{} with the task to
@@ -618,14 +617,13 @@ $f:(\interval{S}_{\sim})^{*}\rightarrow A$.
   Firstly, we observe that $f_{\alpha}$ is still a valid strategy for the
   resulting \ac{POMDP} $\mathcal{N} = \tuple{\mathcal{M}, \sim}$. Secondly,
   since there is exactly one equivalence class every strategy for $\mathcal{N}$
-  observes at any time only the length of the history. Hence we can provide an
+  observes at any time only the length of the history. Hence, we can provide an
   equivalent strategy of the form $f:\mathbb{N}\rightarrow \Sigma$. This
-  in turn means that every strategy in $\mathcal{N}$ induces a word in
-  $\Sigma^{\omega}$ of the form $f(0)f(1)\dots$. Furthermore, the
-  measure of one strategy and an associated word coincide, i.e. the language of
-  $\mathcal{P}$ can be understood as strategy space for $\mathcal{N}$ and vice
-  versa. This illustrates an idea which is used to define emptiness games for
-  certain automata (e.g. \cite[Proposition 45]{RandAutoInfTrees}).
+  in turn means that every strategy in $\mathcal{N}$ induces a word
+  $f(0)f(1)\dots$ in $\Sigma^{\omega}$. Furthermore, the measure of one
+  strategy $f$ and an associated word $\alpha_{f}$ coincide, i.e. the language
+  of $\mathcal{P}$ can be understood as strategy space for $\mathcal{N}$ and
+  vice versa.
   \label{ex:pbaaspomdp}
 \end{example}
 The definitions of \acp{MDP} and \acp{POMDP} are for now probabilistic 
@@ -633,9 +631,9 @@ transition systems and strategies induce a behavior of such a transition
 system. To model goals or task for the player to satisfy we again use 
 Büchi-, Rabin-, Parity- and Muller-conditions (cp. Example \ref{ex:pbaasmdp}). 
 We can then ask if \eve{} has a strategy to positively or almost-surely satisfy 
-the associated condition in an \ac{MDP} or \ac{POMDP}. The equality described 
-in Example \ref{ex:pbaaspomdp} directly induces some undecideability results, 
-namely
+the associated condition in an \ac{MDP} or \ac{POMDP}. The interpretation of
+\acp{PBA} as uniformly colored \acp{POMDP} described in Example
+\ref{ex:pbaaspomdp} directly induces some undecideability results, namely
 \begin{corollary}
   \cite[Corollary 3 (a)]{DecProblemsForProbAuto}
   \cite[Theorem 5]{QualAnaPOMDP}
@@ -649,11 +647,8 @@ namely
   Any algorithm to compute a strategy for a \ac{POMDP} that positively 
   satisfies a Büchi-condition immediately solves the emptiness problem for
   \acp{PBA} with positive acceptance which is undecideable by Theorem 
-  \ref{thm:emptinesspospba}. Furthermore, it is easy to express 
-  Büchi-conditions as Parity-, Rabin- or Muller-conditions, rendering the 
-  positive acceptance of these conditions in \ac{POMDP} at least as difficult
-  as for Büchi-conditions. The same argument holds for almost-sure acceptance
-  of Rabin-, Muller- or Parity-conditions with respect to Corollary 
+  \ref{thm:emptinesspospba}. The same argument holds for almost-sure and
+  positive acceptance of Rabin-, Muller- or Parity-conditions and Corollary
   \ref{cor:emptinessstrongalmostsureprob}.
 \end{proof}
 
