@@ -139,7 +139,8 @@ conditions (as suggested in \cite[page 24:9, Proposition 6]{RandAutoInfTrees}).
 \begin{lemma}
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
   we can construct an equivalent \ac{WDTA} $\mathcal{C}$ with a 
-  Parity-condition.
+  Parity-condition. This construction respects choicelessness,
+  uni-directionality and uniform distributions.
   \label{lem:wdtaparityexpressiveness}
 \end{lemma}
 \begin{proof}
@@ -214,7 +215,8 @@ conditions (as suggested in \cite[page 24:9, Proposition 6]{RandAutoInfTrees}).
     \mu_{r}(\Acc(\mathcal{F})) = \mu_{r'}(\Acc(\parity)),
   \end{equation*} 
   which yields the claimed acceptance equivalence of $\mathcal{A}$ and 
-  $\mathcal{C}$.
+  $\mathcal{C}$. Also, it is easy to observe that this construction respects
+  choicelessness, uni-directionality and uniform distribution of $\mathcal{A}$.
 \end{proof}
 
 We distinguish certain structural properties on \acp{WDTA} allowing us to
@@ -408,10 +410,11 @@ we use the same construction as for the union of positively accepting \acp{PBA}
 or the intersection of alternating tree automata respectively. Namely, the
 intersection operator separates in the first transition the runs of
 both \ac{WDTA} but tunes down both runs with a probability of $\frac{1}{2}$
-each. Nevertheless, both these runs individually need an acceptance measure of
-$1$ to render the new run almost-surely accepted.
+each. Nevertheless, both of these runs individually need an acceptance measure
+of $1$ to render the new run almost-surely accepted.
 \begin{proposition}
-  \acp{WDTA} with almost-sure acceptance are closed under intersection.
+  The class of tree languages that can be recognized by \acp{WDTA} with
+  almost-sure acceptance is closed under intersection.
 \end{proposition}
 \begin{proof}
   We introduce the intersection automaton as follows
@@ -462,7 +465,7 @@ $1$ to render the new run almost-surely accepted.
       \end{cases}
     \end{equation*}
   \end{definition}
-  Analogously to the proof of Corollary \ref{cor:treeintersection} we can 
+  Analogously to the proof of Corollary \ref{cor:treeintersection}, we can
   identify two independent runs on the tree. The main observation is that no
   weighting is exchanged between the $Q_{1}$ and $Q_{2}$ part of any run. Let
   $r$ be a run of $\mathcal{C}$ on a tree $t$, then for all $u\in \tuple{
@@ -479,7 +482,7 @@ $1$ to render the new run almost-surely accepted.
   $\mu_{r}(\cyl(u)) = \frac{1}{2}\cdot\mu_{r_{2}}(\cyl(w))$ respectively. Using
   the fact that $\Acc(\parity_{\cap})$ coincides with $\Acc(\parity_{1})$ and
   $\Acc(\parity_{2})$ on $\tuple{Q_{1}\times D}^{\omega}$ and 
-  $\tuple{Q_{2}\times D}^{\omega}$ allows us to concludingly state that
+  $\tuple{Q_{2}\times D}^{\omega}$ allows us to state that
   \begin{equation*}
     \mu_{r}(\Acc(\parity_{\cap})) = 
       \frac{1}{2}\cdot\mu_{r_{1}}(\Acc(\parity_{1})) 
@@ -488,7 +491,7 @@ $1$ to render the new run almost-surely accepted.
   Hence, $\mu_{r}(\Acc(\parity_{\cap})) = 1$ if and only if 
   $\mu_{r_{1}}(\Acc(\parity_{1})) = 1$ and 
   $\mu_{r_{2}}(\Acc(\parity_{2})) = 1$ which ensures that $\mathcal{C}$ indeed
-  accepts the intersection of $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$. Note 
+  accepts the intersection of $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$. Note,
   that this construction respects choicelessness of the original automata.
 
   Additionally, we can observe that $\mu_{r}(\Acc(\parity_{\cap})) > 0$ if and 
@@ -514,8 +517,8 @@ positive acceptance and almost-sure acceptance which is expressd in
 \end{proposition}
 \begin{proof}
   We already argued in the proof of Theorem \ref{thm:omegaregboolean} that
-  increasing all parities by one exchanges accepting and non-accepting paths,
-  therefore
+  increasing all parities by one exchanges accepting and non-accepting paths.
+  Therefore,
   \begin{equation*}
     \tuple{Q\times D}^{\omega} = 
       \Acc\interval{Q}(\parity)\cup\Acc\interval{Q}(\parity + 1)
@@ -529,22 +532,38 @@ positive acceptance and almost-sure acceptance which is expressd in
   $\mathcal{C}$ does not accept $t$ positively (almost-surely).
 \end{proof}
 
-
 \section{Modelling in \aclp{WDTA}}
-We want to motivate the introduction of \acp{WDTA} by showing their strength to
-model the behaviour of other probabilistic models.
+We want to further motivate the introduction of \acp{WDTA} by showing their
+strength to model the behaviour of other probabilistic models.
 \subsection{Word Automata}
-Initially, we consider \acp{PBA}. By reducing the directions to a
-singelton set a tree degenerates to a single path. This path can be interpreted 
-as one word and the run of a \ac{PBA} on that word can be modelled as a run of
-a \ac{WDTA}:
-\begin{theorem}
-  For every \ac{PBA} $\mathcal{P}$ existent an equivalent choiceless \ac{WDTA}
-  $\mathcal{A}$ over a singleton direction set and Büchi-condition and for
-  every choiceless \ac{WDTA} $\mathcal{A}$ with a Büchi-condition and a
-  singleton direction set exists an equivalent \ac{PBA}.
-  \label{thm:pbaaswdta}
-\end{theorem}
+Initially, we consider \acp{PBA}. By reducing the directions to a singelton
+set, a tree degenerates to a single path. W.l.o.g. we consider $D = \set{0}$
+whenever $D$ is said to be a singleton direction set. To ease the following
+formulations we consider the set of words $\alpha\in\Sigma^{\omega}$
+equivalent to the set of all functions $t:D^{*}\rightarrow\Sigma$. Formally, we
+biject these sets by $b$ such that
+\begin{equation*}
+  b(\alpha = \alpha_{0}\alpha_{1}\dots) = t_{\alpha}\text{ with }
+  t(u) = \alpha_{\size{u}} \text{ for all }u\in D^{*}.
+\end{equation*}
+Complementary to $b$, we introduce the bijection
+$p:\mathcal{B}(Q)\rightarrow\mathcal{B}(Q\times D)$ with
+\begin{equation*}
+  p(\beta_{0}\beta_{1}\dots) = \tuple{\beta_{0}, 0}\tuple{\beta_{1}, 0}\dots.
+\end{equation*}
+With these notions, we formulate
+\begin{lemma}
+  For every \ac{PBA} $\mathcal{P}$ exists a choiceless \ac{WDTA} $\mathcal{A}$
+  over a singleton direction set $D = \set{0}$ such that $\mu_{\alpha}$
+  coincides with $\mu_{r}\circ p$ for the unique run $r$ of $\mathcal{A}$ on
+  $b(\alpha)$.
+
+  Moreover, for every choiceless \ac{WDTA} $\mathcal{A}$ over a singleton
+  direction set $D$ exists a \ac{PBA} $\mathcal{P}$ such that $\mu_{\alpha}$
+  coincides with $\mu_{r}\circ p$ for the unique run $r$ of $\mathcal{A}$ on a
+  tree $t$ if $\alpha$ is chosen such that $b(\alpha) = t$.
+  \label{lem:pbaaswdta}
+\end{lemma}
 \begin{proof}
   For a \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ we define
   \ac{WDTA} $\mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta, F}$ with
@@ -553,60 +572,69 @@ a \ac{WDTA}:
       \tuple{q,\sigma,G_{q}^{\sigma}}:\text{for every }q\in Q,\sigma\in\Sigma
     }\text{ with }G_{q}^{\sigma}(p, 0) = \delta(q,\sigma,p).
   \end{equation*}
-  By interpreting words $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$
-  as \enquote{trees} $t_{\alpha}:\set{0}^{*}\rightarrow\Sigma$ with
-  $t(u) = \alpha_{\size{u}}$ allows us to state that for the unique run
-  $r_{t_{\alpha}}$ of $\mathcal{A}$ on $t_{\alpha}$ and any
-  $u = \tuple{q_{1}, 0}\dots\tuple{q_{n}, 0}\in\tuple{Q\times D}^{*}$
+  We fix $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$,
+  $u = q_{1}\dots q_{n}\in\tuple{Q}^{*}$ and the unique run $r$ of
+  $\mathcal{A}$ on $t = b(\alpha)$. The definition of $\mathcal{A}$ allows us
+  to state
   \begin{align*}
-    \mu_{r}(\cyl(u)) &= G_{q_{0}}^{t_{\alpha}(\epsilon)}(q_{1},0)\cdot
-      \prod\limits_{i=1}^{n-1}G_{q_{i}}^{t_{\alpha}(0^{i})}(q_{i+1}, 0)\\
-      &=\delta(q_{0},t_{\alpha}(\epsilon),q_{1})\cdot
-      \delta(q_{1},t_{\alpha}(0),q_{2})\dots
-        \delta(q_{n-1},t_{\alpha}(0^{n}),q_{n})\\
-      &=\delta(q_{0},\alpha_{0},q_{1})\cdot
-      \delta(q_{1},\alpha_{1},q_{2})\dots\delta(q_{n-1},\alpha_{n-1},q_{n}).
+    \mu_{\alpha}(\cyl(u)) &=\delta(q_{0},\alpha_{0},q_{1})\cdot
+      \delta(q_{1},\alpha_{1},q_{2})\dots\delta(q_{n-1},\alpha_{n-1},q_{n})\\
+    &=\delta(q_{0},t(\epsilon),q_{1})\cdot
+      \delta(q_{1},t(0),q_{2})\dots
+      \delta(q_{n-1},t(0^{n}),q_{n})\\
+    &= G_{q_{0}}^{t(\epsilon)}(q_{1},0)\cdot
+      \prod\limits_{i=1}^{n-1}G_{q_{i}}^{t(0^{i})}(q_{i+1}, 0)\\
+    &= \mu_{r}(p(\cyl(u))) = (\mu_{r}\circ p)(\cyl(u))
   \end{align*}
-  Thus, projecting the run $r$ to the state sequences yields an equivalent 
-  measure on $\mathcal{B}(Q)$ as the stochastic process of $\mathcal{P}$ (under
-  the word $t_{\alpha}$). Since the acceptance conditions also coincide we can 
-  ensure that the automata are equivalent regarding positive as well as 
-  almost-sure acceptance.
+  By unique extension of $\mu_{r}$ and $\mu_{\alpha}$ we obtain the announced
+  equality.
 
   For the opposite direction, we fix a choiceless \ac{WDTA} with a 
-  Büchi-condition and a singleton direction set (w.l.o.g. $D = \set{0}$)
+  Büchi-condition and a singleton direction set $D$
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, D , \Sigma, \Delta, F}.
   \end{equation*}
   By the choicelessness of $\mathcal{A}$ there is exactly one 
   $\tuple{q,\sigma, G}\in\Delta$ for every pair $q\in Q$ and $\sigma\in\Sigma$.
-  We denote with $G_{q}^{\sigma}$ this unique $G$. The construction of an
-  equivalent \ac{PBA}
+  We denote with $G_{q}^{\sigma}$ this unique $G$. We construct a \ac{PBA}
   \begin{equation*}
     \mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}
   \end{equation*}
-  with $\delta(q,\sigma, p) = G_{q}^{\sigma}(p, 0)$. Translating any tree
-  $t:\set{0}^{*}\rightarrow\Sigma$ to an associated word 
-  $\alpha_{t} = t(\epsilon)t(0)t(00)t(000)\dots$ allows us to argue that for 
-  the unique run $r$ of $\mathcal{A}$ on any $t$ the can be projected to a 
-  function $r':Q^{*}\rightarrow\mathcal{G}_{\mathcal{A}}$ by dropping the 
-  direction set (since $\size{D} = 1$ this is actually a bijection between
-  $\tuple{Q\times D}^{*}$ and $Q^{*}$). This $r'$ induces for all $u\in Q^{*}$
-  the same measure for $\cyl(u)$ as the stochastic process of $\mathcal{P}$.
-  Naturally, the induced measure on $\mathcal{B}(Q)$ coincide and by 
-  equivalence of the acceptance condition also the measure of all accepted 
-  paths.
+  with $\delta(q,\sigma, p) = G_{q}^{\sigma}(p, 0)$. Again, fixing
+  $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$,
+  $u = q_{1}\dots q_{n}\in\tuple{Q}^{*}$ and the unique run $r$ of
+  $\mathcal{A}$ on $t = b(\alpha)$ allows for analogous reasoning as above
+  which concludes the proof.
 \end{proof}
-The central concept here is the equivalence of the measures on 
-$\mathcal{B}(Q)$. Naturally, the equivalence can be expanded to all measureable
-acceptance conditions. This directly entails
+
+As a consequence of this construction, we obtain
+\begin{theorem}
+  For every \ac{PBA} $\mathcal{P}$ exists an equivalent choiceless \ac{WDTA}
+  $\mathcal{A}$ over a singleton direction set and Büchi-condition w.r.t. $b$
+  and $p$.
+
+  Moreover, for every choiceless \ac{WDTA} $\mathcal{A}$ with a Büchi-condition
+  and a singleton direction set exists an equivalent \ac{PBA} w.r.t. $b$ and
+  $p$.
+  \label{thm:pbaaswdta}
+\end{theorem}
+\begin{proof}
+  Using the construction of Lemma \ref{lem:pbaaswdta} and the observation that
+  $\Acc\interval{Q}(F) = p(\Acc(F))$ immediately induces the claim.
+\end{proof}
+
+Naturally, Lemma \ref{lem:pbaaswdta} entails the equivalence for all
+measureable acceptance conditions yielding
 \begin{corollary}
   For every probabilistic word automaton $\mathcal{P}$ with a Rabin-, Parity- 
   or Muller-condition exists an equivalent choiceless \ac{WDTA} $\mathcal{A}$ 
-  over a singleton direction set and equivalent acceptance condition and for 
-  every \emph{choiceless} \ac{WDTA} $\mathcal{A}$ with a Rabin-, Parity- or
-  Muller-condition over a singleton direction set exists an equivalent
-  probabilistic word automaton $\mathcal{P}$.
+  over a singleton direction set with equivalent acceptance condition w.r.t.
+  $b$ and $p$.
+  
+  Moreover, for every \emph{choiceless} \ac{WDTA} $\mathcal{A}$ with a Rabin-,
+  Parity- or Muller-condition over a singleton direction set exists an
+  equivalent probabilistic word automaton $\mathcal{P}$ with equivalent
+  acceptance condition w.r.t. $b$ and $p$.
 \end{corollary}
 By the combination of this result and the sufficiency of Parity-conditions to
 express all other acceptance conditions for \acp{WDTA} (Lemma 
@@ -616,34 +644,33 @@ of \enquote{strong} acceptance conditions for \acp{PBA} (Theorem
 equivalence of choiceless Büchi-\acp{WDTA} over words with \acp{PBA} allows to
 use Proposition \ref{prop:pba=1complement} to deduce
 \begin{proposition}
-  The class of languages that can be recognized by choiceless Büchi-\acp{WDTA} 
+  The class of languages that can be recognized by choiceless Büchi-\acp{WDTA}
   with almost-sure acceptance is not closed under complementation.
 \end{proposition}
 
-Additionally, we can use uni-directional \acp{WDTA} over words to emulate any 
-$\omega$-regular word automaton. Fixing a singleton direction set $D = \set{0}$ 
-simply allows for one possible probability distribution for the associated 
-blueprint $B$ of a uniformly distributed \acp{WDTA}, i.e.  $B(0) = 1$. Thus, 
-there is for every transition precisely one state which is awarded with the 
-complete probability mass. Therefore, the acceptance of the \acp{WDTA} is 
-defined by the satisfaction of the one path that carries the complete 
-probability mass. The acceptance of this path is defined via a $\omega$-regular 
-acceptance set. These observations lead naturally to the equivalence of these 
-automata models, i.e.
+Moreover, we can use uni-directional \acp{WDTA} over words to emulate any
+$\omega$-regular word automaton. Fixing a singleton direction set $D$ simply
+allows for one possible probability distribution for the associated blueprint
+$B$ of a uniformly distributed \acp{WDTA}, i.e. $B(0) = 1$. Moreover, this
+implies that acceptance is dependent on precisely one path in the run. This
+path is accepted if the state components satisfy an $\omega$-regular condition.
+These observations naturally lead to the equivalence of these automata models,
+i.e.
 \begin{theorem}
-  For a singelton direction set $D$ (w.l.o.g. $D = \set{0}$) the languages of
-  trees recognizable with uni-directional \acp{WDTA} with either positive 
-  or almost-sure acceptance coincides with the $\omega$-regular languages.
+  For a singelton direction set $D$ the languages of
+  trees recognizable with uni-directional \acp{WDTA} with either positive
+  or almost-sure acceptance coincides with the $\omega$-regular languages
+  w.r.t. $b$.
   \label{thm:omegaregaswdta}
 \end{theorem}
 \begin{proof}
-  For every uni-directional \acp{WDTA} over a singleton direction set 
-  there is excatly one possible probability distribution such that there is 
+  For every uni-directional \acp{WDTA} over a singleton direction set
+  there is excatly one possible probability distribution such that there is
   only one state with weight for this direction, i.e. the one where a state is
-  weighted with probability $1$. Therefore uni-directionality implies on 
-  \acp{WDTA} with a single direction set an uniform distribution with blueprint
-  $B$ such that $B(0) = 1$. Thus, we can encode every viable generator $G$ by 
-  the one state $q$ such that $G(q,0) = 1$. This allows us to define for every 
+  weighted with probability $1$. Therefore uni-directionality on \acp{WDTA}
+  with a single direction set implies an uniform distribution with blueprint
+  $B$ such that $B(0) = 1$. We can encode every viable generator $G$ by the one
+  state $q$ such that $G(q,0) = 1$. This allows us to define for every
   uniformly distributed \ac{WDTA}
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta, \parity}
@@ -663,19 +690,21 @@ automata models, i.e.
   induces a Dirac measure $\mu_{r}$ on $\mathcal{B}(Q\times D)$ for one path 
   $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$.
   Therefore, $\mu_{r}(\Acc\interval{Q}(\parity)) = 1$ if and only if
-  $\alpha_{r}\in\Acc\interval{Q}(\parity)$ which happens if and only if the
-  state sequence in $\alpha_{r}$ satisfies the Parity-condition $\parity$. Note 
-  here, that this Dirac measure renders positive and almost-sure acceptance 
-  equivalent. Also, by the construction of $\Delta'$ this state sequence is a 
-  viable run of $\mathcal{P}$. Also for every run $\beta\in Q^{\omega}$ of 
-  $\mathcal{P}$ we obtain a run of $\mathcal{A}$ which induces a Dirac measure 
-  on the path $\tuple{\beta_{1}, 0}\tuple{\beta_{2}, 0}\dots$. Thus, 
-  $\mathcal{P}$ and $\mathcal{A}$ accept the same language. The converse 
-  argument follows the same concepts, namely defining for every transition 
-  $\tuple{q,\sigma, p}$ in the word automaton a transition $\tuple{q,\sigma,G}$ 
-  with $G(p, 0) = 1$ in the associated \acp{WDTA} and arguing by the defining 
-  element of the Dirac measure every run of this \ac{WDTA} entails.
+  $\alpha_{r}\in\Acc\interval{Q}(\parity)$ which happens if and only if 
+  $p(\alpha_{r})\in\Acc(\parity)$. Note here, that this Dirac measure renders
+  positive and almost-sure acceptance equivalent. Also, by the construction of
+  $\Delta'$ this state sequence is a viable run of $\mathcal{P}$. Also for
+  every run $\beta\in Q^{\omega}$ of $\mathcal{P}$ we obtain a run of
+  $\mathcal{A}$ which induces a Dirac measure on the path
+  $b(\beta)$. Hence, $\mathcal{P}$ and $\mathcal{A}$ accept the same language.
+  The converse argument follows the same concepts. Namely, it suffices to
+  define for every transition $\tuple{q,\sigma, p}$ in the word automaton a
+  transition $\tuple{q,\sigma,G}$ with $G(p, 0) = 1$ in the associated
+  \acp{WDTA}. This allows to argue that every run of this \ac{WDTA} induces a
+  Dirac measure where the defining element is the $p$-projection of a valid run
+  of $\mathcal{P}$.
 \end{proof}
+
 For every such uni-directional \ac{WDTA} over a single direction set we even 
 obtain an equivalent \ac{DPA} by Theorem \ref{thm:omegaregularexp} and again
 translating it to a \ac{WDTA} yields
@@ -685,7 +714,7 @@ translating it to a \ac{WDTA} yields
 \end{corollary}
 
 \subsection{Probabilistic Weighted Automata}
-Recall that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
+Recall, that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
 actually resolved using a probability distribution. This is conceptually 
 slightly different to the concept of \acp{WDTA} which still incorporate a 
 non-deterministic choice of transitions to construct a run. This run in turn 
@@ -719,11 +748,11 @@ We begin by defining the class of \ac{PWA} analogously to
     \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, B, \Delta, \delta, F}.
   \end{equation*}
 \end{definition}
-One run of such an automaton $\mathcal{A}$ on a tree $t:D\rightarrow\Sigma$ is
-differently defined than runs for \acp{WDTA} since the run does not need to
-encode the weighting of paths through the run. Nevertheless, forgetting about 
-the distribution $\delta$ for now, we can use the formalism of \acp{WDTA} to 
-define the semantics of one run by defining for every pair $q\in Q$ and 
+One run of such an automaton $\mathcal{A}$ on a tree $t:D\rightarrow\Sigma$
+differs from runs for \acp{WDTA} since the run does not need to encode the
+weighting of paths through the run. Nevertheless, forgetting about the
+distribution $\delta$ for now, we can use the formalism of \acp{WDTA} to define
+the semantics of one run by defining for every pair $q\in Q$ and
 $\sigma\in\Sigma$ a set of transitions of the form $\tuple{q,\sigma,G_{\tau}}$
 for every $\tau$ with $\delta(q,\sigma,\tau)>0$ where
 \begin{equation*}
@@ -732,23 +761,27 @@ for every $\tau$ with $\delta(q,\sigma,\tau)>0$ where
     0&\text{otherwise}.
   \end{cases}
 \end{equation*}
-Although sufficient, this renders runs as objects of unneccessary complexity 
+Although sufficient, this renders runs as objects of unneccessary complexity
 and we therefore rely on a more concise (but equivalent) formalism:
 We define one run $r:D^{*}\rightarrow Q$ such that $r(\epsilon) = q_{0}$. And, 
 for every $w\in D^{*}$ such that $q = r(w)$ and $\sigma = t(w)$ there is one
 $\tau\in\Delta$ with $\delta(q,\sigma,\tau)>0$ and $r(w\cdot d)=\tau(d)$ 
-for all $d\in D$. As seen before, the distribution $B$ induces a measure 
-$\mu_{B}$ on the Borel-algebra $\mathcal{B}(D)$ and therefore a probability 
-space $\tuple{D^{\omega} = \Runs, \mathcal{B}(D), \mu_{B}}$. For a run $r$ we 
-can collect the set of accepting paths regarding the Büchi-condition $F$ as 
-$\Acc_{F}(r) = \set{\alpha\in D^{\omega}\mid r(\alpha)\in \Acc(F)}$. We 
+for all $d\in D$. As seen before, the distribution $B$ induces a measure
+$\mu_{B}$ on the Borel-algebra $\mathcal{B}(D)$. We introduce the following
+renaming:
+\begin{equation*}
+  \Paths = D^{\omega}
+\end{equation*}
+and obtain a probability space $\tuple{\Paths, \mathcal{B}(D), \mu_{B}}$. For a
+run $r$ we can collect the set of accepting paths regarding the Büchi-condition
+$F$ as $\Acc_{F}(r) = \set{\alpha\in D^{\omega}\mid r(\alpha)\in \Acc(F)}$. We
 consider such a run $r$ almost-surely accepting if $\mu_{B}(\Acc_{F}(r))=1$ and 
 positively accepting if $\mu_{B}(\Acc_{F}(r))>0$.
 
 Additionally, to examine the probabilities induced by $\delta$ we introduce a
 $\sigma$-algebra which is generated by partial runs, i.e. finite beginnings of
 runs. Therefore, we define a finite tree as a prefix-closed subset of finite
-words over directions, hence
+words over directions.
 \begin{definition}[Prefix-Tree]
   For a finite set of directions $D$ we call a finite $T\subseteq D^{*}$ a
   prefix-tree if for every $w\in T$ and every prefix $v\sqsubseteq w$ holds 
@@ -759,7 +792,7 @@ words over directions, hence
   $\inner(T) = \set{w\in T\mid w\cdot d\in T\text{ for all }d\in D}$.
 \end{definition}
 For a \ac{PWA} $\mathcal{A}$, a tree $t:D\rightarrow\Sigma$ and a proper 
-prefix-tree $T$ we can consider a partial runs $r:T\rightarrow Q$ of 
+prefix-tree $T$ we can consider a partial run $r:T\rightarrow Q$ of 
 $\mathcal{A}$ on $t$ by enforcing $r(\epsilon) = q_{0}$ and for every 
 $u\in\inner(T)$ holds that there is a $\tau$ with $\delta(r(u), t(u), \tau)>0$
 such that $r(u\cdot d) = \tau(d)$ for all $d\in D$. For one partial run 
@@ -779,7 +812,7 @@ extensions $\compRuns(r)$, namely
   \mu_{t}(\compRuns(r)) = \prod\limits_{w\in\inner(T)}
     \delta(r(u),t(u),\tau_{u}).
 \end{equation*}
-This, again using Theorem \ref{thm:measureext}, allows us to obtain a 
+This allows us, again using Theorem \ref{thm:measureext}, to define a 
 measureable space by using the unique extension of $\mu_{t}$ on 
 $\mathcal{R}_{\mathcal{A}}^{t}$ (by abuse of notation also referred to as 
 $\mu_{t}$)
@@ -789,7 +822,7 @@ $\mu_{t}$)
 In \cite{RandAutoInfTrees} different semantics for this automaton model are
 discussed. For example
 \begin{enumerate}
-  \item in terms of $\mu_{t}$ we can formulate the acceptance condition as
+  \item In terms of $\mu_{t}$ we can formulate the acceptance condition as
     \begin{equation*}
       \mu_{t}(
         \set{
@@ -798,9 +831,9 @@ discussed. For example
         }
       ),
     \end{equation*}
-    for example by requiring a positive or almost-sure measure. Note that this
+    for example by requiring a positive or almost-sure measure. Note, that this
     acceptance condition ignores the weighting of the individual runs,
-  \item on the other hand we can define the acceptance condition in terms of
+  \item On the other hand, we can define the acceptance condition in terms of
     of the $\mu_{t}$ measure of the set of positively accepting runs or 
     almost-surely accepting runs. Here any combinations of measures for 
     $\mu_{t}$ and $\mu_{B}$ are possible, but we restrict our arguments on the 
