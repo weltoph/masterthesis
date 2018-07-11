@@ -1,14 +1,14 @@
 \section{Weighted Descent Tree Automata}
 \label{sec:wdta}
 The basis of the tree automata we want to present in this section is given in
-\cite{RandAutoInfTrees}. There non-deterministic tree automata are equipped 
-with an alternative semantics, namely the runs are equipped with a uniform 
-probability measure at each branching point and the run is considered 
-accepted if the measure of those paths that satisfy an associated condition
-(e.g. Büchi- or Parity-condition) have a certain measure. As for \acp{PBA} this
-allows for almost-sure or positive acceptance of runs. In the following we 
-introduce suggested generalizations of \cite{RandAutoInfTrees} by designing 
-transitions more expressive by adding individual probability measures for them.
+\cite{RandAutoInfTrees}. Namely, in \cite{RandAutoInfTrees} tree automata are
+equipped with an alternative semantics: a uniform probability measure at each
+branching point of a run is introduced and the run is considered accepted if
+the measure of those paths that satisfy an associated condition (e.g. Büchi- or
+Parity-condition) have a certain measure. As for \acp{PBA} this allows for
+almost-sure or positive acceptance of runs. In the following we examine
+suggested generalizations of \cite{RandAutoInfTrees} by designing 
+more expressive transitions by adding individual probability measures for them.
 Furthermore, we incorporate the concept of \emph{alternation} by allowing to 
 send different states on the same path through the tree with individual weight.
 Formally, we define in analogy to clauses a notion of a weighted clause as
@@ -30,7 +30,7 @@ automata and we obtain the following
   directions, $\Sigma$ is a finite Alphabet and $\Acc\subseteq Q^{\omega}$ is a
   $\omega$-regular target of infinite words of elements in $Q$. Again, we 
   consider $\Acc$ to be expressed as Büchi-, Parity-, Rabin- or 
-  Muller-condition. $\Delta$ is defined as set of transitions 
+  Muller-condition. $\Delta$ is defined as a finite set of transitions 
   $\tuple{q,\sigma,G}$ with $q\in Q, \sigma\in\Sigma$ and $G$ is a generator 
   over $Q$ and $D$. Additionally, we define the set of all used generators 
   \begin{equation*}
@@ -62,11 +62,10 @@ and uniquely extend this measure to $\mathcal{B}(Q\times D)$ (cp. Theorem
 \ref{thm:measureext}). Naturally, the acceptance of $r$ is defined by the 
 measure on those paths accepting the condition in the state component, i.e. 
 $\Acc\interval{Q}$. In order to ensure the well-formedness of this defintion it 
-is necessary to show the measurability of $\Acc\interval{Q}$. But this is 
-obtained by the same argument as for Lemma \ref{lem:measureabilityAcceptance} 
-or respectively Corollary \ref{cor:borelAcceptance} with setting the base-set 
-of the Borel-algebra as $Q\times D$ and extending the acceptance conditions 
-accordingly. Hence, we state
+is necessary to show the measurability of $\Acc\interval{Q}$. We obtain this by
+the same argument as for Lemma \ref{lem:measureabilityAcceptance} or
+respectively Corollary \ref{cor:borelAcceptance} by considering
+$\mathcal{B}(Q\times D)$.
 \begin{lemma}
   For a Büchi-, Parity-, Rabin- or Muller-condition represented as $F$, 
   $\parity$, $R$, $\mathcal{F}$ respectively, the sets $\Acc\interval{Q}(F),
@@ -101,9 +100,8 @@ of a \ac{WDTA} with states $Q$ and directions $D$ we identify
     u\in\tuple{Q\times D}^{*}\mid\mu_{r}(\cyl(u)) > 0
   }.
 \end{equation*}
-These are those paths that actually carry weight. Is is easy to see that only
-those elements of $r$ in $W_{r}$ actually matter for the weighting of a run, 
-hence we state
+These are those paths that actually carry weight. We observe that only those
+elements of $r$ in $W_{r}$ actually matter for the induced measure of a run in
 \begin{lemma}
   For a \ac{WDTA} $\mathcal{A}$ and two runs $r_{1}, r_{2}$ on $t$ such that
   $\mu_{r_{1}}(\cyl(u)) = \mu_{r_{2}}(\cyl(u))$ for all $u\in W_{r_{1}}$, then
@@ -123,23 +121,21 @@ hence we state
   all finite prefixes of these elements are part of $W$. Hence for every 
   element $\alpha\in \tuple{Q\times D}^{\omega}\setminus\mathcal{W}$ there is
   a finite prefix $a\subseteq\alpha$ such that $P_{\size{a}}(a) = 0$, rendering
-  $\mu_{r_{i}}(\cyl(a)) = 0$ for $i = 1,2$. We therefore deduce that
+  $\mu_{r_{i}}(\cyl(a)) = 0$ for $i = 1,2$. Therefore, we deduce that
   $\mu_{r_{i}}(A) = \mu_{r_{i}}(A\setminus\mathcal{W})$ for $i = 1,2$ and since
   $\mu_{r_{1}}$ and $\mu_{r_{2}}$ agree on all cylindric sets starting from 
   elements in $u$ they coincide by uniqueness of extension on the sub-algebra
   of $\mathcal{B}(Q\times D)$ induced by $\mathcal{W}$, i.e. all sets of 
   $\mathcal{B}(Q\times D)$ intersected with $\mathcal{W}$.
 \end{proof}
-Effectively the choices of a \acp{WDTA} only matter if they actually are 
+Effectively, the choices of a \ac{WDTA} only matter if they actually are 
 weighted. Therefore, we occasionally refer to $W_{r}$ as the 
 \emph{weighted part} of a run $r$ and implicitly deduce general statements on
 $r$ by arguments on $W_{r}$.
 
-In the following we often focus on Parity-conditions and motivate this by the
+In the following, we focus on Parity-conditions and motivate this by the
 observation that Parity-conditions are sufficient to express all other 
-conditions (as suggested in \cite[page 24:9, Proposition 6]{RandAutoInfTrees}
-and which is an integral part of the omitted proof of Theorem 
-\ref{thm:probautoequiv}).
+conditions (as suggested in \cite[page 24:9, Proposition 6]{RandAutoInfTrees}).
 \begin{lemma}
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
   we can construct an equivalent \ac{WDTA} $\mathcal{C}$ with a 
@@ -155,7 +151,7 @@ and which is an integral part of the omitted proof of Theorem
       Q, q_{0}, D, \Sigma, \Delta, \mathcal{F} = \set{F_{1},\dots,F_{n}}
     }
   \end{equation*}
-  an equivalent \ac{WDTA} $\mathcal{C}$ with a Parity-condition via the use of
+  an equivalent \ac{WDTA} $\mathcal{C}$ with a Parity-condition making use of
   an \ac{LAR}. Using an \ac{LAR} increases the state space but preserves the 
   structure, especially the weighting, of a run and thus yields the same 
   measure of the set of accepted paths. We construct
@@ -182,7 +178,7 @@ and which is an integral part of the omitted proof of Theorem
       \tuple{\ell,\sigma,G_{\ell}'}:\text{for every }\ell\in\lar(Q)
     }
   \end{equation*}
-  to $\Delta'$. Fix a tree $t$ and we observe that every run $r$ of 
+  to $\Delta'$. We fix a tree $t$ and observe that every run $r$ of 
   $\mathcal{A}$ can be embedded in a run $r'$ of $\mathcal{C}$ by an 
   inductive construction: for $\tuple{q_{0}, t(\epsilon), r(\epsilon)}\in
   \Delta$ exists an associated $\tuple{\ell_{0}, t(\epsilon), G}$ and we set
@@ -192,7 +188,7 @@ and which is an integral part of the omitted proof of Theorem
   this argument. This embeds $r$ in $r'$. Moreover, we can observe that this 
   allows to obtain for any run $r'$ of $\mathcal{C}$ on $t$ a run $r$ of 
   $\mathcal{A}$ on $t$ by iteratively using the corresponding original 
-  transitions from which transitions in $\mathcal{C}$ are derived. Importantly, 
+  transitions from which transitions in $\mathcal{C}$ are derived. Moreover, 
   we can relate by the inductive construction paths in $r$ and $r'$ in both 
   directions such that
   \begin{center}
@@ -221,7 +217,7 @@ and which is an integral part of the omitted proof of Theorem
   $\mathcal{C}$.
 \end{proof}
 
-We distinguish certain structural properties on \acp{WDTA} which allows us to
+We distinguish certain structural properties on \acp{WDTA} allowing us to
 categorize \acp{WDTA}, namely
 \begin{definition}[Structural Properties]
   A \ac{WDTA} $\mathcal{A}$ is called
@@ -231,7 +227,7 @@ categorize \acp{WDTA}, namely
     \item [uni-directional] if for every clause there is at most one state send
       to every direction, i.e. for every $G\in\mathcal{G}_{\mathcal{A}}$
       there is at most one $q\in Q$ such that $G(q, d) > 0$ for all
-      $d\in D$. Intuitively this means that the automaton explores every path
+      $d\in D$. Intuitively, this means that the automaton explores every path
       with at most one state,
     \item [uniformly distributed] if $\mathcal{A}$ is uni-directional
       and for a direction $d\in D$ every clause agrees on the weight that is
@@ -252,19 +248,19 @@ directions $D = \set{0,1}$ with a blueprint $B$ such that
 \begin{equation*}
   B(0) = B(1) = \frac{1}{2}.
 \end{equation*}
-Given these definitions we explore the theory of \acp{WDTA}.
+Given these definitions, we explore the theory of \acp{WDTA}.
 
 \subsection{Closure Properties}
-In the following we explore the closure properties of \acp{WDTA}. We provide
+In the following, we examine the closure properties of \acp{WDTA}. We provide
 constructions to obtain closure for union and intersection for \acp{WDTA}, 
 regarding complementation we leave the closure property open since it is not 
-required for our further arguments but we obtain for choiceless \acp{WDTA} that
-there is no closure under complementation regarding almost-sure acceptance of
-Büchi-conditions as a simple corollary from the result to embed \acp{PBA} into
-\acp{WDTA}. Mainly, the presented results are obtained by re-iterating 
-arguments for \acp{PBA} or tree automata. We examine these properties 
-selectively, predominantly focusing on almost-surely accepting models because 
-they prove most relevant for the examined use-cases later on. 
+required for our further arguments. However, we obtain for choiceless
+\acp{WDTA} that there is no closure under complementation regarding almost-sure
+acceptance of Büchi-conditions as a simple corollary from the result to embed
+\acp{PBA} into \acp{WDTA}. Mainly, the presented results are obtained by
+re-iterating arguments for \acp{PBA} or tree automata. We examine these
+properties selectively, predominantly focusing on almost-surely accepting
+models because they prove most relevant for the examined use-cases later on. 
 
 Unsuprisingly, the non-determinism of the model induces closure under union for 
 certain classes in a straightforward manner (as suggested by 
@@ -287,10 +283,10 @@ certain classes in a straightforward manner (as suggested by
   \end{equation*}
   where $q^{i}$ is a new state and the transitions separate in
   \begin{equation*}
-    \Delta_{i}' = \set{
-      \tuple{q,\sigma,G\interval{Q_{3-j}\mapsto 0}}:
-        \tuple{q,\sigma,G}\in\Delta_{i}
-    }\text{ for }i = 1,2
+    \Delta_{j}' = \set{
+      \tuple{q,\sigma,G\interval{Q_{3-j}\times D\mapsto 0}}:
+        \tuple{q,\sigma,G}\in\Delta_{j}
+    }\text{ for }j = 1,2
   \end{equation*}
   and
   \begin{equation*}
@@ -302,13 +298,14 @@ certain classes in a straightforward manner (as suggested by
   \end{equation*}
   Each transition in $\Delta_{1}'$ or $\Delta_{2}'$ mirrors one original 
   transition in either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ respectively, but
-  its generator is extended to the necessary domain for formal reasons. By 
-  setting all transitions for states of the other automaton to $0$ ensures that
-  it precisely simulates the original transition. On the other hand we have
-  $\Delta^{i}$ as the union of all initial transitions from 
-  $\Delta_{1}$ and $\Delta_{2}$ which are again formally defined for the 
-  complete domain $\tuple{Q_{1}\cup Q_{2}}\times D$ but effectively mirrors one
-  transition from either $\Delta_{1}$ or $\Delta_{2}$. Finally, we define
+  its generator is extended to the necessary complete domain of $Q\times D$ for
+  formal reasons. Setting all transitions for states of the other automaton to
+  zero ensures that it precisely simulates the original transition. On the
+  other hand we have $\Delta^{i}$ as the union of all initial transitions from 
+  $\Delta_{1}$ and $\Delta_{2}$. Again the generators are defined for the 
+  complete domain $\tuple{Q_{1}\cup Q_{2}}\times D$ but effectively each
+  generator mirrors a generator of a transition from either $\Delta_{1}$ or
+  $\Delta_{2}$. Finally, we define
   \begin{equation*}
     \parity_{\cup}(q) = \begin{cases}
       \parity_{i}&\text{if }q\in Q_{i}\text{ for }i = 1,2,\\
@@ -316,19 +313,19 @@ certain classes in a straightforward manner (as suggested by
     \end{cases}
   \end{equation*}
   For any run $r$ of $\mathcal{C}$ the element $r(\epsilon)$ corresponds with a
-  transition in $\Delta_{i}$ for $i$ either $1$ or $2$. By the definition of
-  the transitions in $\Delta'$ we can state that $\mu_{r}(\cyl(u)) = 0$ for any
-  $u\notin\tuple{Q_{i}\times D}^{*}$. More importantly, for any run $r$ of
+  transition in $\Delta_{j}$ for $j$ being either $1$ or $2$. By the definition
+  of the transitions in $\Delta'$ we can state that $\mu_{r}(\cyl(u)) = 0$ for
+  any $u\notin\tuple{Q_{j}\times D}^{*}$. More importantly, for any run $r$ of
   $\mathcal{C}$ on $t$ we find a run $r'$ of $\mathcal{A}$ on $t$ (and vice
   verca) such that $\mu_{r}(\cyl(u)) = \mu_{r'}(\cyl(u))$ for any 
   $u\in\tuple{Q_{i}\times D}^{*}$ and therefore $\mu_{r}(A) = \mu_{r'}(A)$ for
-  all $A\in\mathcal{B}(Q_{i}\times D)$ and $\mu_{r}(B) = 0$ for all 
+  all $A\in\mathcal{B}(Q_{j}\times D)$ and $\mu_{r}(B) = 0$ for all 
   $B\in\mathcal{B}(\tuple{Q_{1}\cup Q_{2}}\times D)
-    \setminus\mathcal{B}(Q_{i}\times D)$. Hence, all runs in $\mathcal{C}$
+    \setminus\mathcal{B}(Q_{j}\times D)$. Hence, all runs in $\mathcal{C}$
   can be bijected to all runs of either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$.
   By definition of $\parity_{\cup}$ we have 
-  $\Acc(\parity_{\cup})\cap\mathcal{B}(Q_{i}\times D) = \Acc(\parity_{i})$ for
-  $i = 1,2$ and therefore $\mathcal{C}$ accepts the trees which are accepted by 
+  $\Acc(\parity_{\cup})\cap\mathcal{B}(Q_{j}\times D) = \Acc(\parity_{j})$ for
+  $j = 1,2$ and therefore $\mathcal{C}$ accepts the trees which are accepted by 
   either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$. This construction respects 
   uni-directionality and even a common blueprint of $\mathcal{A}_{1}$ and 
   $\mathcal{A}_{2}$ since transition are simply mirrored.
@@ -347,74 +344,72 @@ results:
   Uniformly distributed \acp{WDTA} with common blueprint and almost-sure 
   acceptance are closed under intersection but not under complement.
 \end{proposition}
-The natural question arises if this closure persists for the complete class of 
-uniformly distributed \acp{WDTA}. Although we do not present immediate results,
-we discuss this question in the following. Therefore, we examine the
-relevance of the local probabilities regarding the resulting measure. For 
-\acp{PBA} we already established with Lemma \ref{lem:measureinpba} and its 
-consequences that the choice of the transition probabilities matters. In this 
-context we discuss some results from \cite{RandAutoInfTrees}. Firstly, we 
-introduce the following example:
-\begin{example}
-  \cite[Example 7]{RandAutoInfTrees}
-  Let $\mathcal{L}$ be the set of all binary trees over $\set{a,b}$ such that
-  under a uniform probability distribution of successors the set of all 
-  branches containing infinitely many $a$ has measure $1$. We can accept 
-  $\mathcal{L}$ with a deterministic uniformly distributed \ac{WDTA} with 
-  Büchi-condition and almost-sure acceptance
-  \begin{equation*}
-    \mathcal{A} = \tuple{\set{q_{a}, q_{b}}, q_{s}, \set{0,1}, \set{a,b}, 
-    \Delta, \set{q_{a}}}
-  \end{equation*}
-  with
-  \begin{equation*}
-    \Delta = \set{
-      \tuple{q_{\sigma}, \sigma, G_{\sigma}}:
-        \text{for every }\sigma\in\Sigma
-    }
-    \text{ and } G_{\sigma}(q, d) = \begin{cases}
-      \frac{1}{2}&\text{if }q = q_{\sigma}\text{ and both }d,\\
-      0&\text{otherwise}.
-    \end{cases}
-  \end{equation*}
-  The argument that this automaton accepts $\mathcal{L}$ is straightforward 
-  since only those paths that contain infinitely often an $a$ do have 
-  infinitely often a weighted occurence of $q_{a}$; thus, the run of 
-  $\mathcal{A}$ mirrors the input tree $t$ and the language $\mathcal{L}$ is
-  defined analogously to the semantics of \acp{WDTA}. Note that $\mathcal{A}$
-  respects a blueprint $B(0) = B(1) = \frac{1}{2}$ and can therefore be 
-  considered uniformly distributed.
-  \label{ex:udwdta}
-\end{example}
-To this example we additionally introduce
-\begin{proposition}
-  \cite[Proposition 11]{RandAutoInfTrees}
-  For two reals $0 < p < q < 1$ and we define $\mathcal{A}_{p}$ and 
-  $\mathcal{A}_{q}$ analogously to $\mathcal{A}$ from Example \ref{ex:udwdta}
-  but with blueprint $B(0) = p, B(1) = 1-p$ and $B(0) = q, B(1) = 1-q$ 
-  respectively. Then, there is a tree $t$ such that for the unique runs $r_{p}$
-  (and $r_{q}$) of $\mathcal{A}_{p}$ (and $\mathcal{A}_{q}$ respectively) on 
-  $t$ holds that $\mu_{r_{p}}(\Acc(F)) = 0$ while $\mu_{r_{q}}(\Acc(F)) = 1$.
-\end{proposition}
-Thus, the \enquote{local} probabilities are relevant for the global measure
-which is similar to \acp{PBA} (cp. Lemma \ref{lem:measureinpba}). But in both 
-arguments the examined models are deterministic in the choice of their 
-transitions. Naturally, this raises questions about the influence to use 
-non-determinism in probabilistic models. As we see later the inclusion of 
-non-determinism is a significant source of complexity of the model
-(cp. \cite[Remark 12]{RandAutoInfTrees}).
+% The natural question arises whether this closure persists for the complete
+% class of uniformly distributed \acp{WDTA}. Although we do not present immediate
+% results regarding this question, we discuss interesting observations. Namely,
+% we examine the relevance of the local probabilities regarding the resulting
+% measure. For \acp{PBA} we already established with Lemma \ref{lem:measureinpba}
+% and its consequences that the choice of the transition probabilities matters.
+% In this context we discuss some results from \cite{RandAutoInfTrees}. Firstly,
+% we introduce the following example:
+% \begin{example}
+%   \cite[Example 7]{RandAutoInfTrees}
+%   Let $\mathcal{L}$ be the set of all binary trees over $\set{a,b}$ such that
+%   under a uniform probability distribution of successors the set of those 
+%   branches which contain infinitely many $a$ has measure $1$. We can accept 
+%   $\mathcal{L}$ with a deterministic uniformly distributed \ac{WDTA} with 
+%   Büchi-condition and almost-sure acceptance
+%   \begin{equation*}
+%     \mathcal{A} = \tuple{\set{q_{a}, q_{b}}, q_{s}, \set{0,1}, \set{a,b}, 
+%     \Delta, \set{q_{a}}}
+%   \end{equation*}
+%   with
+%   \begin{equation*}
+%     \Delta = \set{
+%       \tuple{q_{\sigma}, \sigma, G_{\sigma}}:
+%         \text{for every }\sigma\in\Sigma
+%     }
+%     \text{ and } G_{\sigma}(q, d) = \begin{cases}
+%       \frac{1}{2}&\text{if }q = q_{\sigma}\text{ and both }d,\\
+%       0&\text{otherwise}.
+%     \end{cases}
+%   \end{equation*}
+%   The argument that this automaton accepts $\mathcal{L}$ is straightforward 
+%   since only those paths that contain infinitely often an $a$ do have 
+%   infinitely often a weighted occurence of $q_{a}$; thus, the run of 
+%   $\mathcal{A}$ mirrors the input tree $t$ and the language $\mathcal{L}$ is
+%   defined analogously to the semantics of \acp{WDTA}. Note that $\mathcal{A}$
+%   respects a blueprint $B(0) = B(1) = \frac{1}{2}$ and can therefore be 
+%   considered uniformly distributed.
+%   \label{ex:udwdta}
+% \end{example}
+% We additionally introduce
+% \begin{proposition}
+%   \cite[Proposition 11]{RandAutoInfTrees}
+%   For two reals $0 < p < q < 1$ we define $\mathcal{A}_{p}$ and 
+%   $\mathcal{A}_{q}$ analogously to $\mathcal{A}$ from Example \ref{ex:udwdta}
+%   but with blueprint $B(0) = p, B(1) = 1-p$ and $B(0) = q, B(1) = 1-q$ 
+%   respectively. Then, there is a tree $t$ such that for the unique runs $r_{p}$
+%   and $r_{q}$ of $\mathcal{A}_{p}$ and $\mathcal{A}_{q}$ respectively on 
+%   $t$ holds that $\mu_{r_{p}}(\Acc(F)) = 0$ while $\mu_{r_{q}}(\Acc(F)) = 1$.
+% \end{proposition}
+% Thus, the \enquote{local} probabilities are relevant for the global measure
+% which is similar to \acp{PBA} (cp. Lemma \ref{lem:measureinpba}). But in both 
+% arguments the examined models are deterministic in the choice of their 
+% transitions. Naturally, this raises questions about the influence to use 
+% non-determinism in probabilistic models. As we see later the inclusion of 
+% non-determinism is a significant source of complexity of the model
+% (cp. \cite[Remark 12]{RandAutoInfTrees}).
 
-Regarding intersection we provide a construction to show closure under 
-intersection for \acp{WDTA} under almost-sure acceptance. For positive 
-acceptance the closure under intersection is provided for uniformly distributed
-\acp{WDTA} with common blueprint. As we will see the defined construction for
-almost-sure acceptance actually can be used to show closure under union for
-positively accepting \acp{WDTA}. Since it utilizes the same construction as for
-positively accepting \acp{PBA} or alternating tree automata respectively.
-Thus, for almost-sure acceptance a general intersection operator can separate
-in the first transition the runs of both \ac{WDTA} with a probability of
-$\frac{1}{2}$ each. Both these runs do individually need an acceptance measure 
-of $1$ to render the new run almost-surely accepted.
+In the following, we obtain closure under intersection for \acp{WDTA} with
+almost-sure acceptance and for uniformly distributed \acp{WDTA} with common
+blueprint and positive acceptance measure. For almost-sure accepting \acp{WDTA}
+we use the same construction as for the union of positively accepting \acp{PBA}
+or the intersection of alternating tree automata respectively. Namely, the
+intersection operator separates in the first transition the runs of
+both \ac{WDTA} but tunes down both runs with a probability of $\frac{1}{2}$
+each. Nevertheless, both these runs individually need an acceptance measure of
+$1$ to render the new run almost-surely accepted.
 \begin{proposition}
   \acp{WDTA} with almost-sure acceptance are closed under intersection.
 \end{proposition}

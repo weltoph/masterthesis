@@ -32,16 +32,16 @@ set of states. The following introduction conceptually follows
   $\mathcal{A}$ accepts a tree $t$ if there exists a run $r$ of $\mathcal{A}$
   on $t$ such that for every $\alpha\in D^{\omega}$ $r(\alpha)\in\Acc$.
 \end{definition}
-We introduce as we are already accustomed fitting acronyms, e.g. \ac{PTA},
-\acuse{RTA}  \acuse{MTA} \acuse{BTA} and present an easy example 
-to familiarize ourselves with the notions of tree automata
+Again, we introduce acronyms for the considered tree automata, i.e. \ac{PTA},
+\ac{RTA}, \ac{MTA} and \ac{BTA}, and present an easy example to familiarize
+ourselves with the notions of tree automata
 \begin{example}
   Consider $\mathcal{L}_{\exists a}$ as the language of those binary trees over 
   $\set{a,b}$, i.e. $\set{0,1}$-ary $\set{a,b}$-trees, that contain at least 
   one $a$. This language can be accepted by a tree automaton by 
   non-deterministically choosing a path to an occurence of an $a$ and rendering 
-  every other path accepted. And the chosen path accepted from the point 
-  onwards where an $a$ occured. The corresponding tree automaton can be 
+  every other path accepted. From the point onwards where an $a$ occured the
+  chosen path is rendered accepted. The corresponding tree automaton can be 
   described by two states $q_{s}, q_{a}$, where $q_{s}$ is a state that 
   searches for an $a$ while $q_{a}$ is a state that renders all its subtrees 
   accepting. $q_{a}$ reproduces itself into all its subtrees, while $q_{s}$ 
@@ -124,7 +124,8 @@ of Theorem \ref{thm:omegaregularexp} for the equivalence of the
 \enquote{strong} acceptance conditions, namely \acp{LAR}, we can ensure
 \begin{theorem}
   \cite[Theorem 8.7]{AutoLogInfGames}
-  \acp{MTA}, \acp{RTA} and \acp{PTA} all recognize the same tree languages.
+  \acp{MTA}, \acp{RTA} and \acp{PTA} all recognize the same class of tree
+  languages.
   \label{thm:treeautoequiv}
 \end{theorem}
 Regarding the closure properties of this class of tree languages it is again
@@ -137,16 +138,25 @@ possible to show its closure under union, intersection and negation. This gives
   constructed.
   \label{thm:treeautoboolean}
 \end{theorem}
-We do not state the proof explicitly since the used concepts for union and
-intersection are the same as for the proof of Theorem 
-\ref{thm:omegaregboolean}, namely we can obtain union by constructing an 
-automaton that performs an initial \emph{guess} which input automata is 
-simulated and an automaton for the intersection simulates both input automata 
-by a a product construction and uses a Muller-condition which formulates the 
-acceptance of the individual components by their original acceptance 
-conditions. In order to convey the closure under negation we introduce further 
-concepts regarding tree automata which allow to present a proof in a natural 
-way.
+\begin{proof}[Proof-Sketch]
+  The concepts follow the proof of Theorem \ref{thm:omegaregboolean}: given two
+  \acp{PTA} $\mathcal{A}_{1}, \mathcal{A}_{2}$ we construct one \ac{PTA}
+  $\mathcal{A}$ which performs an initial \emph{guess} deciding to execute
+  either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$. Hence, if there is an
+  accepting run for either $\mathcal{A}_{1}$ or $\mathcal{A}_{2}$ then there is
+  an accepting run for $\mathcal{A}$ and vice versa. Therefore, $\mathcal{A}$
+  accepts the union of the languages of $\mathcal{A}_{1}$ and
+  $\mathcal{A}_{2}$.
+
+  An operator for intersection is achieved by relying on a product construction
+  which simulates both input automata. Using a Muller-condition which
+  formulates the acceptance of the individual components by their original
+  acceptance conditions completes the construction. 
+
+  The closure for complementation is proven using \emph{alternating} tree
+  automata and therefore postponed until we formally introduced alternating
+  tree automata in the following section.
+\end{proof}
 
 \subsection{Alternating Tree Automata}
 \label{subsec:ata}
@@ -154,18 +164,18 @@ Up to this point the used automata mirrored the structure of their inputs
 very closely. Word automata generated words of states and tree automata 
 generated trees of states of the same arity of their input trees. This notion 
 can be relaxed for tree automata to obtain a new class of tree
-automata, that is \emph{Alternating Tree Automata}. Following 
+automata, called \emph{Alternating Tree Automata}. Following 
 \cite{AltTreeAuto} tree automata operate by sending down \enquote{copies} 
 through the different paths. In the classical setting at every branching point 
 every successor is awarded with one copy of a state of the automaton. The 
 aforementioned relaxation lies in the idea to allow at a branching point to 
-award some successor with more than one state while others may not receive even 
+award some successor multiple states while others may not even receive 
 a single one. This concept is also used to define automata that run over 
 transition systems, e.g. \cite[Chapter 9]{AutoLogInfGames} and 
 \cite{SynProbEnv}, where the input tree is the unrollment of the transition 
 system.
 
-Formally, before transitions for tree automata are defined as tuples of the 
+Up to this point, transitions for tree automata are defined as tuples of the 
 form $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$. This specifically defines for
 every direction one single state to move along this direction. We introduce
 transitions of the form $\tuple{q,\sigma,A}$ where $A$ is a non-empty subset of 
@@ -240,20 +250,20 @@ We formally define similar to \cite{SynProbEnv}
   \end{equation*}
   A run $r$ is considered accepting if $M_{r}\subseteq\Acc\interval{Q}$.
   Again, we consider for $\Acc$ acceptance conditions which are representable
-  as Büchi-, Rabin-, Muller- or Parity-conditions and use according acronyms,
-  namely \acs{ABTA}, \acs{ARTA}, \acs{AMTA}, \acs{APTA} respectively.
-  \acuse{ABTA} \acuse{AMTA} \acuse{ARTA} \acuse{APTA} 
+  as Büchi-, Rabin-, Muller- or Parity-conditions. We introduce according
+  acronyms, namely \ac{ABTA}, \ac{ARTA}, \ac{AMTA} and \ac{APTA} respectively.
 \end{definition}
-By using the same argument as for Theorem 
+By using the same argument of using \acp{LAR} as for Theorem 
 \ref{thm:omegaregularexp} and Theorem \ref{thm:treeautoequiv} we obtain
 \begin{theorem}
-  \ac{ARTA}, \ac{AMTA} and \ac{APTA} recognize the same class of languages.
+  \ac{ARTA}, \ac{AMTA} and \ac{APTA} recognize the same class of tree
+  languages.
   \label{thm:atreeautoequiv}
 \end{theorem}
 Although \emph{alternation} is an extension of the \enquote{classic} tree 
-automata it turns out that it does not increase the expressiveness; that is
-for every alternating tree automta there is a classic tree automata which 
-accepts the same language of trees.
+automata it turns out that it does not increase the expressiveness.
+Specifically, for every alternating tree automta there is a classic tree
+automata which accepts the same language of trees.
 \begin{theorem}[The Simulation Theorem]
   \cite[Theorem 1.2]{SimAltTreeAuto}
   There is an effective construction which, when given an \ac{AMTA}, produces 
@@ -306,7 +316,7 @@ alternating tree automata.
   with
   \begin{equation*}
     \Delta_{\cap} = \set{
-      \tuple{q^{i},\sigma,\delta_{A\cup B}}:
+      \tuple{q^{i},\sigma,A\cup B}:
         \tuple{q_{0},\sigma,A}\in\Delta_{1}
       \text{ and }
         \tuple{p_{0},\sigma,B}\in\Delta_{2}
@@ -315,10 +325,10 @@ alternating tree automata.
     }.
   \end{equation*}
   Thus, we can construct from the resulting run $r$ in $\mathcal{A}_{\cap}$ two
-  individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively, e.g.
-  for $\mathcal{A}_{1}$ it is the run $r_{1}$ in the $Q$-part of the domain of 
-  $r$ while the initial transition in $r$ uses a $A\cup B$ where $r_{1}$ uses 
-  $A$.
+  individual runs in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ respectively. For
+  $\mathcal{A}_{1}$ we obtain a run $r_{1}$ from the $D\times Q$-part of the
+  domain of $r$ and the $D\times P$-part of the domain of $r$ induces a run
+  $r_{2}$ for $\mathcal{A}_{2}$.
 \end{proof}
 
 While considering the semantics of \acp{PBA} we used a notion of considering 
@@ -328,30 +338,32 @@ $\alpha\in\Sigma^{\omega}$ as a $\set{0}$-ary $\Sigma$-tree $t_{\alpha}$. Then
 one \ac{PBA} $\mathcal{P}$ induces a run in a tree-sense by unrolling the state
 sequences of $\mathcal{P}$ around the unary tree $t_{\alpha}$. Hereby, we can
 substitute clauses which have a very absolute semantic (either a
-path is taken or it is not) by a probability distribution. When we gather the
-individual probability distributions of $\mathcal{P}$, that is set 
-$\mathcal{G}$ of all functions of the form 
-$G_{\sigma}^{q}:\set{0}\times Q\rightarrow\interval{0,1}$ such that
-$G_{\sigma}^{q}(0, p) = \delta(q,\sigma, p)$. We can model the run of 
-$\mathcal{P}$ as a $\set{0}\times Q$-ary $\mathcal{G}$-tree where the chosen
-$G_{\sigma}^{q}$ one the paths $\tuple{0,q_{1}}\dots\tuple{0,q_{n}}$ are 
-consistent with the current state ($q = q_{n}$) and input symbol 
-($\sigma = t(0^n)$). Therefore, every path corresponds to one state sequence of 
-$\mathcal{P}$ and the visited $G_{\sigma}^{q}$ on the path induce the 
-associated probabilities for the peformed steps. In this sense we can use 
-Figure \ref{fig:parallelruns} as illustration for the part of the union 
-operator of the proof of Theorem \ref{thm:pbaboolalgebra} where the initial 
-separating dispatch is in every direction tuned down by a factor of 
-$\frac{1}{2}$. This intuition is later on re-visited and formally 
-substantiated. 
+path is taken or it is not) by a probability distribution.
+For a \ac{PBA} $\mathcal{P} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ we introduce
+transition functions $G_{\sigma}^{q}:\set{0}\times Q\rightarrow\interval{0,1}$
+such that $G_{\sigma}^{q}(0, p) = \delta(q,\sigma, p)$ and fix
+\begin{equation*}
+  \mathcal{G} = \set{G_{\sigma}^{q}:\sigma\in\Sigma,q\in Q}.
+\end{equation*}
+We can model the run of $\mathcal{P}$ as a $\set{0}\times Q$-ary
+$\mathcal{G}$-tree where the chosen $G_{\sigma}^{q}$ one the paths
+$\tuple{0,q_{1}}\dots\tuple{0,q_{n}}$ are consistent with the current state
+($q = q_{n}$) and input symbol ($\sigma = t(0^n)$). Therefore, every path
+corresponds to one state sequence of $\mathcal{P}$ and the visited
+$G_{\sigma}^{q}$ on the path induce the associated probabilities for the
+peformed steps. In this sense we can use Figure \ref{fig:parallelruns} as
+illustration for the union operator of the proof of Theorem
+\ref{thm:pbaboolalgebra}. Thereby, the initial separating dispatch is in every
+direction tuned down by a factor of $\frac{1}{2}$. This intuition is later on
+re-visited and formally substantiated.
 
 In the meantime we introduce the concept of \emph{graph games} 
 to obtain a transformation that constructs the \ac{APTA} which accepts the 
 negation of the language of a given \ac{APTA}.
 
 \subsection{Graph Games}
-Tree automata are closely related to graph games, e.g.
-\cite[Chapter 9]{AutoLogInfGames}. Such games are held between two players in
+Tree automata are closely related to graph games (cp.
+\cite[Chapter 9]{AutoLogInfGames}). Such games are held between two players in
 an \emph{arena}. An arena is a directed graph where the nodes are partioned
 into two sets; each set is associated with one player. A game on such an arena
 begins in one node and unfolds by the choices of the players. The player to
@@ -373,7 +385,7 @@ met we consider the opponent victorious. This leads to the definition
     \item [Play] A play for a game $\tuple{\mathcal{G}, v_{0}} = \tuple{V,
       V_{0}, V_{1}, E, \Acc}$ is any sequence $v_{0}v_{1}\dots\in
       V^{\omega}$ which starts in $v_{0}$ and where for every $i > 0$ holds
-      that $v_{i}\in v_{i-1}E$.
+      that $\tuple{v_{i},v_{i-1}}\in E$.
     \item [Strategy] For $\sigma\in\set{0,1}$ we define a strategy
       $f_{\sigma}: V^{*}V_{\sigma}\rightarrow V$ where for any $w\in V^{*}$ and
       $v\in V_{\sigma}$ $f_{\sigma}(w\cdot v)\in vE$ (where $vE =
@@ -401,22 +413,21 @@ met we consider the opponent victorious. This leads to the definition
       $\mathcal{W}^{\mathcal{G}}_{\sigma}$ those nodes $v\in V$ such that
       player $\sigma$ has a winning strategy in $\tuple{\mathcal{G}, v}$.
   \end{description}
-  As we are already accustomed $\Acc$ is represented in finite ways by using
-  Büchi-, Rabin-, Muller- or Parity-conditions. In the following we call the 
-  player for whom the acceptance condition $\Acc$ is stated \eve{} (as for 
-  \acp{MDP}) and her opponent \adam{} (in the following we treat \adam{} 
-  grammatically as male).
+  $\Acc$ is represented in finite ways by using Büchi-, Rabin-, Muller- or
+  Parity-conditions. In the following we call the player for whom the
+  acceptance condition $\Acc$ is stated \eve{} (as for \acp{MDP}) and her
+  opponent \adam{} (in the following we treat \adam{} grammatically as male).
 \end{definition}
-Given any game $\mathcal{G}$ the question arises if for every node $v$ either
-\eve{} or \adam{} wins by playing the correct strategy (regardless of
+Given any game $\mathcal{G}$ the question arises whether for every node $v$
+either \eve{} or \adam{} wins by playing the correct strategy (regardless of
 the strategy of the opponent), i.e. 
 $\mathcal{W}^{\mathcal{G}}_{0}\cup\mathcal{W}^{\mathcal{G}}_{1} = V$. We call
 a game with this property \emph{determined}. There is a fundamental result by
-Martin establishing determinacy for all Borel winning conditions for another 
-kind of games\footnote{so called Gale-Stewart games} \cite{BorelDeterminacy}. 
-Fortunately, this translates to graph games and allows us to state using Lemma 
-\ref{lem:measureabilityAcceptance} and its Corollary \ref{cor:borelAcceptance}
-that
+Martin establishing determinacy for all Borel winning conditions for a more
+general class of games\footnote{Gale-Stewart games} \cite{BorelDeterminacy}.
+Fortunately, this translates to graph games and allows us to state using that
+Büchi-, Rabin-, Muller- and Parity-conditions are Borel (see Lemma
+\ref{lem:measureabilityAcceptance} and its Corollary \ref{cor:borelAcceptance})
 \begin{theorem}
   \cite[Corollary 2.10]{AutoLogInfGames}
   All graph games with Büchi-, Rabin-, Muller- or Parity-condition are 
@@ -514,7 +525,7 @@ $\mathcal{G}(\mathcal{A}, t)$.
   winning strategy in the game $\mathcal{G}(\mathcal{A}, t)$.
   \label{lem:stratacceptance}
 \end{lemma}
-In the following we present one proof for this lemma which reveals the 
+In the following we present a proof for this lemma which reveals the 
 central idea behind the construction of a dual automata for a given \ac{APTA}.
 \begin{proof}
   We can connect strategies $f$ for \eve{} with runs $r$ of the automaton 
@@ -710,11 +721,12 @@ This lemma directly allows us to state
 \end{proof}
 
 By Theorem \ref{thm:posdetparity} we even obtain a positional winning strategy 
-for \eve{} (if there is any winning strategy). This means that the structure of 
-the obtained tree indeed is - to a certain degree - simple\footnote{
-  Theorem 23 in \cite{ParityGamesPosDet} calls such a tree $t$ \emph{regular} 
-  which means that the number of isomorphic subtrees in $t$ is finite. This
-  is similar to ultimatively periodic words for $\omega$-regular languages.
+for \eve{} (if there is any winning strategy)\footnote{
+  This means that the structure of the obtained tree $t$ indeed is - to a
+  certain degree - simple. Theorem 23 in \cite{ParityGamesPosDet} calls such a
+  tree $t$ \emph{regular} which means that the number of isomorphic subtrees in
+  $t$ is finite. This is similar to ultimatively periodic words for
+  $\omega$-regular languages.
 }.
 
 Note that we designed this emptiness game in terms of \ac{PTA} rather than 
