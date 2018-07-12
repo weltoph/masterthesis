@@ -24,7 +24,7 @@ question in the following
   \end{center}
 \end{drawing}
 Naturally, the complexity of this problem is tightly related to the 
-expressibility of $\phi$. The comprehensive demand of this question, namely
+expressiveness of $\phi$. The comprehensive demand of this question, namely
 to generate for all inputs a \enquote{good} output, allows for a
 game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
@@ -46,10 +46,9 @@ $f(i_{1}\dots i_{n}) = j_{n}$. In this sense we are interested in winning
 strategies of \outputp{}. Following, we present known synthesis results 
 for those $\phi$ which allow to capture the associated relation as a 
 $\omega$-regular language. Subsequently, we pivot towards probabilistic 
-environments and review an approach to synthesis algorithms there which are not 
-necessarily surely correct but almost-surely satisfy a specification $\phi$. 
-At last, we consider probabilistic environments which are modelled as
-\acp{POMDP}.
+environments and review an approach to synthesize algorithms which are not
+necessarily surely correct but almost-surely satisfy a specification $\phi$. At
+last, we consider probabilistic environments which are modelled as \acp{POMDP}.
 
 \section{Antagonisitic Environments}
 In the following we consider an $\omega$-regular class of specifications 
@@ -58,22 +57,22 @@ $\omega$-regular language $\mathcal{L}_{\phi}\subseteq
 \tuple{J\times I}^{\omega}$ with
 \begin{equation}
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
-  \text{ iff }
+  \text{ if and only if }
   \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
   \label{eq:omegaregularphi}
 \end{equation}
-Observably, the output symbol $j_{0}$ is irrelevant but included to ease the 
+Notably, the output symbol $j_{0}$ is irrelevant but included to ease the
 technicalities of the following argument. With the well researched theory of
-tree automata the associated synthesis problem for $\omega$-regular 
-specifications can be solved rather transparently. In fact it is one of the 
-initial motivations to study tree automata \cite{AutoInfObj}. The idea is to 
-use trees to model the interaction between input and output symbols. The 
+tree automata the associated synthesis problem for $\omega$-regular
+specifications can be solved rather transparently. In fact it is one of the
+initial motivations to study tree automata \cite{AutoInfObj}. The idea is to
+use trees to model the interaction between input and output symbols. The
 directions of a tree model inputs while the symbols in the tree represent 
 outputs. Similar to the arguments of the proof of Theorem 
 \ref{thm:POMDPequivWDTA} a tree can therefore be understood as strategy and we 
 want to design a \ac{PTA} such that a tree is only accepted if all paths are 
-part of $\mathcal{L}_{\phi}$. This can be easily modelled 
-(cp. \cite[Lemma 15]{AutoInfObj}) with
+part of $\mathcal{L}_{\phi}$. We model this in analogy to
+\cite[Lemma 15]{AutoInfObj} with
 \begin{definition}[Synthesis \ac{PTA}]
   For a given \ac{DPA}
   \begin{equation*}
@@ -96,10 +95,10 @@ yields the desired synthesis algorithm for $\omega$-regular specifications
 $\phi$ and gives
 \begin{theorem}
   \cite[Theorem 21, Theorem 22]{AutoInfObj}
-  The synthesis problem for $\omega$-regular specifications $\phi$ can be 
-  decided.
+  The synthesis problem for $\omega$-regular specifications $\phi$ is
+  decidable.
 
-  If a strategy exists and $\phi$ is captured by a \ac{DPA} 
+  If a strategy exists and $\phi$ is captured by a \ac{DPA}
   \begin{equation*}
     \mathcal{P} = \tuple{Q, q_{0}, J\times I, \delta, \parity}
   \end{equation*}
@@ -109,25 +108,28 @@ $\phi$ and gives
   $d = \lfloor \frac{\size{\parity(Q)}}{2} \rfloor$.
 \end{theorem}
 This approach suits the game-theoretic interpretation of the synthesis problem
-well. Consider the associated emptiness-game to the defined \ac{PTA} 
-$\mathcal{A}$. Observable, $\mathcal{A}$ shows deterministic behavior, hence 
+well. Consider the associated emptiness-game to the defined \ac{PTA}
+$\mathcal{A}$. Observable, $\mathcal{A}$ shows deterministic behavior, hence
 we can reduce \eve{}'s strategy to the decision which letter to choose rather
 than choosing a transition. Also, \adam{}'s role is always captured by choosing
-a direction the game moves to. Therefore, \eve{}'s and \adam{}'s strategies 
-specify the behavior of \outputp{} and \inputp{} respectively while the 
+a direction the game moves to. Therefore, \eve{}'s and \adam{}'s strategies
+specify the behavior of \outputp{} and \inputp{} respectively while the
 \ac{DPA} that is associated with $\phi$ is executed in parallel.
 
-In the following we want to consider specifications $\phi$ which are not 
-$\omega$-regular but defineable by almost-surely accepting \acp{PBA}. Thus, in
-analogy to the formulation (\ref{eq:omegaregularphi}) above we consider $\phi$ 
-such that there is a \ac{PBA} $\mathcal{P}$ which almost-surely accepts the 
+In the following we want to consider specifications $\phi$ which are not
+$\omega$-regular but definable by almost-surely accepting \acp{PBA}. Thus, in
+analogy to the formulation (\ref{eq:omegaregularphi}) above we consider $\phi$
+such that there is a \ac{PBA} $\mathcal{P}$ which almost-surely accepts the
 language $\mathcal{L}_{\mathcal{P}}$ with
 \begin{equation}
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\mathcal{P}}
-  \text{ iff }
+  \text{ if and only if }
   \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
   \label{eq:pbaregularphi}
 \end{equation}
+Still, we only examine deterministic strategies for \outputp{}. Probabilistic
+behavior is not considered anywhere else but the specification.
+
 The approach to this problem is formalized by introducing a new class of graph
 games, called \acp{POSG} (cp. \cite{POSG, PureStratPOSG}). Reconsidering the 
 behavior of \acp{POMDP} we can capture their semantic as a game between two 
@@ -216,15 +218,11 @@ we obtain the possibility to compute these strategies for \eve{} by
   This decision procedure takes time doubly exponential in $\size{S}$.
   \label{thm:StratPOSG}
 \end{theorem}
-Since we rely for the time bound on arguments from \cite{PureStratPOSG} which 
-is not published at the moment of completion of this thesis we present the 
-necessary argumentation in Appendix \ref{app:POSG} to ensure its availability.
-Nevertheless, we answer the synthesis question imposed by an almost-surely
-accepting \ac{PBA} $\mathcal{P}$ positively for antagonistic environments. The 
-idea is to define a \ac{POSG} in which both players only observe an 
-input-output game while in the \enquote{background} the stoachastic process of
-$\mathcal{P}$ operates and any play is eventually evaluated in terms of 
-$\mathcal{P}$. Fix
+We answer the synthesis question imposed by an almost-surely accepting \ac{PBA}
+$\mathcal{P}$ positively for antagonistic environments. The idea is to define a
+\ac{POSG} in which both players only observe an input-output game while in the
+\enquote{background} the stoachastic process of $\mathcal{P}$ operates and any
+play is eventually evaluated in terms of $\mathcal{P}$. Fix
 \begin{equation*}
   \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
 \end{equation*}
@@ -323,11 +321,11 @@ The central idea of this proof is formulated in
   $\mu_{\alpha_{f}^{g}}$.
 \end{proof}
 
-This leads us into characterising almost-surely winning strategies for \eve{} 
+This leads us into characterising almost-surely winning strategies for \eve{}
 in $\mathcal{G}_{\mathcal{P}}$ in
 \begin{lemma}
   A strategy $f$ in $\mathcal{G}_{\mathcal{P}}$ is almost-surely winning for
-  \eve{} if and only if $f$ synthesises an algorithm for the associated 
+  \eve{} if and only if $f$ synthesizes an algorithm for the associated 
   specification $\phi_{\mathcal{P}}$.
 \end{lemma}
 \begin{proof}
@@ -427,46 +425,45 @@ Another approach is introduced in \cite{SynProbEnv} by considering environments
 which do not act antagonistically but probabilistically, i.e. we assume that 
 inputs are generated by a probabilistic process. This motivates the concept of 
 $\epsilon$-environments. For an $\epsilon > 0$ such an environment generates an
-input $i$ with a certain probability which is at any time bound from below by 
-$\epsilon$. The form of the strategy that is meant to be synthesised is given
+input $i$ with a certain probability which respects at any time $\epsilon$ as
+lowerbound. The form of the strategy that is meant to be synthesised is given
 as a $J$-labeled $I$-tansition-system $\mathcal{T}$ of the form
 \begin{equation*}
   \mathcal{T} = \tuple{S, s_{0}, \tau, \ell}.
 \end{equation*}
-Here $S$ is a set of states, $s_{0}$ an inital state and 
+Here $S$ is a set of states, $s_{0}$ an inital state and
 $\tau:S\times I\rightarrow S$ describes a deterministic transition function and
-$\ell:S\rightarrow J$ a labelling of $S$. Semantically, $\mathcal{T}$ starts in 
-$s_{0}$ and reacts to an input $i$ by moving to $z = \tau(s,i)$ and outputting 
-$\ell(z)$. Naturally, such a transition system $\mathcal{T}$ models a strategy 
-$t:I^{+}\rightarrow J$ by constructing for every 
-$u = u_{1}\dots u_{n}\in I^{+}$ the unique sequence 
-$s_{0}s_{1}\dots s_{n}\in S^{+}$ such that $s_{i+1} = \tau(s_{i}, u_{i+1}$ for 
-$0\leq i<n$ and returning $\ell(s_{n})$. As mentioned in the introduction of 
-Section \ref{subsec:ata} alternating tree automata can be used to run on the 
+$\ell:S\rightarrow J$ a labelling of $S$. Semantically, $\mathcal{T}$ starts in
+$s_{0}$ and reacts to an input $i$ by moving to $z = \tau(s,i)$ and outputting
+$\ell(z)$. Naturally, such a transition system $\mathcal{T}$ models a strategy
+$t:I^{+}\rightarrow J$ by constructing for every
+$u = u_{1}\dots u_{n}\in I^{+}$ the unique sequence
+$s_{0}s_{1}\dots s_{n}\in S^{+}$ such that $s_{i+1} = \tau(s_{i}, u_{i+1})$ for
+$0\leq i<n$ and returning $\ell(s_{n})$. As mentioned in the introduction of
+Section \ref{subsec:ata} alternating tree automata can be used to run on the
 unfolding of such transition systems. Assuming a $\omega$-regular specification 
-$\phi$ we may obtain a \ac{DPA} 
-$\mathcal{P} = \tuple{Q, q_{0}, \tuple{J\times I}, \delta, \parity}$ accepting 
-$\mathcal{l}_{\phi}$. We can attach $\mathcal{P}$ onto a given transition 
-system $\mathcal{T}$ in a straightforward manner to obtain a transition system 
+$\phi$ we may obtain a \ac{DPA}
+$\mathcal{P} = \tuple{Q, q_{0}, \tuple{J\times I}, \delta, \parity}$ accepting
+$\mathcal{L}_{\phi}$. We can attach $\mathcal{P}$ onto a given transition
+system $\mathcal{T}$ in a straightforward manner to obtain a transition system
 with an associated Parity-condition (but dropping the labelling)
 \begin{equation*}
-  \mathcal{G}_{\mathcal{P}}^{\mathcal{T}} = \tuple{S\times Q, 
+  \mathcal{G}_{\mathcal{P}}^{\mathcal{T}} = \tuple{S\times Q,
     \tuple{s_{0}, q_{0}}, \tau', \parity'}
 \end{equation*}
-where $\tau'(\tuple{s, q}, i) = \tuple{\tau(s, i), 
+where $\tau'(\tuple{s, q}, i) = \tuple{\tau(s, i),
 \delta(q, \tuple{\ell(s), i})}$ and $\parity'(\tuple{s, q}) = \parity(q)$. For
-this transition system and an $\epsilon$-environment $\mathcal{E}$ we can 
+this transition system and an $\epsilon$-environment $\mathcal{E}$ we can
 identify structural properties in $\mathcal{G}_{\mathcal{P}}^{\mathcal{T}}$ to
-determine whether $\mathcal{T}$ satisfies $\phi$ almost-surely respectively 
-positively. This structural property is connected with \ac{SCC}. These are 
-subsets of nodes $G$ such that there is a path between every two nodes 
-$u,v\in G$ (cp. \cite{Tarjan}). Additionally, a leaf-\ac{SCC} is an \ac{SCC} 
-$S$ such that there is no other \ac{SCC} reachable from any $v\in S$ (cp. 
-\cite[Bottom-\ac{SCC}]{ComplexProbVerification}). Intuitively, it is unlikely 
-to not eventually end up in one of these leaf-\acp{SCC} since there is 
-infinitely often the possibility to take a non-zero probability to move into 
-these and the Borel-Cantelli lemma (Theorem \ref{thm:BorelCantelli}) applies,
-hence we state
+determine whether $\mathcal{T}$ satisfies $\phi$ almost-surely respectively
+positively. This structural property is connected with \ac{SCC}. These are
+subsets of nodes $G$ such that there is a path between every two nodes
+$u,v\in G$ (cp. \cite{Tarjan}). Additionally, a leaf-\ac{SCC} is an \ac{SCC}
+$S$ such that there is no other \ac{SCC} reachable from any $v\in S$ (cp.
+\cite[Bottom-\ac{SCC}]{ComplexProbVerification}). Intuitively, it is unlikely
+to not eventually end up in a leaf-\acp{SCC} since there is infinitely often
+the possibility to take a non-zero probability to move into these and the
+Borel-Cantelli lemma (Theorem \ref{thm:BorelCantelli}) applies. Hence we state
 \begin{lemma}
   \cite[Lemma 1]{SynProbEnv}
   An $J$-labeled $I$-transition-system $\mathcal{T}$ almost-surely (positively)
@@ -474,10 +471,10 @@ hence we state
   (some) reachable leaf-\ac{SCC} of $\mathcal{G}_{\mathcal{P}}^{\mathcal{T}}$
   is even, where $\mathcal{P}$ is a \ac{DPA} accepting $\mathcal{L}_{\phi}$.
 \end{lemma}
-This structual property can be checked by a \ac{APTA}. This again yields by
-checking the emptiness of the obtained \ac{APTA} an algorithm for the synthesis
-problem of almost-sure (respectively positive) satisfaction of an 
-$\omega$-regular $\phi$. Therefore we obtain
+This structual property can be checked by a \ac{APTA}. This again yields an
+algorithm for the synthesis problem of almost-sure (respectively positive)
+satisfaction of an $\omega$-regular $\phi$ by checking emptiness of the
+obtained \ac{APTA}. Therefore, we obtain
 \begin{theorem}
   \cite[Theorem 1]{SynProbEnv}
   Given a \ac{DPA} $\mathcal{P}$ there is a \ac{APTA} 
@@ -515,7 +512,7 @@ $\omega$-regular $\phi$. Therefore we obtain
   first-phase states, representing possible choices of \spoiler{} and also in
   one direction a second-phase state; that is a second phase state which is 
   only dispatched into one direction, representing the choice of
-  \acceptor{}. This second-phase state may at any point transform to a 
+  \acceptor{}. This second-phase state may transform at any point to a 
   third-phase state and store the (even) priority of the current 
   state of $\mathcal{P}$ in the state of $\mathcal{A}_{\mathcal{P}}$. This 
   third-phase state again dispatches in all directions and as soon as one state 
@@ -529,7 +526,7 @@ $\omega$-regular $\phi$. Therefore we obtain
   one parity to store. Note the similarity to the proof of Proposition
   \ref{prop:atanegation} in formulating the desired winning strategy of one 
   player as actual choices which may use the non-determinism of the automaton 
-  while the enemy explores all possible moves. 
+  while the \spoiler{} explores all possible moves. 
 \end{proof}
 This allows us to solve the associated synthesis problem for $\omega$-regular
 specifications and $\epsilon$-environments. By solving emptiness for a 
@@ -558,11 +555,11 @@ We already used results formulated for this question, namely Theorem
 \ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis}. Again,
 we focus on $\omega$-regular $\phi$ (in this case $\phi$ is itself a language
 and is not translated to one). Note that the formulation in Theorem 
-\ref{thmpomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis} use 
+\ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis} use 
 acceptance conditions directly onto the states of the \ac{POMDP} and \ac{MDP}
 respectively. Initially, we observe that this is not a real restriction:
 In analogy to the constructions in
-\cite{ComplexProbVerification,MDPandRegEvents} we deduce
+\cite{ComplexProbVerification,MDPandRegEvents}, we deduce
 \begin{lemma}
   For any \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
   \tuple{\tau_{a}}_{a\in A}, \sim}$ and $\omega$-regular 
@@ -592,9 +589,9 @@ In analogy to the constructions in
     \tuple{s, q}\sim'\tuple{z, p}\text{ iff }s\sim z.
   \end{align*}
   Since $\sim'$ is defined in terms of the first element of every state, we may
-  biject $\interval{s}_{\sim}$ with $\interval{\tuple{s, q}}_{\sim'}$ which 
+  biject $\interval{s}_{\sim}$ with $\interval{\tuple{s, q}}_{\sim'}$. This 
   allows to translate strategies from $\mathcal{M}$ to $\mathcal{M'}$ and vice
-  versa and additionally by definition of $\tau_{a}'$ for all $a\in A$ we 
+  versa. Additionally, by definition of $\tau_{a}'$ for all $a\in A$ we 
   obtain for any strategy $s'$ for $\mathcal{M'}$ and its corresponding 
   strategy $s$ for $\mathcal{M}$ that
   \begin{equation*}
@@ -622,7 +619,7 @@ Although the strategies space for $\mathcal{M'}$ are richer, we can only
 consider the space of possible plays which again corresponds uniquely to plays 
 in $\mathcal{M}$. We obtain
 \begin{corollary}
-  For an initial \ac{MDP} $\mathcal{M}$ one obtains a corrresponding \ac{MDP} 
+  For an initial \ac{MDP} $\mathcal{M}$ we obtain a corrresponding \ac{MDP} 
   $\mathcal{M}'$ with the same properties as stated in Lemma 
   \ref{lem:POMDPomegareg}.
 \end{corollary}
@@ -634,7 +631,7 @@ the same argument
   (\ac{MDP}) $\mathcal{M'}$ with an associated Büchi-condition.
   \label{cor:POMDPDBA}
 \end{corollary}
-Concludingly, since associated Büchi- or Parity-conditions on
+Consequently, since associated Büchi- or Parity-conditions on
 \ac{POMDP} induce $\omega$-regular $\phi\subseteq S^{\omega}$, namely
 \begin{equation*}
   \phi = 
@@ -648,15 +645,14 @@ we may consider the two formulations interchangeable. This allows to state that
 Theorem \ref{thm:pomdpstratsynthesis}) but for general $\omega$-regular $\phi$ 
 it is undecideable to compute strategies for \acp{POMDP}. 
 
-In the following we again examine $\phi$ which are defined in terms of 
-\acp{PBA}. We observe that \ac{PBA} capture \ac{DBA} by setting every 
-transition function to a Dirac measure on $Q$. Hence, solving the synthesis 
-problem for $\phi$ which can be expressed as languages of almost-surely 
-accepting \acp{PBA} arguably is a generalisation of Corollary 
-\ref{cor:POMDPDBA} because the class of these $\phi$ is incomparable with 
-$\omega$-regular languages. We say arguably because we effectively prove this
-by reduction to \acp{POMDP} with associated Büchi-conditions. Nevertheless, we 
-examine the following question:
+In the following, we again examine $\phi$ which are defined in terms of
+\acp{PBA}. By Proposition \ref{prop:pbasubsumesdba} we know that \acp{PBA}
+subsumes the expressiveness of \acp{DBA}. Hence, solving the synthesis problem
+for $\phi$ which can be expressed as languages of almost-surely accepting
+\acp{PBA} arguably is a generalisation of Corollary \ref{cor:POMDPDBA} because
+the class of these $\phi$ is incomparable with $\omega$-regular languages. We
+say arguably because we effectively prove this by reduction to \acp{POMDP} with
+associated Büchi-conditions. Nevertheless, we examine the following question:
 \begin{definition}[PBA-Synthesis Question]
   Given a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} $\mathcal{P}$ with
   \begin{equation*}
@@ -664,32 +660,32 @@ examine the following question:
   \text{ and }
     \mathcal{P} = \tuple{Q, q_{0}, S, \delta, F}
   \end{equation*}
-  exists a strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that 
+  does a strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ exist such that 
   almost-all executions of $\mathcal{A}$ under $s$ are almost-surely accepted 
   by $\mathcal{P}$?
   \label{def:pbastratsynthesis}
 \end{definition}
-And we answer this question positively. Considering a certain restricted class 
-of \acp{MDP}, namely those where for every state ever following state is 
-defined by a probability distribution $B$ (regardless of the action chosen by 
-the player), then this result can be derived as a corollary from the 
-construction examined in Example \ref{ex:pwapbaallpaths}. Considering this 
-example but with a context-sensitive weighting of the paths (in contrast to 
-the current restrictive notion) allows to consider a movement downwards a 
-direction as movement of an \ac{MDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
-\tuple{\tau_{a}}_{a\in A}}$. If we set the directions as the set $S$ and 
-consider a path weighting function such that given the current position is 
-reached by $s_{1}$ and the letter $a$ is read then the movement downwards 
-$s_{2}$ is weighted by $\tau_{a}(s_{1}, s_{2})$ where the inital movement 
-corresponds to $\tau_{a}(s_{0}, \cdot)$. Then, using the idea of Example 
-\ref{ex:pwapbaallpaths} we construct a \ac{PWA} that executes a \ac{PBA} 
-$\mathcal{P}$ on the weighted paths reading the directions rather than the 
-letters. Conceptually, translating this to a \ac{WDTA} yields that every path 
-$s_{1}\rightarrow s_{2}\rightarrow\dots$ is associated with the run-tree of 
-$\mathcal{P}$ reading $s_{0}s_{1}s_{2}\dots$ with the probability of the 
-underlying strategy (encoded by the tree). Building upon this idea we design 
-the following argumentation which bears structural similarities with the one 
-presented for the modelling of \acp{PWA} by \acp{WDTA} (cp. Theorem 
+We answer this question positively. Considering a certain restricted class
+of \acp{MDP}, namely those where for every state ever following state is
+defined by a probability distribution $B$ (regardless of the action chosen by
+the player), then this result can be derived as a corollary from the
+construction examined in Example \ref{ex:pwapbaallpaths}. Considering this
+example but with a context-sensitive weighting of the paths (in contrast to
+the current restrictive notion) allows to consider a movement downwards a
+direction as movement of an \ac{MDP} $\mathcal{M} = \tuple{S, s_{0}, A,
+\tuple{\tau_{a}}_{a\in A}}$. If we set the directions as the set $S$ and
+consider a path weighting function such that given the current position is
+reached by $s_{1}$ and the letter $a$ is read then the movement downwards
+$s_{2}$ is weighted by $\tau_{a}(s_{1}, s_{2})$ where the inital movement
+corresponds to $\tau_{a}(s_{0}, \cdot)$. Then, using the idea of Example
+\ref{ex:pwapbaallpaths} we construct a \ac{PWA} that executes a \ac{PBA}
+$\mathcal{P}$ on the weighted paths reading the directions rather than the
+letters. Conceptually, translating this to a \ac{WDTA} yields that every path
+$s_{1}\rightarrow s_{2}\rightarrow\dots$ is associated with the run-tree of
+$\mathcal{P}$ reading $s_{0}s_{1}s_{2}\dots$ with the probability of the
+underlying strategy (encoded by the tree). Building upon this idea we design
+the following argumentation which bears structural similarities with the one
+presented for the modelling of \acp{PWA} by \acp{WDTA} (cp. Theorem
 \ref{thm:PWAasWDTA}), but in a more involved form.
 
 We fix one strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ which induces a 
@@ -711,54 +707,55 @@ We define the following Markov-kernel
     K(\alpha, A) = \mu_{\alpha}(A)
 \end{equation*}
 for the measurable spaces $\tuple{S^{\omega},\mathcal{B}(S)}$ and 
-$\tuple{Q^{\omega},\mathcal{B}(Q)}$. The central inside arises from Lemma 
+$\tuple{Q^{\omega},\mathcal{B}(Q)}$. The central insight arises from Lemma 
 \ref{lem:almosteverywhere} which allows us to state
 \begin{equation*}
   \int_{S^{\omega}}K(\cdot, \Acc(F)) d\mu_{s} 
   = \int_{\alpha\in S^{\omega}}\mu_{\alpha}(\Acc(F))d\mu_{s} = 1 \text{ iff }
     \mu_{s}(K(\cdot,\Acc(F))^{-1}(1)) = 1.
 \end{equation*}
-This characterises the synthesis question from Definition 
-\ref{def:pbastratsynthesis} since $\mu_{s}(K(\cdot,\Acc(F))^{-1}(1))$ is the 
-set of executions which are accepted by an almost-sure measure by 
-$\mathcal{P}$. Notably, we can assure this statement only under the premise 
-that $K(\cdot, \Acc(F))$ is indeed measurable. This is a direct consequence if 
-$K$ is a Markov-kernel since $\Acc(F)\in\mathcal{B}(Q)$. We address this 
+This characterises the synthesis question from Definition
+\ref{def:pbastratsynthesis} since $\mu_{s}(K(\cdot,\Acc(F))^{-1}(1))$ is the
+set of executions which are accepted by an almost-sure measure by
+$\mathcal{P}$. Notably, we can assure this statement only under the premise
+that $K(\cdot, \Acc(F))$ is indeed measurable. This is a direct consequence if
+$K$ is a Markov-kernel since $\Acc(F)\in\mathcal{B}(Q)$. We address this
 condition with the following
 \begin{lemma}
   $K$ as defined above is a Markov-kernel.
 \end{lemma}
 \begin{proof}
-  With $K(\alpha,\cdot) = \mu_{\alpha}$ it is trivial to state that 
-  $K(\alpha,\cdot)$ defines a probability measure for 
+  With $K(\alpha,\cdot) = \mu_{\alpha}$ it is trivial to state that
+  $K(\alpha,\cdot)$ defines a probability measure for
   $\tuple{Q^{\omega},\mathcal{B}(Q)}$.
 
-  We observed that the cylindric sets 
-  $A\in\mathcal{B}(Q)$, i.e. $A = \cyl(u)$ for some $u\in Q^{*}$, satisfy 
-  this requirement, hence we restrict the following argument to those.
-  Fundamentally, we observe that by definition of the transition 
-  probabilities for a \ac{PBA} we obtain a determinism for the run-tree of 
-  $\mathcal{P}$, i.e. for any $u\in S^{n}$ and $\alpha, \beta\in\cyl(u)$ that
+  We observed that the collection of all cylindric sets $A\in\mathcal{B}(Q)$,
+  i.e. $A = \cyl(u)$ for some $u\in Q^{*}$, and $\emptyset$ are a generator
+  which is closed under intersection and contains a countable family which
+  unites to $Q^{\omega}$. Hence, it suffices to check the property that
+  $K(\cdot, B)$ is $\mathcal{B}(S)$-measurable only for cylindric $B$ by the
+  remark in Section \ref{sec:preprob}. Basically, we observe that by definition
+  of the transition probabilities for a \ac{PBA} we obtain a determinism for
+  the run-tree of $\mathcal{P}$. This means that for any $u\in S^{n}$ and
+  $\alpha, \beta\in\cyl(u)$ holds
   \begin{equation*}
     \mu_{\alpha}(\cyl(v)) = \mu_{\beta}(\cyl(v))\text{ for all }v\in Q^{n}.
   \end{equation*}
-  This justifies the use of the notion $\mu_{u}$.  Regarding measurability of 
-  function we introduce
-
-  Therefore the measurability of $K(\cdot, \cyl(u))$ is implied if for all 
-  $a\in\mathbb{R}$
+  This justifies the use of the notion $\mu_{u}$ for the probabilities of all
+  cylindric sets $A = \cyl(v)$ for all $v\in Q^{*}$ with
+  $\size{v}\leq\size{u}$. By Theorem \ref{thm:measurabilitybyintervals} the
+  measurability of $K(\cdot, \cyl(u))$ is implied if for all $a\in\mathbb{R}$
   \begin{equation*}
     \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(u))\leq a}\in\mathcal{B}(S).
   \end{equation*}
-  Observably,
+  This follows from the representation as
   \begin{equation*}
     \set{\alpha\in S^{\omega}\mid K(\alpha, \cyl(u))\leq a} = 
       \bigcup\set{
         \cyl(v):u\in S^{\size{u}}\text{ and }\mu_{u}(\cyl(v))\leq a
       }
   \end{equation*}
-  implies the necessary membership in $\mathcal{B}(S)$ since $S^{\size{v}}$ 
-  is finite.
+  since $S^{\size{v}}$ is finite.
 \end{proof}
 
 We proceed in defining an appropiate \ac{WDTA} to capture precisely those 
@@ -794,18 +791,18 @@ than for \acp{MDP} alone.
     \end{cases}
   \end{equation*}
 \end{definition}
-Notably, again all trees for this \ac{WDTA} 
-$\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ are valid strategies for the 
-\ac{POMDP} $\mathcal{M}$. We fix one tree (or strategie respectively) $s$. 
-For the unique run $r$ of $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ on $s$ we
-can observe (analogously to the construction for Theorem 
-\ref{thm:POMDPequivWDTA}) that the $S$ component of any state uniquely 
-correlates to one $\mathcal{O}$ component and by the definition of 
-$G_{\tuple{s, q}}^{a}$ this is the only direction weight can be passed to.
-Therefore, we restrict our arguments on the weighted part of the domain of
-$r$, namely $\tuple{S\times Q}^{*}$. By definition of the transitions we 
-obtain for any word 
-$\tuple{s_{0}, q_{0}}\dots\tuple{s_{n}, q_{n}}\in\tuple{S\times Q}^{*}$
+Again, all trees for this \ac{WDTA} $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$
+are valid strategies for the \ac{POMDP} $\mathcal{M}$. We fix one tree (or
+strategy respectively) $s$. For the unique run $r$ of
+$\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ on $s$ we observe (analogously to the
+construction for Theorem \ref{thm:POMDPequivWDTA}) that the $S$ component of
+any state uniquely correlates to one observation in $\mathcal{O}$ and by the
+definition of $G_{\tuple{s, q}}^{a}$ this is the only direction weight can be
+passed to. Therefore, we restrict our arguments on the weighted part of the
+domain of $r$. Formally, we observe that $W_{r}\subseteq\tuple{S\times Q}^{*}$
+(with $W_{r}$ in the sense of Lemma \ref{lem:weightedpart}). By definition of
+the transitions we state that for any word 
+$\tuple{s_{0}, q_{0}}\dots\tuple{s_{n}, q_{n}}\in\tuple{S\times Q}^{*}$ holds
 \begin{align*}
   \mu_{r}(\tuple{s_{1}, q_{1}}\dots\tuple{s_{n}, q_{n}}) &= 
     G^{s(\epsilon)}(\tuple{s_{1}, q_{1}})\cdot 
@@ -820,10 +817,11 @@ $\tuple{s_{0}, q_{0}}\dots\tuple{s_{n}, q_{n}}\in\tuple{S\times Q}^{*}$
     \mu_{s}(\cyl(s_{1}\dots s_{n}))\\
   &= \int_{\cyl(s_{1}\dots s_{n})}K(\cdot, \cyl(q_{0}\dots q_{n}))d\mu_{s}.
 \end{align*}
-This suggests by the uniqueness of $\mu_{s}\otimes K$ and the extension of
-$\mu_{r}$ that these coincide (under renaming of the arguments as allowed by
-Lemma \ref{lem:borelinterleaving}). Concludingly, we can observe for the 
-acceptance meausure of $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$
+By the uniqueness of $\mu_{s}\otimes K$ and the extension of $\mu_{r}$ with
+Lemma \ref{lem:borelinterleaving} $\mu_{r}$ and $\mu_{s}\otimes K$ coincide
+when the interleaving of $\mathcal{B}(S\times Q)$ is resolved. Concludingly, we
+observe for the acceptance meausure of
+$\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$
 \begin{equation*}
   \mu_{r}(\Acc\interval{Q}(S\times F))
   = \mu_{s}\otimes K(S^{\omega}, \Acc(F))
@@ -836,7 +834,7 @@ Corollary \ref{cor:emptiness} to compute this $s$ and therefore prove
 \begin{theorem}[Qualitative PBA Synthesis]
   The synthesis question of an environment $\mathcal{M}$ and a specification
   provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance measure
-  can be decided.
+  is decidable.
   \label{thm:pbasynthesis}
 \end{theorem}
 
@@ -862,11 +860,11 @@ with
   \text{ and }
   \tuple{s, q}\sim'\tuple{z, p}\text{ iff }s\sim z.
 \end{equation*}
-The correctness argument is analogously to the argument which involve 
-\acp{WDTA} above. In this setup \acp{MDP} are also transformed to \ac{POMDP} 
-since the construction needs to hide the current state of $\mathcal{P}$ and we
-do not have a determinism argument as before since \acp{PBA} have in general
-possibly multiple following states. Nevertheless, this yields a \ac{POMDP} with
+The correctness argument is analogous to the argument which involve
+\acp{WDTA} above. In this setup \acp{MDP} are also transformed to \acp{POMDP}
+since the construction needs to hide the current state of $\mathcal{P}$.
+Specifically, \acp{PBA} have in general possibly multiple following states in
+their run-tree. Nevertheless, this yields a \ac{POMDP} with
 states $S' = Q\times S$ and allows to compute the corresponding $s$ in
 time exponential of $\size{S'}$. Effectively, we get
 \begin{corollary}
