@@ -336,7 +336,7 @@ Moreover, we have
   \begin{enumerate}
     \item $K(\cdot, E)$ is measurable in $\mathcal{F}_{1}$ for all 
       $E\in\mathcal{E}$,
-    \item $K(\omega, \cdot)$ is a probability measure on 
+    \item $K(\omega, \cdot)$ is a probability measure on
       $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every $\omega\in\Omega_{1}$.
   \end{enumerate}
   \label{lem:markovkernelgeneratingsets}
@@ -354,3 +354,14 @@ Similar to Lemma \ref{lem:productmeasure} we have
     \text{ for all }A_{1}\in\mathcal{F}_{1}, A_{2}\in\mathcal{F}_{2}.
   \end{equation*}
 \end{theorem}
+
+A stronger connection between probability spaces are isomorphisms. We define
+analogously to \cite[Definition 8.34]{Klenke}
+\begin{definition}
+  We call two probability spaces $\tuple{\Omega_{1}, \mathcal{F}_{1}, \mu_{1}}$
+  and $\tuple{\Omega_{2}, \mathcal{F}_{2}, \mu_{2}}$ isomorphic if there is a
+  bijective function $\rho:\Omega_{1}\rightarrow\Omega_{2}$ such that
+  $\rho$ is $\mathcal{F}_{1}$-$\mathcal{F}_{2}$ measurable and $\rho^{-1}$ is
+  $\mathcal{F}_{2}$-$\mathcal{F}_{1}$ measurable and 
+  $\mu_{2} = \mu_{1}\circ\rho$.
+\end{definition}
