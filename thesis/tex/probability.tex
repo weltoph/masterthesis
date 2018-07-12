@@ -278,6 +278,7 @@ Moreover regarding probability measures in product spaces we have
   \begin{equation*}
     \pi(A_{1}\times A_{2}) = \mu_{1}(A_{1})\cdot\mu_{2}(A_{2}).
   \end{equation*}
+  \label{lem:productmeasure}
 \end{lemma} 
 Also, for these product spaces and measurable functions we have
 \begin{theorem}[Tonelli's Theorem]
@@ -288,16 +289,16 @@ Also, for these product spaces and measurable functions we have
   we obtain measurability in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ 
   respectively of
   \begin{equation*}
-    \omega_{1}\mapsto\int_{\Omega_{2}} f(\omega_{1},\cdot)d\mu_{1}
+    \omega_{1}\mapsto\int_{\Omega_{2}} f(\omega_{1},\cdot)d\mu_{2}
     \text{ and }
-    \omega_{2}\mapsto\int_{\Omega_{1}} f(\omega_{2},\cdot)d\mu_{2}.
+    \omega_{2}\mapsto\int_{\Omega_{1}} f(\cdot,\omega_{2})d\mu_{1}.
   \end{equation*}
   Additionally, it holds that
   \begin{equation*}
     \int f d(\mu_{1}\otimes\mu_{2}) 
     = \int_{\omega_{1}\in\Omega_{1}}(\int_{\Omega_{2}} f(\omega_{1},\cdot)
       d\mu_{2})d\mu_{1}
-    = \int_{\omega_{2}\in\Omega_{2}}(\int_{\Omega_{1}} f(\omega_{2},\cdot)
+    = \int_{\omega_{2}\in\Omega_{2}}(\int_{\Omega_{1}} f(\cdot,\omega_{2})
       d\mu_{1})d\mu_{2}.
   \end{equation*}
   \label{thm:tonelli}
@@ -319,18 +320,35 @@ two measurable spaces in the means of \cite[Definition 8.25]{Klenke}
       $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every $\omega\in\Omega_{1}$.
   \end{enumerate}
 \end{definition}
-Moreover, \cite[Remark 8.26]{Klenke} states if a collection $\mathcal{E}$ that 
-is closed under intersection and contains a sequence of sets 
-$\tuple{E_{i}}_{i\in\mathbb{N}}$ such that 
-$\cup_{i\in\mathbb{N}}E_{i} = \Omega_{2}$ exists then it suffices to check 
-the second condition only for all $A\in\mathcal{E}$. Concludingly, we also have
+Moreover, we have
+\begin{lemma}
+  \cite[Remark 8.26]{Klenke} 
+  Given two measurable spaces $\tuple{\Omega_{1},\mathcal{F}_{1}}$,
+  $\tuple{\Omega_{2},\mathcal{F}_{2}}$ and a collection $\mathcal{E}$ that
+  is closed under intersection and contains a sequence of sets
+  $\tuple{E_{i}}_{i\in\mathbb{N}}$ such that
+  $\cup_{i\in\mathbb{N}}E_{i} = \Omega_{2}$.
+  A function
+  \begin{equation*}
+    K:\Omega_{1}\times\mathcal{F}_{2}\rightarrow\interval{0,1}
+  \end{equation*}
+  is a Markov-kernel if
+  \begin{enumerate}
+    \item $K(\cdot, E)$ is measurable in $\mathcal{F}_{1}$ for all 
+      $E\in\mathcal{E}$,
+    \item $K(\omega, \cdot)$ is a probability measure on 
+      $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every $\omega\in\Omega_{1}$.
+  \end{enumerate}
+  \label{lem:markovkernelgeneratingsets}
+\end{lemma}
+Similar to Lemma \ref{lem:productmeasure} we have
 \begin{theorem}
-  \cite[Korollar 14.23]{Klenke}
+  \cite[Corollary 14.23]{Klenke}
   For a probability space $\tuple{\Omega_{1}, \mathcal{F}_{1}, \mu}$, a
   measurable space $\tuple{\Omega_{2}, \mathcal{F}_{2}}$ and a Markov-kernel
   $K:\Omega_{1}\times\mathcal{F}_{2}$ there exists a unique probability 
   measure $\mu\otimes K$ on $\tuple{\Omega_{1}\times \Omega_{2}, 
-  \mathcal{F}_{1}\times\mathcal{F}_{2}}$ with
+  \mathcal{F}_{1}\otimes\mathcal{F}_{2}}$ with
   \begin{equation*}
     \mu\otimes K(A_{1}, A_{2}) = \int_{\omega\in A_{1}} K(\omega, A_{2})d\mu
     \text{ for all }A_{1}\in\mathcal{F}_{1}, A_{2}\in\mathcal{F}_{2}.
