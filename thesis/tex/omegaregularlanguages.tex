@@ -166,7 +166,7 @@ non-determinism. Furthermore it is easy to see, that Rabin- and
 Parity-conditions are captured by Muller-conditions by enumerating all
 $\Inf$-sets that satisfy the corresponding conditions. In a second step we
 show that we can translate \acp{NMA} to \acp{NPA} as well as \acp{NRA}. This
-translation makes use of the following construct:
+translation makes use of the following construct, called \ac{LAR}:
 \begin{definition}[Latest Appearance Record]
   For a finite state set $Q$ define the set of permutations of elements in
   $Q$ as $\perm(Q)\subseteq Q^{\size{Q}}$ and
@@ -210,9 +210,9 @@ This Lemma induces that the sequence of hit-sets stabilises to the set
 $\Inf(q_{1}q_{2}\dots)$. Thus, $q_{1}q_{2}\dots$ satisfies a Muller-condition
 $\mathcal{F}$ if and only if the hit-sets stabilises to an element of
 $\mathcal{F}$. Since this implies that the $\Inf$-set is the biggest occuring 
-hit-set from one point onwards, this can be captured within a parity
-condition by associating to $\ell = \interval{p_{1}\dots p_{n},h}$ with
-hit-set $H = \set{p_{1},\dots,p_{h}}$ a parity condition
+hit-set from one point onwards, this can be captured within a Parity-condition
+by associating to $\ell = \interval{p_{1}\dots p_{n},h}$ with hit-set 
+$H = \set{p_{1},\dots,p_{h}}$ a Parity-condition
 \begin{equation*}
   \parity(\ell) = \begin{cases}
     2\cdot\size{H} &\text{if }H\in\mathcal{F},\\
@@ -259,7 +259,7 @@ Secondly, we also avoid the lengthy technicalities of determinization of an
 
   Given that $\mathcal{A}$ has $n$ states then $\mathcal{P}$ can be
   constructed with $n^{2\cdot n + 2}$ states. There are $\mathcal{A}$
-  such that $\mathcal{P}$ needs states in the magnitude of $n!$.
+  such that $\mathcal{P}$ necessarily has states in the magnitude of $n!$.
 \end{theorem}
 Intuitively, we observe that determinism is only a real restriction for
 Büchi-conditions, but that constructing deterministic automata can be very
