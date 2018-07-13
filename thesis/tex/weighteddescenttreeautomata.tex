@@ -709,27 +709,62 @@ i.e.
   $\alpha_{r}\in\tuple{Q\times \set{0}}^{\omega}$.
   Therefore, $\mu_{r}(\Acc\interval{Q}(\parity)) = 1$ if and only if
   $\alpha_{r}\in\Acc\interval{Q}(\parity)$ which happens if and only if 
-  $p(\alpha_{r})\in\Acc(\parity)$. Note here, that this Dirac measure renders
+  $\alpha_{r}\in\Acc(\parity)$. Note here, that this Dirac measure renders
   positive and almost-sure acceptance equivalent. Also, by the construction of
-  $\Delta'$ this state sequence is a viable run of $\mathcal{P}$. Also for
-  every run $\beta\in Q^{\omega}$ of $\mathcal{P}$ we obtain a run of
-  $\mathcal{A}$ which induces a Dirac measure on the path
-  $b(\beta)$. Hence, $\mathcal{P}$ and $\mathcal{A}$ accept the same language.
-  The converse argument follows the same concepts. Namely, it suffices to
-  define for every transition $\tuple{q,\sigma, p}$ in the word automaton a
-  transition $\tuple{q,\sigma,G}$ with $G(p, 0) = 1$ in the associated
-  \acp{WDTA}. This allows to argue that every run of this \ac{WDTA} induces a
-  Dirac measure where the defining element is the $p$-projection of a valid run
-  of $\mathcal{P}$.
+  $\Delta'$ this state sequence is a viable run of $\mathcal{P}$. 
+  
+  On the other hand, consider one run
+  $\beta = \beta_{1}\beta_{2}\dots\in Q^{\omega}$ of $\mathcal{P}$ on
+  a word $\alpha$. By construction of $\Delta'$ we have a run $r_{\beta}$ of
+  $\mathcal{A}$ on $\alpha$ which induces a Dirac measure on the path
+  $\tuple{\beta_{1}, 0}, \tuple{\beta_{2}, 0}\dots$. Hence, $r_{\beta}$ is
+  almost-surely or positively accepting if and only if $\beta\in\Acc(\parity)$
+  which happens if and only if $\alpha$ is accepted by $\mathcal{P}$.
+  Hence, $\mathcal{P}$ and $\mathcal{A}$ accept the same language.
+
+  For the converse argument, we construct for a given \ac{NPA}
+  \begin{equation*}
+    \mathcal{P} = \tuple{Q, \Sigma, q_{0}, \Delta, \parity}
+  \end{equation*}
+  the following \ac{WDTA}
+  \begin{equation*}
+    \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta', \parity}
+  \end{equation*}
+  with 
+  \begin{equation*}
+    \Delta' = \set{\tuple{q, \sigma, G_{p}}:\tuple{q, \sigma, p}\in\Delta}
+    \text{ and }
+    G_{p}(p', 0) = \begin{cases}
+      1&\text{if }p = p',\\
+      0&\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+  Every run of $\mathcal{A}$ on $\alpha$ induces a Dirac measure
+  $\mu_{\tuple{\beta_{1}, 0}\tuple{\beta_{2}, 0}\dots}$ on
+  $\mathcal{B}(Q\times\set{0})$. By construction of $\Delta'$, this
+  $\beta_{1}\beta_{2}\dots\in Q^{\omega}$ is a viable run of $\mathcal{P}$ on
+  $\alpha$. Moreover, $\beta_{1}\beta_{2}\dots\in\Acc(\parity)$ if and only if
+  $\tuple{\beta_{1}, 0}\tuple{\beta_{2}, 0}\dots\in\Acc\interval{Q}(\parity)$.
+  The claim follows.
 \end{proof}
 
-For every such uni-directional \ac{WDTA} over a single direction set we even 
-obtain an equivalent \ac{DPA} by Theorem \ref{thm:omegaregularexp} and again
-translating it to a \ac{WDTA} yields
+Hence, the determinisation of $\omega$-regular automata (Theorem
+\ref{thm:omegaregularexp}) translates for uni-directional \ac{WDTA} with
+singleton direction sets.
 \begin{corollary}
   For every uni-directional \ac{WDTA} over a singleton direction set exists
   an equivalent choiceless uni-directional \ac{WDTA}.
 \end{corollary}
+\begin{proof}
+  For a given uni-directional \ac{WDTA} $\mathcal{A}$ we use Theorem
+  \ref{thm:omegaregaswdta} to obtain an equivalent \ac{NPA} $\mathcal{P}$.
+  Theorem \ref{thm:omegaregularexp} allows to construct an equivalent \ac{DPA}
+  $\mathcal{P}_{D}$ for $\mathcal{P}$. Applying the construction from Theorem
+  \ref{thm:omegaregaswdta} again results in an equivalent uni-directional
+  \ac{WDTA}. By examining the construction of the proof of Theorem
+  \ref{thm:omegaregaswdta}, we see that the resulting \ac{WDTA} indeed is
+  choiceless.
+\end{proof}
 
 \subsection{Probabilistic Weighted Automata}
 Recall, that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
@@ -850,11 +885,11 @@ discussed. For example
       ),
     \end{equation*}
     for example by requiring a positive or almost-sure measure. Note, that this
-    acceptance condition ignores the weighting of the individual runs,
+    acceptance condition ignores the weighting of the individual runs.
   \item On the other hand, we can define the acceptance condition in terms of
-    of the $\mu_{t}$ measure of the set of positively accepting runs or 
-    almost-surely accepting runs. Here any combinations of measures for 
-    $\mu_{t}$ and $\mu_{B}$ are possible, but we restrict our arguments on the 
+    of the $\mu_{t}$ measure of the set of positively accepting runs or
+    almost-surely accepting runs. Here any combinations of measures for
+    $\mu_{t}$ and $\mu_{B}$ are possible, but we restrict our arguments on the
     almost-sure $\mu_{t}$ measure of almost-sure $\mu_{B}$ accepting runs, i.e.
     to the condition
     \begin{equation*}
@@ -1150,13 +1185,14 @@ choiceless \ac{WDTA} effectively is an unrollment of a transition system
 which is induced by a tree $t$. This behavior appears similarly to the
 concept of \acp{MDP} where the strategy of the actor unrolls the transition
 system. Indeed, we establish a close connection between \acp{POMDP} and
-\acp{WDTA}. In the beginning, we show that \acp{WDTA} can be used to model
-\acp{POMDP} where trees are interpreted as strategies. Furthermore, we use the
-mechanism of \acp{POMDP} to establish decideability results for algorithmic
-questions about \acp{WDTA}, e.g. deciding emptiness, or respectively deduce
-undecideability results. This allows us to reveal intriguing connections
-between \acp{WDTA} and \acp{POMDP}; for example the fact that alternation in
-tree automata models partial observability in \acp{MDP}.
+\acp{WDTA}. In the beginning, we show that choiceless \acp{WDTA} can be used to
+model \acp{POMDP} where trees are interpreted as strategies. Furthermore, we
+use the mechanism of \acp{POMDP} to establish decideability results for
+algorithmic questions about \acp{WDTA}, e.g. deciding emptiness, or
+respectively deduce undecideability results. This allows us to reveal
+intriguing connections between \acp{WDTA} and \acp{POMDP. For example the fact
+that alternation in tree automata precisely models partial observability in
+\acp{MDP}.
 \begin{theorem}
   For every \ac{POMDP} $\mathcal{M}$ exists a choiceless \ac{WDTA}-skeleton 
   $\mathcal{S}$ such that strategies for $\mathcal{M}$ - when used as input
