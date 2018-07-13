@@ -402,7 +402,7 @@ We infer
   \end{equation*}
   for the isomorphism $\lift_{f}$.
 
-  Consequently, $\tuple{\tuple{A\times B}^{\omega}, \mathcal{B}(A\times B), 
+  Moreover, $\tuple{\tuple{A\times B}^{\omega}, \mathcal{B}(A\times B),
   \mu'}$ forms a probability space itself if we set
   \begin{equation*}
     \mu'(A) = 0\text{ for all }A\in
@@ -432,4 +432,12 @@ We infer
   implies the measurability of $\lift_{f}$ and $\lift_{f}^{-1}$ by construction
   of the respective $\sigma$-algebras. Hence, the isomorphism follows by
   definition of $\mu'$.
+
+  By the measurability of $\lift_{f}$ we obtain that $\lift_{f}(A^{\omega})\in
+  \restrictTo{\mathcal{B}(A\times B)}{\lift_{f}(A^{\omega})}$. Therefore, by
+  the closure properties of the $\sigma$-algebra we have $\restrictTo{
+  \mathcal{B}(A\times B)}{\lift_{f}(A^{\omega})}
+  \subseteq\mathcal{B}(A\times B)$. Hence, extending $\mu'$ as proposed in the
+  claim indeed yields a probability measure on 
+  $\tuple{\tuple{A\times B}^{\omega}, \mathcal{B}(A\times B), \mu'}$.
 \end{proof}

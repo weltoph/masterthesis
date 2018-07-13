@@ -762,7 +762,7 @@ singleton direction sets.
   $\mathcal{P}_{D}$ for $\mathcal{P}$. Applying the construction from Theorem
   \ref{thm:omegaregaswdta} again results in an equivalent uni-directional
   \ac{WDTA}. By examining the construction of the proof of Theorem
-  \ref{thm:omegaregaswdta}, we see that the resulting \ac{WDTA} indeed is
+  \ref{thm:omegaregaswdta}, we see that the resulting \ac{WDTA} is indeed
   choiceless.
 \end{proof}
 
@@ -1190,53 +1190,61 @@ model \acp{POMDP} where trees are interpreted as strategies. Furthermore, we
 use the mechanism of \acp{POMDP} to establish decideability results for
 algorithmic questions about \acp{WDTA}, e.g. deciding emptiness, or
 respectively deduce undecideability results. This allows us to reveal
-intriguing connections between \acp{WDTA} and \acp{POMDP. For example the fact
+intriguing connections between \acp{WDTA} and \acp{POMDP}. For example the fact
 that alternation in tree automata precisely models partial observability in
 \acp{MDP}.
-\begin{theorem}
-  For every \ac{POMDP} $\mathcal{M}$ exists a choiceless \ac{WDTA}-skeleton 
-  $\mathcal{S}$ such that strategies for $\mathcal{M}$ - when used as input
-  for $\mathcal{S}$ - induce equivalent probability spaces on the executions of 
-  $\mathcal{M}$ and state sequences of $\mathcal{S}$.
-  \label{thm:POMDPequivWDTA}
-\end{theorem}
+
+In the following, we use a similar observation as for the \enquote{equivalence}
+of unary trees to words. Namely, we consider strategies of the form
+$f:D^{*}\rightarrow\Sigma$ as $D$-ary $\Sigma$-trees. Therefore, we use the
+terms strategies and trees interchangably in the following.
+\begin{lemma}
+  Given a \ac{POMDP} $\mathcal{M}$ with states $S$, actions $A$ and equivalence
+  relation $\sim$. Fixing $O = \set{\interval{s}_{\sim}:s\in S}
+  = \interval{S}_{\sim}$, the \emph{observations} of $\mathcal{M}$, allows to
+  define a choiceless \ac{WDTA}-skeleton $\mathcal{A}$ running over $O$-ary
+  $A$-trees such that any strategy $s:O^{*}\rightarrow A$ induces
+  \begin{equation*}
+    \tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}
+    \text{ and }
+    \tuple{\tuple{S\times O}^{\omega}, \mathcal{B}(S\times O), \mu_{r}}
+  \end{equation*}
+  for $\mathcal{M}$ and $\mathcal{A}$ respectively if $r$ is the unique run of
+  $\mathcal{A}$ on $s$. Moreover, $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}$
+  can be isomorphically embedded into $\tuple{\tuple{S\times O}^{\omega},
+  \mathcal{B}(S\times O), \mu_{r}}$.
+  \label{lem:POMDPequivWDTA}
+\end{lemma}
 \begin{proof}
-  Let $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$ be a
-  \ac{POMDP}. We can extract the possible observations in $\mathcal{M}$ and
-  gather them as $O = \set{\interval{s}_{\sim}:s\in S}$. A strategy for
-  $\mathcal{M}$ therefore is only dependent on the sequence of observations up
-  to the current state of play, i.e. a word in $u\in O^{*}$. Fixing the
-  set of directions to $O$ and the alphabet to $A$ we get $O$-ary $A$-trees as
-  equivalent objects to strategies for \ac{POMDP} $\mathcal{M}$. This leads us 
-  to 
-  \begin{definition}
-    For $\mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}$
-    with $O = \set{\interval{s}_{\sim}: s\in S}$ define
-    \begin{equation*}
-      \mathcal{A} = \tuple{S, s_{0}, O, A, \Delta}
-    \end{equation*}
-    where
-    \begin{equation*}
-      \Delta = \set{
-        \tuple{s, a, G_{s}^{a}}:\text{for all }s\in S\text{ and }a\in A
-      }\text{ with }
-      G_{s}^{a}(s', o) = \begin{cases}
-        \tau_{a}(s, s')&\text{if }o = \interval{s'}_{\sim},\\
-        0              &\text{otherwise.}
-      \end{cases}
-    \end{equation*}
-  \end{definition}
+  Given the \ac{POMDP}
+  \begin{equation*}
+    \mathcal{M} = \tuple{S, A, \tuple{\tau_{a}}_{a\in A}, s_{0}, \sim}.
+  \end{equation*}
+  Define $O$ as above. We define
+  \begin{equation*}
+    \mathcal{A} = \tuple{S, s_{0}, O, A, \Delta}
+  \end{equation*}
+  where
+  \begin{equation*}
+    \Delta = \set{\tuple{s, a, G_{s}^{a}}:s\in S,a\in A}\text{ with }
+    G_{s}^{a}(s', o) = \begin{cases}
+      \tau_{a}(s, s')&\text{if }o = \interval{s'}_{\sim},\\
+      0              &\text{otherwise.}
+    \end{cases}
+  \end{equation*}
   Thus, from the current state those states with observation $o\in O$ are sent
-  in direction $o$. This allows us to consider only the effective part of the 
-  unique run $r$ on a tree $t$; that is the weighted part $W_{r}$ (in the sense
-  of Lemma \ref{lem:weightedpart}). Precisely, any state sequence $u\in S^{*}$
-  induces a unique associated observation sequence $\interval{u}_{\sim}\in
-  O^{\size{u}}$. By definition of all generators any path along a pair
-  $\tuple{s, o}$ such that $o\neq\interval{s}_{\sim}$ is awarded with a
-  probability of $0$ rendering for any word
-  $v = \tuple{s_{1}, o_{1}}\dots\tuple{s_{n}, o_{n}}\in\tuple{S\times O}^{*}$
-  such that there is $1\leq i\leq n$ with $o_{i}\neq\interval{s_{i}}_{\sim}$
-  $\mu_{r}(\cyl(v)) = 0$. Consequently, we get
+  in direction $o$. We define $\obs:S\rightarrow O$ with
+  $\obs(s) = \interval{s}_{\sim}$. Applying Lemma \ref{lem:liftisomorphism}
+  on $\obs$ and the probability space $\tuple{S^{\omega}, \mathcal{B}(S),
+  \mu_{s}}$ gives a probability space $\tuple{\tuple{S\times O}^{\omega},
+  \mathcal{B}(S\times O), \mu'}$ with $\mu' = \mu_{s}\circ\lift_{\obs}$.
+  Moreover, we know that $\lift_{\obs}$ is an isomorphism from
+  $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}$ to
+  $\tuple{\lift_{\obs}(S^{\omega}),
+    \restrictTo{\mathcal{B}(S\times O)}{\lift_{\obs}(S^{\omega})}, \mu'}$.
+  We argue that $\mu'$ coincides with $\mu_{r}$ for the unique run $r$ of
+  $\mathcal{A}$ on $s$. Examining the definitions of generators
+  $\mathcal{G}(\mathcal{A})$, we observe
   \begin{equation}
     \mu_{r}(\cyl(\tuple{s_{1},o_{1}}\dots\tuple{s_{n},o_{n}})) =
     \begin{cases}
@@ -1246,18 +1254,27 @@ that alternation in tree automata precisely models partial observability in
     \end{cases}
     \label{eq:wdtapomdp}
   \end{equation}
-  We can define a synchronized subdomain $D\subseteq \tuple{S\times O}^{*}$,
-  i.e. those words such that the second component always coincides with the
-  equivalence class of the first component. Moreover, this synchronized domain
-  is a superset of $W_{r}$ by Equation \ref{eq:wdtapomdp}. Hence, acceptance is
-  only dependent on the synchronized domain. Furthermore, since the first
-  component uniquely identifies the second component this can be bijected to
-  $S^{*}$ by dropping the observation. Hence we consider $r$ and its induced
-  measure as measure on $\mathcal{B}(S)$ rather than on
-  $\mathcal{B}(S\times O)$. Using Equation \ref{eq:wdtapomdp} allows us to
-  conclude that any object $t:O^{*}\rightarrow A$ yields the same measure on
-  $\mathcal{B}(S)$ for \ac{WDTA}-sceleton $\mathcal{S}$ (if interpreted as
-  tree) and \ac{POMDP} $\mathcal{M}$ (if interpreted as strategy).
+  Hence, $\mu'$ coincides with $\mu_{r}$. The claim follows from Lemma
+  \ref{lem:liftisomorphism}.
+\end{proof}
+This lemma allows to deduce the following
+\begin{theorem}
+  For any \ac{POMDP} $\mathcal{M}$ with states $S$, observations $O$, actions
+  $A$ with an associated Parity-condition $\parity$ exist a choiceless
+  \ac{WDTA} $\mathcal{A}$ such that for any object $s:O^{*}\rightarrow A$ and
+  the unique run $r$ of $\mathcal{A}$ on $s$ holds that
+  $\mu_{s}(\Acc(\parity)) = \mu_{r}(\Acc\interval{Q}(\parity))$.
+  \label{thm:POMDPequivWDTA}
+\end{theorem}
+\begin{proof}
+  The construction follows Lemma \ref{lem:POMDPequivWDTA}. Additionally, we
+  equip the resulting skeleton $\mathcal{A}$ with the acceptance condition
+  $\parity$. The claim is implied by the observation that
+  $\lift_{\obs}(\Acc(\parity))
+  = \Acc\interval{Q}(\parity)\cap\lift_{\obs}(S^{\omega})$ and
+  $\mu_{r}(\Acc\interval{Q}(\parity)) =
+  \mu_{r}(\Acc\interval{Q}(\parity)\cap\lift_{\obs}(S^{\omega}))$ since
+  $\mu_{r}(S^{\omega}\setminus\lift_{\obs}(S^{\omega})) = 0$.
 \end{proof}
 
 On the other hand, we want to relate choiceless \acp{WDTA} to \acp{POMDP}.
