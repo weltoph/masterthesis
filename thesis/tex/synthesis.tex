@@ -5,13 +5,13 @@ given logical formula, we call this specification, we can derive an algorithm
 which behavior is \enquote{good} in the sense of the formula. We formalize this
 question in the following
 \begin{definition}[Synthesis Problem]
-  Given a logical specification  $\phi(\cdot, \cdot)$ over inputs and 
-  outputs from $I^{\omega}$ and $J^{\omega}$ respectively. The synthesis 
-  problem requires to compute for any such $\phi$ an algorithm 
-  $S:I^{+}\rightarrow J$ such that for every 
-  $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ and every 
-  $S(\alpha) = S(\alpha_{1})S(\alpha_{1}\alpha_{2})\dots$ satisfies 
-  $\phi(I, S(I))$ or prove that such an $S$ cannot exist (cp. the 
+  Given a logical specification  $\phi(\cdot, \cdot)$ over inputs and
+  outputs from $I^{\omega}$ and $J^{\omega}$ respectively. The synthesis
+  problem requires to compute for any $\phi$ an algorithm
+  $S:I^{+}\rightarrow J$ such that for every
+  $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ and every
+  $S(\alpha) = S(\alpha_{1})S(\alpha_{1}\alpha_{2})\dots$ satisfies
+  $\phi(I, S(I))$ or prove that such an $S$ cannot exist (cp. the
   illustration in Figure \ref{fig:synthesis}).
 \end{definition}
 \begin{drawing}
@@ -45,15 +45,17 @@ $\phi(i_{1}i_{2}\dots,j_{1}j_{2}\dots)$ evaluates to true. Strategies of
 $f(i_{1}\dots i_{n}) = j_{n}$. In this sense we are interested in winning 
 strategies of \outputp{}. Following, we present known synthesis results 
 for those $\phi$ which allow to capture the associated relation as a 
-$\omega$-regular language. Subsequently, we pivot towards probabilistic 
-environments and review an approach to synthesize algorithms which are not
-necessarily surely correct but almost-surely satisfy a specification $\phi$. At
-last, we consider probabilistic environments which are modelled as \acp{POMDP}.
+$\omega$-regular language. Subsequently, we pivot towards specifications given
+as almost-surely accepting \acp{PBA}. Afterwards, we consider environments for
+which we assume probabilistic behavior. These environments allow to state the
+synthesis problem for almost-sure satisfaction of $\phi$. At last, we model
+probabilistic environments more explicit as \acp{POMDP}. We try to compute
+strategies for these that almost-surely satisfy given specifications.
 
 \section{Antagonisitic Environments}
-In the following we consider an $\omega$-regular class of specifications 
-$\phi$ for inputs $I$ and outputs $J$, namely those such that we can define a 
-$\omega$-regular language $\mathcal{L}_{\phi}\subseteq 
+Initially, we consider an $\omega$-regular class of specifications
+$\phi$ for inputs $I$ and outputs $J$. Hence, we assume the existence of an
+$\omega$-regular language $\mathcal{L}_{\phi}\subseteq
 \tuple{J\times I}^{\omega}$ with
 \begin{equation}
   \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
@@ -62,17 +64,17 @@ $\omega$-regular language $\mathcal{L}_{\phi}\subseteq
   \label{eq:omegaregularphi}
 \end{equation}
 Notably, the output symbol $j_{0}$ is irrelevant but included to ease the
-technicalities of the following argument. With the well researched theory of
+technicalities of the following argument. With the well-researched theory of
 tree automata the associated synthesis problem for $\omega$-regular
-specifications can be solved rather transparently. In fact it is one of the
+specifications can be solved transparently. In fact, it is one of the
 initial motivations to study tree automata \cite{AutoInfObj}. The idea is to
 use trees to model the interaction between input and output symbols. The
-directions of a tree model inputs while the symbols in the tree represent 
-outputs. Similar to the arguments of the proof of Theorem 
-\ref{thm:POMDPequivWDTA} a tree can therefore be understood as strategy and we 
-want to design a \ac{PTA} such that a tree is only accepted if all paths are 
-part of $\mathcal{L}_{\phi}$. We model this in analogy to
-\cite[Lemma 15]{AutoInfObj} with
+directions of a tree model inputs while the symbols in the tree represent
+outputs. Similar to the arguments of the proof of Theorem
+\ref{thm:POMDPequivWDTA}, a tree models a strategy. We design a \ac{PTA} such
+that a tree is accepted if and only if all paths are part of
+$\mathcal{L}_{\phi}$. We model this in analogy to \cite[Lemma 15]{AutoInfObj}
+with
 \begin{definition}[Synthesis \ac{PTA}]
   For a given \ac{DPA}
   \begin{equation*}
@@ -85,13 +87,13 @@ part of $\mathcal{L}_{\phi}$. We model this in analogy to
   where $\Delta$ contains transtitions $\tuple{q, j, (p_{i})_{i\in I}}$ with
   $p_{i} = \delta(q, \tuple{j, i})$.
 \end{definition}
-Notably, $\mathcal{A}$ executes $\mathcal{P}$ on every path and therefore, if 
-we choose $\mathcal{P}$ as the \ac{DPA} which precisely accepts 
-$\mathcal{L}_{\phi}$, we deduce that $\mathcal{A}$ accepts only those trees 
+Notably, $\mathcal{A}$ executes $\mathcal{P}$ on every path and therefore, if
+we choose $\mathcal{P}$ as the \ac{DPA} which precisely accepts
+$\mathcal{L}_{\phi}$, we deduce that $\mathcal{A}$ accepts only those trees
 that satisfy $\phi$ on all paths. This implies that $\mathcal{A}$ accepts those
-strategies $t$ which satisfy $\phi$. Hence, constructing (see above) and 
-deciding the emptiness (see Theorem \ref{thm:emptinessPTA}) for $\mathcal{A}$ 
-yields the desired synthesis algorithm for $\omega$-regular specifications 
+strategies $t$ which satisfy $\phi$. Hence, constructing (see above) and
+deciding the emptiness (see Theorem \ref{thm:emptinessPTA}) for $\mathcal{A}$
+yields the desired synthesis algorithm for $\omega$-regular specifications
 $\phi$ and gives
 \begin{theorem}
   \cite[Theorem 21, Theorem 22]{AutoInfObj}
@@ -106,46 +108,50 @@ $\phi$ and gives
   $\mathcal{O}(\size{\parity(Q)}\cdot\size{Q\times Q}\cdot\tuple{
     \frac{\size{Q}}{d}}^{d})$ with 
   $d = \lfloor \frac{\size{\parity(Q)}}{2} \rfloor$.
+  \label{thm:omeregsynthesis}
 \end{theorem}
 This approach suits the game-theoretic interpretation of the synthesis problem
 well. Consider the associated emptiness-game to the defined \ac{PTA}
-$\mathcal{A}$. Observable, $\mathcal{A}$ shows deterministic behavior, hence
-we can reduce \eve{}'s strategy to the decision which letter to choose rather
-than choosing a transition. Also, \adam{}'s role is always captured by choosing
-a direction the game moves to. Therefore, \eve{}'s and \adam{}'s strategies
-specify the behavior of \outputp{} and \inputp{} respectively while the
-\ac{DPA} that is associated with $\phi$ is executed in parallel.
+$\mathcal{A}$. Since $\mathcal{A}$ shows deterministic behavior, we express
+\eve{}'s strategy by choosing a letter rather than a transition. The transition
+is uniquely identified by the letter due to $\mathcal{A}$'s determinism. Also,
+\adam{}'s role is always captured by choosing a direction the game moves to.
+Therefore, \eve{}'s and \adam{}'s correspond to the behavior of \outputp{}
+and \inputp{} respectively while the \ac{DPA} that is associated with $\phi$ is
+executed on every play of the input-output game.
 
-In the following we want to consider specifications $\phi$ which are not
-$\omega$-regular but definable by almost-surely accepting \acp{PBA}. Thus, in
-analogy to the formulation (\ref{eq:omegaregularphi}) above we consider $\phi$
-such that there is a \ac{PBA} $\mathcal{P}$ which almost-surely accepts the
-language $\mathcal{L}_{\mathcal{P}}$ with
+In the following, we consider specifications $\phi$ which are not
+$\omega$-regular but definable by almost-surely accepting \acp{PBA}. In
+analogy to the formulation (\ref{eq:omegaregularphi}) above, we assume for
+$\phi$ the existence of an almost-surely accepting \ac{PBA} $\mathcal{P}$
+such that
 \begin{equation}
-  \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\mathcal{P}}
-  \text{ if and only if }
+  \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\text{ is accepted by }
+  \mathcal{P} \text{ if and only if }
   \phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
   \label{eq:pbaregularphi}
 \end{equation}
-Still, we only examine deterministic strategies for \outputp{}. Probabilistic
-behavior is not considered anywhere else but the specification.
+Specifically, we emphasize that probabilistic behavior is not considered
+anywhere else but the specification. Notably, we consider deterministic
+strategies for \outputp{}.
 
-The approach to this problem is formalized by introducing a new class of graph
-games, called \acp{POSG} (cp. \cite{POSG, PureStratPOSG}). Reconsidering the 
-behavior of \acp{POMDP} we can capture their semantic as a game between two 
-players on the underlying graph of states and edges $\tuple{s_{1}, s_{2}}$ 
-which are induced by non-zero probabilities for the movement from $s_{1}$ to 
-$s_{2}$ for some action of \eve{} as follows: at any point she provides an 
-action and the opponent chooses one of the associated edges. \eve{}
-acts \enquote{deterministically} in the sense that for a certain history 
-one specific action $a$ is played while the opponent plays probabilistically 
-(as defined by $\tau_{a}$). \acp{POSG} expand on this notion by introducing a 
-third player (again called \adam{}). At every position both players 
-independently and simultaniously choose an action and then the third player 
-plays by choosing a successor state probabilistically. Again we allow for 
-restricted observations for \eve{} and \adam{} and formalize these notions 
-analogously to \acp{POMDP} but with two players 
-participating in the choices at every state:
+We model our approach in close connection to the game-theoretic interpretation
+of Theorem \ref{thm:omeregsynthesis}. This entails introducing a new class of
+graph games, called \acp{POSG} (cp. \cite{POSG, PureStratPOSG}). We draw
+motivation from the behavior of \acp{POMDP} and introduce a proper
+generalisation. \acp{POMDP} essentially are graph-games between \eve{} and a
+second player, called \random{}. The game unfolds by \eve{} specifying with her
+action a set of possible successors and \random{} choosing one of these
+successors. However, although \eve{} may base her choice on the history of the
+play \random{} is restricted to randomized positional strategies only (encoded
+in the transition probabilities). Therefore, \random{} is reffered to as a
+half-player and \acp{POMDP} as $1\frac{1}{2}$-player games \cite{POSG}.
+
+We introduce \ac{POSG} as $2\frac{1}{2}$-player games by introducing a
+\enquote{full}-player \adam{} as enemy of \eve{}. The game unfolds in very
+similar fashion to \acp{POMDP} but at every position \eve{} \emph{and} \adam{}
+simultaneously and independently choose an action and \random{} reacts by a
+randomized positional strategy. We formalize this in
 \begin{definition}[\acl{POSG}]
   A \ac{POSG}-arena $G$ is defined by a set of states $S$ (with an 
   inital state $s_{0}\in S$), actions for \eve{} and \adam{} as $E$ and $A$ 
@@ -173,23 +179,19 @@ participating in the choices at every state:
   $\mathcal{G}$ is a zero-sum game, i.e. \eve{} tries to obtain a play in 
   $\Acc$ while \adam{} tries to force plays in $S^{\omega}\setminus\Acc$.
 \end{definition}
-For any such $\mathcal{G} = \tuple{
-S, s_{0}, E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, \Acc}$ 
-we can consider various goals for \eve{}, defined by different $\Acc$ and
-positive or almost-sure satisfaction. In similar sense as for graph games we
-consider a strategy $f$ for \eve{} almost-surely (postively) winning if for all
-strategies $g$ of \adam{} we have $\mu_{f,g}(\Acc) = 1$ 
-($\mu_{f,g}(\Acc) > 0$). Note that $\Acc$ has to be Borel to ensure 
-well-definedness but we consider again $\Acc$ defined in finite means by 
-Büchi-, Parity-, Rabin- or Muller-conditions for which this already is 
-established. The natural initial observation that \adam{}'s role can be reduced 
-to oblivion by only granting him a single action allows to capture the notions
-of \acp{POMDP} which entails strong restrictions regarding algorithmic 
-approaches, namely we obtain
+We restrict $\Acc$ to be defined as Parity-, Rabin-, Muller-
+or Büchi-condition which directly ensures its measurability. In similar sense
+as for graph games we consider a strategy $f$ for \eve{} almost-surely
+(postively) winning if for all strategies $g$ of \adam{} we have
+$\mu_{f,g}(\Acc) = 1$ ($\mu_{f,g}(\Acc) > 0$). The natural initial observation
+that \adam{}'s role can be reduced to oblivion by only granting him a single
+action allows to capture the notions of \acp{POMDP}. This entails strong
+restrictions regarding algorithmic approaches for computing strategies for
+\eve{}.
 \begin{corollary}
   \cite{PureStratPOSG, POSG}
   For a given \ac{POSG} $\mathcal{G} = \tuple{G, \Acc}$ the following problems
-  are undecideable:
+  are undecidable:
   \begin{itemize}
     \item Exists a positively winning strategy for \eve{} if $\Acc$ is defined 
       as Büchi-, Parity-, Rabin- or Muller-condition?
@@ -199,18 +201,17 @@ approaches, namely we obtain
 \end{corollary}
 \begin{proof}
   These are immediate consequences of the negligibility (not in the sense of
-  measurability theory but in the game theoretic sense) of \adam{}'s actions
+  measurability theory but in the game-theoretic sense) of \adam{}'s actions
   and Theorem \ref{thm:emptinesspospba} (or the respective Corollary 
   \ref{cor:posstratpomdp}).
 \end{proof}
-Due to these harsh restrictions we focus in the following on almost-surely 
-winning strategies for \eve{} in \ac{POSG} with Büchi-conditions. Additionally,
-we only consider \acp{POSG} where \eve{} and \adam{} are 
-\emph{equally informed}, i.e. $\sim_{E} = \sim_{A}$. In this case
-we obtain the possibility to compute these strategies for \eve{} by
+In order to reduce the complexity of our arguments we only consider \acp{POSG}
+where \eve{} and \adam{} are \emph{equally informed}, i.e.
+$\sim_{E} = \sim_{A}$. Similar to \acp{POMDP}, almost-surely winning strategies
+for \eve{} in \ac{POSG} with Büchi-conditions are \enquote{simple} enough to
+allow for computation of winning strategies.
 \begin{theorem}
-  \cite[Theorem 6]{POSG} with the included reference to 
-  \cite[Lemma 4]{DecProblemsForProbAuto} or \cite[Theorem 5.3]{PureStratPOSG}.
+  \cite[Theorem 6]{POSG}\cite[Theorem 5.3]{PureStratPOSG}.
   It is possible to decide if there is an almost-surely winning strategy for 
   \eve{} in a \ac{POSG} $\mathcal{G} = \tuple{G, F}$ where $F$ is a 
   Büchi-condition and $\sim_{E} = \sim_{A}$.
@@ -218,15 +219,17 @@ we obtain the possibility to compute these strategies for \eve{} by
   This decision procedure takes time doubly exponential in $\size{S}$.
   \label{thm:StratPOSG}
 \end{theorem}
-We answer the synthesis question imposed by an almost-surely accepting \ac{PBA}
-$\mathcal{P}$ positively for antagonistic environments. The idea is to define a
-\ac{POSG} in which both players only observe an input-output game while in the
-\enquote{background} the stoachastic process of $\mathcal{P}$ operates and any
-play is eventually evaluated in terms of $\mathcal{P}$. Fix
+This allows us to answer the synthesis question imposed by an almost-surely
+accepting \ac{PBA} $\mathcal{P}$ as specification positively for antagonistic
+environments. The idea is to define a \ac{POSG} in which both players only
+observe an input-output game while the stoachastic process of $\mathcal{P}$
+unfolds in the \enquote{background}. Any play is eventually evaluated in terms
+of acceptance of $\mathcal{P}$. Formally, for a fixed almost-surely accepting
+\ac{PBA}
 \begin{equation*}
   \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
 \end{equation*}
-and define
+we define
 \begin{definition}[\ac{POSG} for $\mathcal{P}$]
   Set
   \begin{equation*}
@@ -247,15 +250,15 @@ and define
   \end{equation*}
   where $q_{0}$ is treated as $\tuple{i, q_{0}, j}$ for any $i\in I, j\in J$.
 \end{definition}
-Here \eve{} corresponds with \outputp{} while \adam{} plays the role of 
-\inputp{}. One central observation is that regarding the observations of \eve{} 
-and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game. Setting 
-$S = I\times Q\times J$ we observe by definition of $\sim$ that we can 
-partition $S$ into $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$ 
+Here \eve{} corresponds with \outputp{} while \adam{} plays the role of
+\inputp{}. Central to this argument is that regarding the observations of
+\eve{} and \adam{} $\mathcal{G}_{\mathcal{P}}$ presents as input-output game.
+Setting $S = I\times Q\times J$ we observe by definition of $\sim$ that we can
+partition $S$ into $\set{\interval{\tuple{i, *, o}}_{\sim}:i\in I, o\in J}$
 where $\interval{\tuple{i, *, o}}_{\sim}$ describes the equivalence class
 $\set{\tuple{i, q, o}:q\in Q}$. By definition of all $\tau_{j,i}$ we obtain
 $\supp(\tau_{j,i}(s, \cdot))\subseteq\interval{\tuple{i,*,j}}_{\sim}$. Hence,
-every strategy for \eve{} (\adam{}) presents as function 
+every strategy for \eve{} (\adam{}) presents as function
 $f:\tuple{I\times J}^{*}\rightarrow J$ 
 ($g:\tuple{I\times J}^{*}\rightarrow I$). The only stochastic process in this
 game is associated with the state component which is observed neither by 
@@ -279,46 +282,68 @@ define two sets
     }
   }\cyl(\tuple{u_{1}, p_{1}, j_{1}}\dots\tuple{u_{k}, p_{k}, j_{k}}).
 \end{align*}
-By definition $F$ and $G$ are those sets in $\mathcal{B}(I\times Q\times J)$ 
-such that the $J$-component respectively the $I$-component agrees with 
-$\alpha_{f}^{g}$. From these sets we obtain $F\cap G$.
-By definition of $\tau_{i, j}$ for all $i\in I, j\in J$ we deduce that 
-\begin{equation*}
+By definition $F$ and $G$ are measurable sets in
+$\mathcal{B}(I\times Q\times J)$ such that the $J$-component respectively the
+$I$-component agrees with $\alpha_{f}^{g}$. Moreover, by definition of
+$\tau_{i, j}$ for all $i\in I, j\in J$ we deduce that
+\begin{equation}
   \mu_{f,g}(C) = 0\text{ for all }
-  C\in \mathcal{B}(I\times Q\times J)\setminus\tuple{F\cap G}
-\end{equation*}
-because for any element $c\in C$ either the $I$- or $J$-component at some 
-index $k$ deviates from the $I$- or $J$-component of $\alpha_{f}^{g}$ 
-respectively. $\tau_{i_{k}, j_{k}}$ causes a probability of $0$ for $c$.
+  C\notin\restrictTo{\mathcal{B}(I\times Q\times J)}{F\cap G}.
+  \label{eq:weightinFG}
+\end{equation}
 The central idea of this proof is formulated in
 \begin{lemma}
-  Applying element-wise a projection to the $Q$-component for every set in 
-  $F\cap G$ yields a bijection to $\mathcal{B}(Q)$. Additionally, $\mu_{f,g}$ 
-  coincides with $\mu_{\alpha_{f}^{g}}$ w.r.t. to this bijection.
+  $\tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha_{f}^{g}}}$ can be
+  isomorphically embedded into
+  \begin{equation*}
+    \tuple{\tuple{I\times Q\times J}^{\omega}, \mathcal{B}(I\times Q\times J),
+    \mu_{f,g}}.
+  \end{equation*}
   \label{lem:fginpba}
 \end{lemma}
 \begin{proof}
-  First, we see that for every $p_{1}\dots p_{n}\in Q^{*}$ there are two 
-  unique sequences $i_{1}\dots i_{n}$ and $j_{1}\dots j_{n}$ such that
-  $\cyl(\tuple{i_{1}, q_{1}, j_{1}}\dots\tuple{i_{n}, q_{n}, j_{n}})\cap 
-  F\cap G$ coincides with 
-  $\cyl(p_{1}\dots p_{n})\times \alpha^{f}\times\alpha_{g}$ where 
-  $\alpha^{f}$ and $\alpha_{g}$ are the projection of $\alpha^{f}_{g}$ to the
-  $I$- and $J$-component respectively. Furthermore, we fix one 
-  $p_{1}\dots p_{n}\in Q^{*}$. Observing
+  We propose the following bijection
+  \begin{equation*}
+    \inpout:Q^{\omega}\rightarrow\restrictTo{\mathcal{B}(I\times Q\times J)}
+      {F\cap G}\text{ with }
+    \inpout(q_{1}q_{2}\dots) = \tuple{i_{1}, q_{1}, j_{1}}
+      \tuple{i_{2}, q_{2}, j_{2}}\dots.
+  \end{equation*}
+  We observe that $\restrictTo{\mathcal{B}(I\times Q\times J)}{F\cap G}$ can
+  be generated by all cylindric sets
+  \begin{equation*}
+    \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots\tuple{i_{n}, p_{n}, j_{n}})
+    \cap F\cap G \text{ for }p_{1}\dots p_{n}\in Q^{*}. 
+  \end{equation*}
+  Notably, it holds 
+  \begin{equation*}
+    \io(\cyl(p_{1}\dots p_{n})) = \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots
+  \tuple{i_{n}, p_{n}, j_{n}})\cap F\cap G.
+  \end{equation*}
+  Hence, we biject the generating $\mathcal{B}(Q)$ and 
+  $\restrictTo{\mathcal{B}(I\times Q\times J)}{F\cap G}$ sets and obtain
+  similar to the proof of Lemma \ref{lem:liftisomorphism} the measurability of
+  $\inpout$ as well as $\inpout^{-1}$.
+
+  We show that $\mu_{f,g}$ coincides with $\mu_{\alpha_{f}^{g}}\circ\inpout$
+  on $\restrictTo{\mathcal{B}(I\times Q\times J)}{F\cap G}$ which induces the
+  required embedding by Equation \ref{eq:weightinFG}. For a fixed sequence
+  $p_{1}\dots p_{n}\in Q^{*}$ we have
   \begin{align*}
-    \mu_{f, g}&(
-      \cyl(\tuple{i_{1}, p_{1}, j_{1}}\dots\tuple{i_{n}, p_{n}, j_{n}})\\
-    &= \tau_{j_{1}, i_{1}}(q_{0}, \tuple{i_{1}, p_{1}, j_{1}})
-      \prod\limits_{1\leq k < n}\tau_{j_{k}, i_{k}}(\tuple{i_{k}, p_{k}, 
-        j_{k}},\tuple{i_{k+1}, p_{k+1}, j_{k+1}})\\
+    \mu_{\alpha_{f}^{g}}(\cyl(p_{1}\dots p_{n})) 
     &= \delta(q_{0}, \tuple{i_{1}, j_{1}}, p_{1})
       \prod\limits_{1\leq k < n}\delta(p_{k}, \tuple{i_{k+1}, j_{k+1}}, 
         p_{k+1})\\
-    &= \mu_{\alpha_{f}^{g}}(\cyl(p_{1}\dots p_{n}))
+    &= \tau_{j_{1}, i_{1}}(q_{0}, \tuple{i_{1}, p_{1}, j_{1}})
+      \prod\limits_{1\leq k < n}\tau_{j_{k}, i_{k}}(\tuple{i_{k}, p_{k}, 
+        j_{k}},\tuple{i_{k+1}, p_{k+1}, j_{k+1}})\\
+    &= \mu_{f, g}(\underbrace{\cyl(\tuple{i_{1}, p_{1}, j_{1}}
+      \dots\tuple{i_{n}, p_{n}, j_{n}})\cap F\cap G}_{
+        = \io(\cyl(p_{1}\dots p_{n}))
+      }).
   \end{align*}
-  gives the desired equality by unique extension of $\mu_{f, g}$ and 
-  $\mu_{\alpha_{f}^{g}}$.
+  Hence, by unique extension of $\mu_{\alpha_{f}^{g}}$ and $\mu_{f,g}$ the
+  claim follows.
 \end{proof}
 
 This leads us into characterising almost-surely winning strategies for \eve{}
@@ -336,20 +361,28 @@ in $\mathcal{G}_{\mathcal{P}}$ in
   $I$-projection of $\alpha_{f}^{g}$. Hence, the strategy space of \adam{}
   coincides with all possible input-sequences. 
 
-  Therefore, given an almost-surely winning strategy $f$ for \eve{} we get 
-  for every $g$ that $\mu_{f,g}(\Acc(F)) = 1$. By Lemma \ref{lem:fginpba} 
-  this implies $\mu_{\alpha_{f}^{g}}(\Acc(F')) = 1$ and therefore 
-  $\alpha_{f}^{g}$ is accepted by $\mathcal{P}$. This means that every 
-  possible input-sequence $\beta$ is met with an output-sequence $\gamma$ 
-  such that $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to true.
+  Moreover, using Equation \ref{eq:weightinFG} and Lemma \ref{lem:fginpba} we
+  state
+  \begin{align*}
+    \mu_{\alpha_{f}^{g}}(\Acc(F'))
+    &= \mu_{\alpha_{f}^{g}}(\inpout(\Acc(F'))) &\\
+    &= \mu_{f,g}(\Acc(F)\cap F\cap G) &\text{Lemma \ref{lem:fginpba}}\\
+    &= \mu_{f,g}(\Acc(F)) &\text{Equation (\ref{eq:weightinFG})}.
+  \end{align*}
 
-  If on the other hand $f$ is not almost-surely for \eve{} there is a riposte 
-  $g$ of \adam{} such that $\mu_{f,g}(\Acc(F)) < 1$ which analogously to the 
-  reasoning above yields that $\mu_{\alpha_{f}^{g}}(\Acc(F')) < 1$ and 
-  therefore the non-acceptance of $\alpha_{f}^{g}$ by $\mathcal{P}$. 
-  This implies that \adam{} can generate an input-sequence $\beta$ such that 
-  \eve{} generates the output-sequence $\gamma$ but 
-  $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to false.
+  Therefore, given an almost-surely winning strategy $f$ for \eve{} we get
+  for every $g$ that $\mu_{f,g}(\Acc(F)) = 1$. Hence, 
+  $\mu_{\alpha_{f}^{g}}(\Acc(F')) = 1$ and therefore, $\alpha_{f}^{g}$ is
+  accepted by $\mathcal{P}$. This means that every possible input-sequence
+  $\beta$ is met with an output-sequence $\gamma$ such that
+  $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to true.
+
+  If on the other hand $f$ is not almost-surely winning for \eve{} there is a
+  riposte $g$ of \adam{} such that $\mu_{f,g}(\Acc(F)) < 1$. Hence,
+  $\mu_{\alpha_{f}^{g}}(\Acc(F')) < 1$ and therefore the non-acceptance of
+  $\alpha_{f}^{g}$ by $\mathcal{P}$. This implies that \adam{} can generate an
+  input-sequence $\beta$ such that \eve{} generates the output-sequence
+  $\gamma$ but $\phi_{\mathcal{P}}(\beta, \gamma)$ evaluates to false.
 \end{proof}
 
 By this characterisation of winning strategies of \eve{} in 
@@ -360,8 +393,8 @@ $\mathcal{G}_{\mathcal{P}}$ we immediately may conclude
     \mathcal{P} = \tuple{Q, q_{0}, I\times J, \delta, F'}
   \end{equation*}
   the synthesis problem for the specification $\phi$ imposed by $\mathcal{P}$
-  (as in (\ref{eq:pbaregularphi})) can be decided. If a strategy exists it can 
-  be computed in time doubly exponential in 
+  (as in (\ref{eq:pbaregularphi})) is decidable. If a strategy exists it can
+  be computed in time doubly exponential in
   $\size{I}\cdot \size{Q}\cdot \size{J} + 1$.
   \label{thm:pbastratpomdpsynthesis}
 \end{theorem}
@@ -462,8 +495,8 @@ $u,v\in G$ (cp. \cite{Tarjan}). Additionally, a leaf-\ac{SCC} is an \ac{SCC}
 $S$ such that there is no other \ac{SCC} reachable from any $v\in S$ (cp.
 \cite[Bottom-\ac{SCC}]{ComplexProbVerification}). Intuitively, it is unlikely
 to not eventually end up in a leaf-\acp{SCC} since there is infinitely often
-the possibility to take a non-zero probability to move into these and the
-Borel-Cantelli lemma (Theorem \ref{thm:BorelCantelli}) applies. Hence we state
+the possibility to take a non-zero probability to move into these. Hence we
+state
 \begin{lemma}
   \cite[Lemma 1]{SynProbEnv}
   An $J$-labeled $I$-transition-system $\mathcal{T}$ almost-surely (positively)
@@ -532,15 +565,14 @@ This allows us to solve the associated synthesis problem for $\omega$-regular
 specifications and $\epsilon$-environments. By solving emptiness for a 
 \acp{APTA}.
 
-On the other hand we consider in the following environments that are modelled 
-as \acp{MDP} or \acp{POMDP} and try to synthesis for a given specification a 
-strategy to almost-surely or positively satisfy this specification. This 
-approach is conceptually different to $\epsilon$-environments since concrete 
-probabilities are given and also the interaction of the actor with the 
-environment is explicitly incorporated but can be understood as approach to 
-annotate the transitions of $\mathcal{T}$ with the probabilities of the 
-environment. We formalize the synthesis question with (cp. 
-\cite{QualAnaPOMDP,SimpleStochasticParityGames,ComplexProbVerification})
+On the other hand, we consider in the following environments that are modelled
+as \acp{MDP} or \acp{POMDP} and try to synthesis for a given specification a
+strategy to almost-surely or positively satisfy this specification. This
+approach is conceptually different to $\epsilon$-environments since concrete
+probabilities are given and also the interaction of the actor with the
+environment is explicitly incorporated. We formalize the synthesis question
+with (cp. \cite{QualAnaPOMDP,SimpleStochasticParityGames,%
+ComplexProbVerification})
 \begin{definition}
   Given a \ac{POMDP} 
   \begin{equation*}
@@ -551,15 +583,15 @@ environment. We formalize the synthesis question with (cp.
   $\tuple{M, \varphi}$ demands the computation of a strategie 
   $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\varphi) = 1$.
 \end{definition}
-We already used results formulated for this question, namely Theorem 
-\ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis}. Again,
-we focus on $\omega$-regular $\phi$ (in this case $\phi$ is itself a language
+Theorem \ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis}
+already formulated positive results for this question. Again, we focus on
+$\omega$-regular $\phi$ (in this case $\phi$ is itself a language
 and is not translated to one). Note that the formulation in Theorem 
 \ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis} use 
 acceptance conditions directly onto the states of the \ac{POMDP} and \ac{MDP}
-respectively. Initially, we observe that this is not a real restriction:
-In analogy to the constructions in
-\cite{ComplexProbVerification,MDPandRegEvents}, we deduce
+respectively. Initially, we observe that these formulations are interchangable:
+In analogy to the constructions in \cite{ComplexProbVerification,%
+MDPandRegEvents}, we deduce
 \begin{lemma}
   For any \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
   \tuple{\tau_{a}}_{a\in A}, \sim}$ and $\omega$-regular 
@@ -602,10 +634,10 @@ In analogy to the constructions in
       0&\text{otherwise.}
     \end{cases}
   \end{equation*}
-  We may deduce that the first component of all valid, i.e. not impossible, 
+  We deduce that the first component of all valid, i.e. not impossible, 
   plays in $\mathcal{M}'$ uniquely identifies the second component which allows 
-  us to only consider the projection to those \enquote{synchronised} plays 
-  which can easily bijected to plays in $\mathcal{M}$ and $s$ and $s'$ even 
+  us to only consider the projection to those \enquote{synchronised} plays.
+  We can biject these to plays in $\mathcal{M}$ and $s$ and $s'$ even 
   induce the same measure on this bijection. We conclude that
   \begin{equation*}
     \mu_{s}(\phi) = \mu_{s'}(\Acc(\parity)).
