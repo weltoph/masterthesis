@@ -580,8 +580,8 @@ ComplexProbVerification})
   \end{equation*}
   and a specification $\phi\subseteq S^{\omega}$ such that 
   $\phi\in\mathcal{B}(S)$. The qualitative synthesis problem 
-  $\tuple{M, \varphi}$ demands the computation of a strategie 
-  $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\varphi) = 1$.
+  $\tuple{M, \phi}$ demands the computation of a strategie 
+  $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\phi) = 1$.
 \end{definition}
 Theorem \ref{thm:pomdpstratsynthesis} and Theorem \ref{thm:mdpstratsynthesis}
 already formulated positive results for this question. Again, we focus on
@@ -591,91 +591,105 @@ and is not translated to one). Note that the formulation in Theorem
 acceptance conditions directly onto the states of the \ac{POMDP} and \ac{MDP}
 respectively. Initially, we observe that these formulations are interchangable:
 In analogy to the constructions in \cite{ComplexProbVerification,%
-MDPandRegEvents}, we deduce
+MDPandRegEvents} we fix a \ac{POMDP}
+\begin{equation*}
+  \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+\end{equation*}
+and a $\omega$-regular $\phi\subseteq S^{\omega}$. Let
+$\mathcal{P} = \tuple{Q, S, q_{0}, \delta, \parity}$ be a \ac{DPA} which
+accepts $\phi$. We construct
+\begin{equation*}
+  \mathcal{M}\otimes\mathcal{P} = \tuple{S\times Q, \tuple{s_{0}, q_{0}}, A, 
+  \tuple{\tau'_{a}}_{a\in A}, \sim', \parity'}
+\end{equation*}
+with
+\begin{align*}
+  &\tau'_{a}(\tuple{s, q}, \tuple{z, p}) = \begin{cases}
+    \tau_{a}(s, z)&\text{if }p = \delta(q,s),\\
+    0&\text{otherwise,}
+  \end{cases}\\
+  &\parity'(\tuple{s,q}) = \parity(q)
+  \text{ and }
+  \tuple{s, q}\sim'\tuple{z, p}\text{ iff }s\sim z.
+\end{align*}
+We observe that the definition of $\sim'$ allows to identify
+$\interval{\tuple{s,q}}_{\sim'}$ with $\interval{s}_{\sim}$ and therefore, the
+strategy spaces for $\mathcal{M}$ and $\mathcal{M}\otimes\mathcal{P}$ coincide.
+Central to the following argument is the following
 \begin{lemma}
-  For any \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A, 
-  \tuple{\tau_{a}}_{a\in A}, \sim}$ and $\omega$-regular 
-  $\phi\subseteq S^{\omega}$ there is an \ac{POMDP} $\mathcal{M'}$ with an 
-  associated Parity-condition $\parity$ such that any strategy $s$ for 
-  $\mathcal{M}$ induces a strategy $s'$ for $\mathcal{M'}$ such that 
-  $\mu_{s}(\phi) = \mu_{s'}(\Acc(\parity))$ and vice versa.
-  \label{lem:POMDPomegareg}
+  For any strategy $s:\interval{S}_{\sim}^{*}\rightarrow A$ the resulting
+  probability space $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}$ can be
+  isomorphically embedded into 
+  $\tuple{\tuple{S\times Q}^{\omega}, \mathcal{B}(S\times Q), \mu_{s}'}$.
+  \label{lem:embedphiintopomdp}
 \end{lemma}
 \begin{proof}
-  For $\phi$ we can obtain a \ac{DPA} 
-  $\mathcal{P} = \tuple{Q, S, q_{0}, \delta, \parity}$ which accepts $\phi$.
-  The deterministic nature of $\mathcal{P}$ is used to obtain the result by
-  constructing
+  We define the following function $f:S^{\omega}\rightarrow
+  \tuple{S\times Q}^{\omega}$ with
   \begin{equation*}
-    \mathcal{M'} = \tuple{S\times Q, \tuple{s_{0}, q_{0}}, A, 
-    \tuple{\tau'_{a}}_{a\in A}, \sim', \parity'}
+    f(s_{1}s_{2}\dots) = \tuple{s_{1}, q_{1}}\tuple{s_{2}, q_{2}}\dots
+    \text{ such that }
+    \delta(q_{i-1}, s_{i-1}) = q_{i}\text{ for all }i>0.
   \end{equation*}
-  with
-  \begin{align*}
-    &\tau'_{a}(\tuple{s, q}, \tuple{z, p}) = \begin{cases}
-      \tau_{a}(s, z)&\text{if }p = \delta(q,s),\\
-      0&\text{otherwise,}
-    \end{cases}\\
-    &\parity'(\tuple{s,q}) = \parity(q)
-    \text{ and }
-    \tuple{s, q}\sim'\tuple{z, p}\text{ iff }s\sim z.
-  \end{align*}
-  Since $\sim'$ is defined in terms of the first element of every state, we may
-  biject $\interval{s}_{\sim}$ with $\interval{\tuple{s, q}}_{\sim'}$. This 
-  allows to translate strategies from $\mathcal{M}$ to $\mathcal{M'}$ and vice
-  versa. Additionally, by definition of $\tau_{a}'$ for all $a\in A$ we 
-  obtain for any strategy $s'$ for $\mathcal{M'}$ and its corresponding 
-  strategy $s$ for $\mathcal{M}$ that
+  Moreover, we consider the two isomorphic probability spaces
+  $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}$ and 
+  $\tuple{f(S^{\omega}), \restrictTo{\mathcal{B}(S\times Q)}{f(S^{\omega})},
+    \mu_{s}\circ f}$ by the isomorphism $f$. By definition of $\tau_{a}'$ for
+  all $a\in A$ and inductive reasoning, we observe
   \begin{equation*}
-    \mu_{s'}(\cyl(\tuple{z_{0}, q_{0}}\dots\tuple{z_{n}, q_{n}})) = 
+    \mu_{s}'(\cyl(\tuple{s_{1}, q_{1}}\dots\tuple{s_{n}, q_{n}})) = 
     \begin{cases}
-      \mu_{s}(\cyl(z_{0}\dots z_{n}))&\text{for the unique }
-        q_{0}\dots q_{n}\text{ of }\mathcal{P}\text{ on }z,\\
-      0&\text{otherwise.}
+      \prod\limits_{0\leq i<n}\tau_{s(s_{1}\dots s_{i})}(s_{i}, s_{i+1})
+        &\substack{\text{for the unique parital run }\\q_{0}\dots q_{n}
+          \text{ of }\mathcal{P}\text{ on }s_{0}\dots s_{n}},\\
+      0&\text{otherwise}.
     \end{cases}
   \end{equation*}
-  We deduce that the first component of all valid, i.e. not impossible, 
-  plays in $\mathcal{M}'$ uniquely identifies the second component which allows 
-  us to only consider the projection to those \enquote{synchronised} plays.
-  We can biject these to plays in $\mathcal{M}$ and $s$ and $s'$ even 
-  induce the same measure on this bijection. We conclude that
-  \begin{equation*}
-    \mu_{s}(\phi) = \mu_{s'}(\Acc(\parity)).
-  \end{equation*}
+  Hence, it is easy to see that on the generating sets of
+  $\restrictTo{\mathcal{B}(S\times Q)}{f(S^{\omega})}$ the measures $\mu_{s}'$
+  and $\mu_{s}\circ f$ coincide. Therefore, the claim follows by unique
+  extension of $\mu_{s}'$ and $\mu_{s}\circ f$.
+\end{proof}
+This leads to
+\begin{theorem}
+  The problems to compute a strategy for a \ac{POMDP} with states $S$ which
+  almost-surely satisfies an $\omega$-regular strategy
+  $\phi\subseteq S^{\omega}$ and to compute a strategy for a \ac{POMDP} which
+  almost-surely satisfies an associated Parity-condition are effectively
+  reducable to each other.
+  \label{thm:POMDPomegareg}
+\end{theorem}
+\begin{proof}
+  It is easy to obtain from an associated Parity-condition an $\omega$-regular
+  language by simply considering $\Acc(\parity)$. For the converse, we
+  consider $\mathcal{M}\otimes\mathcal{P}$ and use Lemma
+  \ref{lem:embedphiintopomdp}. Moreover, we observe that
+  $f(\phi) = \Acc(\parity)\cap f(S^{\omega})$ which entails
+  $\mu_{s}(\phi) = \mu_{s}'(\Acc(\parity))$.
 \end{proof}
 
-If we actually consider in the argument above that $\mathcal{M}$ is an \ac{MDP} 
-then the product construction can be considered to be an \ac{MDP} as well since 
-the uniqueness of the second component allows to use the same argument. 
-Although the strategies space for $\mathcal{M'}$ are richer, we can only 
-consider the space of possible plays which again corresponds uniquely to plays 
-in $\mathcal{M}$. We obtain
+If we consider the construction $\mathcal{M}\otimes\mathcal{P}$ for a \ac{MDP}
+$\mathcal{M}$ we observe by the uniqueness of the associated state sequences
+that the argumentation of Lemma \ref{lem:embedphiintopomdp} still applies if we
+consider $\mathcal{M}\otimes\mathcal{P}$ to be a \ac{MDP} as well. This allows
+to state
 \begin{corollary}
-  For an initial \ac{MDP} $\mathcal{M}$ we obtain a corrresponding \ac{MDP} 
-  $\mathcal{M}'$ with the same properties as stated in Lemma 
-  \ref{lem:POMDPomegareg}.
+  The problems to compute a strategy for a \ac{MDP} with states $S$ which
+  almost-surely satisfies an $\omega$-regular strategy
+  $\phi\subseteq S^{\omega}$ and to compute a strategy for a \ac{MDP} which
+  almost-surely satisfies an associated Parity-condition are effectively
+  reducable to each other.
+  \label{thm:MDPomegareg}
 \end{corollary}
 Moreover, if we consider $\phi$ to be recognizable by a \ac{DBA} we state by
 the same argument
 \begin{corollary}
-  For a \ac{DBA}-recognizable $\phi$ and a \ac{POMDP} (\ac{MDP}) $\mathcal{M}$
-  the construction from Lemma \ref{lem:POMDPomegareg} yields an \ac{POMDP} 
-  (\ac{MDP}) $\mathcal{M'}$ with an associated Büchi-condition.
+  The problems to compute a strategy for a \ac{POMDP} with states $S$ which
+  almost-surely satisfies a \ac{DBA}-recognizable $\phi\subseteq S^{\omega}$
+  and to compute a strategy for a \ac{POMDP} which almost-surely satisfies an
+  associated Büchi-condition are effectively reducable to each other.
   \label{cor:POMDPDBA}
 \end{corollary}
-Consequently, since associated Büchi- or Parity-conditions on
-\ac{POMDP} induce $\omega$-regular $\phi\subseteq S^{\omega}$, namely
-\begin{equation*}
-  \phi = 
-  \begin{cases}
-    \Acc(F)&\text{for a Büchi-condition }F,\\
-    \Acc(\parity)&\text{for a Parity-condition}\parity,
-  \end{cases}
-\end{equation*} 
-we may consider the two formulations interchangeable. This allows to state that 
-\ac{DBA}-recognizable $\phi$ allow for strategy synthesis in \acp{POMDP} (cp.
-Theorem \ref{thm:pomdpstratsynthesis}) but for general $\omega$-regular $\phi$ 
-it is undecideable to compute strategies for \acp{POMDP}. 
 
 In the following, we again examine $\phi$ which are defined in terms of
 \acp{PBA}. By Proposition \ref{prop:pbasubsumesdba} we know that \acp{PBA}
