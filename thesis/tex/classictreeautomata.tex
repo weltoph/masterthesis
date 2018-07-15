@@ -248,8 +248,8 @@ We formally define similar to \cite{SynProbEnv}
       \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
     }.
   \end{equation*}
-  (Notably, $\Acc\interval{Q}$ denotes the projection onto the $Q$-component
-  of included words.) A run $r$ is considered accepting if
+  (Notably, $\Acc\interval{Q}$ denotes those words such that the $Q$-projection
+  is part of $\Acc$.) A run $r$ is considered accepting if
   $M_{r}\subseteq\Acc\interval{Q}$. Again, we consider for $\Acc$ acceptance
   conditions which are representable as Büchi-, Rabin-, Muller- or
   Parity-conditions. We introduce according acronyms, namely \ac{ABTA},
@@ -532,7 +532,7 @@ central idea behind the construction of a dual automata for a given \ac{APTA}.
 \begin{proof}
   We can connect strategies $f$ for \eve{} with runs $r$ of the automaton 
   $\mathcal{A}$ on $t$ directly. Initially, \eve{} starts in state 
-  $\tuple{q_{0}, \epsilon}$ and chooses an initial clause $A$ (by her movement
+  $\tuple{q_{0}, \epsilon}$ and chooses an initial clause $A$ (by her move
   to $\tuple{A, \epsilon}$ which by definition of $E_{0}$ corresponds to a 
   transition $\tuple{q_{0}, t(\epsilon), A}$. This $A$ can be used to define 
   the first level of a run $r$ of $\mathcal{A}$ on $t$ by setting 
@@ -585,7 +585,7 @@ $\mathcal{G}(\mathcal{A}, t)$ with exchanged roles (in the sense of which
 \enquote{type} of moves are executed) of \eve{} and \adam{}. \adam{} 
 pro-actively chooses his answers (which is encoded as transition) and \eve{} 
 choice of one direction corresponds to an implicit choice of a transition, 
-namely the one to which \adam{} answers by this movement. Considering any 
+namely the one to which \adam{} answers by this move. Considering any 
 transition in $\nabla$ we observe that for every possible choice of \eve{} 
 in parallel one answer of \adam{} is explored. This captures the usage of
 determinacy by exploring all of \adam{}'s option since a winning strategy 

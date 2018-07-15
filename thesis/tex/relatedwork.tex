@@ -10,8 +10,16 @@ The probabilistic approach is translated to trees in \cite{RandAutoInfTrees,%
 QualTreeLang} in two different ways. On the one hand, a weighting in form of
 probabilities on paths is considered and, on the other hand, also it is
 examined to choose transitions probabilistically which is semantically closer
-to the approach of probabilistic word automata. Relaxation on the cardinality
-of accepting paths in runs of tree automata is also proposed in
+to the approach of probabilistic word automata. Another related concept is
+discussed in \cite{EmptinessInZeroAutoDecidable}. Again, the individual paths
+of a run of an automaton are weighted in terms of probabilites but the
+acceptance conditions are more diverse. Different notions of acceptance,
+including a qualitative measure on accepting paths and an universal demand on
+accepted path are intertwined. However, both these approaches lack a concept of
+alternation as discussed in this thesis. Especially, both models enjoy
+decidable emptiness problems which contrasts results of this thesis for various
+weighted tree automata with alternation. A different perpective on relaxation
+of accepting paths in runs of tree automata is proposed in
 \cite{CardinalsForTreePaths} by considering runs accepting if the cardinality
 of accepted paths exceeds or deceeds a given cardinal number. The required
 argumentation presents in a more logic-based and set-theoretical framework.
@@ -47,6 +55,6 @@ problems. Actually, the solution for qualitative strategy synthesis in
 \aclp*{POMDP} for a specification given as almost-surely accepting \aclp*{PBA}
 fits well to the approach in \cite{RandomnessForFree} where reductions are
 examined that allow to remove probabilistic behavior for strategies or
-transitions in a graph by deterministic behavior giving the associated
-randomness for \enquote{free}. In this sense we allow for \enquote{free}
-randomness in the specification considering \aclp*{POMDP}.
+transitions in a graph by deterministic behavior. The associated randomness for
+these objects is given for \enquote{free}. In this sense we allow for
+\enquote{free} randomness in the specification considering \aclp*{POMDP}.

@@ -59,20 +59,13 @@ following conditions:
   F_{0}},\dots,\tuple{E_{n}, F_{n}}}, \parity}$ we use $\Acc(\Gamma)$ to refer
   to the accepted language. If necessary we use subscripts to $\Acc$ to make 
   the interpretation of its argument clear.
-\end{definition}\fxfatal{find fitting reference for prefix-independence}
-Note that for these acceptance conditions acceptance solely depends on those
-states that occur infinitely often. Hence, the acceptance is at any moment
-determined by the \enquote{future}. We call this \emph{prefix-independence} and
-formally capture this by stating that every
-$\alpha = \alpha_{1}\alpha_{2}\dots\in\Acc(\Gamma)$ implies that for any $i>0$
-also $\alpha_{i}\alpha_{i+1}\dots\in\Acc(\Gamma)$ (again we let $\Gamma$ be a
-meta variable, ranging over the described finite representations of acceptance
-conditions). We categorize word automata by their acceptance condition and if
+\end{definition}
+We categorize word automata by their acceptance condition and if
 they are deterministic. For example we call a word automaton $\mathcal{A}$
 equipped with a Büchi-condition a \ac{NBA} or respectively \ac{DBA} if
 $\mathcal{A}$ is deterministic. And analogously we obtain word automata for
-Muller-, Rabin- and Parity-conditions as
-\ac{NMA}, \ac{DMA}, \ac{NRA}, \ac{DRA}, \ac{NPA} and \ac{DPA}.
+Muller-, Rabin- and Parity-conditions as \ac{NMA}, \ac{DMA}, \ac{NRA},
+\ac{DRA}, \ac{NPA} and \ac{DPA}.
 
 The theory to these word automata, which we call $\omega$-regular automata, is
 well established. In the following we recall some of the central results and
@@ -336,7 +329,7 @@ contains an $f\in F$ which is reachable from $q_{0}$ and $f$ itself. Moving
 from $q_{0}$ to $f$ and then loop in $f$ yields one accepting word (see Figure
 \ref{fig:nbaemptiness}). This allows to state
 \begin{theorem}
-  \cite{DecMethRestArith,EmptinessNBA}
+  \cite{DecMethRestArith,Tarjan}
   Emptiness for a given \ac{NBA}
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, \Sigma, \Delta, F}

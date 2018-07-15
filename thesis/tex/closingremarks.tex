@@ -1,5 +1,20 @@
-Concludingly, we investigated probabilistic alternating tree automata which
-prove a very interesting topic. On the one hand, \acp{WDTA} induce a rich and
-complex theory which includes various other probabilistic models. On the other
-hand we obtained interesting results for synthesis problems which are inspired
-by constructions of \acp{WDTA}.
+Concludingly, the results of this thesis are twofold. Mainly, we
+introduced \acp{WDTA} as a class of automata on infinite trees that incorporate
+the concept of weighted paths and alternation. Its close connection to
+\acp{POMDP} and \acp{PBA} unveiled positive and negative results for the
+decidability of emptiness problems. More importantly, \acp{WDTA} have proven an
+interesting model by their expressiveness and complex nature.
+
+Secondly, \acp{WDTA} are an essential source of ideas to formulate and prove
+synthesis results for antagonistic and probabilistic environments against
+specifications given by \acp{PBA}. Most notably, we obtained decidability
+results for the following problems:
+\begin{enumerate}
+  \item Given a specification as almost-surely accepting \ac{PBA}. Compute a
+    deterministic algorithm that \emph{always} satisfies the given
+    specification or prove that such an algorithm cannot exist.
+  \item Given a specification as almost-surely accepting \ac{PBA} and a
+    \ac{POMDP}. Compute a determinisitc strategy such that almost-all
+    executions under this strategy satisfy the posed specification or prove
+    that such a strategy cannot exist.
+\end{enumerate}

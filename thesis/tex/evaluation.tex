@@ -1,18 +1,18 @@
-\acp{WDTA} present with a complex theory but with strong capabilities of
-modelling probabilistic systems. Namely, even the restricted class of
-choiceless \acp{WDTA} subsumes various stochastic models such as \acp{POMDP} or
-\acp{PBA}. But the complex nature of \acp{WDTA} arguably lacks an easy
-intuition. Addressing this complexity by restriction to choiceless \acp{WDTA}
-seems a valuable approach by its connection to the well-established concept of
-\acp{POMDP}. Neverthelss, we argue that the theory of choiceless \acp{WDTA} is
-not subsumed by the theory of \acp{POMDP} since there is a subtle difference in
-semantics of the considered objects. \acp{WDTA} provide a tool to argue about
-languages of trees and therefore induce questions about collections of elements
-where strategies for \acp{POMDP} are more considered in an existential setting,
-i.e. exists a strategy that satisfy certain conditions. The view on collections
-of trees or strategies and the associated questions of e.g. closure properties
-raises questions about strategies that are well behaved for more than one
-structure (or even for the same structure with different objectives).
+\acp{WDTA} present with a complex theory and strong capabilities to model other
+probabilistic systems. Namely, even the restricted class of choiceless
+\acp{WDTA} subsumes various stochastic models such as \acp{POMDP} or \acp{PBA}.
+Hence reducing the complexity of \acp{WDTA} by restriction to choicelessness
+seems a valuable approach. Neverthelss, we argue that the theory of choiceless
+\acp{WDTA} is not itself subsumed by the theory of \acp{POMDP} although we
+established strong connections between these models. Notably, There is a subtle
+difference in semantics of the considered objects. \acp{WDTA} provide a tool to
+argue about languages of trees and therefore induce questions about collections
+of elements where strategies for \acp{POMDP} are more considered in an
+existential setting, i.e. exists a strategy that satisfy certain conditions.
+The view on collections of trees or strategies and the associated notions of
+e.g. closure properties raises questions about strategies that are well-behaved
+for more than one structure (or even for the same structure with different
+objectives).
 
 Additionally, \acp{WDTA} have proven a useful tool to translate the rich theory
 of word and tree automata and their connections to the probabilistic setting.
@@ -22,17 +22,24 @@ tree automata. Interestingly, we unvail in this way the chimeric nature of
 \acp{PBA} regarding non-determinism. The usage of probabilities to resolve
 non-determinism allows to use \enquote{deterministic} run-trees (which is
 important for the parallel execution on paths) but still allow to model
-decisions of the automaton. Notably, arguments around \acp{PBA} in
-\cite{Groesser} resolve by reasoning about probabilistic decisions of the
-automaton while our reasoning for \acp{WDTA} is closer connected to arguments
-over run-trees.
+decisions of the automaton. Notably, this allows to skip the determinisation
+step that is usually required for the specifying automaton (cp.
+$\omega$-regular languages). This determinisation is inherently costly.
+However, it is highly non-trivial to formulate specifications in almost-surely
+accepting \acp{PBA}. Therefore, we note that the obtained synthesis results
+are ought to be considered intermediate. In contrast to
+$\omega$-regular languages which capture linear time logics
+\cite{PrinciplesOfMC} and the monadic second-order theory of linearly ordered
+sets \cite{DecMethRestArith}, languages that can be accepted by almost-surely
+accepting \acp{PBA} do not have an immediate (more accessible) formulation.
 
-Moreover, considering the presented results for synthesis against
-specifications given in almost-surely accepting \acp{PBA} we note that this
-should be considered an intermediate result. Mainly because giving
-specifications in the form of \acp{PBA} appears rather impractical. On the
-other hand, we consider solving the synthesis question for an antagonistic
-domain against a probabilistic specification an intriguing result. Also,
-observing that the probabilistic of the specification can be pushed into the
-considered \acp{POMDP} embeds nicely into the de-randomisation reductions of
-\cite{RandomnessForFree}.
+On the other hand, we consider solving the synthesis question for an
+antagonistic domain against a probabilistic specification an intriguing result.
+It allows to contain the probabilistic aspects of the problem within the
+specification. This is especially interesting since the probabilistic behavior
+of the specification conceptually distinguishes it from e.g. $\omega$-regular
+languages. Additionally, observing probabilistic specifications for
+\acp{POMDP}, we are able to push the probabilistic behavior into the structure
+of the \ac{POMDP} cleansing the specification from it. This embeds nicely into
+the de-randomisation reductions of \cite{RandomnessForFree} where is also noted
+that strategies for \eve{} can be cleansed from randomisation.

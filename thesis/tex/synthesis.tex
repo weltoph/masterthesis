@@ -211,7 +211,12 @@ $\sim_{E} = \sim_{A}$. Similar to \acp{POMDP}, almost-surely winning strategies
 for \eve{} in \ac{POSG} with Büchi-conditions are \enquote{simple} enough to
 allow for computation of winning strategies.
 \begin{theorem}
-  \cite[Theorem 6]{POSG}\cite[Theorem 5.3]{PureStratPOSG}.
+  \cite[Theorem 6]{POSG}\cite[Theorem 5.3]{PureStratPOSG}\footnote{
+    Since it was unclear if the publication of this paper preceeded the
+    completion of this thesis, we included the relevant arguments in Appendix
+    \ref{app:POSG} to ensure their availability. Especially, since we rely on
+    the contained arguments for the claimed complexity bound.
+  }
   It is possible to decide if there is an almost-surely winning strategy for 
   \eve{} in a \ac{POSG} $\mathcal{G} = \tuple{G, F}$ where $F$ is a 
   Büchi-condition and $\sim_{E} = \sim_{A}$.
@@ -637,9 +642,14 @@ Central to the following argument is the following
     \delta(q_{i-1}, s_{i-1}) = q_{i}\text{ for all }i>0.
   \end{equation*}
   Moreover, we consider the two isomorphic probability spaces
-  $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}$ and 
-  $\tuple{f(S^{\omega}), \restrictTo{\mathcal{B}(S\times Q)}{f(S^{\omega})},
-    \mu_{s}\circ f}$ by the isomorphism $f$. By definition of $\tau_{a}'$ for
+  \begin{equation*}
+    \tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}
+  \end{equation*} and 
+  \begin{equation*}
+    \tuple{f(S^{\omega}), \restrictTo{\mathcal{B}(S\times Q)}{f(S^{\omega})},
+      \mu_{s}\circ f^{-1}}
+  \end{equation*}
+  by the isomorphism $f$. By definition of $\tau_{a}'$ for
   all $a\in A$ and inductive reasoning, we observe
   \begin{equation*}
     \mu_{s}'(\cyl(\tuple{s_{1}, q_{1}}\dots\tuple{s_{n}, q_{n}})) = 
@@ -653,7 +663,7 @@ Central to the following argument is the following
   Hence, it is easy to see that on the generating sets of
   $\restrictTo{\mathcal{B}(S\times Q)}{f(S^{\omega})}$ the measures $\mu_{s}'$
   and $\mu_{s}\circ f$ coincide. Therefore, the claim follows by unique
-  extension of $\mu_{s}'$ and $\mu_{s}\circ f$.
+  extension of $\mu_{s}'$ and $\mu_{s}\circ f^{-1}$.
 \end{proof}
 This leads to
 \begin{theorem}
@@ -877,7 +887,7 @@ We formulate the following essential
   Initially, we consider an isomorphism $b$ between
   $\tuple{S^{\omega}\times Q^{\omega}, \mathcal{B}(S)\otimes\mathcal{B}(Q),
   \mu_{s}\otimes K}$ and $\tuple{\tuple{S\times Q}^{\omega},
-  \mathcal{B}(S\times Q), \mu_{s}\otimes K\circ b}$. Therefore, we define
+  \mathcal{B}(S\times Q), \mu_{s}\otimes K\circ b^{-1}}$. Therefore, we define
   \begin{equation*}
     b:S^{\omega}\times Q^{\omega}\rightarrow\tuple{S\times Q}^{\omega}
     \text{ with }b(\alpha_{1}\alpha_{2}\dots, \beta_{1}\beta_{2}\dots) = 
@@ -967,7 +977,7 @@ Concludingly, we state
   $\mathcal{P}$.
 \end{proof}
 
-Although inspired by the arguments of Theorem \ref{thm:PWAasWDTA}, the usage 
+Although inspired by the construction of Theorem \ref{thm:PWAasWDTA}, the usage 
 of \acp{WDTA} is not essential for the argument above. Equivalently Theorem
 \ref{thm:POMDPomegareg} can be extended towards $\phi$ which
 are defineable by almost-surely accepting \acp{PBA} by the natural product

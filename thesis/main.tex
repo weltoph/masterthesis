@@ -1,4 +1,4 @@
-\documentclass[twoside, a4paper, fontsize=12pt, abstract=on, draft,%
+\documentclass[twoside, a4paper, fontsize=12pt, abstract=on,%
 notitlepage]{scrreprt}
 \input{tex/preamble.tex}
 
@@ -6,15 +6,20 @@ notitlepage]{scrreprt}
 \author{Christoph Welzel}
 \date{\today}
 
-
+\addtocontents{toc}{\protect\thispagestyle{empty}}
 \begin{document}
 \pagestyle{empty}
 \input{tex/titlepage.tex}
 \newpage
+\null
+\newpage
 \input{tex/abstract.tex}
 \vfill
 \input{tex/acknowledgements.tex}
+\newpage
+\null
 \tableofcontents
+\setcounter{page}{0}
 
 \pagestyle{plain}
 \input{tex/introduction.tex}
