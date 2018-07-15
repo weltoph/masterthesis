@@ -808,21 +808,34 @@ Observing that
   }
 \end{equation*}
 is the set of executions which are almost-surely accepted by $\mathcal{P}$,
-allows us to characterise the question of Definition
-\ref{def:pbastratsynthesis} using $K$ and Lemma \ref{lem:almosteverywhere} with
+allows us to state for $K$ and Lemma \ref{lem:almosteverywhere}
 \begin{equation*}
-  \int_{S^{\omega}}K(\cdot, \Acc(F)) d\mu_{s} 
+  \int_{S^{\omega}}K(\cdot, \Acc(F)) d\mu_{s}
   = \int_{\alpha\in S^{\omega}}\mu_{\alpha}(\Acc(F))d\mu_{s} = 1 \text{ iff }
     \mu_{s}(K(\cdot,\Acc(F))^{-1}(1)) = 1.
 \end{equation*}
-We proceed in defining an appropiate \ac{WDTA} to capture precisely those
-strategies which satisfy the synthesis requirement. The concept mirrors the
-resulting \ac{WDTA} when we combine the path measure and the run measure for
-\acp{PWA} (see Example \ref{ex:pwapbaallpaths}) by build run-trees of a
-\ac{PBA} along the executions. But it is actually not necessary to restrict
-ourselves to one execution step of the \ac{PBA} per direction. This
-observation is essential for formulating this result for \acp{POMDP} rather
-than for \acp{MDP} alone.
+Hence, a strategy $s$ is an answer to the synthesis question of Definition
+\ref{def:pbastratsynthesis} if and only if
+$\int_{S^{\omega}}K(\cdot, \Acc(F)) d\mu_{s} = 1$.
+Using Theorem \ref{thm:kernelmeasure} allows us to refine this notion further.
+Considering the probability space $\tuple{S^{\omega}\times Q^{\omega},
+\mathcal{B}(S)\otimes\mathcal{B}(Q), \mu_{s}\otimes K}$, we obtain that
+\begin{equation*}
+  \int_{S^{\omega}}K(\cdot, \Acc(F)) d\mu_{s} = 
+    \tuple{\mu_{s}\otimes K}(S^{\omega}, \Acc(F)).
+\end{equation*}
+Concludingly giving
+\begin{lemma}
+  The strategy $s$ is an answer to an instance of the synthesis question of
+  Definition \ref{def:pbastratsynthesis} if and only if
+  \begin{equation*}
+    \tuple{\mu_{s}\otimes K}(S^{\omega}, \Acc(F)) = 1.
+  \end{equation*}
+  \label{lem:pbysynthesisbymuK}
+\end{lemma}
+
+We proceed by defining a choiceless \ac{WDTA} which captures this product
+space:
 \begin{definition}[Synthesis WDTA]
   For a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} $\mathcal{P}$ with
   \begin{equation*}
@@ -848,58 +861,117 @@ than for \acp{MDP} alone.
     \end{cases}
   \end{equation*}
 \end{definition}
-Again, all trees for this \ac{WDTA} $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$
-are valid strategies for the \ac{POMDP} $\mathcal{M}$. We fix one tree (or
-strategy respectively) $s$. For the unique run $r$ of
-$\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ on $s$ we observe (analogously to the
-construction for Theorem \ref{thm:POMDPequivWDTA}) that the $S$ component of
-any state uniquely correlates to one observation in $\mathcal{O}$ and by the
-definition of $G_{\tuple{s, q}}^{a}$ this is the only direction weight can be
-passed to. Therefore, we restrict our arguments on the weighted part of the
-domain of $r$. Formally, we observe that $W_{r}\subseteq\tuple{S\times Q}^{*}$
-(with $W_{r}$ in the sense of Lemma \ref{lem:weightedpart}). By definition of
-the transitions we state that for any word 
-$\tuple{s_{0}, q_{0}}\dots\tuple{s_{n}, q_{n}}\in\tuple{S\times Q}^{*}$ holds
-\begin{align*}
-  \mu_{r}(\tuple{s_{1}, q_{1}}\dots\tuple{s_{n}, q_{n}}) &= 
-    G^{s(\epsilon)}(\tuple{s_{1}, q_{1}})\cdot 
-    \prod\limits_{i = 1}^{n-1}
-      G^{s(\interval{s_{1}\dots s_{n}}_{\sim})}_{\tuple{s_{i}, q_{i}}}(
-        s_{i+1}, q_{i+1})\\
-  &= \delta(q_{0}, s_{1}, q_{1})\cdot\tau_{s(\epsilon)}(s_{0}, s_{1})
-    \prod\limits_{i = 1}^{n-1}
-      \delta(q_{i}, s_{i+1}, q_{i+1})\cdot
-      \tau_{s(\interval{s_{1}\dots s_{n}}_{\sim})}(s_{i}, s_{i+1})\\
-  &= \mu_{s_{1}\dots s_{n}}(\cyl(q_{0}\dots q_{n}))\cdot
-    \mu_{s}(\cyl(s_{1}\dots s_{n}))\\
-  &= \int_{\cyl(s_{1}\dots s_{n})}K(\cdot, \cyl(q_{0}\dots q_{n}))d\mu_{s}.
-\end{align*}
-By the uniqueness of $\mu_{s}\otimes K$ and the extension of $\mu_{r}$ with
-Lemma \ref{lem:borelinterleaving} $\mu_{r}$ and $\mu_{s}\otimes K$ coincide
-when the interleaving of $\mathcal{B}(S\times Q)$ is resolved. Concludingly, we
-observe for the acceptance meausure of
-$\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$
-\begin{equation*}
-  \mu_{r}(\Acc\interval{Q}(S\times F))
-  = \mu_{s}\otimes K(S^{\omega}, \Acc(F))
-  = \int_{\alpha\in S^{\omega}}\mu_{\alpha}(\Acc(F)) d\mu_{s}.
-\end{equation*}
-This allows us to state that $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ 
-accepts $s$ if and only if $s$ is a solution to the synthesis question for 
-the \ac{POMDP} $\mathcal{M}$ and the \ac{PBA} $\mathcal{P}$. We may use
-Corollary \ref{cor:emptiness} to compute this $s$ and therefore prove
+Similar to the construction in Section \ref{sec:modellingpomdp}, all trees for
+this \ac{WDTA} $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ are valid strategies
+for the \ac{POMDP} $\mathcal{M}$ and vice versa. For one tree $s$ we fix the
+unique run $r$ of $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ on $s$.
+We formulate the following essential
+\begin{lemma}
+  The probability space $\tuple{S^{\omega}\times Q^{\omega},
+  \mathcal{B}(S)\otimes\mathcal{B}(Q), \mu_{s}\otimes K}$ can be isomorphically
+  embedded into $\tuple{\tuple{\tuple{S\times Q}\times O}^{\omega},
+  \mathcal{B}(\tuple{S\times Q}\times O), \mu_{r}}$.
+  \label{lem:embedmuK}
+\end{lemma}
+\begin{proof}
+  Initially, we consider an isomorphism $b$ between
+  $\tuple{S^{\omega}\times Q^{\omega}, \mathcal{B}(S)\otimes\mathcal{B}(Q),
+  \mu_{s}\otimes K}$ and $\tuple{\tuple{S\times Q}^{\omega},
+  \mathcal{B}(S\times Q), \mu_{s}\otimes K\circ b}$. Therefore, we define
+  \begin{equation*}
+    b:S^{\omega}\times Q^{\omega}\rightarrow\tuple{S\times Q}^{\omega}
+    \text{ with }b(\alpha_{1}\alpha_{2}\dots, \beta_{1}\beta_{2}\dots) = 
+      \tuple{\alpha_{1}, \beta_{1}}\tuple{\alpha_{2}, \beta_{2}}\dots.
+  \end{equation*}
+  Lemma \ref{lem:productborelalgebras} states that
+  $\mathcal{B}(S)\otimes\mathcal{B}(Q)$ is generated by balanced cylindric
+  sets. Considering two words $u = a_{1}\dots a_{n}\in A^{*}$ and
+  $v = b_{1}\dots b_{n}\in B^{*}$, allows to observe that
+  \begin{equation*}
+    b(\cyl(u)\times\cyl(v)) = \cyl(\tuple{a_{1}, b_{1}}\dots
+      \tuple{a_{n}, b_{n}}).
+  \end{equation*}
+  Therefore, we get the required measurability for $b$ and $b^{-1}$ by
+  construction of measurable sets in the Borel-algebras. Hence, the claimed
+  isomorphism follows by definition of the measure
+  $\mu_{s}\otimes K\circ b^{-1}$.
+
+  Using Lemma \ref{lem:liftisomorphism} with the function
+  $\obs:S\times Q\rightarrow O$ such that $\obs(s, q) = \interval{s}_{\sim}$
+  yields an isomorphic embedding of
+  \begin{equation*}
+    \tuple{S^{\omega}\times Q^{\omega}, 
+      \mathcal{B}(S)\otimes\mathcal{B}(Q), \mu_{s}\otimes K}
+  \end{equation*}
+  into 
+  \begin{equation*}
+    \tuple{\tuple{\tuple{S\times Q}\times O}^{\omega}, \mathcal{B}(
+    \tuple{S\times Q}\times O), \mu_{s}\otimes K\circ b^{-1}\circ\lift_{\obs}^{-1}}.
+  \end{equation*}
+  Hence, it suffices to show that
+  $\mu_{s}\otimes K\circ b^{-1}\circ\lift_{\obs}^{-1}$ coincides with $\mu_{r}$
+  on all cylindric sets $\cyl(\tuple{\tuple{s_{1}, q_{1}}, o_{1}}\dots
+  \tuple{\tuple{s_{n}, q_{n}}, o_{n}})$. Inductive reasoning on all
+  generators in $\mathcal{G}(\mathcal{A}_{\mathcal{M}}^{\mathcal{P}})$ shows
+  that weight only moves along paths such that the $O$-component agrees with
+  the observation of the $S$-component. Therefore, we state if 
+  $o_{i} = \interval{s_{i}}_{\sim}$ for all $1\leq i\leq n$
+  \begin{align*}
+    \mu_{r}(&\cyl(\tuple{\tuple{s_{1}, q_{1}}, o_{1}}
+      \dots\tuple{\tuple{s_{n}, q_{n}}, o_{n}})) \\
+    &= G^{s(\epsilon)}_{\tuple{s_{0}, q_{0}}}(
+      \tuple{\tuple{s_{1}, q_{1}}, o_{1}})\cdot 
+      \prod\limits_{i = 1}^{n-1}G^{s(o_{1}\dots o_{i})}_{\tuple{s_{i}, q_{i}}}(
+        \tuple{s_{i+1}, q_{i+1}}, o_{i+1})\\
+    &= \delta(q_{0}, s_{1}, q_{1})\cdot\tau_{s(\epsilon)}(s_{0}, s_{1})
+      \prod\limits_{i = 1}^{n-1}
+        \delta(q_{i}, s_{i+1}, q_{i+1})\cdot
+        \tau_{s(o_{1}\dots o_{n})}(s_{i}, s_{i+1})\\
+    &= \mu_{s_{1}\dots s_{n}}(\cyl(q_{0}\dots q_{n}))\cdot
+      \mu_{s}(\cyl(s_{1}\dots s_{n}))\\
+    &= \int_{\cyl(s_{1}\dots s_{n})}K(\cdot, \cyl(q_{0}\dots q_{n}))d\mu_{s}.
+  \end{align*}
+  By the observation that
+  \begin{equation*}
+    \cyl(\tuple{\tuple{s_{1}, q_{1}}, o_{1}}
+    \dots\tuple{\tuple{s_{n}, q_{n}}, o_{n}}) = 
+    \lift_{\obs}\circ b(\cyl(s_{1}\dots s_{n}), \cyl(q_{1}\dots q_{n}))
+  \end{equation*}
+  and the uniqueness of $\mu_{s}\otimes K$ and the extension of $\mu_{r}$, the
+  claim follows.
+\end{proof}
+
+Concludingly, we state
 \begin{theorem}[Qualitative PBA Synthesis]
   The synthesis question of an environment $\mathcal{M}$ and a specification
-  provided as \ac{PBA} $\mathcal{A}$ with a qualitative acceptance measure
-  is decidable.
+  provided as almost-surely accepting \ac{PBA} $\mathcal{A}$ is decidable.
   \label{thm:pbasynthesis}
 \end{theorem}
+\begin{proof}
+  We claim that constructing $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ and
+  deciding its emptiness (Corollary \ref{cor:emptiness}) yields the required
+  decision procedure. Therefore, we observe
+  \begin{equation*}
+    \tuple{\lift_{\obs}\circ b}(S^{\omega}, \Acc(F)) = 
+      (\Acc\interval{S\times Q}(S\times F))
+      \cap(\lift_{\obs}\circ b)(S^{\omega}, Q^{\omega})
+  \end{equation*}
+  which implies  for the unique run $r$ on a tree $t$ that
+  \begin{equation*}
+    \mu_{r}(\Acc\interval{S\times Q}(S\times F))
+    = \mu_{s}\otimes K(S^{\omega}, \Acc(F)).
+  \end{equation*}
+  Hence, with Lemma \ref{lem:pbysynthesisbymuK} we have that 
+  $\mathcal{A}_{\mathcal{M}}^{\mathcal{P}}$ almost-surely accepts $t$ if and
+  only if $t$ solves the synthesis question imposed by $\mathcal{M}$ and
+  $\mathcal{P}$.
+\end{proof}
 
 Although inspired by the arguments of Theorem \ref{thm:PWAasWDTA}, the usage 
-of \acp{WDTA} is not essential for the argument above. Equivalently Lemma 
-\ref{lem:POMDPomegareg} can be extended towards $\phi$ which
-are defineable by almost-surely accepting \acp{PBA} by the natural product 
-construction: we consider a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA} 
+of \acp{WDTA} is not essential for the argument above. Equivalently Theorem
+\ref{thm:POMDPomegareg} can be extended towards $\phi$ which
+are defineable by almost-surely accepting \acp{PBA} by the natural product
+construction: we consider a \ac{POMDP} $\mathcal{M}$ and a \ac{PBA}
 $\mathcal{P}$ with
 \begin{equation*}
   \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
@@ -917,7 +989,11 @@ with
   \text{ and }
   \tuple{s, q}\sim'\tuple{z, p}\text{ iff }s\sim z.
 \end{equation*}
-The correctness argument is analogous to the argument which involve
+This argument removes the use of $\lift_{\obs}$ in the proof of Lemma
+\ref{lem:embedmuK} and renders for any strategy $s$ which are transferable by
+the choice of $\sim'$ the probability spaces for $\mathcal{M}$ with measure
+$\mu_{s}\otimes K$ and $\mathcal{M}\otimes\mathcal{P}$ with measure $\mu_{s}$
+isomorphic. The correctness argument is analogous to the argument which involve
 \acp{WDTA} above. In this setup \acp{MDP} are also transformed to \acp{POMDP}
 since the construction needs to hide the current state of $\mathcal{P}$.
 Specifically, \acp{PBA} have in general possibly multiple following states in

@@ -1,27 +1,22 @@
-\documentclass[twoside, a4paper, fontsize=12pt, abstract=on, draft]{scrreprt}
+\documentclass[twoside, a4paper, fontsize=12pt, abstract=on, draft,%
+notitlepage]{scrreprt}
 \input{tex/preamble.tex}
 
 \title{Automata-theoretic Synthesis for Probablistic Environments}
 \author{Christoph Welzel}
 \date{\today}
 
-\pagestyle{fancy}
-\renewcommand{\headrulewidth}{1pt}
-\renewcommand{\footrulewidth}{1pt}
-\fancyhf{}
-\fancyfoot[OR]{\thepage}
-\fancyfoot[EL]{\thepage}
-\fancyhead[OL]{}
-\fancyhead[OR]{\thetitle}
 
 \begin{document}
-\maketitle
-% \frontmatter{}
-\listoffixmes{}
+\pagestyle{empty}
+\input{tex/titlepage.tex}
+\newpage
 \input{tex/abstract.tex}
+\vfill
+\input{tex/acknowledgements.tex}
 \tableofcontents
-% \mainmatter{}
 
+\pagestyle{plain}
 \input{tex/introduction.tex}
 
 \input{tex/wordautomata.tex}
@@ -33,8 +28,6 @@
 \input{tex/conclusion.tex}
 
 \printbibliography
-
-% \backmatter{}
 
 \appendix
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}

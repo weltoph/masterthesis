@@ -7,7 +7,7 @@
 \counterwithout{figure}{chapter}
 
 % header/footer
-\usepackage{fancyhdr}
+% \usepackage{fancyhdr}
 
 % including graphics
 \usepackage[final]{graphicx}
@@ -15,6 +15,11 @@
 % annotations
 \usepackage[margin=true]{fixme}
 \fxsetup{}
+
+\newenvironment{acknowledgements}{%
+  \renewcommand*{\abstractname}{Acknowledgements} \abstract}{%
+  \endabstract
+}
 
 % colors
 \usepackage{xcolor}

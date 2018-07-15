@@ -1,7 +1,8 @@
 For a finite set $A = \set{a_{1},\dots, a_{n}}$ we consider a finite word over
 $A$ as $a_{i_{1}}a_{i_{2}}\dots a_{i_{m}}$ with $1\leq i_{j}\leq n$ for all 
 $1\leq j\leq m$. $\epsilon$ denotes the unique word of length $0$ and $A^{*}$
-the set of all finite words. We call $\mathcal{L}\subseteq A^{*}$ a language 
+the set of all finite words over $A$.
+We call $\mathcal{L}\subseteq A^{*}$ a language 
 over finite words. For any two two words $a_{i_{1}}\dots a_{i_{m}}$ and
 $a_{j_{1}}\dots a_{j_{k}}$ we denote with 
 $a_{i_{1}}\dots a_{i_{m}}\cdot a_{j_{1}}\dots a_{j_{k}}$ the finite word
@@ -13,7 +14,12 @@ $\mathcal{L}_{1}$ and $\mathcal{L}_{2}$ we introduce
 \end{equation*}
 and for a word $u$ and a language $\mathcal{L}$ we consider 
 $u\cdot\mathcal{L}$ to be equivalent to $\set{u}\cdot\mathcal{L}$. If the 
-semantics is still clear we might omit $\cdot$ in these expressions.
+semantics is still clear we might omit $\cdot$ in these expressions. Moreover,
+we introduce for all $i\geq 0$
+\begin{equation*}
+  \mathcal{L}^{0} = \set{\epsilon}
+  \text{ and }\mathcal{L}^{i+1} = \mathcal{L}\cdot \mathcal{L}^{i}.
+\end{equation*}
 
 Infinite words over $A$ are similarly defined as finite words but requiring a
 countable index sequence $\tuple{i_{k}}_{k\in\mathbb{N}}$. We denote with 

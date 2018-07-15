@@ -92,50 +92,11 @@ $\mathcal{B}(Q\times D)$.
   Muller-conditions (and therefore also for Parity- or Rabin-conditions) 
   follows analogously to the proof of Corollary \ref{cor:borelAcceptance}.
 \end{proof}
-Analogously to marked paths in runs of alternating tree automata runs of
-\acp{WDTA} also are equipped with a notion of marking. Namely, given a run $r$
-of a \ac{WDTA} with states $Q$ and directions $D$ we identify
-\begin{equation*}
-  W_{r} = \set{
-    u\in\tuple{Q\times D}^{*}\mid\mu_{r}(\cyl(u)) > 0
-  }.
-\end{equation*}
-These are those paths that actually carry weight. We observe that only those
-elements of $r$ in $W_{r}$ actually matter for the induced measure of a run in
-\begin{lemma}
-  For a \ac{WDTA} $\mathcal{A}$ and two runs $r_{1}, r_{2}$ on $t$ such that
-  $\mu_{r_{1}}(\cyl(u)) = \mu_{r_{2}}(\cyl(u))$ for all $u\in W_{r_{1}}$, then
-  $\mu_{r_{1}}$ and $\mu_{r_{2}}$ coincide.
-  \label{lem:weightedpart}
-\end{lemma}
-\begin{proof}
-  Firstly, we observe that for any run $r$ of a \ac{WDTA} with states $Q$ and
-  directions $D$ $\mu_{r}$ induces a probability distribution 
-  $P_{n} = \mu_{r}(\cyl(\cdot))$ over $\tuple{Q\times D}^{n}$ for every 
-  $n\in\mathbb{N}$ and
-  \begin{equation*}
-    W_{r} = \bigcup_{n\in\mathbb{N}}\supp(P_{n}).
-  \end{equation*}
-  Therefore, by inductive reasoning we see that $W_{r_{1}} = W_{r_{2}}$ which
-  we simply call $W$ in the following. We fix
-  $\mathcal{W}\subseteq\tuple{Q\times D}^{\omega}$ as those elements such that
-  all finite prefixes of these elements are part of $W$. Hence for every 
-  element $\alpha\in \tuple{Q\times D}^{\omega}\setminus\mathcal{W}$ there is
-  a finite prefix $a\subseteq\alpha$ such that $P_{\size{a}}(a) = 0$, rendering
-  $\mu_{r_{i}}(\cyl(a)) = 0$ for $i = 1,2$. Therefore, we deduce that
-  $\mu_{r_{i}}(A) = \mu_{r_{i}}(A\setminus\mathcal{W})$ for $i = 1,2$ and since
-  $\mu_{r_{1}}$ and $\mu_{r_{2}}$ agree on all cylindric sets starting from 
-  elements in $u$ they coincide by uniqueness of extension on
-  $\restrictTo{\mathcal{B}(Q\times D)}{\mathcal{W}}$.
-\end{proof}
-Effectively, the choices of a \ac{WDTA} only matter if they actually are 
-weighted. Therefore, we occasionally refer to $W_{r}$ as the 
-\emph{weighted part} of a run $r$ and implicitly deduce general statements on
-$r$ by arguments on $W_{r}$.
 
-In the following, we focus on Parity-conditions and motivate this by the
-observation that Parity-conditions are sufficient to express all other 
-conditions (as suggested in \cite[page 24:9, Proposition 6]{RandAutoInfTrees}).
+In the following, we focus on Parity-conditions for \acp{WDTA} and motivate
+this by the observation that Parity-conditions are sufficient to express all
+other conditions (as suggested in
+\cite[page 24:9, Proposition 6]{RandAutoInfTrees}).
 \begin{lemma}
   For every \ac{WDTA} $\mathcal{A}$ with a Büchi-, Rabin- or Muller-condition 
   we can construct an equivalent \ac{WDTA} $\mathcal{C}$ with a 
@@ -540,8 +501,8 @@ and interchangably use $\alpha$ for both words and unary trees.
   $\tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}$ an isomorphic
   probability space $\tuple{\lift_{f}(Q^{\omega}), 
   \restrictTo{\mathcal{B}(Q\times\set{0})}{\lift_{f}(Q^{\omega})}, \mu'}$ with
-  $\mu' = \mu\circ\lift_{f}$. We observe that for every $u = q_{1}\dots q_{n}$
-  holds
+  $\mu' = \mu\circ\lift_{f}^{-1}$. We observe that for every $u = q_{1}\dots
+  q_{n}$ holds
   \begin{align*}
     \mu_{\alpha}(\cyl(u)) &=\delta(q_{0},\alpha_{0},q_{1})\cdot
       \delta(q_{1},\alpha_{1},q_{2})\dots\delta(q_{n-1},\alpha_{n-1},q_{n})\\
@@ -1336,6 +1297,7 @@ The concept of \acp{PWA} allows to define an interesting tree language.
 \end{drawing}
 
 \subsection{Partially Observable Markov Decision Processes}
+\label{sec:modellingpomdp}
 In the following we want to examine the observation that any run of a
 choiceless \ac{WDTA} effectively is an unrollment of a transition system
 which is induced by a tree $t$. This behavior appears similarly to the
@@ -1393,7 +1355,7 @@ terms strategies and trees interchangably in the following.
   $\obs(s) = \interval{s}_{\sim}$. Applying Lemma \ref{lem:liftisomorphism}
   on $\obs$ and the probability space $\tuple{S^{\omega}, \mathcal{B}(S),
   \mu_{s}}$ gives a probability space $\tuple{\tuple{S\times O}^{\omega},
-  \mathcal{B}(S\times O), \mu'}$ with $\mu' = \mu_{s}\circ\lift_{\obs}$.
+  \mathcal{B}(S\times O), \mu'}$ with $\mu' = \mu_{s}\circ\lift_{\obs}^{-1}$.
   Moreover, we know that $\lift_{\obs}$ is an isomorphism from
   $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{s}}$ to
   $\tuple{\lift_{\obs}(S^{\omega}),
