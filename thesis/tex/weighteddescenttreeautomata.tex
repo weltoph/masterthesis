@@ -150,7 +150,7 @@ other conditions (as suggested in
   this argument. This embeds $r$ in $r'$. Moreover, we can observe that this 
   allows to obtain for any run $r'$ of $\mathcal{C}$ on $t$ a run $r$ of 
   $\mathcal{A}$ on $t$ by iteratively using the corresponding original 
-  transitions from which transitions in $\mathcal{C}$ are derived. Moreover, 
+  transitions from which transitions in $\mathcal{C}$ are derived. Hence, 
   we can relate by the inductive construction paths in $r$ and $r'$ in both 
   directions such that
   \begin{center}
@@ -163,15 +163,13 @@ other conditions (as suggested in
   \end{center}
   with $\ell_{i} = \up(\ell_{i-1}, q_{i})$ for all $i>0$ and state that all 
   other paths in the domain of $r'$ have a measure of $0$ by definition of the
-  generators in $\mathcal{C}$. Thus, considering $W_{r'}$ of $r'$ there is a 
-  one-to-one correspondance to elements in $W_{r}$ of $r$. Specifically, we 
-  obtain
+  generators in $\mathcal{C}$. Specifically, we obtain
   \begin{equation*}
     \mu_{r}(\cyl(\tuple{q_{1},d_{1}}\dots\tuple{q_{n},d_{n}})) = 
       \mu_{r'}(\cyl(\tuple{\ell_{1},d_{1}}\dots\tuple{\ell_{n},d_{n}}))
   \end{equation*}
-  for the bijected elements of $W_{r}$ and $W_{r'}$. This allows to conclude 
-  with Lemma \ref{lem:larhitset}
+  for the bijected elements. This allows to conclude with Lemma
+  \ref{lem:larhitset}
   \begin{equation*}
     \mu_{r}(\Acc(\mathcal{F})) = \mu_{r'}(\Acc(\parity)),
   \end{equation*} 
@@ -216,21 +214,22 @@ Given these definitions, we explore the theory of \acp{WDTA}.
 \subsection{Closure Properties}
 In the following, we examine the closure properties of \acp{WDTA}. We provide
 constructions to obtain closure for union and intersection for \acp{WDTA}, 
-regarding complementation we leave the closure property open since it is not 
-required for our further arguments. However, we obtain for choiceless
-\acp{WDTA} that there is no closure under complementation regarding almost-sure
-acceptance of Büchi-conditions as a simple corollary from the result to embed
-\acp{PBA} into \acp{WDTA}. Mainly, the presented results are obtained by
-re-iterating arguments for \acp{PBA} or tree automata. We examine these
-properties selectively, predominantly focusing on almost-surely accepting
-models because they prove most relevant for the examined use-cases later on. 
+regarding complementation we leave the closure property open. However, we
+obtain for choiceless \acp{WDTA} that there is no closure under complementation
+regarding almost-sure acceptance of Büchi-conditions as a simple corollary from
+the result to embed \acp{PBA} into \acp{WDTA}. Mainly, the presented results
+are obtained by re-iterating arguments for \acp{PBA} or tree automata. We
+examine these properties selectively, predominantly focusing on almost-surely
+accepting models because they prove most relevant for the examined use-cases
+later on. 
 
 Unsuprisingly, the non-determinism of the model induces closure under union for 
 certain classes in a straightforward manner (as suggested by 
 \cite[Proposition 14]{RandAutoInfTrees}). 
 \begin{proposition}[Union - uni-directional, unrestricted]
   Uni-directional and unrestricted \acp{WDTA} are closed under union for 
-  either positive and almost-sure acceptance.
+  either positive and almost-sure acceptance. Moreover, uniformly distributed
+  \acp{WDTA} with a common blueprint are closed under union.
   \label{prop:uniunrunion}
 \end{proposition}
 \begin{proof}
@@ -294,11 +293,6 @@ certain classes in a straightforward manner (as suggested by
   $\mathcal{A}_{2}$ since transition are simply mirrored.
 \end{proof}
 
-\begin{corollary}
-  The class of uniformly distributed \acp{WDTA} with a fixed blueprint $B$ is 
-  closed under union.
-\end{corollary}
-
 We can use the aforementioned equivalence of uniformly distributed \acp{WDTA} 
 with the model introduced in \cite{RandAutoInfTrees} to carry over the follwing
 results:
@@ -343,7 +337,7 @@ of $1$ to render the new run almost-surely accepted.
     \begin{equation*}
       \Delta_{i}' = \set{
         \tuple{q,\sigma,G\interval{Q_{3-i}\cup\set{
-          q_{\cap}}\mapsto 0}}:\tuple{q,\sigma, G}\in\Delta_{i}
+          q_{\cap}}\times D\mapsto 0}}:\tuple{q,\sigma, G}\in\Delta_{i}
       }\text{ for }i = 1,2,
     \end{equation*}
     and
@@ -398,13 +392,12 @@ of $1$ to render the new run almost-surely accepted.
   $\mu_{r_{2}}(\Acc(\parity_{2})) = 1$ which ensures that $\mathcal{C}$ indeed
   accepts the intersection of $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$. Note,
   that this construction respects choicelessness of the original automata.
-
-  Additionally, we can observe that $\mu_{r}(\Acc(\parity_{\cap})) > 0$ if and 
-  only if $\mu_{r_{1}}(\Acc(\parity_{1}))>0$ or 
-  $\mu_{r_{2}}(\Acc(\parity_{2}))>0$; and therefore we can use $\mathcal{C}$ as
-  alternative construction to ensure the closure of \acp{WDTA} with positive
-  acceptance.
 \end{proof}
+Additionally, we can observe in the presented construction that
+$\mu_{r}(\Acc(\parity_{\cap})) > 0$ if and only if
+$\mu_{r_{1}}(\Acc(\parity_{1}))>0$ or $\mu_{r_{2}}(\Acc(\parity_{2}))>0$.
+Therefore, we can use $\mathcal{C}$ as alternative construction to ensure the
+closure of \acp{WDTA} with positive acceptance.
 \begin{corollary}
   The class of languages that can be recognized by choiceless \acp{WDTA} with
   almost-sure (positive) acceptance is closed under intersection (union).
@@ -703,13 +696,12 @@ few helpful lemmas for reasoning about runs for \acp{WDTA}.
   \label{lem:subrunsum}
 \end{lemma}
 \begin{proof}
-  Since Parity-conditions are prefix-independent and we partition 
-  $\tuple{Q\times D}^{\omega}$ into $\cyl(v_{i})$ for $1\leq i\leq n$ we can 
-  also partition $\Acc\interval{Q}(\parity)$ into $n$ sets 
-  $\Acc_{i} = \Acc\interval{Q}(\parity)\cap\cyl(v_{i})$ for $1\leq i\leq n$.
-  Therefore, we state using the observation that the observation $\Acc_{i}$
-  corresponds to the independent observations to end up in $\cyl(v_{i})$ and
-  satisfy the Parity-condition
+  Since we partition $\tuple{Q\times D}^{\omega}$ into $\cyl(v_{i})$ for
+  $1\leq i\leq n$ we can also partition $\Acc\interval{Q}(\parity)$ into $n$
+  sets $\Acc_{i} = \Acc\interval{Q}(\parity)\cap\cyl(v_{i})$ for
+  $1\leq i\leq n$. Therefore, we state using the observation that the
+  observation $\Acc_{i}$ corresponds to the independent observations to end up
+  in $\cyl(v_{i})$ and satisfy the Parity-condition
   \begin{equation*}
     \mu_{r}(\Acc\interval{Q}(\parity)) = \sum\limits_{1\leq i\leq n}
       \mu_{r}(\Acc_{i}) = \sum\limits_{1\leq i\leq n}
@@ -754,9 +746,9 @@ proof to Lemma \ref{lem:omegaregnotpba}:
       \end{aligned}
     }.
   \end{equation*}
-  Notably, $\cyl(R\cup\set{u})$ is a partition of 
-  $\tuple{Q\times D}^{\omega}$ and again $\mu_{r}(\cyl(\cdot))$ a probability
-  distribution on $R\cup\set{u}$. Therefore we obtain
+  Notably, $\cyl(a)$ for $a\in R\cup\set{u})$ partitions
+  $\tuple{Q\times D}^{\omega}$ and again $\mu_{r}(\cyl(\cdot))$ is a
+  probability distribution on $R\cup\set{u}$. Therefore, we obtain
   \begin{align*}
     \mu_{r}(\Acc\interval{Q}(\parity)) &= \sum\limits_{w\in R}
       \mu_{r}(\cyl(w))\cdot\mu_{r_{w}}(\Acc\interval{Q}(\parity))\\
@@ -884,8 +876,8 @@ We additionally introduce
 \end{proposition}
 
 \subsection{Probabilistic Weighted Automata}
-Recall, that \acp{PBA} are meant as \acp{NBA} but where the non-determinism is
-actually resolved using a probability distribution. This is conceptually 
+Recall, that \acp{PBA} are considered to be \acp{NBA} where the non-determinism
+is resolved using a probability distribution. This is conceptually 
 slightly different to the concept of \acp{WDTA} which still incorporate a 
 non-deterministic choice of transitions to construct a run. This run in turn 
 uses a weighting along its paths. This concept is modelled using probability 
@@ -904,8 +896,8 @@ We begin by defining the class of \ac{PWA} analogously to
 \begin{definition}[Probabilistic Weighted Automata]
   Fix a finite alphabet $\Sigma$, a finite set of directions $D$ and a finite
   set of states $Q$. We fix a probability distribution
-  $B:D\rightarrow\interval{0,1}$ which fixes the movement through any run. The
-  possible transitions are defined as a non-empty set
+  $B:D\rightarrow\interval{0,1}$ which weights the movement through any run.
+  The possible transitions are defined as a non-empty set
   \begin{equation*}
     \Delta = \set{\tau_{1},\dots,\tau_{n}}
   \end{equation*}
@@ -973,11 +965,12 @@ $\compRuns(r)$. Furthermore, we can gather the set of all possible runs of
 $\mathcal{A}$ on $t$ in a set $\Runs_{\mathcal{A}}^{t}$. Analogously, to the 
 concept of cylinders over a set we can capture a $\sigma$-algebra 
 $\mathcal{R}_{\mathcal{A}}^{t}$ over runs by using the sets $\compRuns(r)$ for 
-every partial run $r$ on $t$ as generating sets. For any partial run 
-$r:T\rightarrow Q$ and any $u\in\inner(T)$ we define $\tau_{u}$ as the unique 
-$\tau$ such that $r(u\cdot d) = \tau(d)$ for all $d\in D$ and obtain a 
-probability for the partial run and inherently a probability for all possible
-extensions $\compRuns(r)$, namely
+every partial run $r$ on $t$ as generating sets (cp.
+\cite[Chapter 4]{RandAutoInfTrees}). For any partial run $r:T\rightarrow Q$ and
+any $u\in\inner(T)$ we define $\tau_{u}$ as the unique $\tau$ such that
+$r(u\cdot d) = \tau(d)$ for all $d\in D$ and obtain a probability for the
+partial run and inherently a probability for all possible extensions
+$\compRuns(r)$, namely
 \begin{equation*}
   \mu_{t}(\compRuns(r)) = \prod\limits_{w\in\inner(T)}
     \delta(r(u),t(u),\tau_{u}).
@@ -1113,21 +1106,21 @@ This allows us to formulate
   \ref{lem:measureabilityAcceptance} in this more complex setting to obtain the
   measureability of $f^{-1}(1)$. For any $p\in D^{*}$ fix the set of all 
   $R_{p}\subseteq\Runs_{\mathcal{A}}^{t}\times\Paths$ such that
-  $\tuple{r,\rho}\in R_{p}$ if and only if $p\sqsubset\rho$ and for all
-  $p\sqsubset u\sqsubset\rho$ holds $r(u)\notin F$. The complement of
+  $\tuple{r,\rho}\in R_{p}$ if and only if $p\sqsubseteq\rho$ and for all
+  $p\sqsubseteq u\sqsubseteq\rho$ holds $r(u)\notin F$. The complement of
   $\cup_{w\in D^{*}}R_{w}$ describes $f^{-1}(1)$, since every element
   $\tuple{r,p}$ in the complement of $\cup_{w\in D^{*}}R_{w}$ is not part of
   any $R_{w}$. Obviously, it is not part of those $R_{w}$ for which
-  $w\not\sqsubset p$ and for those $w\sqsubset p$ all $w$ do have a
-  prolongation $v$ with $w\sqsubset v\sqsubset p$ with $r(v)\in F$. If on the
+  $w\not\sqsubseteq p$ and for those $w\sqsubseteq p$ all $w$ do have a
+  prolongation $v$ with $w\sqsubseteq v\sqsubseteq p$ with $r(v)\in F$. If on the
   other hand $\tuple{r,p}\in f^{-1}(1)$ then $p$ is a path in $r$ which
-  satisfies the Büchi-condition and therefore for every prefix $w\sqsubset p$
-  there is a point $v$ with $w\sqsubset v\sqsubset p$ with $r(v)\in F$ which
+  satisfies the Büchi-condition and therefore for every prefix $w\sqsubseteq p$
+  there is a point $v$ with $w\sqsubseteq v\sqsubseteq p$ with $r(v)\in F$ which
   makes $\tuple{r,p}$ not part of any $R_{w}$.
 
   It remains to show that $R_{w}$ are measureable for every $w\in D^{*}$. Fix
   one such $w$ and for every $n>\size{w}$ gather for all balanced proper
-  partial runs $r$ with depth $n$ and words $p\in D^{n}$ with $w\sqsubset p$
+  partial runs $r$ with depth $n$ and words $p\in D^{n}$ with $w\sqsubseteq p$
   and $r(p)\notin F$. The countable union of all such $\compRuns(r)$ and
   $\cyl(p)$ is collected in $C_{n}$ and we claim that
   $R_{u} = \cap_{\size{u}<n}C_{n}$ by the following argument: for any
@@ -1372,8 +1365,8 @@ terms strategies and trees interchangably in the following.
     \end{cases}
     \label{eq:wdtapomdp}
   \end{equation}
-  Hence, $\mu'$ coincides with $\mu_{r}$. The claim follows from Lemma
-  \ref{lem:liftisomorphism}.
+  Hence, $\mu'$ coincides with $\mu_{r}$ by unique extension of $\mu'$ and
+  $\mu_{r}$. The claim follows from Lemma \ref{lem:liftisomorphism}.
 \end{proof}
 This lemma allows to deduce the following
 \begin{theorem}

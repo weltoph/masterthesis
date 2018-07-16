@@ -30,7 +30,7 @@ game-theoretic formulation. As suggested in \cite{SeqCondStrat} we can consider
 the environment as antagonistic and formulate the synthesis question in terms
 of strategies, i.e. one player generates inputs while another player generates
 outputs. We call these players \inputp{} and \outputp{} respectively. The game
-unfolds by \inputp{} choosing sequentially inputs $i_{1}i_{2}\dots$ and 
+unfolds by \inputp{} sequentially choosing inputs $i_{1}i_{2}\dots$ and 
 \outputp{} reacting by $j_{1}j_{2}\dots$. Thus, a play
 \begin{center}
   \begin{tabular}{cccc}
@@ -330,7 +330,8 @@ The central idea of this proof is formulated in
   similar to the proof of Lemma \ref{lem:liftisomorphism} the measurability of
   $\inpout$ as well as $\inpout^{-1}$.
 
-  We show that $\mu_{f,g}$ coincides with $\mu_{\alpha_{f}^{g}}\circ\inpout$
+  We show that $\mu_{f,g}$ coincides with
+  $\mu_{\alpha_{f}^{g}}\circ\inpout^{-1}$
   on $\restrictTo{\mathcal{B}(I\times Q\times J)}{F\cap G}$ which induces the
   required embedding by Equation \ref{eq:weightinFG}. For a fixed sequence
   $p_{1}\dots p_{n}\in Q^{*}$ we have

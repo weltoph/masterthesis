@@ -289,8 +289,9 @@ alternating tree automata.
 \end{corollary}
 \begin{drawing}
   \caption{Beginning from $q_{0}$ two run-trees unfold independently for an
-  alternating tree automata. If we consider this as the runs of a union or
-  intersection \ac{PBA} both runs are tuned down by the factor $\frac{1}{2}$.}
+  alternating tree automata. If we consider this as the runs of a union
+  (intersection) positively (almost-surely) accepting \ac{PBA} both runs are
+  tuned down by the factor $\frac{1}{2}$.}
   \label{fig:parallelruns}
   \begin{center}
     \includegraphics{tikz/parallelruns.pdf}
@@ -393,9 +394,9 @@ met we consider the opponent victorious. This leads to the definition
       $f_{\sigma}: V^{*}V_{\sigma}\rightarrow V$ where for any $w\in V^{*}$ and
       $v\in V_{\sigma}$ $f_{\sigma}(w\cdot v)\in vE$ (where $vE =
       \set{u\in V\mid\tuple{v,u}\in E}$). A play is considered winning for
-      player $0$ if it belongs to $\Acc$. Notably it holds that two strategies
-      $f_{0}, f_{1}$ induce a play $v_{0}v_{1}\dots$ by fixing for any $v\in V$
-      the term
+      one player (\eve{}) if it belongs to $\Acc$. Notably it holds that two
+      strategies $f_{0}, f_{1}$ induce a play $v_{0}v_{1}\dots$ by fixing for
+      any $v\in V$ the term
       \begin{equation*}
         \sigma(v) = \begin{cases}
           0&\text{if }v\in V_{0}\\
@@ -589,10 +590,10 @@ choice of one direction corresponds to an implicit choice of a transition,
 namely the one to which \adam{} answers by this move. Considering any 
 transition in $\nabla$ we observe that for every possible choice of \eve{} 
 in parallel one answer of \adam{} is explored. This captures the usage of
-determinacy by exploring all of \adam{}'s option since a winning strategy 
-produces for all choices of \eve{} a winning play, hence choosing the set of 
-answers that are initial for winning plays allows to encode \adam{}'s winning
-strategy. We construct for a given 
+determinacy by exploring all of \eve{}'s option since a winning strategy of
+\adam{} produces for all choices of \eve{} a winning play, hence choosing the
+set of answers that are initial for winning plays allows to encode \adam{}'s
+winning strategy. We construct for a given 
 \ac{APTA}
 \begin{equation*}
   \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity},
@@ -609,6 +610,7 @@ set of accepted paths. Technically, any run explores all possible plays of
 one path in this run. Therefore $\mathcal{C}$ is the dual automaton to 
 $\mathcal{A}$ implying
 \begin{proposition}
+  \cite[Complementation Theorem]{AltTreeAuto}
   The class of languages of trees accepted by \acp{APTA} is closed under
   negation. This holds by Theorem \ref{thm:treesimulation} also for \acp{PTA}.
   \label{prop:atanegation}

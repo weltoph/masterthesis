@@ -528,6 +528,29 @@ that contain infinitely many $a$ is (since it is \ac{DBA} recognizable)
   acceptance is not closed under complementation.
   \label{prop:pba=1complement}
 \end{proposition}
+However, the union construction for positively accepting \acp{PBA} can be used
+to obtain an intersection operator for almost-surely accepting \acp{PBA}.
+\begin{proposition}
+  \cite[Consequence of Section 4.3.]{Groesser}
+  The class of languages recognizable with \acp{PBA} with almost-sure
+  acceptance is closed under intersection.
+\end{proposition}
+\begin{proof}
+  For the union operator for positively accepting \acp{PBA} we observed that
+  \begin{equation*}
+    \mu(\Acc(F)) = \frac{1}{2}\cdot\mu^{1}_{\alpha}(\Acc(F^{1})) +
+      \frac{1}{2}\cdot\mu^{2}_{\alpha}(\Acc(F^{2}))
+  \end{equation*}
+  for $F = F_{1}\cup F_{2}$.
+  Naturally, this entails
+  \begin{equation*}
+    \mu(\Acc(F)) = 1 \text{ if and only if } 
+      \mu^{1}_{\alpha}(\Acc(F^{1})) = 1 
+      \text{ and }
+      \mu^{2}_{\alpha}(\Acc(F^{2})) = 1.
+  \end{equation*}
+  Hence, the claim follows.
+\end{proof}
 
 \subsection{Markov Decision Processes}
 In the following we introduce \acp{MDP}, a model of interaction between a 
