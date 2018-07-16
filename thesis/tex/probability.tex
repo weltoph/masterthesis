@@ -43,8 +43,9 @@ describes how probable a chosen observation is:
   \begin{enumerate}
     \item $\mu(\Omega) = 1$,
     \item for a countable collection $\tuple{A_{i}}_{i\in\mathbb{N}}$ with
-      $A_{i}\in\mathcal{F}$ for all $i\in\mathbb{N}$ and 
-      $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we have
+      $A_{i}\in\mathcal{F}$ for all $i\in\mathbb{N}$,
+      $A_{i}\cap A_{j} = \emptyset$ for all $i, j\in\mathbb{N}$ with $i\neq j$
+      and $\mathbb{A} = \cup_{i\in\mathbb{N}}A_{i}$ we have
       \begin{equation*}
         \mu(\mathbb{A}) = \sum_{i\in\mathbb{N}}\mu(A_{i}).
       \end{equation*}
@@ -137,7 +138,7 @@ this set. This is defined as
 \begin{definition}[Borel-algebra]
   For a finite set $A$ we call $\mathcal{B}(A)\subseteq\Pot(A^{\omega})$ the 
   smallest $\sigma$-algebra containing $\cyl(w)$ for all $w\in A^{*}$. We call
-  a set $C\subset A^{\omega}$ \emph{Borel} if $C\in\mathcal{B}(A)$.
+  a set $C\subseteq A^{\omega}$ \emph{Borel} if $C\in\mathcal{B}(A)$.
   \label{def:borelalgebra}
 \end{definition}
 Note that the collection of all cylindric sets $\mathcal{E}$ over a finite set
@@ -237,7 +238,7 @@ families of sets, namely
   $E_{2}\in\mathcal{E}_{2}$. 
   \label{thm:productgen}
 \end{theorem}
-Analogously to \cite[Remark 35]{AutoRandInfTrees}, we consider product algebras
+Analogously to \cite[Remark 35]{RandAutoInfTrees}, we consider product algebras
 of two Borel-algebras and observe the following
 \begin{lemma}
   For two finite sets $A, B$ the product algebra
@@ -281,7 +282,8 @@ Moreover regarding probability measures in product spaces we have
   $\tuple{\Omega_{1}\times\Omega_{2}, \mathcal{F}_{1}\otimes\mathcal{F}_{2}}$ 
   with 
   \begin{equation*}
-    \pi(A_{1}\times A_{2}) = \mu_{1}(A_{1})\cdot\mu_{2}(A_{2}).
+    \pi(A_{1}\times A_{2}) = \mu_{1}(A_{1})\cdot\mu_{2}(A_{2})\text{ for all }
+      A_{1}\in\mathcal{F}_{1}, A_{2}\in\mathcal{F}_{2}.
   \end{equation*}
   \label{lem:productmeasure}
 \end{lemma} 
@@ -289,9 +291,9 @@ Also, for these product spaces and measurable functions we have
 \begin{theorem}[Tonelli's Theorem]
   \cite[Theorem 23.6]{Bauer}
   For two probability spaces $\tuple{\Sigma_{i}, \mathcal{F}_{i}, \mu_{i}}$ 
-  ($i = 1,2$) and a $\mathcal{F}_{1}\otimes\mathcal{F}_{2}$-measureable 
-  function $f:\Sigma_{1}\times\Sigma_{2}\rightarrow\interval{0,1}$ then
-  we obtain measurability in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ 
+  ($i = 1,2$) and a $\mathcal{F}_{1}\otimes\mathcal{F}_{2}$-measureable
+  numerical function $f:\Sigma_{1}\times\Sigma_{2}\rightarrow\interval{0,1}$
+  then we obtain measurability in $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ 
   respectively of
   \begin{equation*}
     \omega_{1}\mapsto\int_{\Omega_{2}} f(\omega_{1},\cdot)d\mu_{2}
@@ -372,8 +374,8 @@ analogously to \cite[Definition 8.34]{Klenke}
   $\mu_{2} = \mu_{1}\circ\rho^{-1}$.
 \end{definition}
 We introduce a certain class of isomorphic probability spaces which we 
-occasionally make use of: we consider two finite non-empty sets $A$, $B$ and
-a function $f:A\rightarrow B$. We define the operator
+occasionally make use of: for two finite non-empty sets $A$, $B$ and
+a function $f:A\rightarrow B$, we introduce the operator
 \begin{equation*}
   \lift_{f}:A^{\omega}\rightarrow\tuple{A\times B}^{\omega}
   \text{ with }\lift_{f}(\alpha_{1}\alpha_{2}\dots) = 

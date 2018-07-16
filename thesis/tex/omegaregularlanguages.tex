@@ -7,18 +7,20 @@ structural definition
   $\mathcal{A} = \tuple{Q, \Sigma, q_{0}, \Delta}$ where
   $Q$ is a set of states, $\Sigma$ a finite alphabet, $q_{0}\in Q$ is the
   initial state and $\Delta\subseteq Q\times\Sigma\times Q$ is the transition
-  relation. We define some associated notions as follows:
+  relation. It is required that for every $q\in Q$ and $\sigma\in\Sigma$ exists
+  one $p\in Q$ such that $\tuple{q,\sigma, p}\in\Delta$. We define some
+  associated notions as follows:
   \begin{description}
     \item [Run]
       For a word $\alpha = \alpha_{0}\alpha_{1}\dots\in\Sigma^{\omega}$ we call
       a sequence $\pi = \pi_{0}\pi_{1}\dots \in Q^{\omega}$ a run of
       $\mathcal{A}$ on $\alpha$ if $\pi_{0} = q_{0}$ and for every
       $i\in\mathbb{N}$ holds that
-      $\tuple{\pi_{i}, \alpha_{i}, \pi_{i+1}}\in\Delta$
+      $\tuple{\pi_{i}, \alpha_{i}, \pi_{i+1}}\in\Delta$.
     \item [Determinism]
       We call $\mathcal{A}$ deterministic if for every pair $q\in Q$ and
       $\sigma\in\Sigma$ the set
-      $\set{p\in Q\mid\tuple{q,\sigma,p}\in\Delta}$ has at most one
+      $\set{p\in Q\mid\tuple{q,\sigma,p}\in\Delta}$ has exactly one
       element. In that case we occasionally substitute the relation $\Delta$ 
       with a function $\delta:Q\times\Sigma\rightarrow Q$.
   \end{description}
@@ -273,8 +275,17 @@ languages the following
   intersection (or respectively the negation). Beginning with the union, we
   make use of non-determinism such that the resulting automaton guesses at the
   beginning in which language the word is and simulates the \enquote{correct}
-  automaton. The closure under intersection is obtained by a natural product
-  construction, namely
+  automaton. Hence, we use a copy of both automata and introduce a new distinct
+  initial state $q^{0}$. $q^{0}$ is equipped with every transition from the two
+  original inital states. Therefore, the initial decision determines which
+  automaton is run on the input word. If the word is part of the language of
+  one of these automata an omniscient oracle is able to provide an accepting
+  run by moving into the correct automaton in the beginning. If the word is
+  not element of either language any initial guess is doomed to produce a
+  non-accepting run.
+
+  The closure under intersection is obtained by a natural product construction,
+  namely
   \begin{definition}
     For $\mathcal{A}_{1} = \tuple{Q, \Sigma, q_{0}, \Delta}$ and
     $\mathcal{A}_{2} = \tuple{P, \Sigma, p_{0}, \nabla}$ we define
@@ -309,7 +320,6 @@ languages the following
   $\parity' = \parity + 1$) and keeping the original structure we exchange
   non-accepting and accepting runs and therefore obtain a structural equivalent
   \ac{DPA} that precisely accepts the complement of the original automaton.
-  These two operations can be chained to obtain an intersection operator.
 \end{proof}
 
 At last, we want to shortly present that deciding emptiness for
@@ -338,7 +348,7 @@ from $q_{0}$ to $f$ and then loop in $f$ yields one accepting word (see Figure
 
   It is possible to compute in time linear to the size of the automaton, i.e.
   in $\mathcal{O}(\size{Q}+\size{\Delta})$, if an \ac{NBA} accepts a word. If
-  so $\mathcal{A}$ also accepts an \emph{ultimatively periodic word}, i.e. a
+  so, $\mathcal{A}$ also accepts an \emph{ultimatively periodic word}, i.e. a
   word of the form $u\cdot v^{\omega}$ for $u, v\in\Sigma^{+}$.
   \label{thm:nbaemptiness}
 \end{theorem}

@@ -67,6 +67,7 @@
       anchor = base west
     }
   ] {
+    Master's Thesis & \\
     \large{\textbf{Title:}}  & \large{\textbf{Automata-theoretic Synthesis for
       Probabilistic Environments}} \\
     Author: & Christoph Welzel \\

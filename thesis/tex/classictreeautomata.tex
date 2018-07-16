@@ -11,7 +11,7 @@ set of states. The following introduction conceptually follows
   Let $Q$ be a finite set of states and $q_{0}\in Q$ be one initial state.
   Furthermore, let $\Delta$ denote a set of transitions of the form
   $\tuple{q,\sigma, \tuple{q_{d}}_{d\in D}}$ where $q\in Q, q_{d}\in Q$ for
-  all $d\in D$ and $\sigma\in\Sigma$. Thus, define a tree automaton
+  all $d\in D$ and $\sigma\in\Sigma$. We define a tree automaton
   \begin{equation*}
     \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc\subseteq Q^{\omega}}.
   \end{equation*}
@@ -47,7 +47,7 @@ ourselves with the notions of tree automata
   accepting. $q_{a}$ reproduces itself into all its subtrees, while $q_{s}$ 
   reproduces itself only in one of its subtrees and \enquote{dismissing} the 
   other one by sending $q_{a}$ in it. The acceptance condition is described as 
-  a Büchi condition by the set $F = \set{q_{a}}$, thus, since $q_{a}$ only 
+  a Büchi condition by the set $F = \set{q_{a}}$. Thus, since $q_{a}$ only 
   produces $q_{a}$ in all following subtrees, it can be also understood as a 
   Reachability-condition, i.e. a condition which is satisfied as soon as one
   desired element occurs. This yields the tree automaton
@@ -252,12 +252,13 @@ We formally define similar to \cite{SynProbEnv}
   is part of $\Acc$.) A run $r$ is considered accepting if
   $M_{r}\subseteq\Acc\interval{Q}$. Again, we consider for $\Acc$ acceptance
   conditions which are representable as Büchi-, Rabin-, Muller- or
-  Parity-conditions. We introduce according acronyms, namely \ac{ABTA},
-  \ac{ARTA}, \ac{AMTA} and \ac{APTA} respectively.
+  Parity-conditions. 
 \end{definition}
-By using the same argument of using \acp{LAR} as for Theorem 
-\ref{thm:omegaregularexp} and Theorem \ref{thm:treeautoequiv} we obtain
+We introduce according acronyms, namely \ac{ABTA}, \ac{ARTA}, \ac{AMTA} and
+\ac{APTA} respectively. By using the same argument of using \acp{LAR} as for
+Theorem \ref{thm:omegaregularexp} and Theorem \ref{thm:treeautoequiv} we obtain
 \begin{theorem}
+  \cite[Consequence of Theorem 1.2]{SimAltTreeAuto}
   \ac{ARTA}, \ac{AMTA} and \ac{APTA} recognize the same class of tree
   languages.
   \label{thm:atreeautoequiv}

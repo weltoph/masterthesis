@@ -120,7 +120,8 @@ Since we explicitly defined \acp{PBA} with Büchi-conditions this suffices to
 show their definition to be useful. But it is a natural escalation to consider
 more elaborate acceptance conditions, e.g. Muller-, Parity- or
 Rabin-conditions. We show the measureability of those sets here as well, since
-it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance}.
+it is a easy consequence of Lemma \ref{lem:measureabilityAcceptance} (cp. again
+\cite[Proposition 6]{RandAutoInfTrees}).
 \begin{corollary}
   For a Muller-condition, a Parity-condition and a Rabin-condition
   defined by $\mathcal{F}\subseteq\Pot(Q)$, $\parity$, 
@@ -220,10 +221,10 @@ $\omega$-regular language. This gives
   is not part of the language (as argued in Example \ref{ex:posacceptingpba}) 
   any ultimatively periodic word that might be part of the language contains at 
   least one $b$ in its period $v$. But this induces that the sequences of $a$ 
-  are bound by a natural number $k_{0}$ yielding that for this word
+  are bound by a natural number $k$ yielding that for this word
   \begin{equation*}
     \prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{i}}) \leq
-    \underbrace{\prod_{i>0}(1-\tuple{\frac{1}{2}}^{k_{0}})}_{
+    \underbrace{\prod_{i>0}(1-\tuple{\frac{1}{2}}^{k})}_{
       \text{infinite product of a constant }0\leq c<1} = 0.
   \end{equation*}
   Hence, every ultimatively periodic word is not accepted by $\mathcal{P}$
@@ -233,7 +234,8 @@ $\omega$-regular language. This gives
 Furthermore, we quote
 \begin{lemma}
   \cite[Lemma 5]{RecOmeLangProbAuto} For any \ac{NBA} $\mathcal{A}$ exists a
-  \ac{PBA} $\mathcal{P}$ which accepts the same language.
+  positively accepting \ac{PBA} $\mathcal{P}$ which recognizes the same
+  language.
 \end{lemma}
 And therefore we may conclude that positively accepting \acp{PBA} are more
 expressive than $\omega$-regular automata:
@@ -302,7 +304,7 @@ by a \ac{PBA} forms a Boolean algebra. This is captured in
   Nevertheless, we state here
   \begin{theorem}
     The expressiveness for \ac{PRA}, \ac{PMA} and \ac{PPA} coincides for
-    positive (almost-sure) acceptance measure.
+    positive (almost-sure) acceptance measures.
     \label{thm:probautoequiv}
   \end{theorem}
 \end{proof}
@@ -345,7 +347,7 @@ Again, we consider an example for a \ac{PBA} with almost-sure acceptance:
   \end{equation*}
   Every $a$-sequence $w\in\set{a}^{*}$ models an experiment which determines 
   how probable it is to stay in $q_{2}$, namely $\lambda^{\size{w}}$. Every 
-  experiment is concluded with the occurence of a single $b$.  Naturally, the 
+  experiment is concluded with the occurence of a single $b$. Naturally, the 
   probability to \enquote{fail} such an experiment is $1-\lambda^{\size{w}}$. 
   Due to the equivalent behaviour of $q_{3}$ and $q_{0}$ all these experiments 
   are independent and therefore, consistenly failing these experiments with 
@@ -353,20 +355,20 @@ Again, we consider an example for a \ac{PBA} with almost-sure acceptance:
   experiment happens with probability
   \begin{equation*}
     p_{m} = \prod\limits_{i>m}(1-\lambda^{k_{i}})
-    \text{ and thus }
+    \text{ which implies }
     \prod\limits_{i>0}(1-\lambda^{k_{i}}) = 
     \underbrace{\prod\limits_{m\geq i>0}(1-\lambda^{k_{i}})}_{=c_{m}}
     \cdot p_{m}.
   \end{equation*}
-  $c_{m} > 0$ implies $c_{m}\cdot p_{m} = 0$ if and only if 
-  $p_{m} = 0$.
-  Every non-accepting run $\pi$ consistently fails from one experiment onwards.
-  This allows to conclude with asymptotic equvialence of $p_{m}$ and 
-  $c_{m}\cdot p_{m}$ and $\sigma$-additivity of a probability measure that the 
-  probability of non-accepting runs is
+  Since $c_{m} > 0$ implies $c_{m}\cdot p_{m} = 0$ if and only if 
+  $p_{m} = 0$ we observe
+  % Every non-accepting run $\pi$ consistently fails from one experiment onwards.
+  % This allows to conclude with asymptotic equvialence of $p_{m}$ and 
+  % $c_{m}\cdot p_{m}$ and $\sigma$-additivity of a probability measure that the 
+  % probability of non-accepting runs is
   \begin{equation*}
-    \sum_{m > 0} p_{m}\text{, and therefore }
-    \sum_{m > 0} p_{m} = 0\text{ iff }\prod\limits_{i>0}(1-\lambda^{k_{i}}) =0.
+    p_{m} = 0 \text{ for all }m > 0\text{ if and only if }
+      \prod\limits_{i>0}(1-\lambda^{k_{i}}) = 0.
   \end{equation*}
   In order to accept almost-surely the set of non-accepting runs needs to be
   \emph{negligible}, i.e. carrying a probability of $0$.  Thus, indeed 
@@ -509,7 +511,6 @@ And by combination of Lemma \ref{lem:omegaregnotpba} and Lemma
   \ac{PBA} with almost-sure acceptance are incomparable.
   \label{thm:regalmostsureincomparable}
 \end{theorem}
-
 Considering this theorem and that using Dirac distributions at every state 
 emulate determinstic choices the following result is transparent:
 \begin{proposition}
