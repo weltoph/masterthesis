@@ -1,0 +1,72 @@
+\tikzset{
+  outline/.style={
+    line width = 2pt
+  },
+  pathline/.style={
+    line width = 1pt,
+    dotted
+  }
+}
+\newcommand{\runtree}[4][pathline]{%
+  \node (#2 c) at #3 {};
+  \node[above=2 of #2 c] (#2 t) {};
+  \node[below left=2 and 1 of #2 c] (#2 l) {};
+  \node[below right=2 and 1 of #2 c] (#2 r) {};
+
+  \node[below =0.9 of #2 t] (#2 p1) {};
+  \node[below right=0.8 and 0.3 of #2 p1] (#2 p2) {};
+  \node[below left=0.3 and 0.3 of #2 p2] (#2 p3) {};
+  \node[below right=0.4 and 0.3 of #2 p3] (#2 p4) {};
+  \node[below right=0.8 and 0.05 of #2 p4] (#2 p5) {};
+
+  \node (#2 b) at (#2 l-|#2 p5) {};
+
+
+  \begin{scope}[on background layer]
+    \draw[draw=none, fill=#4, fill opacity=0.6]
+      (#2 t.center) -- (#2 p1.center) -- (#2 p2.center) -- (#2 p3.center) 
+      -- (#2 p4.center) -- (#2 p5.center) -- (#2 b.center) -- (#2 l.center) 
+      -- cycle;
+  \end{scope}
+  \draw[draw=none, fill=#4, fill opacity=0.6]
+    (#2 t.center) -- (#2 p1.center) -- (#2 p2.center) -- (#2 p3.center) 
+    -- (#2 p4.center) -- (#2 p5.center) -- (#2 b.center) -- (#2 r.center) 
+    -- cycle;
+
+  \begin{scope}[on background layer]
+    \draw[#1] (#2 t.center) -- (#2 p1.center) -- (#2 p2.center) 
+      -- (#2 p3.center) -- (#2 p4.center) -- (#2 p5.center);
+    \draw[outline, shorten > = 0.4cm] (#2 t.center) to (#2 l.center);
+    \draw[outline, dotted] (#2 t.center) to (#2 l.center);
+  \end{scope}
+
+  \draw[outline, shorten > = 0.4cm] (#2 t.center) to (#2 r.center);
+  \draw[outline, dotted] (#2 t.center) to (#2 r.center);
+
+}
+\newcommand{\cutplain}[6][0.6]{%
+  \draw [fill = #6, fill opacity = #1, draw = none]
+    (#2 #3.center) -- (#4 #3.center) -- (#4 #5.center)
+    -- (#2 #5.center) -- cycle;
+}
+
+\newcommand{\y}[1]{%
+  1.0*#1 - 15
+}
+\newcommand{\x}[1]{%
+  -1.8*#1 + 30
+}
+\begin{tikzpicture}
+  \node [draw = none, fill = none] at (0,0) {};
+  \foreach \color [count = \counter from 0] in {green!10,green!20,green!30,%
+    green!40,green!50,green!60,green!70,green!80,green!90} {
+    \runtree{\counter}{(\x{\counter}, -\y{\counter})}{\color};
+  }
+  \begin{scope}[on background layer]
+    \cutplain{0}{t} {8}{p1}{pink!50};
+    \cutplain{0}{p1}{8}{p2}{pink!30};
+    \cutplain{0}{p2}{8}{p3}{pink!60};
+    \cutplain{0}{p3}{8}{p4}{pink!30};
+    \cutplain{0}{p4}{8}{p5}{pink!45};
+  \end{scope}
+\end{tikzpicture}

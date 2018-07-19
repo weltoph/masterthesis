@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+  \node[autonode, state, initial, label = {[label distance = -1pt]45:{\tiny$1$}}] (qa) {$q_{a}$};
+  \node[autonode, right=of qa, state, label = {[label distance = -1pt]45:{\tiny$0$}}] (qb) {$q_{b}$};
+
+  \loopabove{qa}{$a$};
+  \loopabove{qb}{$b$};
+  \draw[->, bend left] (qa) to node[above] {$b$} (qb);
+  \draw[->, bend left] (qb) to node[below] {$a$} (qa);
+\end{tikzpicture}

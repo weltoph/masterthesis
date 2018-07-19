@@ -1,0 +1,7 @@
+\begin{tikzpicture}[anchor=center]
+  \node[autonode, state, initial] (q0) {$q_{0}$};
+  \node[autonode, right=of q0, state, accepting] (qF) {$q_{F}$};
+  \loopabove{q0}{$a,b$};
+  \loopabove{qF}{$b$};
+  \draw[->] (q0) to node[above] {$b$} (qF);
+\end{tikzpicture}

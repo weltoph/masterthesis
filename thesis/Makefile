@@ -1,12 +1,17 @@
 MAINFILE=main
 PDFNAME=$(MAINFILE).pdf
 
+PRESFILE=presentation
+PRESPDF=$(PRESFILE).pdf
+
 LATEX=pdflatex
 LATEXFLAGS=
 
+PRESTEX=latexmk
+
 BIBTEX=biber
 
-HIDEPATTERN=(\.(aux|log|lox|bbl|bcf|toc|blg|run\.xml)$$)
+HIDEPATTERN=(\.(aux|log|lox|bbl|bcf|toc|blg|run\.xml|nav|snm|out)$$)
 
 TIKZDIR=tikz/
 TIKZBLUEPRINT=$(TIKZDIR)tikz-blueprint.tex
@@ -17,6 +22,12 @@ TEXFILES=$(wildcard $(TEXDIR)*.tex)
 
 BIBDIR=bib/
 BIBFILES=$(wildcard $(BIBDIR)*.bib)
+
+$(PRESPDF): $(PRESFILE).tex $(TIKZFILES)
+	ls -a | grep -E "\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}
+	- $(LATEX) $< && $(LATEX) $<
+	#hide auxilliary files again
+	ls -a | grep -E "$(HIDEPATTERN)" | xargs -I {} mv {} .{}
 
 $(PDFNAME): $(MAINFILE).tex $(TEXFILES) $(TIKZFILES) $(BIBFILES)
 	#unhide hidden auxilliary files
