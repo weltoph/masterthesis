@@ -140,10 +140,12 @@
           }
         \end{center}
         \begin{equation*}
-          \underbrace{\set{a^{k_{1}}ba^{k_{2}}b\dots:
-            \substack{k_{i}>0\text{ for all }i>0,\\
-            \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
-          }}_{\mathcal{L}_{1}}
+          \underbrace{
+              \set{a^{k_{1}}ba^{k_{2}}b\dots:
+              \substack{k_{i}>0\text{ for all }i>0,\\
+              \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+            }
+          }_{\mathcal{L}_{1}}
         \end{equation*}
       \end{column}
       \begin{column}<2->{0.5\textwidth}
@@ -154,24 +156,86 @@
           }
         \end{center}
         \begin{equation*}
-          \underbrace{\set{a^{k_{1}}ba^{k_{2}}b\dots:
-            \substack{k_{i}>0\text{ for all }i>0\\
-            \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
-          }}_{\mathcal{L}_{2}}
+          \underbrace{
+            \set{
+              a^{k_{1}}ba^{k_{2}}b\dots:
+              \substack{k_{i}>0\text{ for all }i>0\\
+              \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
+            }
+          }_{\mathcal{L}_{2}}
         \end{equation*}
       \end{column}
     \end{columns}
     \begin{uncoverenv}<3->
       \begin{equation*}
-        \mathcal{L}_{1}\setminus\mathcal{L}_{2} = \underbrace{b\Sigma^{\omega}+
-        \Sigma^{*}bb\Sigma^{\omega} + \Sigma^{*}a^{\omega}}_{
-          \omega-\text{regular}}
+        \mathcal{L}_{1}\setminus\mathcal{L}_{2} = \underbrace{
+          b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} + \Sigma^{*}a^{\omega}
+        }_{\omega-\text{regular}}
       \end{equation*}
     \end{uncoverenv}
   \end{frame}
 
   \begin{frame}
     \frametitle{Probabilistic Automata - Properties}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \small{Positive Acceptance}
+        \begin{itemize}
+          \item<2-> subsumes $\omega$-regular
+          \item<5-> undecidable emptiness
+        \end{itemize}
+        \small{Almost-Sure Acceptance}
+        \begin{itemize}
+          \item<6-> incomparable with $\omega$-regular
+          \item<9-> decidable emptiness
+          \item<10-> Parity- includes positive Büchi-condition
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \begin{overlayarea}{\textwidth}{\textheight}
+          \begin{onlyenv}<3-4>
+            \vspace{0.3\textheight}
+            deterministic in limit \ac{NBA} with uniform probability measure
+            \vfill
+            \begin{uncoverenv}<4>
+              \begin{equation*}
+                \set{
+                  a^{k_{1}}ba^{k_{2}}b\dots:
+                  \substack{k_{i}>0\text{ for all }i>0,\\
+                  \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+                }
+              \end{equation*}
+            \end{uncoverenv}
+          \end{onlyenv}
+          \begin{onlyenv}<7-8>
+            \vspace{0.2\textheight}
+            \begin{equation*}
+              \set{\alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)}
+            \end{equation*}
+            \vfill
+            \begin{uncoverenv}<8>
+              \begin{align*}
+                &\set{
+                  a^{k_{1}}ba^{k_{2}}b\dots:
+                  \substack{k_{i}>0\text{ for all }i>0,\\
+                  \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+                }\\
+                &= b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} 
+                + \Sigma^{*}a^{\omega}\\
+                &\cup
+                \overline{
+                  \set{
+                    a^{k_{1}}ba^{k_{2}}b\dots:
+                    \substack{k_{i}>0\text{ for all }i>0\\
+                    \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
+                  }
+                }
+              \end{align*}
+            \end{uncoverenv}
+          \end{onlyenv}
+        \end{overlayarea}
+      \end{column}
+    \end{columns}
   \end{frame}
 
   \section{Tree-Automata}
