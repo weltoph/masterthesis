@@ -10,219 +10,14 @@
 % acronyms
 \usepackage{acro}
 
-\DeclareAcronym{MDP}{
-  short = MDP ,
-  long  = Markov Decision Process ,
-  class = environment ,
-  long-plural  = es
-}
-\DeclareAcronym{POMDP}{
-  short = POMDP,
-  long = Partially Observable Markov Decision Process ,
-  class = environment ,
-  long-plural = es
-}
-\DeclareAcronym{MC}{
-  short = MC ,
-  long  = Markov Chain ,
-  class = environment ,
-  long-plural  = es
-}
-
-\DeclareAcronym{BTA}{
-  short = BTA ,
-  long  = Büchi Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Büchi Tree Automaton 
-}
-\DeclareAcronym{RTA}{
-  short = RTA ,
-  long  = Rabin Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Rabin Tree Automata 
-}
-\DeclareAcronym{MTA}{
-  short = MTA ,
-  long  = Muller Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Muller Tree Automata 
-}
-\DeclareAcronym{PTA}{
-  short = PTA ,
-  long  = Parity Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Parity Tree Automata
-}
-
-\DeclareAcronym{ABTA}{
-  short = ABTA ,
-  long  = Alternating Büchi Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Alternating Büchi Tree Automata
-}
-\DeclareAcronym{ARTA}{
-  short = ARTA ,
-  long  = Alternating Rabin Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Alternating Rabin Tree Automata
-}
-\DeclareAcronym{AMTA}{
-  short = AMTA ,
-  long  = Alternating Muller Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Alternating Muller Tree Automata
-}
-\DeclareAcronym{APTA}{
-  short = APTA ,
-  long  = Alternating Parity Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Alternating Parity Tree Automata
-}
-
-\DeclareAcronym{WDTA}{
-  short = WDTA ,
-  long  = Weighted Descent Tree Automaton ,
-  class = automaton ,
-  long-plural-form = Weighted Descent Tree Automata
-}
-\DeclareAcronym{PWA}{
-  short = PWA ,
-  long  = Probabilistic Weighted Automaton ,
-  class = automaton ,
-  long-plural-form = Probabilistic Weighted Automata
-}
-
-\DeclareAcronym{PBA}{
-  short = PBA ,
-  long  = Probabilistic Büchi Automaton ,
-  class = automaton ,
-  long-plural-form = Probabilistic Büchi Automata
-}
-\DeclareAcronym{PRA}{
-  short = PRA ,
-  long  = Probabilistic Rabin Automaton ,
-  class = automaton ,
-  long-plural-form = Probabilistic Rabin Automata
-}
-\DeclareAcronym{PMA}{
-  short = PMA ,
-  long  = Probabilistic Muller Automaton ,
-  class = automaton ,
-  long-plural-form = Probabilistic Muller Automata
-}
-\DeclareAcronym{PPA}{
-  short = PPA ,
-  long  = Probabilistic Parity Automaton ,
-  class = automaton ,
-  long-plural-form = Probabilistic Parity Automata
-}
-
-\DeclareAcronym{DBA}{
-  short = DBA ,
-  long  = Deterministic Büchi Automaton ,
-  class = automaton ,
-  long-plural-form = Deterministic Büchi Automata
-}
-\DeclareAcronym{NBA}{
-  short = NBA ,
-  long  = Non-Deterministic Büchi Automaton ,
-  class = automaton ,
-  long-plural-form = Non-Deterministic Büchi Automata
-}
-\DeclareAcronym{DMA}{
-  short = DMA ,
-  long  = Deterministic Muller Automaton ,
-  class = automaton ,
-  long-plural-form = Deterministic Muller Automata
-}
-\DeclareAcronym{NMA}{
-  short = NMA ,
-  long  = Non-Deterministic Muller Automaton ,
-  class = automaton ,
-  long-plural-form = Non-Deterministic Muller Automata
-}
-\DeclareAcronym{DRA}{
-  short = DRA ,
-  long  = Deterministic Rabin Automaton ,
-  class = automaton ,
-  long-plural-form = Deterministic Rabin Automata
-}
-\DeclareAcronym{NRA}{
-  short = NRA ,
-  long  = Non-Deterministic Rabin Automaton ,
-  class = automaton ,
-  long-plural-form = Non-Deterministic Rabin Automata
-}
-\DeclareAcronym{DPA}{
-  short = DPA ,
-  long  = Deterministic Parity Automaton ,
-  class = automaton ,
-  long-plural-form = Deterministic Parity Automata
-}
-\DeclareAcronym{NPA}{
-  short = NPA ,
-  long  = Non-Deterministic Parity Automaton ,
-  class = automaton ,
-  long-plural-form = Non-Deterministic Parity Automata
-}
-
-\DeclareAcronym{LAR}{
-  short = LAR ,
-  long  = Latest Appearance Record ,
-  class = auxilliary
-}
-
-\DeclareAcronym{SCC}{
-  short = SCC ,
-  long  = Strongly-Connected Component ,
-  class = auxilliary
-}
-
-\DeclareAcronym{POSG}{
-  short = POSG ,
-  long  = Partial Observation Stochastic Game ,
-  class = game
-}
+\input{tex/acronyms.tex}
 
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{bbm}
 
-% math operators
-\DeclareMathOperator{\cyl}{cyl}
-\DeclareMathOperator{\plays}{Plays}
-\DeclareMathOperator{\follow}{follow}
-\DeclareMathOperator{\parity}{par}
-\DeclareMathOperator{\supp}{support}
-\DeclareMathOperator{\Inf}{Inf}
-\DeclareMathOperator{\prolong}{prolong}
-\DeclareMathOperator{\cobuechi}{co-B\ddot{u}chi}
-\DeclareMathOperator{\buechi}{B\ddot{u}chi}
-\DeclareMathOperator{\muller}{Muller}
-\DeclareMathOperator{\reach}{Reachability}
-\DeclareMathOperator{\safety}{Safety}
-\DeclareMathOperator{\lar}{LAR}
-\DeclareMathOperator{\perm}{Perm}
-\DeclareMathOperator{\up}{update}
-\DeclareMathOperator{\Syn}{Syn}
-\DeclareMathOperator{\compRuns}{compRuns}
-\DeclareMathOperator{\Runs}{Runs}
-\DeclareMathOperator{\Paths}{Paths}
-\DeclareMathOperator{\Acc}{Acc}
-\DeclareMathOperator{\inner}{inner}
-\DeclareMathOperator{\Pot}{Pot}
-\DeclareMathOperator{\upK}{updateKnowledge}
-\DeclareMathOperator{\currK}{currentKnowledge}
-\DeclareMathOperator{\lift}{lift}
-\DeclareMathOperator{\obs}{obs}
-\DeclareMathOperator{\inpout}{io}
-\DeclareMathOperator{\io}{io}
-
-\newcommand{\tuple}[1]{\left(#1\right)}
-\newcommand{\set}[1]{\left\{#1\right\}}
-\newcommand{\size}[1]{\left\vert{#1}\right\vert}
-\newcommand{\interval}[1]{\left[#1\right]}
+\input{tex/mathoperator.tex}
 
 \title[Syn. for prob. Env.]{
   Automata-theoretic Synthesis for Probabilistic Environments}
@@ -243,8 +38,11 @@
 }
 
 \begin{document}
-\acuseall
+
+  \acuseall
+
   \maketitle
+
   \section{Word-Automata}
   \begin{frame}
     \frametitle{$\omega$-regular Languages}
@@ -252,6 +50,8 @@
       The class of recognizable languages coincides for \alert<2>{\acp{NBA}},
       \alert<3>{\acp{NPA} and \acp{DPA}} and is called $\omega$-regular
       languages. \alert<4>{\acp{DBA} are strictly less expressive.}
+      \uncover<3->{\alert<3>{However, determinisation is inherently costly
+      ($>n!$).}}
     \end{theorem}
     \begin{overlayarea}{\textwidth}{0.5\textheight}
         \begin{equation*}
@@ -277,21 +77,78 @@
         \end{columns}
     \end{overlayarea}
   \end{frame}
+
   \begin{frame}
+    \frametitle{Probabilistic Automata}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, \Sigma, 
+      \delta:Q\times\Sigma\times Q\rightarrow\interval{0,1}, q_{0}, F}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.7\textheight}
+      \begin{onlyenv}<1>
+        \begin{itemize}
+          \item $Q$ : finite state set,
+          \item $q_{0}\in Q$: initial state,
+          \item $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$: 
+            transition probability function
+          \item $F\subseteq Q$: final states.
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<2>
+        \begin{center}
+          \resizebox{!}{0.7\textheight}{%
+            \includegraphics{tikz/pbaruns.pdf}
+          }
+        \end{center}
+      \end{onlyenv}
+      \begin{onlyenv}<3>
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{itemize}
+              \item<3> cylindric sets 
+                \begin{equation*}
+                  \cyl(u) = \set{u\cdot\alpha:\alpha\in Q^{\omega}}
+                \end{equation*}
+              \item<4> $\alpha$ induces probability space 
+                \begin{equation*}
+                  \tuple{Q, \mathcal{B}(Q), \mu_{\alpha}}
+                \end{equation*}
+              \item<5> positive or almost-sure acceptance
+                \begin{equation*}
+                  \mu_{\alpha}(\Acc_{\buechi}(F)) > 0
+                  \text{ or }
+                  \mu_{\alpha}(\Acc_{\buechi}(F)) = 1
+                \end{equation*}
+            \end{itemize}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \resizebox{0.9\textwidth}{!}{%
+              \includegraphics{tikz/cylinder.pdf}
+            }
+          \end{column}
+        \end{columns}
+      \end{onlyenv}
+    \end{overlayarea}
   \end{frame}
+
   \section{Tree-Automata}
   \begin{frame}
   \end{frame}
+
   \begin{frame}
   \end{frame}
+
   \section{Synthesis}
   \begin{frame}
   \end{frame}
+
   \begin{frame}
   \end{frame}
+
   \section{Conclusion}
   \begin{frame}
   \end{frame}
+
   \begin{frame}
   \end{frame}
 \end{document}
