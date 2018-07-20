@@ -20,33 +20,33 @@
   ]
   \node  (root) {$\epsilon$};
 
-  \node [above right=1 and 1 of root] (t) {$q_{1}$};
-  \node [below right=1 and 1 of root] (b) {$q_{k}$};
+  \node [below right=0.5 and 1 of root] (t) {$q_{k}$};
+  \node [below left=0.5 and 1 of root] (b) {$q_{1}$};
 
-  \node [above right=0.3 and 1 of t] (tt) {$q_{1}$};
-  \node [below right=0.1 and 1 of t] (tb) {$q_{k}$};
-  \node [above right=0.3 and 0.5 of tt] (ttd) {};
-  \node [below right=0.1 and 0.6 of tb] (tbd) {};
+  \node [below right=0.5 and 0.3 of t] (tt) {$q_{k}$};
+  \node [below left=0.5 and 0.1 of t] (tb) {$q_{1}$};
+  \node [below right=0.25 and 0.3 of tt] (ttd) {};
+  \node [below left=0.3 and 0.1 of tb] (tbd) {};
 
-  \node [above right=0.1 and 1 of b] (bt) {$q_{1}$};
-  \node [below right=0.3 and 1 of b] (bb) {$q_{k}$};
-  \node [above right=0.1 and 0.6 of bt] (btd) {};
-  \node [below right=0.3 and 0.5 of bb] (bbd) {};
+  \node [below right=0.5 and 0.1 of b] (bt) {$q_{k}$};
+  \node [below left=0.5 and 0.3 of b] (bb) {$q_{1}$};
+  \node [below right=0.3 and 0.1 of bt] (btd) {};
+  \node [below left=0.25 and 0.3 of bb] (bbd) {};
 
-  \node [above right=0.3 and 1.1 of root, pathnode] (u1) {$u_{1}$};
-  \node [below right=0.1 and 1.2 of u1,   pathnode] (u2) {$u_{2}$};
-  \node [below right=0.4 and 1 of u2,   pathnode] (u3) {$u_{3}$};
-  \node [right=1 of u3] (u4) {\textcolor{blue}{\dots}};
-  \node [right=1 of u4, pathnode] (u5) {$u_{n}$};
+  \node [below right=0.55 and 0.3 of root, pathnode] (u1) {$u_{1}$};
+  \node [below left=0.6 and 0.1 of u1,   pathnode] (u2) {$u_{2}$};
+  \node [below left=0.3 and 0.4 of u2,   pathnode] (u3) {$u_{3}$};
+  \node [below=0.1 of u3] (u4) {\textcolor{blue}{$\vdots$}};
+  \node [below=0.1 of u4, pathnode] (u5) {$u_{n}$};
 
-  \node [above right=1.2 and 2 of u5] (u5t) {};
-  \node [above right=0.1 and 1 of u5] (u5qt) {$q_{1}$};
+  \node [below right=1.2 and 1.6 of u5] (u5t) {};
+  \node [below right=1.2 and 0.8 of u5] (u5qt) {$q_{k}$};
 
-  \node [below right=0.1 and 1 of u5] (u5qb) {$q_{n}$};
-  \node [below right=1.2 and 2 of u5] (u5b) {};
+  \node [below left=1.2 and 0.8 of u5] (u5qb) {$q_{1}$};
+  \node [below left=1.2 and 1.6 of u5] (u5b) {};
 
-  \node [above right=0.08 and 0.5 of u5qt] (u5td) {};
-  \node [below right=0.08 and 0.5 of u5qb] (u5bd) {};
+  \node [below right=0.08 and 0.5 of u5qt] (u5td) {};
+  \node [below left=0.08 and 0.5 of u5qb] (u5bd) {};
 
   \draw (root) to (t);
   \draw (root) to (b);
