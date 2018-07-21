@@ -13,6 +13,7 @@
 \input{tex/acronyms.tex}
 
 \usepackage{amssymb}
+\usepackage{pifont}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{bbm}
@@ -189,7 +190,7 @@
         \begin{itemize}
           \item<7-> incomparable with $\omega$-regular
           \item<10-> decidable emptiness
-          \item<11-> \alert{Parity-} includes positive Büchi-condition
+          \item<11-> \alert{Parity-} coincides positive Büchi-condition
         \end{itemize}
       \end{column}
       \begin{column}{0.5\textwidth}
@@ -269,7 +270,73 @@
           }
         \end{center}
       \end{onlyenv}
-      \begin{onlyenv}<4->
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Tree Automata - Example}
+    \begin{equation*}
+      \mathcal{L} = \set{
+        t:\set{0,1}^{*}\rightarrow\set{a,b}\mid\substack{
+          a\notin \Inf(t(\epsilon)t(\alpha_{1})t(\alpha_{1}\alpha_{2})\dots)\\
+          \text{for all }\alpha_{1}\alpha_{2}\dots\in\set{0,1}^{\omega} 
+        }
+      }
+    \end{equation*}
+      \begin{columns}
+        \begin{column}{0.4\textwidth}
+          \vspace{-3cm}
+          \begin{itemize}
+            \item \alert<2-3>{Parity-condition} \uncover<3->{\checkmark}
+            \item \alert<4->{Büchi-condition} \uncover<5->{\ding{55}}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+          \begin{overlayarea}{\textwidth}{0.8\textheight}
+            \begin{onlyenv}<3>
+              \begin{align*}
+                \mathcal{A} = (\set{q_{a}, q_{b}}, q_{a}, \set{0,1}, \set{a, b}&,\\
+                \Delta, \set{q_{a}\mapsto 1, q_{b}\mapsto 0}&)
+              \end{align*}
+              with
+              \begin{equation*}
+                \Delta = \set{
+                  \tuple{q, \sigma, q_{\sigma}, q_{\sigma}}:\substack{
+                    q\in Q,\\
+                    \sigma\in\set{a,b}
+                  }
+                }
+              \end{equation*}
+            \end{onlyenv}
+            \begin{onlyenv}<4->
+              \begin{center}
+                % \resizebox{0.6\textwidth}{!}{%
+                  \includegraphics{tikz/finatree.pdf}
+                % }
+              \end{center}
+            \end{onlyenv}
+          \end{overlayarea}
+        \end{column}
+      \end{columns}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Definition Alternating Tree Automata}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
+        \Acc\subseteq Q^{\omega}}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2-3>
+        $\set{0,1}$-ary $\Sigma$-tree $t$\hfill\uncover<3->{
+          $Q\times D$-ary $\set{0,1}$-run $r$}
+        \begin{center}
+          \alt<2>{
+            \includegraphics{tikz/bintree.pdf}
+          }{
+            \includegraphics{tikz/alternatingrun.pdf}
+          }
+        \end{center}
       \end{onlyenv}
     \end{overlayarea}
   \end{frame}

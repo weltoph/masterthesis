@@ -1,0 +1,43 @@
+\newcommand{\bsubtree}[1]{
+  \node [below = 0.1 of #1] {$b$};
+
+  \node [below right = 0.5 and 0.2 of #1] (#1 r) {};
+  \node [below left  = 0.5 and 0.2 of #1] (#1 l) {};
+
+  \draw (#1.south) -- (#1 r.center) -- (#1 l.center) -- cycle;
+}
+\begin{tikzpicture}[
+    level distance = 2cm,
+    level 1/.style = {
+      sibling distance = 2cm
+    },
+    level 2/.style = {
+      sibling distance = 2cm
+    },
+    level 3/.style = {
+      sibling distance = 2cm
+    },
+    level 3/.style = {
+      sibling distance = 2cm
+    }
+  ]
+
+  \node (r) {$b$} {
+    child { node (ra) {$a$} {
+      child[missing]{}
+      child[missing]{}
+    }; }
+    child { node (rr) {$b$} {
+      child { node (rra) {$a$}; }
+      child { node (rrr) {$b$}; }
+      }; } 
+  };
+  \draw (r) to node[left] {$0$} (ra);
+  \draw (r) to node[right] {$1$} (rr);
+  \draw (rr) to node[left] {$0$} (rra);
+  \draw (rr) to node[right] {$1$} (rrr);
+
+  \node [below = 0.01 of rrr] (dots) {$\vdots$};
+  \bsubtree{ra}
+  \bsubtree{rra}
+\end{tikzpicture}

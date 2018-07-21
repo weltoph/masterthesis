@@ -1,0 +1,24 @@
+\begin{tikzpicture}[
+    level distance = 2cm,
+    level 1/.style = {
+      sibling distance = 4cm
+    },
+    level 2/.style = {
+      sibling distance = 2cm
+    }
+  ]
+  \node (root) {$t(\epsilon)$}
+    child { node (l) {$t(0)$}
+      child { node (ll) {$t(00)$} }
+      child { node (lr) {$t(01)$} }
+    }
+    child { node (r) {$t(1)$}
+      child { node (rl) {$t(10)$} }
+      child { node (rr) {$t(11)$} }
+    };
+
+  \node [below = 0.01cm of ll] (dotsll) {$\vdots$};
+  \node [below = 0.01cm of lr] (dotslr) {$\vdots$};
+  \node [below = 0.01cm of rl] (dotsrl) {$\vdots$};
+  \node [below = 0.01cm of rr] (dotsrr) {$\vdots$};
+\end{tikzpicture}
