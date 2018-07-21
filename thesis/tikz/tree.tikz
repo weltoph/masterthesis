@@ -1,0 +1,28 @@
+\begin{tikzpicture}[
+    level distance = 2cm,
+    level 1/.style = {
+      sibling distance = 4cm
+    },
+    level 2/.style = {
+      sibling distance = 2cm
+    }
+  ]
+  \node (root) {$t(\epsilon)$}
+    child { node (l) {$t(d_{1})$}
+      child { node (ll) {$t(d_{1}d_{1})$} }
+      child { node (lr) {$t(d_{1}d_{k})$} }
+    }
+    child { node (r) {$t(d_{k})$}
+      child { node (rl) {$t(d_{k}d_{1})$} }
+      child { node (rr) {$t(d_{k}d_{k})$} }
+    };
+
+  \node (dotsl1) at (l-|root) {$\dots$};
+  \node (dotsl2l) at (ll-|l)  {$\dots$};
+  \node (dtosl2r) at (rl-|r)  {$\dots$};
+
+  \node [below = 0.01cm of ll] (dotsll) {$\vdots$};
+  \node [below = 0.01cm of lr] (dotslr) {$\vdots$};
+  \node [below = 0.01cm of rl] (dotsrl) {$\vdots$};
+  \node [below = 0.01cm of rr] (dotsrr) {$\vdots$};
+\end{tikzpicture}

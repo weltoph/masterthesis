@@ -50,8 +50,8 @@
       The class of recognizable languages coincides for \alert<2>{\acp{NBA}},
       \alert<3>{\acp{NPA} and \acp{DPA}} and is called $\omega$-regular
       languages. \alert<4>{\acp{DBA} are strictly less expressive.}
-      \uncover<3->{\alert<3>{However, determinisation is inherently costly
-      ($>n!$).}}
+      \uncover<3->{\alert<3>{However, \ac{NBA}-determinisation is inherently
+      costly ($>n!$).}}
     \end{theorem}
     \begin{overlayarea}{\textwidth}{0.5\textheight}
         \begin{equation*}
@@ -168,9 +168,9 @@
     \end{columns}
     \begin{uncoverenv}<3->
       \begin{equation*}
-        \mathcal{L}_{1}\setminus\mathcal{L}_{2} = \underbrace{
+        \mathcal{L}_{1} = \underbrace{
           b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} + \Sigma^{*}a^{\omega}
-        }_{\omega-\text{regular}}
+        }_{\omega-\text{regular}}\cup\overline{\mathcal{L}_{2}}
       \end{equation*}
     \end{uncoverenv}
   \end{frame}
@@ -182,13 +182,14 @@
         \small{Positive Acceptance}
         \begin{itemize}
           \item<2-> subsumes $\omega$-regular
-          \item<5-> undecidable emptiness
+          \item<5-> recognizable languages form Boolean-algebra
+          \item<6-> undecidable emptiness
         \end{itemize}
         \small{Almost-Sure Acceptance}
         \begin{itemize}
-          \item<6-> incomparable with $\omega$-regular
-          \item<9-> decidable emptiness
-          \item<10-> Parity- includes positive Büchi-condition
+          \item<7-> incomparable with $\omega$-regular
+          \item<10-> decidable emptiness
+          \item<11-> \alert{Parity-} includes positive Büchi-condition
         \end{itemize}
       \end{column}
       \begin{column}{0.5\textwidth}
@@ -207,13 +208,13 @@
               \end{equation*}
             \end{uncoverenv}
           \end{onlyenv}
-          \begin{onlyenv}<7-8>
+          \begin{onlyenv}<8-9>
             \vspace{0.2\textheight}
             \begin{equation*}
               \set{\alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)}
             \end{equation*}
             \vfill
-            \begin{uncoverenv}<8>
+            \begin{uncoverenv}<9>
               \begin{align*}
                 &\set{
                   a^{k_{1}}ba^{k_{2}}b\dots:
@@ -240,9 +241,37 @@
 
   \section{Tree-Automata}
   \begin{frame}
-  \end{frame}
-
-  \begin{frame}
+    \frametitle{Definition}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
+        \Acc\subseteq Q^{\omega}}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<1>
+        \begin{itemize}
+          \item $Q$: finite state set
+          \item $q_{0}\in Q$: initial state
+          \item $D$: finite set of directions
+          \item $\Sigma$: finite alphabet
+          \item $\Delta$: transitions of the form
+              $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$
+          \item $\Acc$: accepted language
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<2-3>
+        $D$-ary $\Sigma$-tree: $t:D^{*}\rightarrow\Sigma$\hfill
+        \uncover<3>{$D$-ary $Q$-run: $r:D^{*}\rightarrow Q$}
+        \begin{center}
+          \alt<2>{
+            \includegraphics{tikz/tree.pdf}
+          }{
+            \includegraphics{tikz/run.pdf}
+          }
+        \end{center}
+      \end{onlyenv}
+      \begin{onlyenv}<4->
+      \end{onlyenv}
+    \end{overlayarea}
   \end{frame}
 
   \section{Synthesis}
