@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+  \node (root) {\tiny$q_{0}$};
+  \node [below left = 4 and 2.5 of root] (l) {};
+  \node [below right= 4 and 2.5 of root] (r) {};
+
+  \draw (root.south) to (l.center);
+  \draw (root.south) to (r.center);
+
+  \fill [purple!50] (root.south) -- (l.center) -- (r.center) -- cycle;
+
+  \node [below = 0.5 of root] (u1) {\tiny$(q_{s}, u_{1})$};
+  \node [below = 0.2 of u1, xshift = 0.2cm] (u2) {\tiny$(q_{s}, u_{2})$};
+  \node [below = 0.2 of u2, xshift = -0.5cm] (u3) {\tiny$(q_{s}, u_{3})$};
+  \node [below = 0.8 of u3, xshift = 0.7cm] (un) {\tiny$(q_{s}, u_{n})$};
+
+  \node [xshift = 0.5cm] (ur) at (l-|un) {};
+  \node [xshift = -0.5cm] (ul) at (l-|un) {};
+
+  \fill [green!50] (un.south) -- (ur.center) -- (ul.center) -- cycle;
+  \node [yshift = 0.2cm] (text) at (l-|un) {\tiny$q_{f}$};
+
+  \draw [green, thick] (root) to (u1);
+  \draw [green, thick] (u1) to (u2);
+  \draw [green, thick] (u2) to (u3);
+  \draw [green, thick, dotted] (u3) to (un);
+\end{tikzpicture}

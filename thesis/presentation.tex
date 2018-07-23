@@ -169,9 +169,9 @@
     \end{columns}
     \begin{uncoverenv}<3->
       \begin{equation*}
-        \mathcal{L}_{1} = \underbrace{
+        \mathcal{L}_{1} = \overline{\mathcal{L}_{2}}\setminus\underbrace{
           b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} + \Sigma^{*}a^{\omega}
-        }_{\omega-\text{regular}}\cup\overline{\mathcal{L}_{2}}
+        }_{\omega-\text{regular}}
       \end{equation*}
     \end{uncoverenv}
   \end{frame}
@@ -190,7 +190,8 @@
         \begin{itemize}
           \item<7-> incomparable with $\omega$-regular
           \item<10-> decidable emptiness
-          \item<11-> \alert{Parity-} coincides positive Büchi-condition
+          \item<11-> \alert{Parity-}condition coincides with positive
+            acceptance of Büchi- or Parity-condition
         \end{itemize}
       \end{column}
       \begin{column}{0.5\textwidth}
@@ -217,21 +218,18 @@
             \vfill
             \begin{uncoverenv}<9>
               \begin{align*}
-                &\set{
+                &\overline{\set{
                   a^{k_{1}}ba^{k_{2}}b\dots:
                   \substack{k_{i}>0\text{ for all }i>0,\\
                   \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+                }}\\
+                &= \set{
+                  a^{k_{1}}ba^{k_{2}}b\dots:
+                  \substack{k_{i}>0\text{ for all }i>0\\
+                  \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
                 }\\
-                &= b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} 
+                &\cup b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega}
                 + \Sigma^{*}a^{\omega}\\
-                &\cup
-                \overline{
-                  \set{
-                    a^{k_{1}}ba^{k_{2}}b\dots:
-                    \substack{k_{i}>0\text{ for all }i>0\\
-                    \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
-                  }
-                }
               \end{align*}
             \end{uncoverenv}
           \end{onlyenv}
@@ -339,6 +337,48 @@
         \end{center}
       \end{onlyenv}
     \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Alternating Tree Automaton - Example}
+    \begin{equation*}
+      \set{t:\set{0,1}^{*}\rightarrow\set{a,b}\mid\substack{
+        \text{there is }u\in\set{0,1}^{*}\\
+        \text{ with }t(u) = a}
+      }
+    \end{equation*}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{itemize}
+          \item search and found state: $q_{s}, q_{f}$
+          \item<2-> non-deterministically move $q_{s}$
+          \item<3-> transform into positive sink-state $q_{f}$ when reading $a$
+          \item<4-> use $\set{q_{f}}$ as Büchi-condition
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \begin{center}
+          \uncover<5>{\includegraphics{tikz/searcharun.pdf}}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Tree Automata - Properties}
+    \begin{theorem}[Simulation Theorem]
+      There is an effective construction which, when given an \ac{APTA},
+      produces an equivalent \ac{PTA}. Furthermore, given an \ac{ABTA}, there
+      is a way to effectively construct an equivalent \ac{BTA}.
+    \end{theorem}
+    \begin{itemize}
+      \item recognizable languages form a Boolean-algebra
+      \item decidable emptiness
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata}
   \end{frame}
 
   \section{Synthesis}
