@@ -379,6 +379,41 @@
 
   \begin{frame}
     \frametitle{Weighted Descent Tree Automata}
+    \begin{itemize}
+      \item non-deterministically construct run
+      \item<2-> weight individual paths
+      \item<3-> acceptance by measure
+    \end{itemize}
+    \begin{overlayarea}{\textwidth}{0.6\textheight}
+      \begin{center}
+        \alt<1>{
+          \includegraphics{tikz/weightedrun.pdf}
+        }{
+          \alt<2>{
+            \includegraphics{tikz/weightedpathsruns.pdf}
+          }{
+            \begin{columns}
+              \begin{column}{0.5\textwidth}
+                \begin{equation*}
+                  \mu_{r}(\cyl(u_{1}\dots u_{n})) = \prod_{1\leq i\leq n}
+                    p_{u_{1}\dots u_{i}}
+                \end{equation*}
+                \uncover<4->{
+                  \begin{equation*}
+                    \Rightarrow\tuple{D^{\omega}, \mathcal{B}(D), \mu_{r}}
+                  \end{equation*}
+                }
+              \end{column}
+              \begin{column}{0.5\textwidth}
+                \resizebox{\textwidth}{!}{
+                  \includegraphics{tikz/weightedpathsrunsmarked.pdf}
+                }
+              \end{column}
+            \end{columns}
+          }
+        }
+      \end{center}
+    \end{overlayarea}
   \end{frame}
 
   \section{Synthesis}
