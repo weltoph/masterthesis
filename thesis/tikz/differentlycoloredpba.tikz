@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+  \node[autonode, state, initial, accepting, fill = green!50] (q0) {$q_{0}$};
+  \node[autonode, state, right=of q0, fill = purple!50] (q1) {$q_{1}$};
+
+  \draw[bend left, ->] (q0) to node[above] {$a,\frac{1}{2}$} (q1);
+  \draw[bend left, ->] (q1) to node[below] {$b, 1$} (q0);
+
+  \loopbelow{q0}{$a,\frac{1}{2}$};
+  \loopbelow{q1}{$a, 1$};
+\end{tikzpicture}

@@ -520,7 +520,56 @@
           \item[$\Rightarrow$] $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{f}}$
         \end{itemize}
       \end{onlyenv}
+      \begin{onlyenv}<3-6>
+        \begin{columns}
+          \begin{column}{0.6\textwidth}
+            \uncover<4->{
+              \alt<4-5>{
+                \begin{align*}
+                  f(\epsilon) &= a\\
+                  f(p_{1}\dots p_{n}) &= \begin{cases}
+                    a&\text{if }p_{n} = q_{0},\\
+                    b&\text{otherwise.}
+                  \end{cases}
+                \end{align*}
+              }{
+                \begin{equation*}
+                  \mu_{f}(\Acc_{\buechi}(F)) > 0 \text{ if and only if }
+                  f\in\mathcal{L}(\mathcal{P}).
+                \end{equation*}
+              }
+            }
+          \end{column}
+          \begin{column}{0.4\textwidth}
+            \begin{center}
+              \alt<3-4>{
+                \includegraphics{tikz/differentlycoloredpba.pdf}
+              }{
+                \includegraphics{tikz/uniformlycoloredpba.pdf}
+              }
+            \end{center}
+          \end{column}
+        \end{columns}
+      \end{onlyenv}
+      \begin{onlyenv}<7>
+        \begin{center}
+          \begin{tabular}{|l|ll|}
+            \hline
+            Computing Strategies & Fully observable & Partially observable\\
+            \hline
+            Positive Büchi & \textsc{PTIME} & Undecidable \\
+            Almost-Sure Büchi & \textsc{PTIME} & \textsc{EXPTIME} \\
+            Positive Parity & \textsc{PTIME} & Undecidable \\
+            Almost-Sure Parity & \textsc{PTIME} & Undecidable \\
+            \hline
+          \end{tabular}
+        \end{center}
+      \end{onlyenv}
     \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{\acp{WDTA} and \acp{POMDP}}
   \end{frame}
 
   \section{Synthesis}
