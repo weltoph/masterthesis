@@ -27,18 +27,18 @@
   \node [below = 0.01cm of rl] (dotsrl) {$\vdots$};
   \node [below = 0.01cm of rr] (dotsrr) {$\vdots$};
 
-  \node [below = 1.4cm of lr] (dotslr) {$\text{cyl}(u_{1}u_{n})$};
+  \node [below = 1.4cm of lr] (dotslr) {$\text{cyl}(d_{1}d_{n})$};
   \node [below = 2.5cm of lr, xshift = -1.5cm] (cyll) {};
   \node [below = 2.5cm of lr, xshift =  1.5cm] (cylr) {};
   \draw (lr.south) to (cyll);
   \draw (lr.south) to (cylr);
 
   \draw (root) to node [left, circle, draw=green] {$p_{u_{1}}$} (l);
-  \draw (root) to node [right] {$p_{_{k}}$} (r);
+  \draw (root) to node [right] {$p_{d_{k}}$} (r);
 
-  \draw (l) to node [left] {$p_{u_{1}u_{1}}$} (ll);
-  \draw (l) to node [right, circle, draw=green] {$p_{u_{1}u_{k}}$} (lr);
+  \draw (l) to node [left] {$p_{d_{1}d_{1}}$} (ll);
+  \draw (l) to node [right, circle, draw=green] {$p_{d_{1}d_{k}}$} (lr);
 
-  \draw (r) to node [left] {$p_{u_{k}u_{1}}$} (rl);
-  \draw (r) to node [right] {$p_{u_{k}u_{k}}$} (rr);
+  \draw (r) to node [left] {$p_{d_{k}d_{1}}$} (rl);
+  \draw (r) to node [right] {$p_{d_{k}d_{k}}$} (rr);
 \end{tikzpicture}

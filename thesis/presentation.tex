@@ -18,6 +18,9 @@
 \usepackage{amsthm}
 \usepackage{bbm}
 
+\usepackage{array}
+\usepackage{csquotes}
+
 \input{tex/mathoperator.tex}
 
 \title[Syn. for prob. Env.]{
@@ -461,6 +464,61 @@
             \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
           }
         \end{equation*}
+        and
+        \begin{equation*}
+          \mu_{r}(\Acc\interval{Q}) > 0\text{ or }\mu_{r}(\Acc\interval{Q}) = 1
+        \end{equation*}
+      \end{onlyenv}
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Structural Properties}
+    \begin{tabular}{llm{0.5\textwidth}}
+      choiceless: & $\substack{\size{\set{G: \tuple{q, \sigma, G}\in\Delta}}
+        = 1\\\text{ for all }q\in Q, \sigma\in\Sigma}$ & \\
+      uni-directional: & $\substack{\text{for every }
+      G\in\mathcal{G}(\mathcal{A}),d\in D\\\text{ exists \emph{only} one }
+      p\in Q\\\text{with } G(d, p) > 0}$ & \resizebox{0.4\textwidth}{!}{
+        \includegraphics{tikz/unidirectional.pdf}}\\
+    \end{tabular}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Example}
+    \begin{itemize}
+      \item modelling \acp{PBA} as choiceless \acp{WDTA} over unary trees:
+      \item $\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta, F}$
+      \item $\mathcal{A} = \tuple{Q, q_{0}, \underbrace{D}_{=\set{0}}, \Sigma,
+        \Delta, F}$
+      \item $\Delta = \set{\tuple{q, \sigma, 
+        \set{\tuple{p,0}\mapsto\delta(q,\sigma,p):p\in Q}}: q\in Q,
+        \sigma\in\Sigma}$
+      \item unique run of $\mathcal{A}$ on any \enquote{word} $\alpha$
+        coincides with run-tree of $\mathcal{P}$ on $\alpha$
+      \item construction works the other way around for choiceless \acp{WDTA}
+        over unary trees
+      \item[$\Rightarrow$] undecidable emptiness for (choiceless) \acp{WDTA}
+        with positive Büchi-acceptance and almost-sure Parity-acceptance
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Partially Observable Markov Decision Processes}
+    \begin{equation*}
+      \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2>
+        \begin{itemize}
+          \item $S$: finite state set
+          \item $s_{0}\in S$: initial state
+          \item $A$: finite state of actions
+          \item $\tau_{a}\in\mathcal{D}(S\times S)$: transition probabilities
+          \item $\sim$: observable equivalence classes
+          \item strategy $f:\interval{S}_{\sim}^{*}\rightarrow A$
+          \item[$\Rightarrow$] $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{f}}$
+        \end{itemize}
       \end{onlyenv}
     \end{overlayarea}
   \end{frame}
