@@ -1,0 +1,42 @@
+\begin{tikzpicture}[
+    level distance = 2cm,
+    level 1/.style = {
+      sibling distance = 2.5cm
+    },
+    level 2/.style = {
+      sibling distance = 1.5cm
+    },
+    posedge/.style = {
+      thick, green!50
+    },
+    negedge/.style = {
+      thick, red!50, dotted
+    }
+  ]
+  \node (root) {$q_{0}$} {
+    child { node (ll) {$(q_{0}, 0)$}; }
+    child { node (lr) {$(q_{1}, 0)$} {
+      child { node (2ll) {$(q_{0}, 0)$}; }
+      child { node (2lr) {$(q_{1}, 0)$}; }
+      child { node (2rl) {$(q_{0}, 1)$}; }
+      child { node (2rr) {$(q_{1}, 1)$}; }
+    };}
+    child { node (rl) {$(q_{0}, 1)$}; }
+    child { node (rr) {$(q_{1}, 1)$}; }
+  };
+
+  \draw [negedge] (root) to node[left] {\textcolor{black}{\tiny$G(q_{0}, 0) = 0$}} (ll);
+  \draw [negedge] (root) to node {\textcolor{black}{\tiny$G(q_{0}, 1) = 0$}} (rl);
+  \draw [negedge] (root) to node[right] {\textcolor{black}{\tiny$G(q_{1}, 1) = 0$}} (rr);
+  \draw [posedge] (root) to node[near end] {\textcolor{black}{\tiny$G(q_{1}, 0) = 1$}} (lr);
+
+  \draw [negedge] (lr) to (2ll);
+  \draw [negedge] (lr) to (2lr);
+  \draw [posedge] (lr) to node[left]  {\textcolor{black}{\tiny$G'(q_{0}, 1)$}} (2rl);
+  \draw [posedge] (lr) to node[right] {\textcolor{black}{\tiny$G'(q_{1}, 1)$}} (2rr);
+
+  \node (dummy) at (lr.south east-|2rr.east) {};
+  \draw [ decoration = { brace, amplitude = 5pt, raise = 12pt},
+    decorate, draw, line width = 1pt] (dummy.center) -- node [right, xshift = 14pt] {
+      $(q_{1}, t(0), \underbrace{G'}_{\in\mathcal{D}(Q\times D)})\in\Delta$} (2rr.east);
+\end{tikzpicture}

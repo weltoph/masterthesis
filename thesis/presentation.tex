@@ -378,7 +378,7 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Weighted Descent Tree Automata}
+    \frametitle{Weighted Descent Tree Automata - Idea}
     \begin{itemize}
       \item non-deterministically construct run
       \item<2-> weight individual paths
@@ -402,6 +402,10 @@
                   \begin{equation*}
                     \Rightarrow\tuple{D^{\omega}, \mathcal{B}(D), \mu_{r}}
                   \end{equation*}
+                  with
+                  \begin{equation*}
+                    \mu_{r}(\set{\rho\in D^{\omega}\mid r(\rho)\in\Acc})
+                  \end{equation*}
                 }
               \end{column}
               \begin{column}{0.5\textwidth}
@@ -413,6 +417,51 @@
           }
         }
       \end{center}
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Definition}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc} 
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2>
+        \begin{itemize}
+          \item $Q$: finite state set
+          \item $q_{0}\in Q$: initial state
+          \item $D$: finite set of directions
+          \item $\Sigma$: finite alphabet
+          \item $\Delta$: transitions of the form $\tuple{q, \sigma, G}$
+          \item $\Acc$: accepted language
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<3>
+        \includegraphics{tikz/weightedalternatingrun.pdf}
+      \end{onlyenv}
+      \begin{onlyenv}<4->
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{itemize}
+              \item run: $Q\times D$-ary 
+                $\mathcal{G}(\mathcal{A})$-tree
+              \item[$\Rightarrow$] $\tuple{\tuple{Q\times D}^{\omega}, 
+                \mathcal{B}(Q\times D), \mu_{r}}$
+            \end{itemize}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \resizebox{\textwidth}{!}{
+              \includegraphics{tikz/weightedalternatingrun.pdf}
+            }
+          \end{column}
+        \end{columns}
+        \begin{equation*}
+          \Acc\interval{Q} = \set{
+            \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+            \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
+          }
+        \end{equation*}
+      \end{onlyenv}
     \end{overlayarea}
   \end{frame}
 
