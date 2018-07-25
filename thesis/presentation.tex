@@ -475,9 +475,9 @@
   \begin{frame}
     \frametitle{Weighted Descent Tree Automata - Structural Properties}
     \begin{tabular}{llm{0.5\textwidth}}
-      choiceless (c.l.): & $\substack{\size{\set{G: \tuple{q, \sigma, G}\in\Delta}}
-        = 1\\\text{ for all }q\in Q, \sigma\in\Sigma}$ & \\
-      uni-directional: & $\substack{\text{for every }
+      choiceless (c.l.): & $\substack{\size{\set{G: \tuple{q, \sigma, G}
+      \in\Delta}} = 1\\\text{ for all }q\in Q, \sigma\in\Sigma}$ & \\
+      uni-directional (u.d.): & $\substack{\text{for every }
       G\in\mathcal{G}(\mathcal{A}),d\in D\\\text{ exists \emph{only} one }
       p\in Q\\\text{with } G(d, p) > 0}$ & \resizebox{0.4\textwidth}{!}{
         \includegraphics{tikz/unidirectional.pdf}}\\
@@ -570,36 +570,72 @@
 
   \begin{frame}
     \frametitle{\acp{WDTA} and \acp{POMDP}}
-    \begin{equation*}
-      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
-      \text{ and }
-      \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
-    \end{equation*}
-    \begin{columns}
-      \begin{column}{0.35\textwidth}
-        \begin{overlayarea}{\textwidth}{\textheight}
-          \begin{itemize}
-            \item<2-> strategies are
-              $\interval{S}_{\sim}$-ary $A$-trees
-            \item<3-> translate \acs{POMDP} to c.l. \acp{WDTA}
-          \end{itemize}
-        \end{overlayarea}
-      \end{column}
-      \begin{column}{0.65\textwidth}
-        \begin{overlayarea}{\textwidth}{\textheight}
-          \begin{onlyenv}<3->
+    \begin{onlyenv}<1-16>
+      \begin{equation*}
+        \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+        \text{ and }
+        \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+      \end{equation*}
+      \begin{overlayarea}{\textwidth}{0.8\textheight}
+        \begin{columns}
+          \begin{column}{0.35\textwidth}
             \begin{itemize}
-              \item<4-> $Q = S$ with $q_{0} = s_{0}$
-              \item<5-> $D = \interval{S}_{\sim}$ and $\Sigma = A$
-              \item<6-> $G_{a}^{s}(s', d) = \begin{cases}
-                  \tau_{a}(s, s')&\text{if }d = \interval{s'}_{\sim},\\
-                  0&\text{otherwise}.
-              \end{cases}$
+              \item<2-> strategies are
+                $\interval{S}_{\sim}$-ary $A$-trees
+              \item<3-> translate \acs{POMDP} to c.l. \acp{WDTA}
+              \item<9-> use \acp{POMDP} as emptiness game for c.l. \acp{WDTA}
             \end{itemize}
-          \end{onlyenv}
-        \end{overlayarea}
-      \end{column}
-    \end{columns}
+          \end{column}
+          \begin{column}{0.65\textwidth}
+            \begin{onlyenv}<3-8>
+              \begin{itemize}
+                \item<4-> \enquote{directions are observations}
+                \item<5-> $Q = S$ with $q_{0} = s_{0}$
+                \item<6-> $D = \interval{S}_{\sim}$ and $\Sigma = A$
+                \item<7-> $G_{a}^{s}(s', d) = \begin{cases}
+                    \tau_{a}(s, s')&\text{if }d = \interval{s'}_{\sim},\\
+                    0&\text{otherwise}.
+                \end{cases}$
+              \item<8-> if $\sim\equiv =$ then $\mathcal{A}$ is u.d.
+              \end{itemize}
+            \end{onlyenv}
+            \begin{onlyenv}<9->
+              \begin{itemize}
+                \item<10-> \enquote{play the run}
+                \item<11-> $S = Q\times D\cup\set{q_{0}}$ with
+                  $s_{0} = q_{0}$
+                \item<12-> $A = \Sigma$
+                \item<13-> $\tau_{\sigma}(\tuple{q, d}, \tuple{p, d'}) = 
+                  G_{q}^{\sigma}(p, d')$
+                \item<14-> $\tuple{q, d}\sim\tuple{p, d'}$ iff $d = d'$
+                \item<15-> compute strategy for $\parity$ on $\mathcal{S}$
+                \item<16-> if $\mathcal{A}$ is u.d.: drop $\sim$, set 
+                  $A = \Delta$
+              \end{itemize}
+            \end{onlyenv}
+          \end{column}
+        \end{columns}
+    \end{overlayarea}
+    \end{onlyenv}
+    \begin{onlyenv}<17->
+      \begin{theorem}
+        For any \ac{POMDP} $\mathcal{M}$ with states $S$, observations $O$, actions
+        $A$ with an associated Parity-condition $\parity$ exist a choiceless
+        \ac{WDTA} $\mathcal{A}$ such that for any object $s:O^{*}\rightarrow A$ and
+        the unique run $r$ of $\mathcal{A}$ on $s$ holds that
+        $\mu_{s}(\Acc(\parity)) = \mu_{r}(\Acc\interval{Q}(\parity))$. If $\sim$ is
+        the equality relation $\mathcal{A}$ is uni-directional.
+      \end{theorem}
+      \begin{theorem}
+        For every choiceless \ac{WDTA} 
+        $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}$ exists a \ac{POMDP}
+        $\mathcal{M} = \tuple{Q\times D\cup\set{q_{0}}, q_{0}, 
+        \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, \Acc\interval{Q}, \sim}$ such that
+        any strategy $s$ for $\mathcal{M}$ is isomorphic to a tree
+        $t:D^{*}\rightarrow\Sigma$ and for the unique run $r$ of $\mathcal{A}$ on $t$
+        holds that $\mu_{r}$ and $\mu_{s}$ coincide on $\mathcal{B}(Q\times D)$.
+      \end{theorem}
+    \end{onlyenv}
   \end{frame}
 
   \section{Synthesis}
