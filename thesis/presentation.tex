@@ -485,22 +485,42 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Weighted Descent Tree Automata - Example}
+    \frametitle{Weighted Descent Tree Automata - Word-Example}
     \begin{itemize}
-      \item modelling \acp{PBA} as choiceless \acp{WDTA} over unary trees:
-      \item $\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta, F}$
-      \item $\mathcal{A} = \tuple{Q, q_{0}, \underbrace{D}_{=\set{0}}, \Sigma,
-        \Delta, F}$
-      \item $\Delta = \set{\tuple{q, \sigma, 
-        \set{\tuple{p,0}\mapsto\delta(q,\sigma,p):p\in Q}}: q\in Q,
-        \sigma\in\Sigma}$
-      \item unique run of $\mathcal{A}$ on any \enquote{word} $\alpha$
-        coincides with run-tree of $\mathcal{P}$ on $\alpha$
-      \item construction works the other way around for choiceless \acp{WDTA}
-        over unary trees
-      \item[$\Rightarrow$] undecidable emptiness for (choiceless) \acp{WDTA}
+      \item<2-> unary trees are words
+      \item<3-> c.l. \acp{WDTA} \enquote{equivalent} to \acp{PPA}
+      \item<9-> u.d. \acp{WDTA} \enquote{equivalent} to $\omega$-regular
+      \item[$\Rightarrow$]<13-> undecidable emptiness for (c.l.) \acp{WDTA}
         with positive Büchi-acceptance and almost-sure Parity-acceptance
+      \item[$\Rightarrow$]<13-> Simulation Theorem does not translate to \acp{WDTA}
     \end{itemize}
+    \begin{overlayarea}{\textwidth}{0.5\textheight}
+      \begin{onlyenv}<4-8>
+        \begin{itemize}
+          \item<4-> $\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta, \parity}
+            \Rightarrow \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta,
+            \parity}$
+          \item<5-> $\Delta = \set{\tuple{q, \sigma,
+            \set{\tuple{p,0}\mapsto\delta(q,\sigma,p):p\in Q}}: q\in Q,
+            \sigma\in\Sigma}$
+          \item<8-> unique run of $\mathcal{A}$ and run-tree of $\mathcal{P}$
+            coincide
+          \item<6-> $\mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta,
+            \parity}\Rightarrow\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta,
+            \parity}$
+          \item<7-> $\delta(q, \sigma, p) = G_{\sigma}^{q}(p, 0)$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<9-12>
+        \begin{itemize}
+          \item<10-> uni-directional \acp{WDTA} over singleton direction set
+            only weight one following state
+          \item<11-> every run induces Dirac measure
+          \item[$\Rightarrow$]<12-> acceptance only dependent on the
+            non-deterministically chosen state sequence
+        \end{itemize}
+      \end{onlyenv}
+    \end{overlayarea}
   \end{frame}
 
   \begin{frame}
@@ -619,30 +639,77 @@
     \end{onlyenv}
     \begin{onlyenv}<17->
       \begin{theorem}
-        For any \ac{POMDP} $\mathcal{M}$ with states $S$, observations $O$, actions
-        $A$ with an associated Parity-condition $\parity$ exist a choiceless
-        \ac{WDTA} $\mathcal{A}$ such that for any object $s:O^{*}\rightarrow A$ and
-        the unique run $r$ of $\mathcal{A}$ on $s$ holds that
-        $\mu_{s}(\Acc(\parity)) = \mu_{r}(\Acc\interval{Q}(\parity))$. If $\sim$ is
-        the equality relation $\mathcal{A}$ is uni-directional.
+        For any \ac{POMDP} $\mathcal{M}$ with states $S$, observations $O$,
+        actions $A$ with an associated Parity-condition $\parity$ exist a
+        choiceless \ac{WDTA} $\mathcal{A}$ such that for any object
+        $s:O^{*}\rightarrow A$ and the unique run $r$ of $\mathcal{A}$ on $s$
+        holds that $\mu_{s}(\Acc(\parity)) =
+        \mu_{r}(\Acc\interval{Q}(\parity))$. If $\sim$ is the equality relation
+        $\mathcal{A}$ is uni-directional.
       \end{theorem}
       \begin{theorem}
         For every choiceless \ac{WDTA} 
-        $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}$ exists a \ac{POMDP}
-        $\mathcal{M} = \tuple{Q\times D\cup\set{q_{0}}, q_{0}, 
-        \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, \Acc\interval{Q}, \sim}$ such that
-        any strategy $s$ for $\mathcal{M}$ is isomorphic to a tree
-        $t:D^{*}\rightarrow\Sigma$ and for the unique run $r$ of $\mathcal{A}$ on $t$
-        holds that $\mu_{r}$ and $\mu_{s}$ coincide on $\mathcal{B}(Q\times D)$.
+        $\mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}$ exists a
+        \ac{POMDP} $\mathcal{M} = \tuple{Q\times D\cup\set{q_{0}}, q_{0},
+        \tuple{\tau_{\sigma}}_{\sigma\in\Sigma}, \Acc\interval{Q}, \sim}$ such
+        that any strategy $s$ for $\mathcal{M}$ is isomorphic to a tree
+        $t:D^{*}\rightarrow\Sigma$ and for the unique run $r$ of $\mathcal{A}$
+        on $t$ holds that $\mu_{r}$ and $\mu_{s}$ coincide on
+        $\mathcal{B}(Q\times D)$.
       \end{theorem}
     \end{onlyenv}
   \end{frame}
 
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Overview}
+    \resizebox{\textwidth}{!}{\includegraphics{tikz/wdtamapreduced.pdf}}
+  \end{frame}
+
   \section{Synthesis}
   \begin{frame}
+    \frametitle{Setting}
+    \begin{center}
+      \alt<2>{
+        \begin{definition}[Synthesis Problem]
+          Given a logic $\mathbb{L}$. Compute for every formula
+          \alert{$\phi(\cdot, \cdot)\in\mathbb{L}$} over inputs $I$ and outputs
+          $J$ an algorithm \alert{$S:I^{+}\rightarrow J$} such that
+          $\phi(\alpha, S(\alpha_{1})S(\alpha_{1}\alpha_{2})\dots)$ is true for
+          all $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ or prove that such an
+          $S$ cannot exist.
+        \end{definition}
+        \begin{itemize}
+          \item $\mathbb{L}$ is $\omega$-regular if for every
+            $\phi(\cdot,\cdot)$ exists a $\omega$-regular $\mathcal{L}_{\phi}$
+            such that
+            $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+            \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
+          \item $\mathbb{L}$ is almost-surely \ac{PBA} recognizable if for
+            every $\phi(\cdot,\cdot)$ exists a $\mathcal{L}_{\phi}$ which is
+            recognizable by a \ac{PBA} with almost-sure acceptance such that
+            $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+            \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
+        \end{itemize}
+      }{
+        \resizebox{0.8\textwidth}{!}{\includegraphics{tikz/synthesis.pdf}}
+      }
+    \end{center}
   \end{frame}
 
   \begin{frame}
+    \frametitle{Antagonistic Environment - $\omega$-regular Specification}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Antagonistic Environment - \ac{PBA} Specification}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{\ac{POMDP} - $\omega$-regular Specification}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{\ac{POMDP} - \ac{PBA} Specification}
   \end{frame}
 
   \section{Conclusion}
