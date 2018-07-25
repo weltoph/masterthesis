@@ -475,7 +475,7 @@
   \begin{frame}
     \frametitle{Weighted Descent Tree Automata - Structural Properties}
     \begin{tabular}{llm{0.5\textwidth}}
-      choiceless: & $\substack{\size{\set{G: \tuple{q, \sigma, G}\in\Delta}}
+      choiceless (c.l.): & $\substack{\size{\set{G: \tuple{q, \sigma, G}\in\Delta}}
         = 1\\\text{ for all }q\in Q, \sigma\in\Sigma}$ & \\
       uni-directional: & $\substack{\text{for every }
       G\in\mathcal{G}(\mathcal{A}),d\in D\\\text{ exists \emph{only} one }
@@ -570,6 +570,36 @@
 
   \begin{frame}
     \frametitle{\acp{WDTA} and \acp{POMDP}}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \parity}
+      \text{ and }
+      \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+    \end{equation*}
+    \begin{columns}
+      \begin{column}{0.35\textwidth}
+        \begin{overlayarea}{\textwidth}{\textheight}
+          \begin{itemize}
+            \item<2-> strategies are
+              $\interval{S}_{\sim}$-ary $A$-trees
+            \item<3-> translate \acs{POMDP} to c.l. \acp{WDTA}
+          \end{itemize}
+        \end{overlayarea}
+      \end{column}
+      \begin{column}{0.65\textwidth}
+        \begin{overlayarea}{\textwidth}{\textheight}
+          \begin{onlyenv}<3->
+            \begin{itemize}
+              \item<4-> $Q = S$ with $q_{0} = s_{0}$
+              \item<5-> $D = \interval{S}_{\sim}$ and $\Sigma = A$
+              \item<6-> $G_{a}^{s}(s', d) = \begin{cases}
+                  \tau_{a}(s, s')&\text{if }d = \interval{s'}_{\sim},\\
+                  0&\text{otherwise}.
+              \end{cases}$
+            \end{itemize}
+          \end{onlyenv}
+        \end{overlayarea}
+      \end{column}
+    \end{columns}
   \end{frame}
 
   \section{Synthesis}
