@@ -1,0 +1,34 @@
+\begin{tikzpicture}[node distance = 3]
+  \node [state, fill = red!50] (q2i)                            {$q_{2}^{i}$};
+  \node [state, right = of q2i,fill = blue!50] (q1i)            {$q_{1}^{i}$};
+  \node [state, below = of q2i, accepting, fill = green!50] (q3i) {$q_{3}^{i}$};
+  \node [state, fill = purple!50] (q0i) at (q3i-|q1i)              {$q_{0}^{i}$};
+
+  \node [state, initial right, right = 1.5 of q0i] (q0) {$q_{0}$};
+
+  \draw [->] (q0) to node [above] {$(*,i), 1$} (q0i);
+
+  \draw [->, bend right] (q0i) to
+    node [right] {$(\overline{i}, i'), \frac{1}{2}$} (q1i);
+
+  \draw [->, near end, bend right=15] (q0i) to
+    node [right] {$(\overline{i}, i'), \frac{1}{2}$} (q2i);
+
+  \draw [->, bend right] (q1i) to
+    node [right] {$(i, i'), 1$} (q0i);
+
+  \draw [->, bend right] (q2i) to
+    node [right] {$(i, i'), 1$} (q3i);
+
+  \draw [->, bend left] (q2i) to
+    node [above] {$(\overline{i}, i'), \frac{1}{2}$} (q1i);
+
+  \draw [->, bend right] (q3i) to
+    node [right] {$(\overline{i}, i'), \frac{1}{2}$} (q2i);
+
+  \draw [->, bend right=10, near start] (q3i) to
+    node [right] {$(\overline{i}, i'), \frac{1}{2}$} (q1i);
+
+  \loopabove{q1i}{$(\overline{i},i'), 1$};
+  \loopabove{q2i}{$(\overline{i},i'), \frac{1}{2}$};
+\end{tikzpicture}

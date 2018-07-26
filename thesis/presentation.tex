@@ -732,23 +732,26 @@
 
   \begin{frame}
     \frametitle{Antagonistic Environment - \ac{PBA} Specification}
-    \alt<1-7>{
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+    \only<1-6>{
       \begin{equation*}
         \tuple{Q, J\times I, \delta, q_{0}, F}
       \end{equation*}
-    }{
+    }
+    \only<7->{
       \begin{equation*}
         \tuple{Q, J\times I, \delta, q_{0}, F}\Rightarrow\tuple{S, s_{0}, E, A,
           \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F}
       \end{equation*}
     }
+    \end{overlayarea}
     \begin{overlayarea}{\textwidth}{0.8\textheight}
-      \begin{onlyenv}<2->
+      \begin{onlyenv}<2-7>
         \begin{itemize}
           \item Partially Observable Stochastic Game (\ac{POSG}):
           \item<3-> \ac{POMDP} with antagonistic players (\eve{} \& \adam{})
           \item<4-> $G = \tuple{S, s_{0}, E, A,
-            \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F}$
+            \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F'}$
           \item<5-> 
             $\begin{aligned}
               \eve{}\; &f:\interval{S}_{\sim_{A}}^{*}\rightarrow A\\
@@ -759,7 +762,49 @@
             $\mu_{f,g}(\Acc_{\buechi}(F)) = 1$ for all $g$
         \end{itemize}
       \end{onlyenv}
-      \begin{onlyenv}<8->
+      \begin{onlyenv}<8-13>
+        \begin{itemize}
+          \item<8-> \enquote{input-/output-game with unobservable stochastic
+            background}
+          \item<9-> $S = I\times Q\times J\cup\set{q_{0}}$ with $s_{0} = q_{0}$
+          \item<10-> $E = J$, $A = I$
+          \item<11-> $\tau_{j,i}(\tuple{a, q, e}, \tuple{i', p, j'}) =
+            \begin{cases}
+              \delta(q, \tuple{i,j}, p)&\text{if }i' = i, j' = j,\\
+              0&\text{otherwise}.
+            \end{cases}$
+          \item<12-> $\sim_{E} = \sim_{A} = \set{\substack{
+            \tuple{\tuple{i, q, j}, \tuple{i, p, j}}:\\
+            i\in I, j\in J, q, p\in Q}}$
+          \item<13-> $F' = I\times F\times J$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<14->
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{equation*}
+              \set{
+                a^{k_{1}}ba^{k_{2}}b\dots:
+                \substack{k_{i}>0\text{ for all }i>0\\
+                \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0\\
+                a:\text{last input differs from current output}\\
+                b:\text{last input is equal to current output}}
+              }
+            \end{equation*}
+            \begin{center}
+              \resizebox{\textwidth}{!}{
+                \includegraphics{tikz/synthesispbapresentation.pdf}
+              }
+            \end{center}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \begin{center}
+              \resizebox{\textwidth}{!}{
+                \uncover<15>{\includegraphics{tikz/synthesispbagame.pdf}}
+              }
+            \end{center}
+          \end{column}
+        \end{columns}
       \end{onlyenv}
     \end{overlayarea}
   \end{frame}
@@ -773,9 +818,6 @@
   \end{frame}
 
   \section{Conclusion}
-  \begin{frame}
-  \end{frame}
-
   \begin{frame}
   \end{frame}
 \end{document}
