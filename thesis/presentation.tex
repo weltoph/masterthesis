@@ -849,11 +849,77 @@
 
   \begin{frame}
     \frametitle{\ac{POMDP} - \ac{PBA} Specification}
-    \begin{equation*}
-      \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
-      \text{ and }
-      \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
-    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \begin{equation*}
+        \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+        \text{ and }
+        \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2-3>
+        \begin{equation*}
+          \alpha\in S^{\omega}\Rightarrow\tuple{Q, \mathcal{B}(Q), \mu_{s}}
+        \end{equation*}
+        \uncover<3>{
+          \begin{definition}
+            Given $\tuple{\Omega_{1},\mathcal{F}_{1}}$,
+            $\tuple{\Omega_{2},\mathcal{F}_{2}}$, then
+            $K:\Omega_{1}\times\mathcal{F}_{2}\rightarrow \interval{0,1}$ is a
+            Markov-kernel if
+            \begin{enumerate}
+              \item $K(\cdot, A)$ is measurable in $\mathcal{F}_{1}$ for all
+                $A\in\mathcal{F}_{2}$,
+              \item $K(\omega, \cdot)$ is a probability measure on
+                $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every
+                $\omega\in\Omega_{1}$.
+            \end{enumerate}
+          \end{definition}
+        }
+      \end{onlyenv}
+      \begin{onlyenv}<4-8>
+        \begin{equation*}
+          K:S^{\omega}\times\mathcal{B}(Q)\rightarrow\interval{0,1}
+          \text{ with }
+          K(\alpha, A) = \mu_{\alpha}(A)
+        \end{equation*}
+        \begin{itemize}
+          \item<5-> for a strategy $s$:
+            $\begin{aligned}
+              \int_{\alpha\in S^{\omega}}&K(\alpha, \Acc_{\buechi}(Q))d\mu_{s}
+              = 1\text{ iff }\\
+              &\mu_{\alpha}(\Acc_{\buechi}(Q))\text{ for almost all }\alpha.
+            \end{aligned}$
+          \item<6-> measure $\mu_{s}\otimes K$ on $\tuple{S^{\omega}\times
+            Q^{\omega}, \mathcal{B}(S)\otimes\mathcal{B}(Q)}$ uniquely
+            determined by $\int_{\cyl(u)}K(\cdot, \cyl(v))d\mu_{s}$
+          \item<7-> $\int_{\cyl(u)}K(\cdot, \cyl(v))d\mu_{s} =
+            \mu_{s}(\cyl(u))\cdot\mu_{u}(\cyl(v))$ for $\size{u} = \size{v}$
+          \item[$\Rightarrow$]<8-> induces product construction for
+            $\mathcal{S}$ and $\mathcal{P}$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<9->
+        \begin{equation*}
+          \mathcal{S}\otimes\mathcal{P} = \tuple{
+            S\times Q, \tuple{q_{0}, s_{0}}, A, \tuple{\tau_{a}'}_{a\in A},
+            \sim'
+          }
+        \end{equation*}
+        \begin{itemize}
+          \item<10-> $\tau_{a}'(\tuple{s, q}, \tuple{z, p}) = \tau_{a}(s, z)
+            \cdot \delta(p, s, q)$
+          \item<11-> $\tuple{s, q}\sim'\tuple{z, p}$ iff $s\sim z$
+          \item[$\Rightarrow$]<12-> strategies can be translated from
+            $\mathcal{S}$ to $\mathcal{S}\otimes\mathcal{P}$
+          \item[$\Rightarrow$]<13-> $\mu_{s}(\Acc_{\buechi}(S\times F) =
+            \int_{S^{\omega}}K(\cdot, \Acc_{\buechi}(F))d\mu_{s}$
+          \item[$\Rightarrow$]<14-> almost-surely accepting strategy in
+            $\mathcal{S}\otimes\mathcal{P}$ is qualitatively \enquote{good}
+            for $\mathcal{S}$ with specification $\mathcal{P}$
+        \end{itemize}
+      \end{onlyenv}
+    \end{overlayarea}
   \end{frame}
 
   \section{Conclusion}
