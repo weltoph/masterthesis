@@ -1,0 +1,32 @@
+\begin{tikzpicture}[
+    level distance = 2cm,
+    level 1/.style = {
+      sibling distance = 3cm
+    },
+    level 2/.style = {
+      sibling distance = 2cm
+    }
+  ]
+  \node (root) {$o$} {
+    child { node (l) {$o_{i_{1}}$} {
+      child { node (ll) {$o_{i_{1}i_{1}}$}; }
+      child { node (lr) {$o_{i_{1}i_{2}}$}; }
+    }}
+    child { node (r) {$o_{i_{2}}$} {
+      child { node (rl) {$o_{i_{2}i_{1}}$}; }
+      child { node (rr) {$o_{i_{2}i_{2}}$}; }
+    }}
+  };
+
+  \draw (root) to node [left]  {$i_{1}$} (l);
+  \draw (root) to node [right] {$i_{2}$} (r);
+  \draw (l)    to node [left]  {$i_{1}$} (ll);
+  \draw (l)    to node [right] {$i_{2}$} (lr);
+  \draw (r)    to node [left]  {$i_{1}$} (rl);
+  \draw (r)    to node [right] {$i_{2}$} (rr);
+
+  \node [below = 0.01cm of ll] (dotsll) {$\vdots$};
+  \node [below = 0.01cm of lr] (dotslr) {$\vdots$};
+  \node [below = 0.01cm of rl] (dotsrl) {$\vdots$};
+  \node [below = 0.01cm of rr] (dotsrr) {$\vdots$};
+\end{tikzpicture}

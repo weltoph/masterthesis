@@ -18,6 +18,17 @@
 \usepackage{amsthm}
 \usepackage{bbm}
 
+\newcommand{\pathfinder}{\textsc{Pathfinder}}
+\newcommand{\automaton}{\textsc{Automaton}}
+\newcommand{\spoiler}{\textsc{Spoiler}}
+\newcommand{\acceptor}{\textsc{Acceptor}}
+\newcommand{\inputp}{\textsc{Input}}
+\newcommand{\outputp}{\textsc{Output}}
+\newcommand{\adam}{\textsc{Adam}}
+\newcommand{\eve}{\textsc{Eve}}
+\newcommand{\random}{\textsc{Random}}
+
+
 \usepackage{array}
 \usepackage{csquotes}
 
@@ -680,13 +691,14 @@
         \end{definition}
         \begin{itemize}
           \item $\mathbb{L}$ is $\omega$-regular if for every
-            $\phi(\cdot,\cdot)$ exists a $\omega$-regular $\mathcal{L}_{\phi}$
-            such that
+            $\phi(\cdot,\cdot)$ it is possible to effectively construct an
+            $\omega$-regular $\mathcal{L}_{\phi}$ such that
             $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
             \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
           \item $\mathbb{L}$ is almost-surely \ac{PBA} recognizable if for
-            every $\phi(\cdot,\cdot)$ exists a $\mathcal{L}_{\phi}$ which is
-            recognizable by a \ac{PBA} with almost-sure acceptance such that
+            every $\phi(\cdot,\cdot)$ it is possible to effectively constuct a
+            $\mathcal{L}_{\phi}$ which is recognizable by a \ac{PBA} with
+            almost-sure acceptance such that
             $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
             \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
         \end{itemize}
@@ -698,10 +710,58 @@
 
   \begin{frame}
     \frametitle{Antagonistic Environment - $\omega$-regular Specification}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{itemize}
+          \item $\omega$-regular specification
+          \item[$\Rightarrow$]<2-> \ac{DPA} $\tuple{Q, J\times I, \delta,
+            q_{0}, \parity}$
+          \item[$\Rightarrow$]<3-> \ac{PTA}
+            $\tuple{Q, q_{0}, I, J, \Delta, \parity}$ with
+          $\Delta = \set{\substack{\tuple{q, i, \tuple{\delta(q,
+            \tuple{i, j})}_{j\in J}}:\\q\in Q, i\in I}}$
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \uncover<4->{
+          \includegraphics{tikz/inputoutputtree.pdf}
+        }
+      \end{column}
+    \end{columns}
   \end{frame}
 
   \begin{frame}
     \frametitle{Antagonistic Environment - \ac{PBA} Specification}
+    \alt<1-7>{
+      \begin{equation*}
+        \tuple{Q, J\times I, \delta, q_{0}, F}
+      \end{equation*}
+    }{
+      \begin{equation*}
+        \tuple{Q, J\times I, \delta, q_{0}, F}\Rightarrow\tuple{S, s_{0}, E, A,
+          \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F}
+      \end{equation*}
+    }
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2->
+        \begin{itemize}
+          \item Partially Observable Stochastic Game (\ac{POSG}):
+          \item<3-> \ac{POMDP} with antagonistic players (\eve{} \& \adam{})
+          \item<4-> $G = \tuple{S, s_{0}, E, A,
+            \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F}$
+          \item<5-> 
+            $\begin{aligned}
+              \eve{}\; &f:\interval{S}_{\sim_{A}}^{*}\rightarrow A\\
+              \adam{}\; &g:\interval{S}_{\sim_{E}}^{*}\rightarrow E
+            \end{aligned} \Rightarrow \tuple{S^{\omega}, \mathcal{B}(S), 
+            \mu_{f,g}}$
+          \item<6-> $f$ almost-surely wins for \eve{} if
+            $\mu_{f,g}(\Acc_{\buechi}(F)) = 1$ for all $g$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<8->
+      \end{onlyenv}
+    \end{overlayarea}
   \end{frame}
 
   \begin{frame}
