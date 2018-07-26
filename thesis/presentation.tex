@@ -810,11 +810,50 @@
   \end{frame}
 
   \begin{frame}
+    \frametitle{Qualitative Strategy Synthesis}
+    \begin{definition}
+      Given a \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A,
+      \tuple{\tau_{a}}_{a\in A}, \sim}$ and a specification $\phi\subseteq
+      S^{\omega}$ such that $\phi\in\mathcal{B}(S)$. The qualitative synthesis
+      problem $\tuple{M, \phi}$ demands the computation of a strategie
+      $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\phi) = 1$.
+    \end{definition}
+  \end{frame}
+
+  \begin{frame}
     \frametitle{\ac{POMDP} - $\omega$-regular Specification}
+    \begin{equation*}
+      \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+    \end{equation*}
+    \begin{itemize}
+      \item<2-> $\omega$-regular specification
+      \item[$\Rightarrow$]<3-> \ac{DPA} $\mathcal{P}$
+      \item<4-> natural product construction $\mathcal{M}\otimes\mathcal{P}$
+        yields \ac{POMDP} with associated Parity-condition
+    \end{itemize}
+    \uncover<5->{
+      \begin{center}
+        \begin{tabular}{|l|ll|}
+          \hline
+          Computing Strategies & Fully observable & Partially observable\\
+          \hline
+          Positive Büchi & \textsc{PTIME} & Undecidable \\
+          Almost-Sure Büchi & \textsc{PTIME} & \textsc{EXPTIME} \\
+          Positive Parity & \textsc{PTIME} & Undecidable \\
+          Almost-Sure Parity & \textsc{PTIME} & Undecidable \\
+          \hline
+        \end{tabular}
+      \end{center}
+    }
   \end{frame}
 
   \begin{frame}
     \frametitle{\ac{POMDP} - \ac{PBA} Specification}
+    \begin{equation*}
+      \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+      \text{ and }
+      \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
+    \end{equation*}
   \end{frame}
 
   \section{Conclusion}
