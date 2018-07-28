@@ -70,8 +70,8 @@
     \end{theorem}
     \begin{overlayarea}{\textwidth}{0.5\textheight}
         \begin{equation*}
-          \set{
-            \mathcal{L} = \alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)
+          \mathcal{L} = \set{
+            \alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)
           }
         \end{equation*}
         \begin{columns}
@@ -94,19 +94,20 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Probabilistic Automata}
+    \frametitle{Probabilistic Büchi Automata}
     \begin{equation*}
-      \mathcal{A} = \tuple{Q, \Sigma, 
+      \mathcal{A} = \tuple{Q, \Sigma,
       \delta:Q\times\Sigma\times Q\rightarrow\interval{0,1}, q_{0}, F}
     \end{equation*}
     \begin{overlayarea}{\textwidth}{0.7\textheight}
       \begin{onlyenv}<1>
         \begin{itemize}
-          \item $Q$ : finite state set,
-          \item $q_{0}\in Q$: initial state,
+          \item $Q$: finite state set
+          \item $\Sigma$: finite alphabet
+          \item $q_{0}\in Q$: initial state
           \item $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$: 
             transition probability function
-          \item $F\subseteq Q$: final states.
+          \item $F\subseteq Q$: final states
         \end{itemize}
       \end{onlyenv}
       \begin{onlyenv}<2>
@@ -133,7 +134,7 @@
             \begin{itemize}
               \item<4-> $\alpha$ induces probability space 
                 \begin{equation*}
-                  \tuple{Q, \mathcal{B}(Q), \mu_{\alpha}}
+                  \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}
                 \end{equation*}
               \item<5-> positive: $\mu_{\alpha}(\Acc_{\buechi}(F)) > 0$
               \item<6-> almost-sure: $\mu_{\alpha}(\Acc_{\buechi}(F)) = 1$
@@ -183,7 +184,7 @@
     \end{columns}
     \begin{uncoverenv}<3->
       \begin{equation*}
-        \mathcal{L}_{1} = \overline{\mathcal{L}_{2}}\setminus\underbrace{
+        \overline{\mathcal{L}_{1}} = \mathcal{L}_{2}\cup\underbrace{
           b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} + \Sigma^{*}a^{\omega}
         }_{\omega-\text{regular}}
       \end{equation*}
@@ -196,25 +197,23 @@
       \begin{column}{0.5\textwidth}
         \small{Positive Acceptance}
         \begin{itemize}
-          \item<2-> subsumes $\omega$-regular
-          \item<5-> recognizable languages form Boolean-algebra
-          \item<6-> undecidable emptiness
+          \item<2-> \alert<3>{strictly} subsumes $\omega$-regular
+          \item<4-> recognizable languages form Boolean-algebra
+          \item<5-> undecidable emptiness
         \end{itemize}
         \small{Almost-Sure Acceptance}
         \begin{itemize}
-          \item<7-> incomparable with $\omega$-regular
-          \item<10-> decidable emptiness
-          \item<11-> \alert{Parity-}condition coincides with positive
+          \item<6-> incomparable with $\omega$-regular
+          \item<9-> decidable emptiness
+          \item<10-> \alert{Parity-}condition coincides with positive
             acceptance of Büchi- or Parity-condition
         \end{itemize}
       \end{column}
       \begin{column}{0.5\textwidth}
         \begin{overlayarea}{\textwidth}{\textheight}
-          \begin{onlyenv}<3-4>
-            \vspace{0.3\textheight}
-            deterministic in limit \ac{NBA} with uniform probability measure
-            \vfill
-            \begin{uncoverenv}<4>
+          \begin{onlyenv}<3>
+            \begin{uncoverenv}
+              \vspace{3cm}
               \begin{equation*}
                 \set{
                   a^{k_{1}}ba^{k_{2}}b\dots:
@@ -224,13 +223,13 @@
               \end{equation*}
             \end{uncoverenv}
           \end{onlyenv}
-          \begin{onlyenv}<8-9>
+          \begin{onlyenv}<7-8>
             \vspace{0.2\textheight}
             \begin{equation*}
               \set{\alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)}
             \end{equation*}
             \vfill
-            \begin{uncoverenv}<9>
+            \begin{uncoverenv}<8>
               \begin{align*}
                 &\overline{\set{
                   a^{k_{1}}ba^{k_{2}}b\dots:
@@ -500,38 +499,38 @@
     \begin{itemize}
       \item<2-> unary trees are words
       \item<3-> c.l. \acp{WDTA} \enquote{equivalent} to \acp{PPA}
-      \item<9-> u.d. \acp{WDTA} \enquote{equivalent} to $\omega$-regular
-      \item[$\Rightarrow$]<13-> undecidable emptiness for (c.l.) \acp{WDTA}
+      \item<4-> u.d. \acp{WDTA} \enquote{equivalent} to $\omega$-regular
+      \item[$\Rightarrow$]<5-> undecidable emptiness for (c.l.) \acp{WDTA}
         with positive Büchi-acceptance and almost-sure Parity-acceptance
-      \item[$\Rightarrow$]<13-> Simulation Theorem does not translate to \acp{WDTA}
+      \item[$\Rightarrow$]<6-> Simulation Theorem does not translate to \acp{WDTA}
     \end{itemize}
-    \begin{overlayarea}{\textwidth}{0.5\textheight}
-      \begin{onlyenv}<4-8>
-        \begin{itemize}
-          \item<4-> $\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta, \parity}
-            \Rightarrow \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta,
-            \parity}$
-          \item<5-> $\Delta = \set{\tuple{q, \sigma,
-            \set{\tuple{p,0}\mapsto\delta(q,\sigma,p):p\in Q}}: q\in Q,
-            \sigma\in\Sigma}$
-          \item<8-> unique run of $\mathcal{A}$ and run-tree of $\mathcal{P}$
-            coincide
-          \item<6-> $\mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta,
-            \parity}\Rightarrow\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta,
-            \parity}$
-          \item<7-> $\delta(q, \sigma, p) = G_{\sigma}^{q}(p, 0)$
-        \end{itemize}
-      \end{onlyenv}
-      \begin{onlyenv}<9-12>
-        \begin{itemize}
-          \item<10-> uni-directional \acp{WDTA} over singleton direction set
-            only weight one following state
-          \item<11-> every run induces Dirac measure
-          \item[$\Rightarrow$]<12-> acceptance only dependent on the
-            non-deterministically chosen state sequence
-        \end{itemize}
-      \end{onlyenv}
-    \end{overlayarea}
+    % \begin{overlayarea}{\textwidth}{0.5\textheight}
+    %   \begin{onlyenv}<4-8>
+    %     \begin{itemize}
+    %       \item<4-> $\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta, \parity}
+    %         \Rightarrow \mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta,
+    %         \parity}$
+    %       \item<5-> $\Delta = \set{\tuple{q, \sigma,
+    %         \set{\tuple{p,0}\mapsto\delta(q,\sigma,p):p\in Q}}: q\in Q,
+    %         \sigma\in\Sigma}$
+    %       \item<8-> unique run of $\mathcal{A}$ and run-tree of $\mathcal{P}$
+    %         coincide
+    %       \item<6-> $\mathcal{A} = \tuple{Q, q_{0}, \set{0}, \Sigma, \Delta,
+    %         \parity}\Rightarrow\mathcal{P} = \tuple{Q, \Sigma, q_{0}, \delta,
+    %         \parity}$
+    %       \item<7-> $\delta(q, \sigma, p) = G_{\sigma}^{q}(p, 0)$
+    %     \end{itemize}
+    %   \end{onlyenv}
+    %   \begin{onlyenv}<9-12>
+    %     \begin{itemize}
+    %       \item<10-> uni-directional \acp{WDTA} over singleton direction set
+    %         only weight one following state
+    %       \item<11-> every run induces Dirac measure
+    %       \item[$\Rightarrow$]<12-> acceptance only dependent on the
+    %         non-deterministically chosen state sequence
+    %     \end{itemize}
+    %   \end{onlyenv}
+    % \end{overlayarea}
   \end{frame}
 
   \begin{frame}
@@ -741,7 +740,7 @@
     \only<7->{
       \begin{equation*}
         \tuple{Q, J\times I, \delta, q_{0}, F}\Rightarrow\tuple{S, s_{0}, E, A,
-          \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F}
+          \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F'}
       \end{equation*}
     }
     \end{overlayarea}
@@ -888,7 +887,7 @@
             $\begin{aligned}
               \int_{\alpha\in S^{\omega}}&K(\alpha, \Acc_{\buechi}(Q))d\mu_{s}
               = 1\text{ iff }\\
-              &\mu_{\alpha}(\Acc_{\buechi}(Q))\text{ for almost all }\alpha.
+              &\mu_{\alpha}(\Acc_{\buechi}(Q)) = 1\text{ for almost all }\alpha
             \end{aligned}$
           \item<6-> measure $\mu_{s}\otimes K$ on $\tuple{S^{\omega}\times
             Q^{\omega}, \mathcal{B}(S)\otimes\mathcal{B}(Q)}$ uniquely
