@@ -15,24 +15,28 @@
   \node [xshift = -0.75cm] (cr1) at (cr) {};
   \node [xshift =  0.75cm] (cr2) at (cr) {};
 
-  \node [xshift = -0.30cm] (l) at (cl) {};
+  \node [xshift = -0.30cm] (l) at (cl) {$s_{3}$};
   \node [xshift = -0.75cm] (cl1) at (cl) {};
   \node [xshift =  0.75cm] (cl2) at (cl) {};
 
-  \node [xshift = -0.1cm] (rr) at (crr) {};
+  \node [xshift = -0.2cm] (rr1) at (crr) {$s_{1}$};
+  \node [xshift =  0.2cm] (rr2) at (crr) {$s_{2}$};
+  \node [xshift =  0.8cm] (rr3) at (crr) {$s_{1}$};
+  \node [xshift =  1.2cm] (rr4) at (crr) {$s_{2}$};
   \node [xshift = -0.5cm] (crr1) at (crr) {};
   \node [xshift =  0.5cm] (crr2) at (crr) {};
 
-  \node [xshift = -0.2cm] (rl1) at (crl) {$s_{1}$};
-  \node [xshift =  0.2cm] (rl2) at (crl) {$s_{2}$};
+  \node [xshift = -0.2cm] (rl1) at (crl) {$s_{3}$};
+  \node [xshift =  0.2cm] (rl2) at (crl) {$s_{3}$};
   \node [xshift = -0.5cm] (crl1) at (crl) {};
   \node [xshift =  0.5cm] (crl2) at (crl) {};
 
-  \node [xshift =  0.2cm] (ll) at (cll) {};
+  \node [xshift =  0.2cm] (ll) at (cll) {$s_{3}$};
   \node [xshift = -0.5cm] (cll1) at (cll) {};
   \node [xshift =  0.5cm] (cll2) at (cll) {};
 
-  \node [xshift = 0.05cm] (lr) at (clr) {};
+  \node [xshift = 0.05cm] (lr1) at (clr) {$s_{1}$};
+  \node [xshift = 0.4cm] (lr2) at (clr) {$s_{2}$};
   \node [xshift = -0.5cm] (clr1) at (clr) {};
   \node [xshift =  0.5cm] (clr2) at (clr) {};
 
@@ -40,11 +44,15 @@
     \draw [green,thick] (root) to (r1);
     \draw [green,thick] (root) to (r2);
     \draw [green,thick] (r1) to (rl1);
-    \draw [green,thick] (r1) to (rl2);
-    \draw [green,thick] (r1) to (rr);
+    \draw [green,thick] (r2) to (rl2);
+    \draw [green,thick] (r1) to (rr1);
+    \draw [green,thick] (r1) to (rr2);
+    \draw [green,thick] (r2) to (rr3);
+    \draw [green,thick] (r2) to (rr4);
 
     \draw [green,thick] (root) to (l);
     \draw [green,thick] (l) to (ll);
-    \draw [green,thick] (l) to (lr);
+    \draw [green,thick] (l) to (lr1);
+    \draw [green,thick] (l) to (lr2);
   \end{scope}
 \end{tikzpicture}

@@ -1,0 +1,49 @@
+\begin{tikzpicture}[
+    alphanode/.style = {
+      rectangle
+    }
+  ]
+  \node (level0) {};
+  \node [below = of level0] (level1) {};
+  \node [below = of level1] (level2) {};
+  \node [below = of level2] (level3) {};
+  \node [below = of level3] (level4) {};
+
+  \node [state, initial above] (q0) at (level0) {$q_{0}$};
+  \node [xshift = -6cm, alphanode, draw = red!50] (a1)  at (level1) {$\alpha_{1}$};
+
+  \node [xshift = -2cm, state] (0q0) at (level2) {$q_{0}$};
+  \node [xshift =  2cm, state] (0q1) at (level2) {$q_{1}$};
+
+  \node [xshift = -6cm, alphanode, draw = green!50] (a2)  at (level3) {$\alpha_{2}$};
+
+  \node [xshift = -3cm, state] (lq0) at (level4) {$q_{0}$};
+  \node [xshift = -1cm, state] (lq1) at (level4) {$q_{1}$};
+  \node [xshift =  1cm, state] (rq0) at (level4) {$q_{0}$};
+  \node [xshift =  3cm, state] (rq1) at (level4) {$q_{1}$};
+
+  \draw [->] (q0)  to node [left]  (q00q0) {$\delta(q_{0}, \alpha_{1}, q_{0})$} (0q0);
+  \draw [->] (q0)  to node [right] (q00q1) {$\delta(q_{0}, \alpha_{1}, q_{1})$} (0q1);
+
+  \draw [->] (0q0) to node [left]  (0q0lq0) {$\delta(q_{0}, \alpha_{1}, q_{0})$} (lq0);
+  \draw [->] (0q0) to node [right, near start] (0q0lq1) {$\delta(q_{0}, \alpha_{1}, q_{1})$} (lq1);
+
+  \draw [->] (0q1) to node [left, near end]  (0q1rq0) {$\delta(q_{1}, \alpha_{1}, q_{0})$} (rq0);
+  \draw [->] (0q1) to node [right] (0q1rq1) {$\delta(q_{1}, \alpha_{1}, q_{1})$} (rq1);
+
+  % \draw [->, dotted, red, thick, bend left]  (a1) to (q00q0);
+  % \draw [->, dotted, red, thick, bend right] (a1) to (q00q1);
+
+  % \draw [->, dotted, red, thick, bend right] (a2) to (0q0lq0);
+  % \draw [->, dotted, red, thick, bend left]  (a2) to (0q0lq1);
+
+  % \draw [->, dotted, red, thick, bend right] (a2) to (0q1rq0);
+  % \draw [->, dotted, red, thick, bend left]  (a2) to (0q1rq1);
+
+  \begin{scope}[on background layer]
+    \node [fit = (q00q0) (q00q1), fill = red!50] (a1deltas) {};
+    \node [fit = (0q0lq0) (0q0lq1) (0q1rq0) (0q1rq1), fill = green!50] (a2deltas) {};
+    \fill [red!50] (a1.east) -- (a1deltas.north west) -- (a1deltas.south west) -- cycle;
+    \fill [green!50] (a2.east) -- (a2deltas.north west) -- (a2deltas.south west) -- cycle;
+  \end{scope}
+\end{tikzpicture}
