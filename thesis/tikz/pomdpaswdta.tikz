@@ -1,0 +1,50 @@
+\begin{tikzpicture}
+  \node (root) {$s_{0}$};
+
+  \node [below right = 2 and 2 of root] (cr) {};
+  \node [below left  = 2 and 2 of root] (cl) {};
+
+  \node [below right = 2 and 1 of cr] (crr) {};
+  \node [below left  = 2 and 1 of cr] (crl) {};
+
+  \node [below right = 2 and 1 of cl] (clr) {};
+  \node [below left  = 2 and 1 of cl] (cll) {};
+
+  \node [xshift = -0.20cm] (r1) at (cr) {$s_{1}$};
+  \node [xshift =  0.20cm] (r2) at (cr) {$s_{2}$};
+  \node [xshift = -0.75cm] (cr1) at (cr) {};
+  \node [xshift =  0.75cm] (cr2) at (cr) {};
+
+  \node [xshift = -0.30cm] (l) at (cl) {};
+  \node [xshift = -0.75cm] (cl1) at (cl) {};
+  \node [xshift =  0.75cm] (cl2) at (cl) {};
+
+  \node [xshift = -0.1cm] (rr) at (crr) {};
+  \node [xshift = -0.5cm] (crr1) at (crr) {};
+  \node [xshift =  0.5cm] (crr2) at (crr) {};
+
+  \node [xshift = -0.2cm] (rl1) at (crl) {$s_{1}$};
+  \node [xshift =  0.2cm] (rl2) at (crl) {$s_{2}$};
+  \node [xshift = -0.5cm] (crl1) at (crl) {};
+  \node [xshift =  0.5cm] (crl2) at (crl) {};
+
+  \node [xshift =  0.2cm] (ll) at (cll) {};
+  \node [xshift = -0.5cm] (cll1) at (cll) {};
+  \node [xshift =  0.5cm] (cll2) at (cll) {};
+
+  \node [xshift = 0.05cm] (lr) at (clr) {};
+  \node [xshift = -0.5cm] (clr1) at (clr) {};
+  \node [xshift =  0.5cm] (clr2) at (clr) {};
+
+  \begin{scope}[on background layer]
+    \draw [green,thick] (root) to (r1);
+    \draw [green,thick] (root) to (r2);
+    \draw [green,thick] (r1) to (rl1);
+    \draw [green,thick] (r1) to (rl2);
+    \draw [green,thick] (r1) to (rr);
+
+    \draw [green,thick] (root) to (l);
+    \draw [green,thick] (l) to (ll);
+    \draw [green,thick] (l) to (lr);
+  \end{scope}
+\end{tikzpicture}
