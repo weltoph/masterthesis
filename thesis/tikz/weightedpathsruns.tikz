@@ -36,4 +36,8 @@
 
   \draw (r) to node [left] {$p_{d_{k}d_{1}}$} (rl);
   \draw (r) to node [right] {$p_{d_{k}d_{k}}$} (rr);
+
+  \draw [ decoration = { brace, amplitude = 5pt, raise = 12pt},
+    decorate, draw, line width = 1pt] (dummy.north) -- node [right, xshift = 14pt] {
+      $(q_{0}, t(\epsilon), (r(d), p_{d})_{d\in D})\in\Delta$} (r.south);
 \end{tikzpicture}

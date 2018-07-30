@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+  \node (l0) {};
+  \node [below = of l0, xshift = -0.3cm] (l1) {};
+  \node [below = of l1, xshift =  0.8cm] (l2) {};
+  \node [below = of l2, xshift =  0.3cm] (l3) {};
+
+  \node [xshift = -1cm] (l1l) at (l1) {};
+  \node [xshift =  1cm] (l1r) at (l1) {};
+
+  \node [xshift = -1cm] (l2l) at (l2) {};
+  \node [xshift =  1cm] (l2r) at (l2) {};
+
+  \node [xshift = -1cm] (l3l) at (l3) {};
+  \node [xshift =  1cm] (l3r) at (l3) {};
+
+  \fill[red!50] (l0.center) -- (l1l.center) -- (l1r.center) -- cycle;
+  \fill[red!50] (l1.center) -- (l2l.center) -- (l2r.center) -- cycle;
+  \fill[red!50] (l2.center) -- (l3l.center) -- (l3r.center) -- cycle;
+
+  \draw[green!50, thick] (l0.center) -- (l1.center);
+  \draw[green!50, thick] (l1.center) -- (l2.center);
+  \draw[green!50, thick] (l2.center) -- (l3.center);
+\end{tikzpicture}

@@ -253,102 +253,184 @@
   \section{Tree-Automata}
   \begin{frame}
     \frametitle{Definition}
-    \begin{equation*}
-      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
-        \Acc\subseteq Q^{\omega}}
-    \end{equation*}
-    \begin{overlayarea}{\textwidth}{0.8\textheight}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \begin{equation*}
+        \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
+          \Acc\subseteq Q^{\omega}}
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.6\textheight}
       \begin{onlyenv}<1>
         \begin{itemize}
           \item $Q$: finite state set
           \item $q_{0}\in Q$: initial state
           \item $D$: finite set of directions
           \item $\Sigma$: finite alphabet
-          \item $\Delta$: transitions of the form
-              $\tuple{q, \sigma, \tuple{q_{d}}_{d\in D}}$
+          \item $\Delta$: finite set of transitions
           \item $\Acc$: accepted language
         \end{itemize}
       \end{onlyenv}
-      \begin{onlyenv}<2-3>
+      \begin{onlyenv}<2-5>
         $D$-ary $\Sigma$-tree: $t:D^{*}\rightarrow\Sigma$\hfill
-        \uncover<3>{$D$-ary $Q$-run: $r:D^{*}\rightarrow Q$}
+        \uncover<3->{$D$-ary $Q$-run: $r:D^{*}\rightarrow Q$}
         \begin{center}
-          \alt<2>{
-            \includegraphics{tikz/tree.pdf}
-          }{
-            \includegraphics{tikz/run.pdf}
+          \resizebox{!}{0.5\textheight}{
+            \alt<2>{
+              \includegraphics{tikz/tree.pdf}
+            }{
+              \alt<3>{
+                \includegraphics{tikz/run.pdf}
+              }{
+                \alt<4>{
+                  \includegraphics{tikz/weightedpathsruns.pdf}
+                }{
+                  \includegraphics{tikz/weightedpathsrunsmarked.pdf}
+                }
+              }
+            }
           }
         \end{center}
       \end{onlyenv}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \uncover<5>{
+        \begin{equation*}
+          \tuple{D^{\omega}, \mathcal{B}(D), \mu_{r}}\text{ with }\mu_{r}(
+          \set{\rho\in D^{\omega}\mid r(\rho)\in\Acc})
+        \end{equation*}
+      }
     \end{overlayarea}
   \end{frame}
 
   \begin{frame}
     \frametitle{Tree Automata - Example}
-    \begin{equation*}
-      \mathcal{L} = \set{
-        t:\set{0,1}^{*}\rightarrow\set{a,b}\mid\substack{
-          a\notin \Inf(t(\epsilon)t(\alpha_{1})t(\alpha_{1}\alpha_{2})\dots)\\
-          \text{for all }\alpha_{1}\alpha_{2}\dots\in\set{0,1}^{\omega} 
-        }
-      }
-    \end{equation*}
-      \begin{columns}
-        \begin{column}{0.4\textwidth}
-          \vspace{-3cm}
-          \begin{itemize}
-            \item \alert<2-3>{Parity-condition} \uncover<3->{\checkmark}
-            \item \alert<4->{Büchi-condition} \uncover<5->{\ding{55}}
-          \end{itemize}
-        \end{column}
-        \begin{column}{0.6\textwidth}
-          \begin{overlayarea}{\textwidth}{0.8\textheight}
-            \begin{onlyenv}<3>
-              \begin{align*}
-                \mathcal{A} = (\set{q_{a}, q_{b}}, q_{a}, \set{0,1}, \set{a, b}&,\\
-                \Delta, \set{q_{a}\mapsto 1, q_{b}\mapsto 0}&)
-              \end{align*}
-              with
-              \begin{equation*}
-                \Delta = \set{
-                  \tuple{q, \sigma, q_{\sigma}, q_{\sigma}}:\substack{
-                    q\in Q,\\
-                    \sigma\in\set{a,b}
-                  }
+    \begin{overlayarea}{\textwidth}{0.1\textheight}
+      \begin{equation*}
+        \mathcal{A} = (Q = \set{q_{a}, q_{b}}, q_{a}, D = \set{0,1},
+          \Sigma = \set{a, b}, \Delta, F = \set{q_{a}})
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.9\textheight}
+          \uncover<2->{
+            \begin{equation*}
+              \Delta = \set{
+                \tuple{q, \sigma, q_{\sigma}, q_{\sigma}}:\substack{
+                  q\in Q,\\
+                  \sigma\in\set{a,b}
                 }
-              \end{equation*}
-            \end{onlyenv}
-            \begin{onlyenv}<4->
-              \begin{center}
-                % \resizebox{0.6\textwidth}{!}{%
-                  \includegraphics{tikz/finatree.pdf}
-                % }
-              \end{center}
-            \end{onlyenv}
-          \end{overlayarea}
-        \end{column}
-      \end{columns}
+              }\text{ or }
+              \set{
+                \tuple{q, \sigma, q_{\sigma}, \frac{1}{2}, q_{\sigma},
+                \frac{1}{2}}:\substack{
+                  q\in Q,\\
+                  \sigma\in\set{a,b}
+                }
+              }
+            \end{equation*}
+          }
+          \uncover<3->{
+            \begin{equation*}
+              \mathcal{L} = 
+              \set{
+                \begin{aligned}
+                  t:&\set{0,1}^{*}\rightarrow\set{a,b}\mid\\&
+                  A^{t}_{\infty} = D^{\omega}
+                \end{aligned}
+              }\text{ or }
+              \set{
+                \begin{aligned}
+                  t:&\set{0,1}^{*}\rightarrow\set{a,b}\mid\\&
+                    \mu_{\frac{1}{2}}(A^{t}_{\infty}) = 1\;
+                  (\mu_{\frac{1}{2}}(A^{t}_{\infty}) > 0)
+                \end{aligned}
+              }
+            \end{equation*}
+            where
+            \begin{equation*}
+              A^{t}_{\infty} = \set{\alpha_{1}\alpha_{2}\dots\in D^{\omega}\mid
+                a\in\Inf(t(\epsilon)t(\alpha_{1})t(\alpha_{1}\alpha_{2})\dots)}
+            \end{equation*}
+          }
+    \end{overlayarea}
   \end{frame}
 
+  % \begin{frame}
+  %   \frametitle{Tree Automata - Example}
+  %   \begin{equation*}
+  %     \mathcal{L} = \set{
+  %       t:\set{0,1}^{*}\rightarrow\set{a,b}\mid\substack{
+  %         a\notin \Inf(t(\epsilon)t(\alpha_{1})t(\alpha_{1}\alpha_{2})\dots)\\
+  %         \text{for all }\alpha_{1}\alpha_{2}\dots\in\set{0,1}^{\omega} 
+  %       }
+  %     }
+  %   \end{equation*}
+  %     \begin{columns}
+  %       \begin{column}{0.4\textwidth}
+  %         \vspace{-3cm}
+  %         \begin{itemize}
+  %           \item \alert<2-3>{Parity-condition} \uncover<3->{\checkmark}
+  %           \item \alert<4->{Büchi-condition} \uncover<5->{\ding{55}}
+  %         \end{itemize}
+  %       \end{column}
+  %       \begin{column}{0.6\textwidth}
+  %         \begin{overlayarea}{\textwidth}{0.8\textheight}
+  %           \begin{onlyenv}<3>
+  %             \begin{align*}
+  %               \mathcal{A} = (\set{q_{a}, q_{b}}, q_{a}, \set{0,1},
+  %               \set{a, b}&,\\
+  %               \Delta, \set{q_{a}\mapsto 1, q_{b}\mapsto 0}&)
+  %             \end{align*}
+  %             with
+  %             \begin{equation*}
+  %               \Delta = \set{
+  %                 \tuple{q, \sigma, q_{\sigma}, q_{\sigma}}:\substack{
+  %                   q\in Q,\\
+  %                   \sigma\in\set{a,b}
+  %                 }
+  %               }
+  %             \end{equation*}
+  %           \end{onlyenv}
+  %           \begin{onlyenv}<4->
+  %             \begin{center}
+  %               % \resizebox{0.6\textwidth}{!}{%
+  %                 \includegraphics{tikz/finatree.pdf}
+  %               % }
+  %             \end{center}
+  %           \end{onlyenv}
+  %         \end{overlayarea}
+  %       \end{column}
+  %     \end{columns}
+  % \end{frame}
+
   \begin{frame}
-    \frametitle{Definition Alternating Tree Automata}
-    \begin{equation*}
-      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
-        \Acc\subseteq Q^{\omega}}
-    \end{equation*}
-    \begin{overlayarea}{\textwidth}{0.8\textheight}
-      \begin{onlyenv}<2-3>
-        $\set{0,1}$-ary $\Sigma$-tree $t$\hfill\uncover<3->{
-          $Q\times D$-ary $\set{0,1}$-run $r$}
+    \frametitle{Alternating Tree Automata - Definition}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \begin{equation*}
+        \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta,
+          \Acc\subseteq Q^{\omega}}
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.5\textheight}
+      \begin{onlyenv}<2-4>
         \begin{center}
           \alt<2>{
             \includegraphics{tikz/bintree.pdf}
           }{
-            \includegraphics{tikz/alternatingrun.pdf}
+            \alt<3>{
+              \includegraphics{tikz/alternatingrun.pdf}
+            }{
+              \includegraphics{tikz/weightedalternatingrun.pdf}
+            }
           }
         \end{center}
       \end{onlyenv}
     \end{overlayarea}
+    \uncover<4>{
+      \begin{equation*}
+        \Rightarrow\tuple{\tuple{Q\times D}^{\omega}, \mathcal{B}(Q\times D),
+          \mu_{r}}
+      \end{equation*}
+    }
   \end{frame}
 
   \begin{frame}
@@ -377,111 +459,6 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Tree Automata - Properties}
-    \begin{theorem}[Simulation Theorem]
-      There is an effective construction which, when given an \ac{APTA},
-      produces an equivalent \ac{PTA}. Furthermore, given an \ac{ABTA}, there
-      is a way to effectively construct an equivalent \ac{BTA}.
-    \end{theorem}
-    \begin{itemize}
-      \item recognizable languages form a Boolean-algebra
-      \item decidable emptiness
-    \end{itemize}
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Weighted Descent Tree Automata - Idea}
-    \begin{itemize}
-      \item non-deterministically construct run
-      \item<2-> weight individual paths
-      \item<3-> acceptance by measure
-    \end{itemize}
-    \begin{overlayarea}{\textwidth}{0.6\textheight}
-      \begin{center}
-        \alt<1>{
-          \includegraphics{tikz/weightedrun.pdf}
-        }{
-          \alt<2>{
-            \includegraphics{tikz/weightedpathsruns.pdf}
-          }{
-            \begin{columns}
-              \begin{column}{0.5\textwidth}
-                \begin{equation*}
-                  \mu_{r}(\cyl(u_{1}\dots u_{n})) = \prod_{1\leq i\leq n}
-                    p_{u_{1}\dots u_{i}}
-                \end{equation*}
-                \uncover<4->{
-                  \begin{equation*}
-                    \Rightarrow\tuple{D^{\omega}, \mathcal{B}(D), \mu_{r}}
-                  \end{equation*}
-                  with
-                  \begin{equation*}
-                    \mu_{r}(\set{\rho\in D^{\omega}\mid r(\rho)\in\Acc})
-                  \end{equation*}
-                }
-              \end{column}
-              \begin{column}{0.5\textwidth}
-                \resizebox{\textwidth}{!}{
-                  \includegraphics{tikz/weightedpathsrunsmarked.pdf}
-                }
-              \end{column}
-            \end{columns}
-          }
-        }
-      \end{center}
-    \end{overlayarea}
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Weighted Descent Tree Automata - Definition}
-    \begin{equation*}
-      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc} 
-    \end{equation*}
-    \begin{overlayarea}{\textwidth}{0.8\textheight}
-      \begin{onlyenv}<2>
-        \begin{itemize}
-          \item $Q$: finite state set
-          \item $q_{0}\in Q$: initial state
-          \item $D$: finite set of directions
-          \item $\Sigma$: finite alphabet
-          \item $\Delta$: transitions of the form $\tuple{q, \sigma, G}$
-          \item $\Acc$: accepted language
-        \end{itemize}
-      \end{onlyenv}
-      \begin{onlyenv}<3>
-        \includegraphics{tikz/weightedalternatingrun.pdf}
-      \end{onlyenv}
-      \begin{onlyenv}<4->
-        \begin{columns}
-          \begin{column}{0.5\textwidth}
-            \begin{itemize}
-              \item run: $Q\times D$-ary 
-                $\mathcal{G}(\mathcal{A})$-tree
-              \item[$\Rightarrow$] $\tuple{\tuple{Q\times D}^{\omega}, 
-                \mathcal{B}(Q\times D), \mu_{r}}$
-            \end{itemize}
-          \end{column}
-          \begin{column}{0.5\textwidth}
-            \resizebox{\textwidth}{!}{
-              \includegraphics{tikz/weightedalternatingrun.pdf}
-            }
-          \end{column}
-        \end{columns}
-        \begin{equation*}
-          \Acc\interval{Q} = \set{
-            \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
-            \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
-          }
-        \end{equation*}
-        and
-        \begin{equation*}
-          \mu_{r}(\Acc\interval{Q}) > 0\text{ or }\mu_{r}(\Acc\interval{Q}) = 1
-        \end{equation*}
-      \end{onlyenv}
-    \end{overlayarea}
-  \end{frame}
-
-  \begin{frame}
     \frametitle{Weighted Descent Tree Automata - Structural Properties}
     \begin{tabular}{llm{0.5\textwidth}}
       choiceless (c.l.): & $\substack{\size{\set{G: \tuple{q, \sigma, G}
@@ -494,15 +471,137 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Weighted Descent Tree Automata - Word-Example}
+    \frametitle{Tree Automata - Properties}
+    \begin{theorem}[Simulation Theorem]
+      There is an effective construction which, when given an \ac{APTA},
+      produces an equivalent \ac{PTA}. Furthermore, given an \ac{ABTA}, there
+      is a way to effectively construct an equivalent \ac{BTA}.
+    \end{theorem}
     \begin{itemize}
-      \item<2-> unary trees are words
-      \item<3-> c.l. \acp{WDTA} \enquote{equivalent} to \acp{PPA}
-      \item<4-> u.d. \acp{WDTA} \enquote{equivalent} to $\omega$-regular
-      \item[$\Rightarrow$]<5-> undecidable emptiness for (c.l.) \acp{WDTA}
-        with positive Büchi-acceptance and almost-sure Parity-acceptance
-      \item[$\Rightarrow$]<6-> Simulation Theorem does not translate to \acp{WDTA}
+      \item recognizable languages form a Boolean-algebra
+      \item decidable emptiness
     \end{itemize}
+  \end{frame}
+
+  % \begin{frame}
+    % \frametitle{Weighted Descent Tree Automata - Idea}
+    % \begin{itemize}
+    %   \item non-deterministically construct run
+    %   \item<2-> weight individual paths
+    %   \item<3-> acceptance by measure
+    % \end{itemize}
+    % \begin{overlayarea}{\textwidth}{0.6\textheight}
+    %   \begin{center}
+    %     \alt<1>{
+    %       \includegraphics{tikz/weightedrun.pdf}
+    %     }{
+    %       \alt<2>{
+    %         \includegraphics{tikz/weightedpathsruns.pdf}
+    %       }{
+    %         \begin{columns}
+    %           \begin{column}{0.5\textwidth}
+    %             \begin{equation*}
+    %               \mu_{r}(\cyl(u_{1}\dots u_{n})) = \prod_{1\leq i\leq n}
+    %                 p_{u_{1}\dots u_{i}}
+    %             \end{equation*}
+    %             \uncover<4->{
+    %               \begin{equation*}
+    %                 \Rightarrow\tuple{D^{\omega}, \mathcal{B}(D), \mu_{r}}
+    %               \end{equation*}
+    %               with
+    %               \begin{equation*}
+    %                 \mu_{r}(\set{\rho\in D^{\omega}\mid r(\rho)\in\Acc})
+    %               \end{equation*}
+    %             }
+    %           \end{column}
+    %           \begin{column}{0.5\textwidth}
+    %             \resizebox{\textwidth}{!}{
+    %               \includegraphics{tikz/weightedpathsrunsmarked.pdf}
+    %             }
+    %           \end{column}
+    %         \end{columns}
+    %       }
+    %     }
+    %   \end{center}
+    % \end{overlayarea}
+  % \end{frame}
+
+  % \begin{frame}
+  %   \frametitle{Weighted Descent Tree Automata - Definition}
+  %   \begin{equation*}
+  %     \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}
+  %   \end{equation*}
+  %   \begin{overlayarea}{\textwidth}{0.8\textheight}
+  %     \begin{onlyenv}<2>
+  %       \begin{itemize}
+  %         \item $Q$: finite state set
+  %         \item $q_{0}\in Q$: initial state
+  %         \item $D$: finite set of directions
+  %         \item $\Sigma$: finite alphabet
+  %         \item $\Delta$: transitions of the form $\tuple{q, \sigma, G}$
+  %         \item $\Acc$: accepted language
+  %       \end{itemize}
+  %     \end{onlyenv}
+  %     \begin{onlyenv}<3>
+  %       \includegraphics{tikz/weightedalternatingrun.pdf}
+  %     \end{onlyenv}
+  %     \begin{onlyenv}<4->
+  %       \begin{columns}
+  %         \begin{column}{0.5\textwidth}
+  %           \begin{itemize}
+  %             \item run: $Q\times D$-ary 
+  %               $\mathcal{G}(\mathcal{A})$-tree
+  %             \item[$\Rightarrow$] $
+  %               \tuple{\tuple{Q\times D}^{\omega}, 
+  %               \mathcal{B}(Q\times D), \mu_{r}}
+  %               $
+  %           \end{itemize}
+  %         \end{column}
+  %         \begin{column}{0.5\textwidth}
+  %           \resizebox{\textwidth}{!}{
+  %             \includegraphics{tikz/weightedalternatingrun.pdf}
+  %           }
+  %         \end{column}
+  %       \end{columns}
+  %       \begin{equation*}
+  %         \Acc\interval{Q} = \set{
+  %           \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+  %           \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
+  %         }
+  %       \end{equation*}
+  %       and
+  %       \begin{equation*}
+  %         \mu_{r}(\Acc\interval{Q}) > 0\text{ or }\mu_{r}(\Acc\interval{Q}) = 1
+  %       \end{equation*}
+  %     \end{onlyenv}
+  %   \end{overlayarea}
+  % \end{frame}
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Word-Automata}
+    for unary trees:
+    \begin{itemize}
+      \item<2-> c.l. \acp{WDTA} \enquote{equivalent} to \acp{PPA}
+      \item<3-> u.d. \acp{WDTA} \enquote{equivalent} to $\omega$-regular
+      \item[$\Rightarrow$]<4-> undecidable emptiness for (c.l.) \acp{WDTA}
+        with positive Büchi-acceptance and almost-sure Parity-acceptance
+      \item[$\Rightarrow$]<5-> Simulation Theorem does not translate to
+        \acp{WDTA}
+    \end{itemize}
+    \begin{overlayarea}{\textwidth}{0.5\textheight}
+      \begin{center}
+        \begin{onlyenv}<2>
+          \resizebox{!}{0.5\textheight}{
+            \includegraphics{tikz/pbaruntree.pdf}
+          }
+        \end{onlyenv}
+        \begin{onlyenv}<3>
+          \resizebox{!}{0.5\textheight}{
+            \includegraphics{tikz/unaryunidirectionalrun.pdf}
+          }
+        \end{onlyenv}
+      \end{center}
+    \end{overlayarea}
     % \begin{overlayarea}{\textwidth}{0.5\textheight}
     %   \begin{onlyenv}<4-8>
     %     \begin{itemize}
@@ -666,7 +765,7 @@
   \begin{frame}
     \frametitle{Setting}
     \begin{center}
-      \alt<2>{
+      \alt<2->{
         \begin{definition}[Synthesis Problem]
           Given a logic $\mathbb{L}$. Compute for every formula
           \alert{$\phi(\cdot, \cdot)\in\mathbb{L}$} over inputs $I$ and outputs
@@ -675,19 +774,36 @@
           all $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ or prove that such an
           $S$ cannot exist.
         \end{definition}
-        \begin{itemize}
-          \item $\mathbb{L}$ is $\omega$-regular if for every
-            $\phi(\cdot,\cdot)$ it is possible to effectively construct an
-            $\omega$-regular $\mathcal{L}_{\phi}$ such that
-            $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
-            \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
-          \item $\mathbb{L}$ is almost-surely \ac{PBA} recognizable if for
-            every $\phi(\cdot,\cdot)$ it is possible to effectively constuct a
-            $\mathcal{L}_{\phi}$ which is recognizable by a \ac{PBA} with
-            almost-sure acceptance such that
-            $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
-            \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
-        \end{itemize}
+        % $\mathbb{L}$ is $\begin{aligned}
+        %   &\omega\text{-regular}\\
+        %   &\text{almost-surely \ac{PBA} recognizable}
+        % \end{aligned}$
+        % if it is possible to effectively construct a language
+        % $\mathcal{L}_{\phi}$ which is
+        % $\begin{aligned}
+        %   &\omega\text{-regular}\\
+        %   &\text{almost-surely \ac{PBA} recognizable}
+        % \end{aligned}$
+        % such that
+        \uncover<3>{
+          \begin{equation*}
+            \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+            \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
+          \end{equation*}
+        }
+        % \begin{itemize}
+        %   \item $\mathbb{L}$ is $\omega$-regular if for every
+        %     $\phi(\cdot,\cdot)$ it is possible to effectively construct an
+        %     $\omega$-regular $\mathcal{L}_{\phi}$ such that
+        %     $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+        %     \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
+        %   \item $\mathbb{L}$ is almost-surely \ac{PBA} recognizable if for
+        %     every $\phi(\cdot,\cdot)$ it is possible to effectively constuct a
+        %     $\mathcal{L}_{\phi}$ which is recognizable by a \ac{PBA} with
+        %     almost-sure acceptance such that
+        %     $\tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+        %     \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}$
+        % \end{itemize}
       }{
         \resizebox{0.8\textwidth}{!}{\includegraphics{tikz/synthesis.pdf}}
       }
@@ -793,10 +909,10 @@
   \begin{frame}
     \frametitle{Qualitative Strategy Synthesis}
     \begin{definition}
-      Given a \ac{POMDP} $\mathcal{M} = \tuple{S, s_{0}, A,
+      Given a \ac{POMDP} $\mathcal{S} = \tuple{S, s_{0}, A,
       \tuple{\tau_{a}}_{a\in A}, \sim}$ and a specification $\phi\subseteq
       S^{\omega}$ such that $\phi\in\mathcal{B}(S)$. The qualitative synthesis
-      problem $\tuple{M, \phi}$ demands the computation of a strategie
+      problem $\tuple{\mathcal{S}, \phi}$ demands the computation of a strategy
       $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\phi) = 1$.
     \end{definition}
   \end{frame}
@@ -804,12 +920,12 @@
   \begin{frame}
     \frametitle{\ac{POMDP} - $\omega$-regular Specification}
     \begin{equation*}
-      \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+      \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
     \end{equation*}
     \begin{itemize}
       \item<2-> $\omega$-regular specification
       \item[$\Rightarrow$]<3-> \ac{DPA} $\mathcal{P}$
-      \item<4-> natural product construction $\mathcal{M}\otimes\mathcal{P}$
+      \item<4-> natural product construction $\mathcal{S}\otimes\mathcal{P}$
         yields \ac{POMDP} with associated Parity-condition
     \end{itemize}
     \uncover<5->{
@@ -832,7 +948,7 @@
     \frametitle{\ac{POMDP} - \ac{PBA} Specification}
     \begin{overlayarea}{\textwidth}{0.2\textheight}
       \begin{equation*}
-        \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+        \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
         \text{ and }
         \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
       \end{equation*}
@@ -905,5 +1021,16 @@
 
   \section{Conclusion}
   \begin{frame}
+    \frametitle{Conclusion \& Ideas}
+    \begin{itemize}
+      \item Introduction of \acp{WDTA}
+      \item Synthesis for antagonistic environment for almost-sure accepting
+        \acp{PBA} in doubly exponential time
+      \item Synthesis for \ac{POMDP} for almost-sure accepting \acp{PBA} in
+        exponential time
+      \item[*] Co-operative \ac{POSG} as emptiness games for unrestricted
+        \acp{WDTA}
+      \item[*] Strategy computation for \eve{} in equally informed \ac{POSG}
+    \end{itemize}
   \end{frame}
 \end{document}
