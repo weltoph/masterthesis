@@ -14,15 +14,15 @@
     }
   ]
   \node (root) {$q_{0}$} {
-    child { node (ll) {$(q_{0}, 0)$}; }
-    child { node (lr) {$(q_{1}, 0)$} {
-      child { node (2ll) {$(q_{0}, 0)$}; }
-      child { node (2lr) {$(q_{1}, 0)$}; }
-      child { node (2rl) {$(q_{0}, 1)$}; }
-      child { node (2rr) {$(q_{1}, 1)$}; }
+    child { node [fill = green!50] (ll) {$(q_{0}, 0)$}; }
+    child { node [fill = green!50] (lr) {$(q_{1}, 0)$} {
+      child { node [fill = green!50] (2ll) {$(q_{0}, 0)$}; }
+      child { node [fill = green!50] (2lr) {$(q_{1}, 0)$}; }
+      child { node [fill = red!50] (2rl) {$(q_{0}, 1)$}; }
+      child { node [fill = red!50] (2rr) {$(q_{1}, 1)$}; }
     };}
-    child { node (rl) {$(q_{0}, 1)$}; }
-    child { node (rr) {$(q_{1}, 1)$}; }
+    child { node [fill = red!50] (rl) {$(q_{0}, 1)$}; }
+    child { node [fill = red!50] (rr) {$(q_{1}, 1)$}; }
   };
 
   \draw [negedge] (root) to node[left] {\textcolor{black}{\tiny$G(q_{0}, 0) = 0$}} (ll);
