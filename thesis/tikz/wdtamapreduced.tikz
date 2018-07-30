@@ -9,6 +9,11 @@
     rectangle,
     fill = purple!50
   },
+  bunsure/.style = {
+    draw,
+    rectangle,
+    fill = blue!50
+  },
   undecideable/.style = {
     draw,
     rectangle,
@@ -23,7 +28,7 @@
   \node [decideable, label = {10:$\cup$}, below left = 1 and 0.1 of unr>0]
     (unid>0) {Uni-directional $>0$};
 
-  \node [undecideable, label = {10:$\cup, \cap$}, rectangle, 
+  \node [bunsure, label = {10:$\cup, \cap$}, rectangle,
     below = 3 of unr>0] (unr1) {Unrestricted $=1$};
   \node [bdecideable, label = {10:$\cap, \cancel{\neg}$},
     below right = 1 and 0.1 of unr1] (cl1) {Choiceless $=1$};

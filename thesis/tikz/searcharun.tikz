@@ -6,7 +6,7 @@
   \draw (root.south) to (l.center);
   \draw (root.south) to (r.center);
 
-  \fill [purple!50] (root.south) -- (l.center) -- (r.center) -- cycle;
+  \fill [red!50] (root.south) -- (l.center) -- (r.center) -- cycle;
 
   \node [below = 0.5 of root] (u1) {\tiny$(q_{s}, u_{1})$};
   \node [below = 0.2 of u1, xshift = 0.2cm] (u2) {\tiny$(q_{s}, u_{2})$};
