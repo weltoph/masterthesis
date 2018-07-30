@@ -1044,7 +1044,7 @@
     \frametitle{\ac{POMDP} - \ac{PBA} Specification}
     \begin{overlayarea}{\textwidth}{0.2\textheight}
       \begin{equation*}
-        \mathcal{M} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+        \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
         \text{ and }
         \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
       \end{equation*}
@@ -1103,7 +1103,7 @@
           \item $\tuple{s, q}\sim'\tuple{z, p}$ iff $s\sim z$
           \item[$\Rightarrow$] strategies can be translated from
             $\mathcal{S}$ to $\mathcal{S}\otimes\mathcal{P}$
-          \item[$\Rightarrow$] $\mu_{s}(\Acc_{\buechi}(S\times F) =
+          \item[$\Rightarrow$] $\mu_{s}(\Acc_{\buechi}(S\times F)) =
             \int_{S^{\omega}}K(\cdot, \Acc_{\buechi}(F))d\mu_{s}$
           \item[$\Rightarrow$] almost-surely accepting strategy in
             $\mathcal{S}\otimes\mathcal{P}$ is qualitatively \enquote{good}
