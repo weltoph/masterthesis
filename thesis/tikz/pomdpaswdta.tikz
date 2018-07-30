@@ -1,5 +1,5 @@
 \begin{tikzpicture}
-  \node (root) {$s_{0}$};
+  \node (root) {$s_{1}$};
 
   \node [below right = 2 and 2 of root] (cr) {};
   \node [below left  = 2 and 2 of root] (cl) {};
