@@ -4,6 +4,9 @@ PDFNAME=$(MAINFILE).pdf
 PRESFILE=presentation
 PRESPDF=$(PRESFILE).pdf
 
+PRESSHORT=presentation-shortened
+SHORTPDF=$(PRESSHORT).pdf
+
 LATEX=pdflatex
 LATEXFLAGS=
 
@@ -22,6 +25,12 @@ TEXFILES=$(wildcard $(TEXDIR)*.tex)
 
 BIBDIR=bib/
 BIBFILES=$(wildcard $(BIBDIR)*.bib)
+
+$(SHORTPDF): $(PRESSHORT).tex $(TIKZFILES)
+	ls -a | grep -E "\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}
+	- $(LATEX) $< && $(LATEX) $<
+	#hide auxilliary files again
+	ls -a | grep -E "$(HIDEPATTERN)" | xargs -I {} mv {} .{}
 
 $(PRESPDF): $(PRESFILE).tex $(TIKZFILES)
 	ls -a | grep -E "\..*$(HIDEPATTERN)" | xargs -I {} rename '.' '' {}

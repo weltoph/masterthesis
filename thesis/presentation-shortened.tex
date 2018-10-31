@@ -1,0 +1,840 @@
+\documentclass{beamer}
+
+\usetheme{metropolis}
+
+% inputenc:
+\usepackage[utf8]{inputenc}
+
+\usepackage{xcolor}
+
+\usepackage{appendixnumberbeamer}
+
+% acronyms
+\usepackage{acro}
+
+\input{tex/acronyms.tex}
+
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bbm}
+
+\newcommand{\pathfinder}{\textsc{Pathfinder}}
+\newcommand{\automaton}{\textsc{Automaton}}
+\newcommand{\spoiler}{\textsc{Spoiler}}
+\newcommand{\acceptor}{\textsc{Acceptor}}
+\newcommand{\inputp}{\textsc{Input}}
+\newcommand{\outputp}{\textsc{Output}}
+\newcommand{\adam}{\textsc{Adam}}
+\newcommand{\eve}{\textsc{Eve}}
+\newcommand{\random}{\textsc{Random}}
+
+\usepackage{array}
+\usepackage{csquotes}
+
+\input{tex/mathoperator.tex}
+
+\title[Syn. for prob. Env.]{
+  Automata-theoretic Synthesis for Probabilistic Environments}
+
+\titlegraphic{
+  \resizebox{0.9\textwidth}{!}{
+    \includegraphics{tikz/titlepic.pdf}
+  }
+}
+
+\date{October 31, 2018}
+\author{Christoph Welzel}
+\institute{Informatik 7, RWTH Aachen}
+
+\metroset{
+  sectionpage = simple,
+  numbering = fraction
+}
+
+\begin{document}
+
+  \acuseall
+
+  \maketitle
+
+  \section{Word-Automata}
+  \begin{frame}
+    \frametitle{$\omega$-regular Languages}
+    \begin{theorem}
+      The class of recognizable languages coincides for \alert<2>{\acp{NBA}},
+      \alert<3>{\acp{NPA} and \acp{DPA}} and is called $\omega$-regular
+      languages. \alert<4>{\acp{DBA} are strictly less expressive.}
+      \uncover<3->{\alert<3>{However, \ac{NBA}-determinisation is inherently
+      costly ($>n!$).}}
+    \end{theorem}
+    \begin{overlayarea}{\textwidth}{0.5\textheight}
+        \begin{equation*}
+          \mathcal{L} = \set{
+            \alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)
+          }
+        \end{equation*}
+        \begin{columns}
+          \begin{column}{0.3\textwidth}<2->
+            \includegraphics{tikz/finabuechi.pdf}
+          \end{column}
+          \begin{column}{0.3\textwidth}<3->
+            \includegraphics{tikz/finaparity.pdf}
+          \end{column}
+          \begin{column}{0.3\textwidth}<4->
+            \begin{align*}
+              &b^{\omega},\\
+              &b^{n_{0}}ab^{\omega},\\
+              &b^{n_{0}}ab^{n_{1}}ab^{\omega},\\
+              &\vdots
+            \end{align*}
+          \end{column}
+        \end{columns}
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Probabilistic Büchi Automata}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, \Sigma,
+      \delta:Q\times\Sigma\times Q\rightarrow\interval{0,1}, q_{0}, F}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.7\textheight}
+      \begin{onlyenv}<1>
+        \begin{itemize}
+          \item $Q$: finite state set
+          \item $\Sigma$: finite alphabet
+          \item $q_{0}\in Q$: initial state
+          \item $\delta:Q\times\Sigma\times Q\rightarrow \interval{0,1}$: 
+            transition probability function
+          \item $F\subseteq Q$: final states
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<2>
+        \begin{center}
+          \resizebox{!}{0.6\textheight}{%
+            \includegraphics{tikz/pbaruntree.pdf}
+          }
+        \end{center}
+      \end{onlyenv}
+      \begin{onlyenv}<3->
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{itemize}
+              \item<3-> cylindric sets: $\cyl(u) = 
+                \set{u\cdot\alpha:\alpha\in Q^{\omega}}$
+            \end{itemize}
+            \begin{center}
+              \resizebox{0.8\textwidth}{!}{%
+                \includegraphics{tikz/verticalcylinder.pdf}
+              }
+            \end{center}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \begin{itemize}
+              \item<4-> $\alpha$ induces probability space 
+                \begin{equation*}
+                  \tuple{Q^{\omega}, \mathcal{B}(Q), \mu_{\alpha}}
+                \end{equation*}
+              \item<5-> positive: $\mu_{\alpha}(\Acc_{\buechi}(F)) > 0$
+              \item<6-> almost-sure: $\mu_{\alpha}(\Acc_{\buechi}(F)) = 1$
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{onlyenv}
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Probabilistic Automata - Examples}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \small{Positive Acceptance}
+        \begin{center}
+          \resizebox{0.6\textwidth}{!}{%
+            \includegraphics{tikz/posacceptingpba.pdf}
+          }
+        \end{center}
+        \begin{equation*}
+          \underbrace{
+              \set{a^{k_{1}}ba^{k_{2}}b\dots:
+              \substack{k_{i}>0\text{ for all }i>0,\\
+              \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+            }
+          }_{\mathcal{L}_{1}}
+        \end{equation*}
+      \end{column}
+      \begin{column}<2->{0.5\textwidth}
+        \small{Almost-Sure Acceptance}
+        \begin{center}
+          \resizebox{0.6\textwidth}{!}{%
+            \includegraphics{tikz/almostsureacceptingpbapresentation.pdf}
+          }
+        \end{center}
+        \begin{equation*}
+          \underbrace{
+            \set{
+              a^{k_{1}}ba^{k_{2}}b\dots:
+              \substack{k_{i}>0\text{ for all }i>0\\
+              \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
+            }
+          }_{\mathcal{L}_{2}}
+        \end{equation*}
+      \end{column}
+    \end{columns}
+    \begin{uncoverenv}<3->
+      \begin{equation*}
+        \overline{\mathcal{L}_{1}} = \mathcal{L}_{2}\cup\underbrace{
+          b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega} + \Sigma^{*}a^{\omega}
+        }_{\omega-\text{regular}}
+      \end{equation*}
+    \end{uncoverenv}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Probabilistic Automata - Properties}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \small{Positive Acceptance}
+        \begin{itemize}
+          \item<2-> \alert<3>{strictly} subsumes $\omega$-regular
+          \item<4-> recognizable languages form Boolean-algebra
+          \item<5-> undecidable emptiness
+        \end{itemize}
+        \small{Almost-Sure Acceptance}
+        \begin{itemize}
+          \item<6-> incomparable with $\omega$-regular
+          \item<9-> decidable emptiness
+          \item<10-> \alert{Parity-}condition coincides with positive
+            acceptance of Büchi- or Parity-condition
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \begin{overlayarea}{\textwidth}{\textheight}
+          \begin{onlyenv}<3>
+            \begin{uncoverenv}
+              \vspace{3cm}
+              \begin{equation*}
+                \set{
+                  a^{k_{1}}ba^{k_{2}}b\dots:
+                  \substack{k_{i}>0\text{ for all }i>0,\\
+                  \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+                }
+              \end{equation*}
+            \end{uncoverenv}
+          \end{onlyenv}
+          \begin{onlyenv}<7-8>
+            \vspace{0.2\textheight}
+            \begin{equation*}
+              \set{\alpha\in\set{a,b}^{\omega}\mid a\notin\Inf(\alpha)}
+            \end{equation*}
+            \vfill
+            \begin{uncoverenv}<8>
+              \begin{align*}
+                &\overline{\set{
+                  a^{k_{1}}ba^{k_{2}}b\dots:
+                  \substack{k_{i}>0\text{ for all }i>0,\\
+                  \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} > 0}
+                }}\\
+                &= \set{
+                  a^{k_{1}}ba^{k_{2}}b\dots:
+                  \substack{k_{i}>0\text{ for all }i>0\\
+                  \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0}
+                }\\
+                &\cup b\Sigma^{\omega} + \Sigma^{*}bb\Sigma^{\omega}
+                + \Sigma^{*}a^{\omega}\\
+              \end{align*}
+            \end{uncoverenv}
+          \end{onlyenv}
+        \end{overlayarea}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Partially Observable Markov Decision Processes}
+    \begin{equation*}
+      \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2>
+        \begin{itemize}
+          \item $S$: finite state set
+          \item $s_{0}\in S$: initial state
+          \item $A$: finite state of actions
+          \item $\tau_{a}\in\mathcal{D}(S\times S)$: transition probabilities
+          \item $\sim$: observable equivalence classes
+          \item strategy $f:\interval{S}_{\sim}^{*}\rightarrow A$
+          \item[$\Rightarrow$] $\tuple{S^{\omega}, \mathcal{B}(S), \mu_{f}}$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<3-6>
+        \begin{columns}
+          \begin{column}{0.6\textwidth}
+            \uncover<4->{
+              \alt<4-5>{
+                \begin{align*}
+                  f(\epsilon) &= a\\
+                  f(p_{1}\dots p_{n}) &= \begin{cases}
+                    a&\text{if }p_{n} = q_{0},\\
+                    b&\text{otherwise.}
+                  \end{cases}
+                \end{align*}
+              }{
+                \begin{equation*}
+                  \mu_{f}(\Acc_{\buechi}(F)) > 0 \text{ if and only if }
+                  f\in\mathcal{L}(\mathcal{P}).
+                \end{equation*}
+              }
+            }
+          \end{column}
+          \begin{column}{0.4\textwidth}
+            \begin{center}
+              \alt<3-4>{
+                \includegraphics{tikz/differentlycoloredpba.pdf}
+              }{
+                \includegraphics{tikz/uniformlycoloredpba.pdf}
+              }
+            \end{center}
+          \end{column}
+        \end{columns}
+      \end{onlyenv}
+      \begin{onlyenv}<7>
+        \begin{center}
+          \begin{tabular}{|l|ll|}
+            \hline
+            Computing Strategies & Fully observable & Partially observable\\
+            \hline
+            Positive Büchi & \textsc{PTIME} & Undecidable \\
+            Almost-Sure Büchi & \textsc{PTIME} & \textsc{EXPTIME} \\
+            Positive Parity & \textsc{PTIME} & Undecidable \\
+            Almost-Sure Parity & \textsc{PTIME} & Undecidable \\
+            \hline
+          \end{tabular}
+        \end{center}
+      \end{onlyenv}
+    \end{overlayarea}
+  \end{frame}
+
+  \section{Synthesis}
+  \begin{frame}
+    \frametitle{Setting}
+    \begin{center}
+      \alt<2->{
+        \begin{definition}[Synthesis Problem]
+          Given a logic $\mathbb{L}$. Compute for every formula
+          \alert{$\phi(\cdot, \cdot)\in\mathbb{L}$} over inputs $I$ and outputs
+          $J$ an algorithm \alert{$S:I^{+}\rightarrow J$} such that
+          $\phi(\alpha, S(\alpha_{1})S(\alpha_{1}\alpha_{2})\dots)$ is true for
+          all $\alpha_{1}\alpha_{2}\dots\in I^{\omega}$ or prove that such an
+          $S$ cannot exist.
+        \end{definition}
+        \uncover<3>{
+          \begin{equation*}
+            \tuple{j_{0}, i_{0}}\tuple{j_{1}, i_{1}}\dots\in\mathcal{L}_{\phi}
+            \text{ iff }\phi(i_{0}i_{1}\dots, j_{1}j_{2}\dots)\text{ is true.}
+          \end{equation*}
+        }
+      }{
+        \resizebox{0.8\textwidth}{!}{\includegraphics{tikz/synthesis.pdf}}
+      }
+    \end{center}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Antagonistic Environment - $\omega$-regular Specification}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        \begin{itemize}
+          \item $\omega$-regular specification
+          \item[$\Rightarrow$]<2-> \ac{DPA} $\tuple{Q, J\times I, \delta,
+            q_{0}, \parity}$
+          \item[$\Rightarrow$]<3-> \ac{PTA}
+            $\tuple{Q, q_{0}, I, J, \Delta, \parity}$ with
+          $\Delta = \set{\substack{\tuple{q, i, \tuple{\delta(q,
+            \tuple{i, j})}_{j\in J}}:\\q\in Q, i\in I}}$
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \uncover<4->{
+          \includegraphics{tikz/inputoutputtree.pdf}
+        }
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Antagonistic Environment - \ac{PBA} Specification}
+    \begin{onlyenv}<1-7>
+      \only<1-6>{
+        \begin{equation*}
+          \tuple{Q, J\times I, \delta, q_{0}, F}
+        \end{equation*}
+      }
+      \only<7->{
+        \begin{equation*}
+          \tuple{Q, J\times I, \delta, q_{0}, F}\Rightarrow\tuple{S, s_{0},
+          E, A, \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F'}
+        \end{equation*}
+      }
+      \begin{itemize}
+        \item<2-> Partially Observable Stochastic Game (\ac{POSG}):
+        \item<3-> \ac{POMDP} with antagonistic players (\eve{} \& \adam{})
+        \item<4-> $G = \tuple{S, s_{0}, E, A,
+          \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F'}$
+        \item<5-> 
+          $\begin{aligned}
+            \eve{}\; &f:\interval{S}_{\sim_{E}}^{*}\rightarrow E\\
+            \adam{}\; &g:\interval{S}_{\sim_{A}}^{*}\rightarrow A
+          \end{aligned} \Rightarrow \tuple{S^{\omega}, \mathcal{B}(S),
+          \mu_{f,g}}$
+        \item<6-> $f$ almost-surely wins for \eve{} if
+          $\mu_{f,g}(\Acc_{\buechi}(F)) = 1$ for all $g$
+      \end{itemize}
+    \end{onlyenv}
+    \begin{onlyenv}<8-9>
+      \begin{center}
+        \enquote{input-/output-game with unobservable stochastic background}
+      \end{center}
+      \begin{columns}
+        \begin{column}{0.5\textwidth}
+          \begin{equation*}
+            \set{
+              a^{k_{1}}ba^{k_{2}}b\dots:
+              \substack{k_{i}>0\text{ for all }i>0\\
+              \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0\\
+              a:\text{last input differs from current output}\\
+              b:\text{last input is equal to current output}}
+            }
+          \end{equation*}
+          \begin{center}
+            \resizebox{\textwidth}{!}{
+              \includegraphics{tikz/synthesispbapresentation.pdf}
+            }
+          \end{center}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \begin{center}
+            \resizebox{\textwidth}{!}{
+              \uncover<9>{\includegraphics{tikz/synthesispbagame.pdf}}
+            }
+          \end{center}
+        \end{column}
+      \end{columns}
+    \end{onlyenv}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Qualitative Strategy Synthesis}
+    \begin{definition}
+      Given a \ac{POMDP} $\mathcal{S} = \tuple{S, s_{0}, A,
+      \tuple{\tau_{a}}_{a\in A}, \sim}$ and a specification $\phi\subseteq
+      S^{\omega}$ such that $\phi\in\mathcal{B}(S)$. The qualitative synthesis
+      problem $\tuple{\mathcal{S}, \phi}$ demands the computation of a strategy
+      $s:\interval{S}_{\sim}^{*}\rightarrow A$ such that $\mu_{s}(\phi) = 1$.
+    \end{definition}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{\ac{POMDP} - $\omega$-regular Specification}
+    \begin{equation*}
+      \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+    \end{equation*}
+    \begin{itemize}
+      \item<2-> $\omega$-regular specification
+      \item[$\Rightarrow$]<3-> \ac{DPA} $\mathcal{P}$
+      \item<4-> natural product construction $\mathcal{S}\otimes\mathcal{P}$
+        yields \ac{POMDP} with associated Parity-condition
+    \end{itemize}
+    \uncover<5->{
+      \begin{center}
+        \begin{tabular}{|l|ll|}
+          \hline
+          Computing Strategies & Fully observable & Partially observable\\
+          \hline
+          Positive Büchi & \textsc{PTIME} & Undecidable \\
+          Almost-Sure Büchi & \textsc{PTIME} & \textsc{EXPTIME} \\
+          Positive Parity & \textsc{PTIME} & Undecidable \\
+          Almost-Sure Parity & \textsc{PTIME} & Undecidable \\
+          \hline
+        \end{tabular}
+      \end{center}
+    }
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{\ac{POMDP} - \ac{PBA} Specification}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \begin{equation*}
+        \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+        \text{ and }
+        \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2-3>
+        \begin{equation*}
+          \alpha\in S^{\omega}\Rightarrow\tuple{Q, \mathcal{B}(Q), \mu_{s}}
+        \end{equation*}
+        \uncover<3>{
+          \begin{definition}
+            Given $\tuple{\Omega_{1},\mathcal{F}_{1}}$,
+            $\tuple{\Omega_{2},\mathcal{F}_{2}}$, then
+            $K:\Omega_{1}\times\mathcal{F}_{2}\rightarrow \interval{0,1}$ is a
+            Markov-kernel if
+            \begin{enumerate}
+              \item $K(\cdot, A)$ is measurable in $\mathcal{F}_{1}$ for all
+                $A\in\mathcal{F}_{2}$,
+              \item $K(\omega, \cdot)$ is a probability measure on
+                $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every
+                $\omega\in\Omega_{1}$.
+            \end{enumerate}
+          \end{definition}
+        }
+      \end{onlyenv}
+      \begin{onlyenv}<4-8>
+        \begin{equation*}
+          K:S^{\omega}\times\mathcal{B}(Q)\rightarrow\interval{0,1}
+          \text{ with }
+          K(\alpha, A) = \mu_{\alpha}(A)
+        \end{equation*}
+        \begin{itemize}
+          \item<5-> for a strategy $s$:
+            $\begin{aligned}
+              \int_{\alpha\in S^{\omega}}&K(\alpha, \Acc_{\buechi}(F))d\mu_{s}
+              = 1\text{ iff }\\
+              &\mu_{\alpha}(\Acc_{\buechi}(F)) = 1\text{ for almost all }\alpha
+            \end{aligned}$
+          \item<6-> measure $\mu_{s}\otimes K$ on $\tuple{S^{\omega}\times
+            Q^{\omega}, \mathcal{B}(S)\otimes\mathcal{B}(Q)}$ uniquely
+            determined by $\int_{\cyl(u)}K(\cdot, \cyl(v))d\mu_{s}$
+          \item<7-> $\int_{\cyl(u)}K(\cdot, \cyl(v))d\mu_{s} =
+            \mu_{s}(\cyl(u))\cdot\mu_{u}(\cyl(v))$ for $\size{u} = \size{v}$
+          \item[$\Rightarrow$]<8-> induces product construction for
+            $\mathcal{S}$ and $\mathcal{P}$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<9->
+        \begin{equation*}
+          \mathcal{S}\otimes\mathcal{P} = \tuple{
+            S\times Q, \tuple{s_{0}, q_{0}}, A, \tuple{\tau_{a}'}_{a\in A},
+            \sim'
+          }
+        \end{equation*}
+        \begin{itemize}
+          \item<10-> $\tau_{a}'(\tuple{s, q}, \tuple{z, p}) = \tau_{a}(s, z)
+            \cdot \delta(p, s, q)$
+          \item<11-> $\tuple{s, q}\sim'\tuple{z, p}$ iff $s\sim z$
+          \item[$\Rightarrow$]<12-> strategies can be translated from
+            $\mathcal{S}$ to $\mathcal{S}\otimes\mathcal{P}$
+          \item[$\Rightarrow$]<13-> $\mu_{s}(\Acc_{\buechi}(S\times F)) =
+            \int_{S^{\omega}}K(\cdot, \Acc_{\buechi}(F))d\mu_{s}$
+          \item[$\Rightarrow$]<14-> almost-surely accepting strategy in
+            $\mathcal{S}\otimes\mathcal{P}$ is qualitatively \enquote{good}
+            for $\mathcal{S}$ with specification $\mathcal{P}$
+        \end{itemize}
+      \end{onlyenv}
+    \end{overlayarea}
+  \end{frame}
+
+  \section{Conclusion}
+  \begin{frame}
+    \frametitle{Conclusion \& Ideas}
+    \begin{itemize}
+      \item Synthesis for antagonistic environment for almost-sure accepting
+        \acp{PBA} in doubly exponential time
+      \item Synthesis for \ac{POMDP} for almost-sure accepting \acp{PBA} in
+        exponential time
+      \item[*] Strategy computation for \eve{} in equally informed \ac{POSG}
+    \end{itemize}
+  \end{frame}
+
+  \appendix
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Idea}
+    \begin{itemize}
+      \item non-deterministically construct run
+      \item weight individual paths
+      \item acceptance by measure
+    \end{itemize}
+    \begin{overlayarea}{\textwidth}{0.6\textheight}
+      \begin{center}
+        \alt<3>{
+          \begin{columns}
+            \begin{column}{0.5\textwidth}
+              \begin{equation*}
+                \mu_{r}(\cyl(u_{1}\dots u_{n})) = \prod_{1\leq i\leq n}
+                  p_{u_{1}\dots u_{i}}
+              \end{equation*}
+              \begin{equation*}
+                \Rightarrow\tuple{D^{\omega}, \mathcal{B}(D), \mu_{r}}
+              \end{equation*}
+              with
+              \begin{equation*}
+                \mu_{r}(\set{\rho\in D^{\omega}\mid r(\rho)\in\Acc})
+              \end{equation*}
+            \end{column}
+            \begin{column}{0.5\textwidth}
+              \resizebox{\textwidth}{!}{
+                \includegraphics{tikz/weightedpathsrunsmarked.pdf}
+              }
+            \end{column}
+          \end{columns}
+        }{
+          \alt<2>{
+            \includegraphics{tikz/weightedpathsruns.pdf}
+          }{
+            \includegraphics{tikz/weightedrun.pdf}
+          }
+        }
+      \end{center}
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Weighted Descent Tree Automata - Definition}
+    \begin{equation*}
+      \mathcal{A} = \tuple{Q, q_{0}, D, \Sigma, \Delta, \Acc}
+    \end{equation*}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<2>
+        \begin{itemize}
+          \item $Q$: finite state set
+          \item $q_{0}\in Q$: initial state
+          \item $D$: finite set of directions
+          \item $\Sigma$: finite alphabet
+          \item $\Delta$: transitions of the form $\tuple{q, \sigma, G}$
+          \item $\Acc$: accepted language
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<3>
+        \includegraphics{tikz/weightedalternatingrun.pdf}
+      \end{onlyenv}
+      \begin{onlyenv}<4->
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{itemize}
+              \item run: $Q\times D$-ary 
+                $\mathcal{G}(\mathcal{A})$-tree
+              \item[$\Rightarrow$] $
+                \tuple{\tuple{Q\times D}^{\omega}, 
+                \mathcal{B}(Q\times D), \mu_{r}}
+                $
+            \end{itemize}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \resizebox{\textwidth}{!}{
+              \includegraphics{tikz/weightedalternatingrun.pdf}
+            }
+          \end{column}
+        \end{columns}
+        \begin{equation*}
+          \Acc\interval{Q} = \set{
+            \tuple{d_{1}, q_{1}}\tuple{d_{2}, q_{2}}\dots\in
+            \tuple{D\times Q}^{\omega}\mid q_{1}q_{2}\dots\in\Acc
+          }
+        \end{equation*}
+        and
+        \begin{equation*}
+          \mu_{r}(\Acc\interval{Q}) > 0\text{ or }\mu_{r}(\Acc\interval{Q}) = 1
+        \end{equation*}
+      \end{onlyenv}
+    \end{overlayarea}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Tree Automata - Example}
+    \begin{equation*}
+      \mathcal{L} = \set{
+        t:\set{0,1}^{*}\rightarrow\set{a,b}\mid\substack{
+          a\notin \Inf(t(\epsilon)t(\alpha_{1})t(\alpha_{1}\alpha_{2})\dots)\\
+          \text{for all }\alpha_{1}\alpha_{2}\dots\in\set{0,1}^{\omega} 
+        }
+      }
+    \end{equation*}
+      \begin{columns}
+        \begin{column}{0.4\textwidth}
+          \vspace{-3cm}
+          \begin{itemize}
+            \item Parity-condition \checkmark
+            \item Büchi-condition \ding{55}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+          \begin{overlayarea}{\textwidth}{0.8\textheight}
+            \begin{onlyenv}<1>
+              \begin{align*}
+                \mathcal{A} = (\set{q_{a}, q_{b}}, q_{a}, \set{0,1},
+                \set{a, b}&,\\
+                \Delta, \set{q_{a}\mapsto 1, q_{b}\mapsto 0}&)
+              \end{align*}
+              with
+              \begin{equation*}
+                \Delta = \set{
+                  \tuple{q, \sigma, q_{\sigma}, q_{\sigma}}:\substack{
+                    q\in Q,\\
+                    \sigma\in\set{a,b}
+                  }
+                }
+              \end{equation*}
+            \end{onlyenv}
+            \begin{onlyenv}<2>
+              \begin{center}
+                % \resizebox{0.6\textwidth}{!}{%
+                  \includegraphics{tikz/finatree.pdf}
+                % }
+              \end{center}
+            \end{onlyenv}
+          \end{overlayarea}
+        \end{column}
+      \end{columns}
+  \end{frame}
+
+ \begin{frame}
+    \frametitle{Antagonistic Environment - \ac{PBA} Specification}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \begin{equation*}
+        \tuple{Q, J\times I, \delta, q_{0}, F}\Rightarrow\tuple{S, s_{0}, E, A,
+          \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F'}
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<1>
+        \begin{itemize}
+          \item Partially Observable Stochastic Game (\ac{POSG}):
+          \item \ac{POMDP} with antagonistic players (\eve{} \& \adam{})
+          \item $G = \tuple{S, s_{0}, E, A,
+            \tuple{\tau_{e,a}}_{e\in E, a\in A}, \sim_{E}, \sim_{A}, F'}$
+          \item
+            $\begin{aligned}
+              \eve{}\; &f:\interval{S}_{\sim_{A}}^{*}\rightarrow A\\
+              \adam{}\; &g:\interval{S}_{\sim_{E}}^{*}\rightarrow E
+            \end{aligned} \Rightarrow \tuple{S^{\omega}, \mathcal{B}(S), 
+            \mu_{f,g}}$
+          \item $f$ almost-surely wins for \eve{} if
+            $\mu_{f,g}(\Acc_{\buechi}(F)) = 1$ for all $g$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<2>
+        \begin{itemize}
+          \item \enquote{input-/output-game with unobservable stochastic
+            background}
+          \item $S = I\times Q\times J\cup\set{q_{0}}$ with $s_{0} = q_{0}$
+          \item $E = J$, $A = I$
+          \item $\tau_{j,i}(\tuple{a, q, e}, \tuple{i', p, j'}) =
+            \begin{cases}
+              \delta(q, \tuple{i,j}, p)&\text{if }i' = i, j' = j,\\
+              0&\text{otherwise}.
+            \end{cases}$
+          \item $\sim_{E} = \sim_{A} = \set{\substack{
+            \tuple{\tuple{i, q, j}, \tuple{i, p, j}}:\\
+            i\in I, j\in J, q, p\in Q}}$
+          \item $F' = I\times F\times J$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<3>
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{equation*}
+              \set{
+                a^{k_{1}}ba^{k_{2}}b\dots:
+                \substack{k_{i}>0\text{ for all }i>0\\
+                \prod_{i>0}\tuple{1-\frac{1}{2}^{k_{i}}} = 0\\
+                a:\text{last input differs from current output}\\
+                b:\text{last input is equal to current output}}
+              }
+            \end{equation*}
+            \begin{center}
+              \resizebox{\textwidth}{!}{
+                \includegraphics{tikz/synthesispbapresentation.pdf}
+              }
+            \end{center}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \begin{center}
+              \resizebox{\textwidth}{!}{
+                \includegraphics{tikz/synthesispbagame.pdf}
+              }
+            \end{center}
+          \end{column}
+        \end{columns}
+      \end{onlyenv}
+    \end{overlayarea}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\ac{POMDP} - \ac{PBA} Specification}
+    \begin{overlayarea}{\textwidth}{0.2\textheight}
+      \begin{equation*}
+        \mathcal{S} = \tuple{S, s_{0}, A, \tuple{\tau_{a}}_{a\in A}, \sim}
+        \text{ and }
+        \mathcal{P} = \tuple{Q, S, \delta, q_{0}, F}
+      \end{equation*}
+    \end{overlayarea}
+    \begin{overlayarea}{\textwidth}{0.8\textheight}
+      \begin{onlyenv}<1>
+        \begin{equation*}
+          \alpha\in S^{\omega}\Rightarrow\tuple{Q, \mathcal{B}(Q), \mu_{s}}
+        \end{equation*}
+        \begin{definition}
+          Given $\tuple{\Omega_{1},\mathcal{F}_{1}}$,
+          $\tuple{\Omega_{2},\mathcal{F}_{2}}$, then
+          $K:\Omega_{1}\times\mathcal{F}_{2}\rightarrow \interval{0,1}$ is a
+          Markov-kernel if
+          \begin{enumerate}
+            \item $K(\cdot, A)$ is measurable in $\mathcal{F}_{1}$ for all
+              $A\in\mathcal{F}_{2}$,
+            \item $K(\omega, \cdot)$ is a probability measure on
+              $\tuple{\Omega_{2},\mathcal{F}_{2}}$ for every
+              $\omega\in\Omega_{1}$.
+          \end{enumerate}
+        \end{definition}
+      \end{onlyenv}
+      \begin{onlyenv}<2>
+        \begin{equation*}
+          K:S^{\omega}\times\mathcal{B}(Q)\rightarrow\interval{0,1}
+          \text{ with }
+          K(\alpha, A) = \mu_{\alpha}(A)
+        \end{equation*}
+        \begin{itemize}
+          \item for a strategy $s$:
+            $\begin{aligned}
+              \int_{\alpha\in S^{\omega}}&K(\alpha, \Acc_{\buechi}(Q))d\mu_{s}
+              = 1\text{ iff }\\
+              &\mu_{\alpha}(\Acc_{\buechi}(Q)) = 1\text{ for almost all }\alpha.
+            \end{aligned}$
+          \item measure $\mu_{s}\otimes K$ on $\tuple{S^{\omega}\times
+            Q^{\omega}, \mathcal{B}(S)\otimes\mathcal{B}(Q)}$ uniquely
+            determined by $\int_{\cyl(u)}K(\cdot, \cyl(v))d\mu_{s}$
+          \item $\int_{\cyl(u)}K(\cdot, \cyl(v))d\mu_{s} =
+            \mu_{s}(\cyl(u))\cdot\mu_{u}(\cyl(v))$ for $\size{u} = \size{v}$
+          \item[$\Rightarrow$] induces product construction for
+            $\mathcal{S}$ and $\mathcal{P}$
+        \end{itemize}
+      \end{onlyenv}
+      \begin{onlyenv}<3>
+        \begin{equation*}
+          \mathcal{S}\otimes\mathcal{P} = \tuple{
+            S\times Q, \tuple{q_{0}, s_{0}}, A, \tuple{\tau_{a}'}_{a\in A},
+            \sim'
+          }
+        \end{equation*}
+        \begin{itemize}
+          \item $\tau_{a}'(\tuple{s, q}, \tuple{z, p}) = \tau_{a}(s, z)
+            \cdot \delta(p, s, q)$
+          \item $\tuple{s, q}\sim'\tuple{z, p}$ iff $s\sim z$
+          \item[$\Rightarrow$] strategies can be translated from
+            $\mathcal{S}$ to $\mathcal{S}\otimes\mathcal{P}$
+          \item[$\Rightarrow$] $\mu_{s}(\Acc_{\buechi}(S\times F)) =
+            \int_{S^{\omega}}K(\cdot, \Acc_{\buechi}(F))d\mu_{s}$
+          \item[$\Rightarrow$] almost-surely accepting strategy in
+            $\mathcal{S}\otimes\mathcal{P}$ is qualitatively \enquote{good}
+            for $\mathcal{S}$ with specification $\mathcal{P}$
+        \end{itemize}
+      \end{onlyenv}
+  \end{overlayarea}
+\end{frame}
+
+\end{document}

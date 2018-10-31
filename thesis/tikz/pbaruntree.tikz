@@ -25,11 +25,11 @@
   \draw [->] (q0)  to node [left]  (q00q0) {$\delta(q_{0}, \alpha_{1}, q_{0})$} (0q0);
   \draw [->] (q0)  to node [right] (q00q1) {$\delta(q_{0}, \alpha_{1}, q_{1})$} (0q1);
 
-  \draw [->] (0q0) to node [left]  (0q0lq0) {$\delta(q_{0}, \alpha_{1}, q_{0})$} (lq0);
-  \draw [->] (0q0) to node [right, near start] (0q0lq1) {$\delta(q_{0}, \alpha_{1}, q_{1})$} (lq1);
+  \draw [->] (0q0) to node [left]  (0q0lq0) {$\delta(q_{0}, \alpha_{2}, q_{0})$} (lq0);
+  \draw [->] (0q0) to node [right, near start] (0q0lq1) {$\delta(q_{0}, \alpha_{2}, q_{1})$} (lq1);
 
-  \draw [->] (0q1) to node [left, near end]  (0q1rq0) {$\delta(q_{1}, \alpha_{1}, q_{0})$} (rq0);
-  \draw [->] (0q1) to node [right] (0q1rq1) {$\delta(q_{1}, \alpha_{1}, q_{1})$} (rq1);
+  \draw [->] (0q1) to node [left, near end]  (0q1rq0) {$\delta(q_{1}, \alpha_{2}, q_{0})$} (rq0);
+  \draw [->] (0q1) to node [right] (0q1rq1) {$\delta(q_{1}, \alpha_{2}, q_{1})$} (rq1);
 
   % \draw [->, dotted, red, thick, bend left]  (a1) to (q00q0);
   % \draw [->, dotted, red, thick, bend right] (a1) to (q00q1);
