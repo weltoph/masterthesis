@@ -48,6 +48,11 @@
 \usepackage{titling}
 
 % acronyms
+\usepackage{expl3}
+\ExplSyntaxOn
+\tex_let:D \c_minus_one \scan_stop:
+\int_const:Nn \c_minus_one {-1}
+\ExplSyntaxOff
 \usepackage{acro}
 
 \DeclareAcronym{MDP}{
